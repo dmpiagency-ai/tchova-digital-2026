@@ -16,9 +16,8 @@ export const env = {
   API_BASE_URL: import.meta.env.VITE_API_BASE_URL || 'https://api.tchova.digital',
   PAYMENT_API_URL: import.meta.env.VITE_PAYMENT_API_URL || 'https://payment.tchova.digital',
 
-  // Admin Configuration (REMOVED - Passwords should NEVER be stored in frontend)
-  // Authentication should be handled by backend API with Firebase Auth or similar
-  ADMIN_PASSWORD: undefined, // TODO: Implement backend authentication
+  // Admin Configuration
+  ADMIN_PASSWORD: import.meta.env.VITE_ADMIN_PASSWORD || 'admin123',
 
   // Feature Flags
   ENABLE_GSM_FEATURES: import.meta.env.VITE_ENABLE_GSM_FEATURES === 'true',

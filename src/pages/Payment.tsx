@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';import { PaymentType, PaymentStage, getPaymentUIContext, getServicePaymentConfig } from '../types/payment';
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { paymentService, PaymentMethod, PaymentRequest, PaymentResult } from '@/services/paymentService';
@@ -109,7 +109,7 @@ const Payment = () => {
                 placeholder="+258 8X XXX XXXX"
                 value={paymentData.phone || ''}
                 onChange={(e) => setPaymentData({...paymentData, phone: e.target.value})}
-                className="mt-2 h-12 text-base rounded-[16px]"
+                className="mt-2 h-12 text-base"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ const Payment = () => {
                 placeholder="1234 5678 9012 3456"
                 value={paymentData.cardNumber || ''}
                 onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
-                className="mt-2 h-12 text-base rounded-[16px]"
+                className="mt-2 h-12 text-base"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -146,7 +146,7 @@ const Payment = () => {
                   placeholder="MM/AA"
                   value={paymentData.expiry || ''}
                   onChange={(e) => setPaymentData({...paymentData, expiry: e.target.value})}
-                  className="mt-2 h-12 text-base rounded-[16px]"
+                  className="mt-2 h-12 text-base"
                 />
               </div>
               <div>
@@ -157,7 +157,7 @@ const Payment = () => {
                   type="password"
                   value={paymentData.cvv || ''}
                   onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
-                  className="mt-2 h-12 text-base rounded-[16px]"
+                  className="mt-2 h-12 text-base"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ const Payment = () => {
         <div className="grid lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-8">
           {/* Formulário Principal */}
           <div className="lg:col-span-2">
-            <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 rounded-[48px] shadow-2xl overflow-hidden">
+            <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden">
 
               <div className="p-4 sm:p-6 lg:p-8">
                 {/* Service Info Card */}
@@ -308,7 +308,7 @@ const Payment = () => {
                             placeholder="3500"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            className="text-2xl sm:text-3xl font-bold h-14 sm:h-16 border-2 focus:border-primary text-center rounded-[16px]"
+                            className="text-2xl sm:text-3xl font-bold h-14 sm:h-16 border-2 focus:border-primary text-center"
                             min="1"
                           />
                           <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-lg font-semibold text-muted-foreground">
@@ -404,7 +404,7 @@ const Payment = () => {
                       <Button
                         onClick={handlePayment}
                         disabled={isProcessing}
-                        className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 shadow-xl hover:shadow-2xl transform hover:scale-[1.01] transition-all duration-400 rounded-[24px]"
+                        className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-xl hover:shadow-2xl transform hover:scale-[1.01] transition-all duration-300"
                       >
                         <Lock className="w-4 h-4 mr-2" />
                         <span className="hidden sm:inline">Pagar {finalTotal.toLocaleString()} MZN</span>
@@ -414,7 +414,7 @@ const Payment = () => {
                       <Button
                         variant="outline"
                         onClick={() => setStep('methods')}
-                        className="w-full h-9 sm:h-10 text-xs sm:text-sm font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-[24px]"
+                        className="w-full h-9 sm:h-10 text-xs sm:text-sm font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
                       >
                         ← <span className="hidden sm:inline">Alterar método</span>
                         <span className="sm:hidden">Voltar</span>
@@ -479,7 +479,7 @@ const Payment = () => {
                         </div>
                         <Button
                           onClick={() => navigate('/')}
-                          className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 shadow-xl transform hover:scale-[1.01] transition-all duration-400 rounded-[24px]"
+                          className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-xl transform hover:scale-[1.01] transition-all duration-300"
                         >
                           🎯 <span className="hidden sm:inline">Continuar Explorando</span>
                           <span className="sm:hidden">Explorar</span>
@@ -501,7 +501,7 @@ const Payment = () => {
                         </div>
                         <Button
                           onClick={() => setStep('methods')}
-                          className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 shadow-xl transform hover:scale-[1.01] transition-all duration-400 rounded-[24px]"
+                          className="w-full h-10 sm:h-12 text-sm sm:text-base font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-xl transform hover:scale-[1.01] transition-all duration-300"
                         >
                           🔄 <span className="hidden sm:inline">Tentar Novamente</span>
                           <span className="sm:hidden">Tentar</span>
@@ -517,7 +517,7 @@ const Payment = () => {
           {/* Resumo - Mobile-First */}
           <div className="lg:col-span-1 mt-6 lg:mt-0">
             <div className="lg:sticky lg:top-8">
-              <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 rounded-[48px] shadow-2xl overflow-hidden">
+              <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
                 <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-4 border-b border-white/20">
                   <h3 className="text-lg font-bold text-foreground text-center">
                     <span className="hidden sm:inline">Resumo</span>
@@ -572,7 +572,7 @@ const Payment = () => {
                   <div className="border-t border-white/20 pt-4">
                     <Button
                       variant="outline"
-                      className="w-full h-9 text-xs font-semibold border-[#22C55E]/30 hover:bg-[#22C55E]/10 rounded-[24px]"
+                      className="w-full h-9 text-xs font-semibold border-primary/30 hover:bg-primary/10"
                       onClick={() => window.open('https://wa.me/258123456789', '_blank')}
                     >
                       💬 Suporte

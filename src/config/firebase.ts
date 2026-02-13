@@ -31,22 +31,9 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // 🔌 PLUG-IN: Analytics (only in production and when supported)
-export let analytics: any = null;
-
-if (isProduction) {
-  isSupported().then(supported => {
-    if (supported) {
-      try {
-        analytics = getAnalytics(app);
-      } catch (error) {
-        console.error('Failed to initialize analytics:', error);
-        analytics = null;
-      }
-    }
-  }).catch(() => {
-    analytics = null;
-  });
-}
+export const analytics = isProduction ? await isSupported().then(supported =>
+  supported ? getAnalytics(app) : null
+).catch(() => null) : null;
 
 // 🔌 PLUG-IN: Emulator Setup (Development Only)
 if (isDevelopment && useEmulator) {

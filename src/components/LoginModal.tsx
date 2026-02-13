@@ -43,14 +43,14 @@ const LoginModal: React.FC<LoginModalProps> = ({
           return;
         }
 
-        const result = await login(formData.email, formData.password);
-        if (result.success) {
+        const success = await login(formData.email, formData.password);
+        if (success) {
           onClose();
           if (redirectTo) {
             window.location.href = redirectTo;
           }
         } else {
-          setError(result.error || 'Email ou senha incorretos');
+          setError('Email ou senha incorretos');
         }
       } else {
         // Register mode - all fields required
@@ -64,29 +64,16 @@ const LoginModal: React.FC<LoginModalProps> = ({
           return;
         }
 
-        // Register new user locally
-        const { registerLocalUser, setCurrentUser } = await import('@/services/localAuthService');
-        const registerResult = registerLocalUser({
-          email: formData.email,
-          password: formData.password,
-          name: formData.name,
-          phone: formData.whatsapp,
-        });
-        
-        if (registerResult.success && registerResult.user) {
-          // Auto login after registration
-          const loginResult = await login(formData.email, formData.password);
-          if (loginResult.success) {
-            onClose();
-            if (redirectTo) {
-              window.location.href = redirectTo;
-            }
-          } else {
-            setError('Conta criada! Faça login para continuar.');
-            setIsLoginMode(true);
+        // For now, simulate registration success
+        // In production, this would call a registration API
+        const success = await login(formData.email, formData.password);
+        if (success) {
+          onClose();
+          if (redirectTo) {
+            window.location.href = redirectTo;
           }
         } else {
-          setError(registerResult.error || 'Erro ao criar conta. Tente novamente.');
+          setError('Erro ao criar conta. Tente novamente.');
         }
       }
     } catch (err) {
@@ -101,7 +88,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="tech-modal sm:max-w-md rounded-[48px] backdrop-blur-[20px] bg-white/90 dark:bg-black/90">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
@@ -153,7 +140,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   placeholder="Seu nome completo"
                   required={!isLoginMode}
-                  className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                 />
               </div>
             )}
@@ -170,7 +156,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 placeholder="seu@email.com"
                 required
-                className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
               />
             </div>
 
@@ -187,7 +172,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   onChange={(e) => handleInputChange('whatsapp', e.target.value)}
                   placeholder="+258 87 123 4567"
                   required={!isLoginMode}
-                  className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                 />
               </div>
             )}
@@ -202,7 +186,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 placeholder="••••••••"
                 required
                 minLength={6}
-                className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
               />
             </div>
 
@@ -214,7 +197,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
             <Button
               type="submit"
-              className="tech-button w-full rounded-[24px] py-2 px-6 font-bold transition-all duration-400"
+              className="w-full"
               disabled={isLoading}
             >
               {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}

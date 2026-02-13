@@ -1,55 +1,49 @@
-import { Lightbulb, Shield, Users, Star, CheckCircle, Heart, MessageCircle, Zap, Target, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { env } from '@/config/env';
+import { Award, Users, Lightbulb, Heart, Star, Shield, CheckCircle, MessageCircle } from 'lucide-react';
+import avatarFuturistic from '@/assets/avatar-futuristic.webp';
+import { handleWhatsAppClick } from '@/lib/whatsapp';
 
 const About = () => {
-  // Diferenciais reais e tangíveis - sem promessas vazias
-  const differentials = [
+  const achievements = [
     {
-      icon: Target,
-      title: 'Foco no Seu Negócio',
-      description: 'Cada projeto é pensado para suas necessidades específicas. Não usamos templates prontos.',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      icon: Clock,
-      title: 'Prazos Claros',
-      description: 'Definimos prazos realistas e cumprimos. Você sabe exatamente quando receber seu projeto.',
-      color: 'from-purple-500 to-purple-600'
-    },
-    {
-      icon: MessageCircle,
-      title: 'Comunicação Direta',
-      description: 'Você fala diretamente com quem está fazendo seu projeto. Sem intermediários.',
-      color: 'from-primary to-brand-green'
+      icon: Lightbulb,
+      title: 'Inovação com IA',
+      description: 'Utilizamos Inteligência Artificial avançada para criar soluções personalizadas e automatizar processos criativos.',
+      badge: '🤖 Inovador'
     },
     {
       icon: Shield,
-      title: 'Processo Organizado',
-      description: 'Metodologia clara desde o briefing até a entrega. Você acompanha cada etapa.',
-      color: 'from-brand-yellow to-amber-500'
+      title: 'Certificado ISO 27001',
+      description: 'Segurança da informação certificada internacionalmente. Seus dados e projetos estão protegidos.',
+      badge: '🔒 Seguro'
+    },
+    {
+      icon: Users,
+      title: 'Plataforma Única',
+      description: 'Elimine a gestão de múltiplos fornecedores. Design, desenvolvimento e marketing em um só lugar.',
+      badge: '🎯 Completo'
+    },
+    {
+      icon: Star,
+      title: 'Revisões Incluídas',
+      description: 'Múltiplas rodadas de revisões em todos os projetos até sua completa satisfação.',
+      badge: '✨ Perfeito'
     },
     {
       icon: CheckCircle,
-      title: 'Revisões Incluídas',
-      description: 'Ajustes e revisões fazem parte do processo. Trabalhamos até você estar satisfeito.',
-      color: 'from-green-500 to-green-600'
+      title: 'Suporte Pós-Entrega',
+      description: 'Acompanhamento completo após entrega com suporte técnico e orientações de uso.',
+      badge: '🛠️ Apoiado'
     },
     {
       icon: Heart,
-      title: 'Suporte Após Entrega',
-      description: 'Não acabou na entrega. Oferecemos suporte para garantir que tudo funcione.',
-      color: 'from-red-500 to-red-600'
+      title: 'Suporte Total 360º',
+      description: 'Suporte estratégico em marketing e operacional especializado para máxima performance.',
+      badge: '💙 Dedicado'
     }
   ];
 
-  const handleWhatsApp = () => {
-    const message = encodeURIComponent('Olá! Vi o site de vocês e gostaria de saber mais sobre como trabalham. Podem me explicar?');
-    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
-  };
-
   return (
-    <section id="about" className="py-16 sm:py-20 lg:py-28 relative overflow-hidden">
+    <section id="about" className="py-20 lg:py-32 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-96 h-96 bg-primary rounded-full blur-3xl" />
@@ -57,69 +51,67 @@ const About = () => {
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-10 sm:mb-14 lg:mb-18 animate-fade-up">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">
-            <span className="gradient-text">Por Que Escolher a TchovaDigital</span>
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-            Diferenciais que fazem diferença no seu projeto.
-          </p>
-        </div>
-
-        {/* Diferenciais Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
-          {differentials.map((item, index) => (
-            <div
-              key={index}
-              className="group bg-white/5 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-white/10 hover:bg-white/10 hover:border-primary/20 transition-all duration-300 hover:scale-105 animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-foreground text-base mb-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Image Side */}
+          <div className="order-2 lg:order-1 animate-fade-up">
+            <div className="relative max-w-md mx-auto lg:max-w-none">
+              <div className="neo rounded-3xl p-8">
+                <img
+                  src={avatarFuturistic}
+                  alt="Avatar Futurístico - TchovaDigital"
+                  className="w-full h-80 object-cover rounded-2xl"
+                />
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Value Proposition */}
-        <div className="mt-12 sm:mt-16 lg:mt-20 max-w-3xl mx-auto">
-          <div className="bg-gradient-to-br from-primary/10 via-brand-green/5 to-brand-yellow/10 rounded-3xl p-6 sm:p-8 border border-primary/20 text-center">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-brand-green flex items-center justify-center shadow-lg">
-                <Zap className="w-8 h-8 text-white" />
+              
+              {/* Floating badges */}
+              <div className="absolute -top-4 -right-4 glass-card px-4 py-2 rounded-xl">
+                <div className="text-sm font-semibold gradient-text">3+ Anos</div>
+                <div className="text-xs text-muted-foreground">Experiência</div>
               </div>
-              <div className="text-center sm:text-left">
-                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
-                  Soluções digitais pensadas para negócios que querem crescer
-                </h3>
-                <p className="text-sm sm:text-base text-muted-foreground">
-                  Não prometemos milagres. Entregamos trabalho bem feito, no prazo, com comunicação clara.
-                </p>
+              
+              <div className="absolute -bottom-4 -left-4 glass-card px-4 py-2 rounded-xl">
+                <div className="text-sm font-semibold gradient-text">100+</div>
+                <div className="text-xs text-muted-foreground">Projetos</div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* CTA */}
-        <div className="text-center mt-8 sm:mt-10">
-          <Button
-            onClick={handleWhatsApp}
-            className="bg-gradient-to-r from-primary to-brand-green hover:from-primary-darker hover:to-brand-green text-white rounded-[24px] px-8 py-3 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-          >
-            <MessageCircle className="w-4 h-4 mr-2" />
-            Falar Conosco
-          </Button>
+          {/* Content Side */}
+          <div className="order-1 lg:order-2 animate-fade-up">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8">
+              <span className="gradient-text">Por que escolher a TchovaDigital?</span>
+            </h2>
+
+            {/* Simplified achievement cards - focus on essentials */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {achievements.slice(0, 6).map((achievement, index) => (
+                <div
+                  key={index}
+                  className="neo p-4 text-center hover-lift group animate-fade-up relative"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="w-10 h-10 mx-auto mb-3 neo-inset rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <achievement.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                    {achievement.title}
+                  </h3>
+                </div>
+              ))}
+            </div>
+
+            {/* Single focused CTA */}
+            <div className="mt-8">
+              <button
+                className="w-full bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover-lift"
+                onClick={() => handleWhatsAppClick('contact', 'consultation')}
+              >
+                <MessageCircle className="w-5 h-5 inline mr-2" />
+                Falar Conosco
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

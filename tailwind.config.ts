@@ -24,23 +24,13 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#00E13C",
-          light: "#00EF64",
-          dark: "#22C55E",
-          darker: "#16A34A",
-          darkest: "#15803D",
+          DEFAULT: "hsl(var(--primary))",
+          light: "hsl(var(--primary-light))",
           foreground: "hsl(var(--primary-foreground))",
         },
         accent: {
-          DEFAULT: "#FFCC00",
-          light: "#FACC15",
+          DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--primary-foreground))",
-        },
-        brand: {
-          dark: "#283533",
-          green: "#00E13C",
-          bright: "#00EF64",
-          yellow: "#FFCC00",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -77,16 +67,6 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        "48": "48px",
-        "32": "32px",
-        "24": "24px",
-        "16": "16px",
-      },
-      transitionDuration: {
-        '400': '400ms',
-      },
-      transitionTimingFunction: {
-        'cubic-bezier': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
       keyframes: {
         "accordion-down": {
@@ -141,22 +121,6 @@ export default {
             boxShadow: "0 0 40px hsla(var(--primary) / 0.6)",
           },
         },
-        "hover-lift": {
-          "0%": {
-            transform: "translateY(0) scale(1)",
-          },
-          "100%": {
-            transform: "translateY(-8px) scale(1.01)",
-          },
-        },
-        "tech-float": {
-          "0%, 100%": {
-            transform: "translateY(0px)",
-          },
-          "50%": {
-            transform: "translateY(-10px)",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -165,8 +129,6 @@ export default {
         "fade-up": "fadeUp 0.6s ease-out forwards",
         "slide-up": "slideUp 0.8s ease-out forwards",
         "glow": "glow 2s ease-in-out infinite alternate",
-        "hover-lift": "hover-lift 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-        "tech-float": "tech-float 3s ease-in-out infinite",
       },
     },
   },

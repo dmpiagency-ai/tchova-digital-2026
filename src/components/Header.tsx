@@ -1,24 +1,20 @@
-'use client';
-import React from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { User, LogOut, LogIn, ArrowLeft } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Menu, X, MessageCircle, ArrowLeft, LogIn, LogOut, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
-import { MenuToggleIcon } from '@/components/ui/menu-toggle-icon';
-import { useScroll } from '@/components/ui/use-scroll';
-import { env } from '@/config/env';
 import logo from '@/assets/logo.svg';
+import { env } from '@/config/env';
 
-export default function Header() {
-  const [open, setOpen] = React.useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const scrolled = useScroll(10);
+  const { user, isAuthenticated, logout } = useAuth();
 
   const isPaymentPage = location.pathname === '/payment';
 
@@ -30,21 +26,6 @@ export default function Header() {
     { name: 'Contacto', href: '#contact' },
   ];
 
-  React.useEffect(() => {
-    if (open) {
-      // Disable scroll
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Re-enable scroll
-      document.body.style.overflow = '';
-    }
-
-    // Cleanup when component unmounts
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
   const handleNavigation = (item: typeof menuItems[0]) => {
     if (item.isRoute) {
       navigate(item.href);
@@ -54,7 +35,7 @@ export default function Header() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-    setOpen(false);
+    setIsMenuOpen(false);
   };
 
   return (
@@ -68,240 +49,175 @@ export default function Header() {
       </a>
 
       <DarkModeToggle />
-      
-      <header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-[1100] w-full transition-all',
-          {
-            'bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur-lg shadow-lg border-b border-border':
-              scrolled && !open,
-            'bg-transparent': !scrolled && !open,
-            'bg-background/90 backdrop-blur-md': open,
-          },
-        )}
-        style={{
-          transition: 'background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          willChange: 'background-color, box-shadow',
-        }}
-      >
-        <nav
-          className={cn(
-            'flex h-16 w-full items-center justify-between px-4 md:h-14 md:transition-all md:ease-out',
-            {
-              'md:px-2': scrolled,
-            },
-          )}
-        >
-          {/* Back Button for Payment Page */}
-          {isPaymentPage && (
-            <Button
-              variant="ghost"
-              onClick={() => navigate(-1)}
-              className="p-2 rounded-[24px] hover:bg-primary/10 transition-all"
-              aria-label="Voltar"
-            >
-              <ArrowLeft className="w-5 h-5 text-primary" />
-            </Button>
-          )}
-
-          {/* Logo */}
-          <div className="flex items-center gap-2">
+      <header role="banner" className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/20">
+        <div className="container mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px] xl:h-20 relative">
+            {/* Back Button for Payment Page */}
             {isPaymentPage && (
               <Button
                 variant="ghost"
                 onClick={() => navigate(-1)}
-                className="hidden lg:flex items-center p-2 rounded-[24px] hover:bg-primary/10 transition-all"
+                className="lg:hidden p-2 rounded-lg glass hover:bg-primary/10 transition-colors mr-2"
                 aria-label="Voltar"
               >
-                <ArrowLeft className="w-4 h-4 text-primary mr-2" />
-                <span className="text-sm font-medium">Voltar</span>
+                <ArrowLeft className="w-5 h-5 text-primary" />
               </Button>
             )}
-            <img src={logo} alt="TchovaDigital Logo" className="h-7 sm:h-8 w-auto" />
-            <h1 className={cn(
-              'text-base sm:text-lg font-bold font-nunito tracking-tight transition-colors duration-300',
-              scrolled || open
-                ? 'text-brand-dark dark:text-brand-green'
-                : 'text-white'
-            )}>
-              TchovaDigital
-            </h1>
-          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-2 md:flex">
-            {menuItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleNavigation(item)}
-                className={cn(
-                  buttonVariants({ variant: 'ghost' }),
-                  scrolled || open
-                    ? 'text-foreground hover:text-primary'
-                    : 'text-white/90 hover:text-white hover:bg-white/10'
-                )}
-              >
-                {item.name}
-              </button>
-            ))}
-            
-            {/* WhatsApp Button */}
-            <Button
-              size="sm"
-              aria-label="Abrir conversa no WhatsApp"
-              className={cn(
-                'font-bold px-3 py-1.5 text-sm rounded-full transition-all duration-300 hover:scale-105',
-                scrolled || open
-                  ? 'bg-green-500 hover:bg-green-600 text-white border-0'
-                  : 'bg-green-500/90 hover:bg-green-500 text-white border border-green-400/50 shadow-lg shadow-green-500/20'
-              )}
-              onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
-            >
-              <span>WhatsApp</span>
-            </Button>
-
-            {/* Login/Logout */}
-            {isAuthenticated ? (
-              <div className="flex items-center gap-2">
-                <div className={cn(
-                  'flex items-center gap-2 rounded-full px-3 py-1.5',
-                  scrolled || open ? 'bg-primary/10' : 'bg-white/10'
-                )}>
-                  <User className={cn(
-                    'w-4 h-4',
-                    scrolled || open ? 'text-primary' : 'text-white'
-                  )} />
-                  <span className={cn(
-                    'text-sm font-semibold hidden xl:inline truncate max-w-[100px]',
-                    scrolled || open ? 'text-primary' : 'text-white'
-                  )}>
-                    {user?.name || 'Usuário'}
-                  </span>
-                </div>
+            {/* Logo - Mobile-first optimized */}
+            <div className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+              {isPaymentPage && (
                 <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    try {
-                      logout();
-                    } catch (error) {
-                      window.location.reload();
-                    }
-                  }}
-                  className="border-red-200 hover:bg-red-50 text-red-600 hover:text-red-700 rounded-full font-bold px-3 py-1.5"
+                  variant="ghost"
+                  onClick={() => navigate(-1)}
+                  className="hidden lg:flex p-1.5 sm:p-2 rounded-lg glass hover:bg-primary/10 transition-colors mr-1.5 sm:mr-2"
+                  aria-label="Voltar"
                 >
-                  <LogOut className="w-4 h-4 xl:mr-1.5" />
-                  <span className="hidden xl:inline text-sm">Sair</span>
+                  <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-primary mr-1.5 sm:mr-2" />
+                  <span className="text-sm sm:text-base">Voltar</span>
                 </Button>
-              </div>
-            ) : (
+              )}
+              <img src={logo} alt="TchovaDigital Logo" className="h-6 sm:h-8 lg:h-10 xl:h-12 w-auto" />
+              <h1 className="text-sm sm:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl font-bold font-nunito text-[#283533] dark:text-primary navbar-logo-text">
+                TchovaDigital
+              </h1>
+            </div>
+
+            {/* Desktop Navigation - Simplified */}
+            <nav role="navigation" aria-label="Menu principal" className="hidden lg:flex items-center space-x-4 xl:space-x-6 2xl:space-x-8">
+               {menuItems.map((item, index) => (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavigation(item)}
+                    className="text-foreground hover:text-primary transition-colors font-medium px-2 xl:px-3 py-1.5 xl:py-2 rounded-lg hover:bg-primary/10 text-sm xl:text-base"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </nav>
+
+            {/* User Authentication & WhatsApp - Desktop */}
+            <div className="hidden lg:flex items-center space-x-2 xl:space-x-3">
+              {/* WhatsApp Button */}
               <Button
+                variant="outline"
                 size="sm"
-                onClick={() => setIsLoginModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-white font-bold px-4 py-1.5 text-sm rounded-full transition-all duration-300 hover:scale-105"
+                aria-label="Abrir conversa no WhatsApp"
+                className="border-primary/20 hover:bg-primary/10 text-primary hover:text-primary font-medium px-3 xl:px-4 focus-visible text-sm xl:text-base"
+                onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
               >
-                <LogIn className="w-4 h-4 mr-1.5" />
-                <span>Entrar</span>
+                <MessageCircle className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" aria-hidden="true" focusable="false" />
+                <span className="hidden xl:inline">WhatsApp</span>
+                <span className="xl:hidden">WA</span>
               </Button>
+
+              {/* Login/Logout Button */}
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 bg-primary/10 rounded-lg px-3 py-1.5">
+                    <User className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-medium text-primary hidden xl:inline">
+                      {user?.name || 'Usuário'}
+                    </span>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      try {
+                        logout();
+                      } catch (error) {
+                        // Error during logout (removed console.error for production)
+                        // Error details: ${error}
+                        // Fallback: forçar reload da página
+                        window.location.reload();
+                      }
+                    }}
+                    className="border-red-200 hover:bg-red-50 text-red-600 hover:text-red-700"
+                  >
+                    <LogOut className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" />
+                    <span className="hidden xl:inline">Sair</span>
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="bg-primary hover:bg-primary/90 text-white font-medium px-4 xl:px-6 focus-visible text-sm xl:text-base"
+                >
+                  <LogIn className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" />
+                  <span className="hidden xl:inline">Entrar</span>
+                  <span className="xl:hidden">Login</span>
+                </Button>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            {!isPaymentPage && (
+              <button
+                type="button"
+                className="lg:hidden p-1.5 sm:p-2 rounded-lg glass hover:bg-primary/10 transition-colors"
+                aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-controls="mobile-menu"
+                data-state={isMenuOpen ? 'open' : 'closed'}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                 {isMenuOpen ? (
+                   <X className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" focusable="false" />
+                 ) : (
+                   <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" focusable="false" />
+                 )}
+               </button>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          {!isPaymentPage && (
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => setOpen(!open)}
-              className={cn(
-                'md:hidden transition-colors duration-300',
-                scrolled || open
-                  ? 'border-primary/30 hover:bg-primary/10'
-                  : 'border-white/30 hover:bg-white/10'
-              )}
-            >
-              <MenuToggleIcon
-                open={open}
-                className={cn(
-                  'size-5 transition-colors duration-300',
-                  scrolled || open ? 'text-primary' : 'text-white'
-                )}
-                duration={300}
-              />
-            </Button>
-          )}
-        </nav>
+        </div>
 
         {/* Mobile Menu */}
-        <div
-          className={cn(
-            'bg-background/90 fixed top-16 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden border-y md:hidden',
-            open ? 'block' : 'hidden',
-          )}
-        >
-          <div
-            data-slot={open ? 'open' : 'closed'}
-            className={cn(
-              'data-[slot=open]:animate-in data-[slot=open]:zoom-in-95 data-[slot=closed]:animate-out data-[slot=closed]:zoom-out-95 ease-out',
-              'flex h-full w-full flex-col justify-between gap-y-2 p-4',
-            )}
-          >
-            <div className="grid gap-y-2">
+        {isMenuOpen && !isPaymentPage && (
+          <div id="mobile-menu" className="lg:hidden glass-card border-t border-primary/20 mx-3 sm:mx-4 mt-2 mb-3 sm:mb-4 animate-fade-in">
+            <nav className="py-3 sm:py-4 space-y-1.5 sm:space-y-2">
               {menuItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavigation(item)}
-                  className={buttonVariants({
-                    variant: 'ghost',
-                    className: 'justify-start text-foreground hover:text-primary',
-                  })}
+                  className="block w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 text-foreground hover:text-primary hover:bg-primary/5 transition-colors font-medium rounded-lg text-sm sm:text-base"
                 >
                   {item.name}
                 </button>
               ))}
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Button
-                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold"
-                onClick={() => {
-                  window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank');
-                  setOpen(false);
-                }}
-              >
-                WhatsApp
-              </Button>
-
-              {isAuthenticated ? (
+              <div className="px-3 sm:px-4 pt-2">
                 <Button
-                  variant="outline"
-                  className="w-full border-red-300 hover:bg-red-50 text-red-600 hover:text-red-700"
+                  variant="default"
+                  size="sm"
+                  aria-label="Abrir conversa no WhatsApp"
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-medium focus-visible text-sm sm:text-base"
                   onClick={() => {
-                    logout();
-                    setOpen(false);
+                    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank');
+                    setIsMenuOpen(false);
                   }}
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sair
+                  <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" aria-hidden="true" focusable="false" />
+                  WhatsApp
                 </Button>
-              ) : (
-                <Button
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-bold"
-                  onClick={() => {
-                    setIsLoginModalOpen(true);
-                    setOpen(false);
-                  }}
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Entrar
-                </Button>
-              )}
-            </div>
+              </div>
+            </nav>
           </div>
-        </div>
+        )}
       </header>
 
       {/* Login Modal */}
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        title="Acesso TchovaDigital"
+        description="Entre na sua conta para acessar todos os recursos exclusivos"
+      />
+
+      {/* Spacer for fixed header */}
+      <div className="h-14 sm:h-16 lg:h-[72px] xl:h-20" />
     </>
   );
-}
+};
+
+export default Header;

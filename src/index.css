@@ -7,17 +7,11 @@
 @layer base {
   :root {
     /* Core Brand Colors - HSL Format */
-    --primary: 142 76% 36%; /* Verde vibrante #22C55E */
-    --primary-light: 142 76% 60%; /* Verde claro #4ade80 */
-    --accent: 48 96% 53%; /* Amarelo #FACC15 */
+    --primary: 145 100% 39%; /* Verde vibrante #00C853 */
+    --primary-light: 145 100% 70%; /* Verde claro #66FF99 */
+    --accent: 45 100% 51%; /* Amarelo #FFC107 */
     --background: 0 0% 100%; /* Branco #FFFFFF */
     --foreground: 0 0% 18%; /* Cinza escuro #2E2E2E */
-    
-    /* RGB Values for inline styles */
-    --background-rgb: 255, 255, 255;
-    --foreground-rgb: 46, 46, 46;
-    --border-rgb: 230, 230, 230;
-    --primary-rgb: 34, 197, 94;
     
     /* Glass Effects */
     --glass-bg: 145 100% 39% / 0.1;
@@ -57,31 +51,18 @@
     --border: 0 0% 90%;
     --input: 0 0% 90%;
     --ring: var(--primary);
-    --radius: 3rem;
-    --modal-radius: 3rem;
-    --modal-backdrop-blur: 20px;
-    --modal-bg-light: rgba(255, 255, 255, 0.9);
-    --modal-bg-dark: rgba(0, 0, 0, 0.9);
+    --radius: 1rem;
     
     /* Enhanced Animation Variables */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --transition-elastic: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --bg-background: hsl(var(--background));
-    --text-foreground: hsl(var(--foreground));
   }
 
   .dark {
     /* Dark mode colors - Enhanced for better contrast */
     --background: 0 0% 8%; /* Darker background for better contrast */
     --foreground: 0 0% 98%; /* Almost white for better readability */
-    
-    /* RGB Values for inline styles - Dark mode */
-    --background-rgb: 20, 20, 20;
-    --foreground-rgb: 250, 250, 250;
-    --border-rgb: 51, 51, 51;
-    --primary-rgb: 34, 197, 94;
-    
     --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 12%;
@@ -93,21 +74,7 @@
     --muted-foreground: 0 0% 70%;
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --input-radius: 1rem;
     --ring: var(--primary);
-    --modal-radius: 3rem;
-    --modal-backdrop-blur: 20px;
-    --modal-bg-light: rgba(255, 255, 255, 0.9);
-    --modal-bg-dark: rgba(0, 0, 0, 0.9);
-    --dropzone-radius: 2rem;
-    --dropzone-border: 2px dashed rgba(34, 197, 94, 0.3);
-    --badge-radius: 9999px;
-    --badge-padding: 0.25rem 1rem;
-    --badge-bg: rgba(34, 197, 94, 0.1);
-    --badge-text: #22C55E;
-    --tab-active-radius: 9999px;
-    --bg-background: hsl(var(--background));
-    --text-foreground: hsl(var(--foreground));
 
     /* Dark Glass Effects - Enhanced */
     --glass-bg: 145 100% 39% / 0.2;
@@ -229,61 +196,17 @@
 }
 
 @layer components {
-  /* Liquid Glass Effect Utilities - Enhanced Translucency */
+  /* Glass Effect Utilities */
   .glass {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
   }
-
+  
   .glass-card {
-    @apply glass rounded-[32px] p-8 lg:p-10;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(28px) saturate(200%);
-    -webkit-backdrop-filter: blur(28px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-
-  /* Ultra Translucent Cards */
-  .liquid-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(32px) saturate(220%);
-    -webkit-backdrop-filter: blur(32px) saturate(220%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  }
-
-  /* Large Simple Icons */
-  .icon-large {
-    @apply w-12 h-12 lg:w-16 lg:h-16;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-  }
-
-  .icon-xl {
-    @apply w-16 h-16 lg:w-20 lg:h-20;
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
-  }
-
-  /* Generous Spacing System */
-  .section-spacing {
-    @apply py-12 lg:py-20 xl:py-24;
-  }
-
-  .card-spacing {
-    @apply p-8 lg:p-12 xl:p-16;
-  }
-
-  .text-spacing {
-    @apply mb-6 lg:mb-8 xl:mb-10;
+    @apply glass rounded-2xl p-6;
   }
   
   /* Neomorphism Effects */
@@ -618,8 +541,8 @@
   }
   
   .hover-lift:hover {
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
   }
   
   .hover-glow:hover {
@@ -985,9 +908,11 @@
 @keyframes appEntrance {
   0% {
     opacity: 0;
+    transform: scale(0.95);
   }
   100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -1288,15 +1213,15 @@ img {
 /* Enhanced Typography Scale - Mobile First */
 @layer base {
   h1 {
-    @apply text-[48px] sm:text-[64px] lg:text-[96px] font-bold leading-tight tracking-tight;
+    @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight tracking-tight;
   }
   
   h2 {
-    @apply text-[36px] sm:text-[48px] lg:text-[64px] font-bold leading-tight tracking-tight;
+    @apply text-xl sm:text-2xl lg:text-3xl font-bold leading-tight;
   }
   
   h3 {
-    @apply text-[28px] sm:text-[36px] lg:text-[48px] font-bold leading-tight tracking-tight;
+    @apply text-lg sm:text-xl lg:text-2xl font-bold leading-tight;
   }
   
   h4 {
@@ -1472,262 +1397,5 @@ section {
   .card {
     margin-bottom: 1rem;
   }
-}
-
-/* Video Background Fade In/Out Animation - Subtle and Text-Friendly */
-@keyframes fadeInOut {
-  0%, 100% {
-    opacity: 0.95;
-  }
-  50% {
-    opacity: 0.98;
-  }
-}
-
-/* Border Rotate Animation for HoverBorderGradient */
-@keyframes borderRotate {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Liquid Glass Shape Animation */
-  @keyframes liquidFloat {
-    0%, 100% {
-      transform: translate(-50%, -50%) rotate(0deg) scale(1);
-    }
-    25% {
-      transform: translate(-50%, -50%) rotate(1deg) scale(1.02);
-    }
-    50% {
-      transform: translate(-50%, -50%) rotate(-0.5deg) scale(0.98);
-    }
-    75% {
-      transform: translate(-50%, -50%) rotate(0.8deg) scale(1.01);
-    }
-  }
-  
-  @keyframes gentlePulse {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-    }
-    50% {
-      opacity: 0.85;
-      transform: scale(1.02);
-      box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
-    }
-  }
-
-/* Reachy Mini Specific Styles */
-@layer components {
-  /* Tech Card - Main component for service cards */
-  .tech-card {
-    @apply rounded-[48px] p-[40px] shadow-xl border border-white/10 backdrop-blur-xl bg-white/5 dark:bg-black/5;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .tech-card:hover {
-    @apply hover:translate-y-[-8px] hover:scale-[1.01] hover:shadow-2xl;
-  }
-
-  /* Tech Button - Main CTA buttons */
-  .tech-button {
-    @apply rounded-[24px] py-2 px-6 font-bold;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Tech Modal - For all modals and popups */
-  .tech-modal {
-    @apply rounded-[48px] backdrop-blur-[20px] bg-white/90 dark:bg-black/90;
-  }
-
-  /* Tech Input - For form inputs */
-  .tech-input {
-    @apply rounded-[16px] border-gray-200 focus:ring-[#22C55E];
-  }
-
-  /* Tech Badge - For feature badges */
-  .tech-badge {
-    @apply rounded-full px-4 py-1 bg-[#22C55E]/10 text-[#22C55E];
-  }
-
-  /* Tech Dropzone - For file uploads */
-  .tech-dropzone {
-    @apply rounded-[32px] border-dashed border-2 border-[#22C55E]/30;
-  }
-
-  /* Tech Tab Active - For active tabs */
-  .tech-tab-active {
-    @apply rounded-full;
-  }
-
-  /* Tech Gradient Button - For primary CTAs */
-  .tech-gradient-button {
-    @apply bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700;
-  }
-
-  /* Tech Navbar - For header/navbar */
-  .tech-navbar {
-    @apply h-[77px] sticky top-0 z-50 backdrop-saturate-[1.8] backdrop-blur-[20px] bg-white/70 dark:bg-black/70 border-b border-white/10;
-  }
-
-  /* Tech Hero - For hero sections */
-  .tech-hero {
-    @apply min-h-screen flex items-center justify-center;
-  }
-
-  /* Tech Hero Title - For main headings */
-  .tech-hero-title {
-    @apply text-[48px] lg:text-[96px] font-bold tracking-[-0.03em] leading-tight;
-  }
-
-  /* Tech Transition - Standard transition for all elements */
-  .tech-transition {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Tech Hover Lift - Standard hover effect */
-  .tech-hover-lift:hover {
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  }
-
-  /* Tech Glass - Enhanced glass effect */
-  .tech-glass {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  /* Tech Liquid Card - Ultra translucent cards */
-  .tech-liquid-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(32px) saturate(220%);
-    -webkit-backdrop-filter: blur(32px) saturate(220%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-}
-
-/* Design Gráfico Hero - Floating Cards Animations for Mobile */
-@keyframes floatCard1 {
-0%, 100% {
-  transform: translateX(0) translateY(0) scale(1);
-  z-index: 4;
-}
-25% {
-  transform: translateX(5px) translateY(-5px) scale(1.02);
-  z-index: 4;
-}
-50% {
-  transform: translateX(0) translateY(-8px) scale(1);
-  z-index: 4;
-}
-75% {
-  transform: translateX(-5px) translateY(-3px) scale(1.01);
-  z-index: 4;
-}
-}
-
-@keyframes floatCard2 {
-0%, 100% {
-  transform: translateX(15px) translateY(10px) scale(0.95);
-  z-index: 3;
-}
-25% {
-  transform: translateX(20px) translateY(5px) scale(0.97);
-  z-index: 4;
-}
-50% {
-  transform: translateX(18px) translateY(2px) scale(0.96);
-  z-index: 3;
-}
-75% {
-  transform: translateX(12px) translateY(8px) scale(0.94);
-  z-index: 3;
-}
-}
-
-@keyframes floatCard3 {
-0%, 100% {
-  transform: translateX(30px) translateY(20px) scale(0.9);
-  z-index: 2;
-}
-25% {
-  transform: translateX(35px) translateY(15px) scale(0.92);
-  z-index: 3;
-}
-50% {
-  transform: translateX(28px) translateY(12px) scale(0.91);
-  z-index: 2;
-}
-75% {
-  transform: translateX(32px) translateY(18px) scale(0.89);
-  z-index: 2;
-}
-}
-
-@keyframes floatCard4 {
-0%, 100% {
-  transform: translateX(45px) translateY(30px) scale(0.85);
-  z-index: 1;
-}
-25% {
-  transform: translateX(50px) translateY(25px) scale(0.87);
-  z-index: 2;
-}
-50% {
-  transform: translateX(43px) translateY(22px) scale(0.86);
-  z-index: 1;
-}
-75% {
-  transform: translateX(47px) translateY(28px) scale(0.84);
-  z-index: 1;
-}
-}
-
-/* Reduced motion support for floating cards */
-@media (prefers-reduced-motion: reduce) {
-@keyframes floatCard1 {
-  0%, 100% {
-    transform: translateX(0) translateY(0) scale(1);
-    z-index: 4;
-  }
-}
-
-@keyframes floatCard2 {
-  0%, 100% {
-    transform: translateX(15px) translateY(10px) scale(0.95);
-    z-index: 3;
-  }
-}
-
-@keyframes floatCard3 {
-  0%, 100% {
-    transform: translateX(30px) translateY(20px) scale(0.9);
-    z-index: 2;
-  }
-}
-
-@keyframes floatCard4 {
-  0%, 100% {
-    transform: translateX(45px) translateY(30px) scale(0.85);
-    z-index: 1;
-  }
-}
 }
 

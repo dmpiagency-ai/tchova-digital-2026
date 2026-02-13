@@ -1,72 +1,189 @@
-import { MessageCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Send, MapPin, Phone, Mail, Instagram, Facebook, CheckCircle, AlertCircle, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { handleWhatsAppClick } from '@/lib/whatsapp';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { useMozambiqueMobile, useTouchFriendly } from '@/hooks/useMozambiqueMobile';
 
 const Contact = () => {
-  const { trackButtonClick } = useAnalytics();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [touched, setTouched] = useState<{[key: string]: boolean}>({});
+  const [isValid, setIsValid] = useState(false);
+  const { toast } = useToast();
+  const { trackFormInteraction, trackButtonClick, trackWhatsAppClick } = useAnalytics();
+  const { shouldUseLargeButtons } = useTouchFriendly();
 
-  const handleContactClick = () => {
-    trackButtonClick('contact', 'whatsapp_main');
-    handleWhatsAppClick('contact', 'general');
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Nome é obrigatório';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Nome deve ter pelo menos 2 caracteres';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'E-mail é obrigatório';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'E-mail inválido';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Mensagem é obrigatória';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Mensagem deve ter pelo menos 10 caracteres';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      trackFormInteraction('contact_form', 'error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    trackFormInteraction('contact_form', 'submit');
+
+    // Simulate form submission
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      toast({
+        title: "Mensagem enviada!",
+        description: "Obrigado pelo contacto. Responderemos em breve!",
+      });
+
+      setFormData({ name: '', email: '', message: '' });
+      setErrors({});
+      setTouched({});
+      setIsValid(false);
+    } catch (error) {
+      trackFormInteraction('contact_form', 'error');
+      toast({
+        title: "Erro ao enviar",
+        description: "Tente novamente ou entre em contacto pelo WhatsApp.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Real-time validation
+  useEffect(() => {
+    const newErrors: {[key: string]: string} = {};
+
+    if (touched.name && !formData.name.trim()) {
+      newErrors.name = 'Nome é obrigatório';
+    } else if (touched.name && formData.name.trim().length < 2) {
+      newErrors.name = 'Nome deve ter pelo menos 2 caracteres';
+    }
+
+    if (touched.email && !formData.email.trim()) {
+      newErrors.email = 'E-mail é obrigatório';
+    } else if (touched.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'E-mail inválido';
+    }
+
+    if (touched.message && !formData.message.trim()) {
+      newErrors.message = 'Mensagem é obrigatória';
+    } else if (touched.message && formData.message.trim().length < 10) {
+      newErrors.message = 'Mensagem deve ter pelo menos 10 caracteres';
+    }
+
+    setErrors(newErrors);
+    setIsValid(Object.keys(newErrors).length === 0 && Boolean(formData.name.trim()) && Boolean(formData.email.trim()) && Boolean(formData.message.trim()));
+  }, [formData, touched]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Mark field as touched
+    if (!touched[name]) {
+      setTouched(prev => ({
+        ...prev,
+        [name]: true
+      }));
+    }
+
+    // Track form interaction
+    trackFormInteraction('contact_form', 'start', name);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name } = e.target;
+    setTouched(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+
+  const socialLinks = [
+    {
+      name: 'Instagram',
+      icon: Instagram,
+      url: 'https://instagram.com/tchovadigital',
+      color: 'hover:text-pink-500'
+    },
+    {
+      name: 'Facebook',
+      icon: Facebook,
+      url: 'https://facebook.com/tchovadigital',
+      color: 'hover:text-blue-500'
+    }
+  ];
+
+  const contactInfo = [
+    {
+      icon: MapPin,
+      title: 'Localização',
+      info: 'Centro Urbano'
+    },
+    {
+      icon: Phone,
+      title: 'Telefone',
+      info: '+258 123 456 789'
+    },
+    {
+      icon: Mail,
+      title: 'E-mail',
+      info: 'hello@tchovadigital.com'
+    }
+  ];
 
   return (
     <section id="contact" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Background with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#22C55E]/5 via-emerald-500/5 to-green-500/5" />
-      
-      {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-10 right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto animate-fade-up">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20 mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Pronto para Começar?</span>
-          </div>
-
-          {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="gradient-text">Leve seu negócio para o digital</span>
+        <div className="max-w-2xl mx-auto animate-fade-up">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8">
+            <span className="gradient-text">Vamos conversar?</span>
           </h2>
 
-          {/* Subheadline */}
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Seu negócio merece estar online e gerando resultados reais. 
-            <span className="block mt-2 text-foreground font-medium">Converse gratuitamente com um especialista.</span>
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* Primary CTA */}
-            <Button
-              className="tech-button bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 text-white font-bold px-10 py-6 rounded-[24px] text-lg hover:scale-105 hover:shadow-2xl transition-all duration-400 group"
-              onClick={handleContactClick}
-            >
-              <MessageCircle className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
-              Falar no WhatsApp
-              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
-
-          {/* Trust indicators */}
-          <div className="mt-10 flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Resposta rápida
-            </div>
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              Sem compromisso
-            </div>
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
-              Consultoria gratuita
-            </div>
-          </div>
+          <Button
+            className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-2xl text-lg hover-lift transition-all duration-300"
+            onClick={() => handleWhatsAppClick('contact', 'general')}
+          >
+            <MessageCircle className="w-5 h-5 mr-2" />
+            WhatsApp
+          </Button>
         </div>
       </div>
     </section>

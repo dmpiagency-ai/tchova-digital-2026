@@ -444,21 +444,17 @@ const CustomizeServices = () => {
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      const message = encodeURIComponent(
-                        `🤝 Olá! Gostaria de confirmar o pagamento do orçamento personalizado.\n\n` +
-                        `📋 Plano Base: ${planName} (${basePrice.toLocaleString()} MZN)\n\n` +
-                        `🎯 Serviços Adicionais Selecionados:\n${selectedServices.map(id => {
+                    onClick={() => navigate('/payment', {
+                      state: {
+                        service: planName,
+                        amount: totalPrice,
+                        customizations: selectedServices.map(id => {
                           const service = availableServices.find(s => s.id === id);
                           const qty = quantities[id] || 1;
-                          return `- ${service?.name} ${qty > 1 ? `x${qty}` : ''}`;
-                        }).join('\n')}\n\n` +
-                        `💰 Total Estimado: ${totalPrice.toLocaleString()} MZN\n\n` +
-                        `📝 Observações: ${customNotes || 'Nenhuma'}\n\n` +
-                        `Podemos prosseguir com o pagamento?`
-                      );
-                      window.open(`https://wa.me/258123456789?text=${message}`, '_blank');
-                    }}
+                          return service ? { ...service, quantity: qty } : null;
+                        }).filter(Boolean)
+                      }
+                    })}
                     className="h-10"
                   >
                     <CreditCard className="w-4 h-4 mr-2" />
