@@ -9,6 +9,9 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import GSMDashboard from '@/components/GSMDashboard';
+import LoginModal from '@/components/LoginModal';
+import WelcomeModal from '@/components/WelcomeModal';
+import { useAuth } from '@/contexts/AuthContext';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
 
@@ -45,10 +48,17 @@ declare global {
 }
 
 const Index = () => {
-  const [isLoading] = useState(true);
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [selectedService, setSelectedService] = useState<{ type: string; data?: ServiceData } | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  
+  // Auth context for Firebase integration
+  const { user: authUser, isAuthenticated } = useAuth();
+  
+  // Modal states
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [loginModalConfig, setLoginModalConfig] = useState<{ title?: string; description?: string }>({});
 
   // Service routing logic - memoized to prevent unnecessary re-renders
   const handleServiceAccess = useCallback((serviceType: string, serviceData: ServiceData | null = null) => {
@@ -160,33 +170,33 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    // App-like loading experience
-    let isMounted = true;
-
-    const loadApp = async () => {
-      try {
-        // Simulate essential loading
-        await new Promise(resolve => setTimeout(resolve, 600));
-
-        // Only update state if component is still mounted
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      } catch (error) {
-        logger.error('Loading error:', error);
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
+    // Listen for login modal events from other components
+    const handleShowLoginModal = (event: CustomEvent) => {
+      setLoginModalConfig({
+        title: event.detail?.title || 'Acesso ao Sistema',
+        description: event.detail?.description || 'Faça login para acessar recursos exclusivos'
+      });
+      setShowLoginModal(true);
     };
 
-    loadApp();
+    window.addEventListener('show-login-modal', handleShowLoginModal as EventListener);
 
-    // Cleanup function to prevent state updates on unmounted component
     return () => {
-      isMounted = false;
+      window.removeEventListener('show-login-modal', handleShowLoginModal as EventListener);
     };
   }, []);
+
+  // Show welcome modal when user logs in for the first time
+  useEffect(() => {
+    if (isAuthenticated && authUser) {
+      // Check if this is a new login (not a page refresh)
+      const hasSeenWelcome = sessionStorage.getItem('tchova_welcome_shown');
+      if (!hasSeenWelcome) {
+        setShowWelcomeModal(true);
+        sessionStorage.setItem('tchova_welcome_shown', 'true');
+      }
+    }
+  }, [isAuthenticated, authUser]);
 
   // Make service routing function available globally
   useEffect(() => {
@@ -646,6 +656,20 @@ const Index = () => {
             </main>
             <Footer />
             <FloatingWhatsApp />
+            
+            {/* Login Modal - accessible from anywhere */}
+            <LoginModal
+              isOpen={showLoginModal}
+              onClose={() => setShowLoginModal(false)}
+              title={loginModalConfig.title}
+              description={loginModalConfig.description}
+            />
+            
+            {/* Welcome Modal - shown after first login */}
+            <WelcomeModal
+              isOpen={showWelcomeModal}
+              onClose={() => setShowWelcomeModal(false)}
+            />
           </>
         );
     }
