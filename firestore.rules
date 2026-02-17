@@ -1,0 +1,136 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================
+    // TCHOVA DIGITAL - FIRESTORE SECURITY RULES
+    // ============================================
+    // Arquitetura: Vercel (Hosting) + Firebase (Backend)
+    // Projeto: tchova-digital47
+    // ============================================
+    
+    // Funções auxiliares
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isClient() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'client';
+    }
+    
+    // ============================================
+    // COLEÇÃO: users
+    // ============================================
+    // Usuários podem ler/escrever apenas seus próprios dados
+    // Admins podem ler todos os usuários
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(userId);
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: clients
+    // ============================================
+    // Dados de clientes
+    match /clients/{clientId} {
+      allow read: if isOwner(clientId) || isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(clientId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: projects
+    // ============================================
+    // Projetos dos clientes
+    match /projects/{projectId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: orders
+    // ============================================
+    // Pedidos e transações
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: payments
+    // ============================================
+    // Pagamentos (apenas admins podem ler/escrever)
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+      allow delete: if false; // Nunca deletar pagamentos
+    }
+    
+    // ============================================
+    // COLEÇÃO: services
+    // ============================================
+    // Serviços oferecidos (leitura pública)
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: testimonials
+    // ============================================
+    // Depoimentos de clientes
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: analytics
+    // ============================================
+    // Dados de analytics (apenas admins)
+    match /analytics/{docId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: settings
+    // ============================================
+    // Configurações do sistema (apenas admins)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ============================================
+    // NEGAR TUDO MAIS (segurança padrão)
+    // ============================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
