@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2, Mail, Phone, User, Shield } from 'lucide-react';
+import { Loader2, Mail, User, Shield, MessageCircle } from 'lucide-react';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -13,6 +13,14 @@ interface LoginModalProps {
   description?: string;
   redirectTo?: string;
 }
+
+// Pre-filled demo data for new users
+const DEMO_PRESETS = {
+  name: 'Seu Nome',
+  email: 'seuemail@exemplo.com',
+  whatsapp: '+258 8X XXX XXXX',
+  password: ''
+};
 
 const LoginModal: React.FC<LoginModalProps> = ({
   isOpen,
@@ -30,6 +38,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
     password: ''
   });
   const [error, setError] = useState('');
+  const [registrationComplete, setRegistrationComplete] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,9 +83,26 @@ const LoginModal: React.FC<LoginModalProps> = ({
         });
         
         if (registerResult.success && registerResult.user) {
+          // Send WhatsApp welcome message
+          const welcomeMessage = encodeURIComponent(
+            `🎉 *Bem-vindo à TchovaDigital!*\n\n` +
+            `Olá ${formData.name}! 🙌\n\n` +
+            `Sua conta foi criada com sucesso! Agora você pode:\n` +
+            `✅ Explorar nossos serviços\n` +
+            `✅ Solicitar orçamentos\n` +
+            `✅ Acompanhar seus projetos\n\n` +
+            `🚀 *Comece agora:* https://tchova-digital-2026.vercel.app\n\n` +
+            `💡 Use o código *BEMVINDO10* para 10% de desconto no seu primeiro projeto!`
+          );
+          
+          // Open WhatsApp with welcome message
+          const whatsappNumber = formData.whatsapp.replace(/\D/g, '');
+          window.open(`https://wa.me/${whatsappNumber}?text=${welcomeMessage}`, '_blank');
+          
           // Auto login after registration
           const loginResult = await login(formData.email, formData.password);
           if (loginResult.success) {
+            setRegistrationComplete(true);
             onClose();
             if (redirectTo) {
               window.location.href = redirectTo;
@@ -151,7 +177,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Seu nome completo"
+                  placeholder={DEMO_PRESETS.name}
                   required={!isLoginMode}
                   className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                 />
@@ -168,7 +194,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                placeholder="seu@email.com"
+                placeholder={DEMO_PRESETS.email}
                 required
                 className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
               />
@@ -177,8 +203,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
             {!isLoginMode && (
               <div className="space-y-2">
                 <Label htmlFor="whatsapp" className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
+                  <MessageCircle className="w-4 h-4 text-green-500" />
                   WhatsApp
+                  <span className="text-xs text-muted-foreground">(receberá mensagem de boas-vindas)</span>
                 </Label>
                 <Input
                   id="whatsapp"
@@ -199,7 +226,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                placeholder="••••••••"
+                placeholder="Mínimo 6 caracteres"
                 required
                 minLength={6}
                 className="rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
