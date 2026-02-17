@@ -11,6 +11,7 @@ import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import GSMDashboard from '@/components/GSMDashboard';
 import LoginModal from '@/components/LoginModal';
 import WelcomeModal from '@/components/WelcomeModal';
+import PromoPopup, { usePromoPopup } from '@/components/PromoPopup';
 import { useAuth } from '@/contexts/AuthContext';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
@@ -59,6 +60,9 @@ const Index = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [loginModalConfig, setLoginModalConfig] = useState<{ title?: string; description?: string }>({});
+  
+  // Promo popup for new visitors
+  const { showPromo, closePromo } = usePromoPopup();
 
   // Service routing logic - memoized to prevent unnecessary re-renders
   const handleServiceAccess = useCallback((serviceType: string, serviceData: ServiceData | null = null) => {
@@ -669,6 +673,20 @@ const Index = () => {
             <WelcomeModal
               isOpen={showWelcomeModal}
               onClose={() => setShowWelcomeModal(false)}
+            />
+            
+            {/* Promo Popup - shown to new visitors after 5s or scroll */}
+            <PromoPopup
+              isOpen={showPromo}
+              onClose={closePromo}
+              onAction={() => {
+                closePromo();
+                setLoginModalConfig({
+                  title: 'Aproveite 10% de Desconto!',
+                  description: 'Crie sua conta e use o código BEMVINDO10'
+                });
+                setShowLoginModal(true);
+              }}
             />
           </>
         );
