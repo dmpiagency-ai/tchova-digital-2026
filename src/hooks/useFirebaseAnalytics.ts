@@ -219,13 +219,27 @@ export const useFirebaseAnalytics = (): UseFirebaseAnalyticsReturn => {
   };
 };
 
+// 🔌 PLUG-IN: Unified Analytics Hook - Always call both hooks internally to satisfy React rules
+// This hook decides at runtime which implementation to use based on feature flag
+export const useAnalytics = (): UseFirebaseAnalyticsReturn => {
+  const analyticsEnabled = isFeatureEnabled('analytics');
+  
+  // Always call both hooks to satisfy React Hooks rules
+  const firebaseAnalytics = useFirebaseAnalytics();
+  const mockAnalytics = useMockAnalytics();
+  
+  // Return the appropriate implementation based on feature flag
+  return analyticsEnabled ? firebaseAnalytics : mockAnalytics;
+};
+
 // 🔌 PLUG-IN: Mock Analytics for Development
+// This hook is always called to satisfy React Hooks rules, but only used when analytics is disabled
 export const useMockAnalytics = (): UseFirebaseAnalyticsReturn => {
   const trackEvent = ({ name, parameters = {} }: AnalyticsEvent) => {
     console.log('📊 Mock Analytics Event:', name, parameters);
   };
 
-  const trackPageView = (pageName: string, parameters: Record<string, any> = {}) => {
+  const trackPageView = (pageName: string, parameters: Record<string, unknown> = {}) => {
     console.log('📄 Mock Page View:', pageName, parameters);
   };
 
@@ -241,7 +255,7 @@ export const useMockAnalytics = (): UseFirebaseAnalyticsReturn => {
     console.log('📝 Mock Form Submit:', { formName, success });
   };
 
-  const setUser = (userId: string, properties: Record<string, any> = {}) => {
+  const setUser = (userId: string, properties: Record<string, unknown> = {}) => {
     console.log('👤 Mock User Set:', userId, properties);
   };
 
@@ -293,9 +307,4 @@ const getFormCategory = (formName: string): string => {
   };
 
   return categories[formName] || 'general';
-};
-
-// 🔌 PLUG-IN: Auto-select hook based on feature flag
-export const useAnalytics = () => {
-  return isFeatureEnabled('analytics') ? useFirebaseAnalytics() : useMockAnalytics();
 };

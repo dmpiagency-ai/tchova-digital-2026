@@ -195,3 +195,4 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - 🐙 GitHub: [dmpiagency-ai](https://github.com/dmpiagency-ai)
 
 **Desenvolvido por TchovaDigital**
+"# tchova-digital-2026"  

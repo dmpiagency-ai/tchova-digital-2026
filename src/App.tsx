@@ -10,7 +10,6 @@ import { AdminProvider } from "@/contexts/AdminContext";
 import { AICreditsProvider } from "@/contexts/AICreditsContext";
 import { Notification } from "@/components/Notification";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { PageLoader } from "@/components/PageLoader";
 
 // Code splitting: Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -19,6 +18,9 @@ const AdminPanel = lazy(() => import("./components/AdminPanel"));
 const Login = lazy(() => import("./pages/Login"));
 const ServiceDetails = lazy(() => import("./pages/ServiceDetails"));
 const Payment = lazy(() => import("./pages/Payment"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
+const ClientPanel = lazy(() => import("./pages/ClientPanel"));
 const PlanCustomizer = lazy(() => import("./pages/PlanCustomizer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -42,7 +44,7 @@ const App = () => (
               <Sonner />
               <Notification />
               <BrowserRouter>
-                <Suspense fallback={<PageLoader />}>
+                <Suspense fallback={null}>
                   <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/admin/gsm" element={<Admin />} />
@@ -50,6 +52,9 @@ const App = () => (
                     <Route path="/login" element={<Login />} />
                     <Route path="/service-details" element={<ServiceDetails />} />
                     <Route path="/payment" element={<Payment />} />
+                    <Route path="/checkout/seguro" element={<Checkout />} />
+                    <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />
+                    <Route path="/painel/:token" element={<ClientPanel />} />
                     <Route path="/customize-plan" element={<PlanCustomizer />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />

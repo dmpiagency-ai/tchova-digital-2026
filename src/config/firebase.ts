@@ -1,8 +1,8 @@
 // Firebase Configuration - Modular and Easy to Connect/Disconnect
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getAnalytics, isSupported } from 'firebase/analytics';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getAuth, connectAuthEmulator, Auth } from 'firebase/auth';
+import { getAnalytics, isSupported, Analytics } from 'firebase/analytics';
+import { getFirestore, connectFirestoreEmulator, Firestore } from 'firebase/firestore';
 
 // Firebase Configuration Object
 // 🔌 PLUG-IN: Replace with your Firebase project config
@@ -22,7 +22,7 @@ const isDevelopment = import.meta.env.DEV;
 const useEmulator = import.meta.env.VITE_USE_FIREBASE_EMULATOR === 'true';
 
 // Initialize Firebase App (Singleton)
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+export const app: FirebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 // 🔌 PLUG-IN: Authentication Service
 export const auth = getAuth(app);
@@ -31,9 +31,22 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // 🔌 PLUG-IN: Analytics (only in production and when supported)
-export const analytics = isProduction ? await isSupported().then(supported =>
-  supported ? getAnalytics(app) : null
-).catch(() => null) : null;
+export let analytics: Analytics | null = null;
+
+if (isProduction) {
+  isSupported().then(supported => {
+    if (supported) {
+      try {
+        analytics = getAnalytics(app);
+      } catch (error) {
+        console.error('Failed to initialize analytics:', error);
+        analytics = null;
+      }
+    }
+  }).catch(() => {
+    analytics = null;
+  });
+}
 
 // 🔌 PLUG-IN: Emulator Setup (Development Only)
 if (isDevelopment && useEmulator) {
@@ -68,5 +81,3 @@ export const getFirebaseStatus = () => ({
   environment: isProduction ? 'production' : 'development',
   emulator: useEmulator ? 'active' : 'inactive'
 });
-
-export default app;

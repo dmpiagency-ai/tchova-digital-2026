@@ -263,7 +263,21 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
   };
 };
 
+// 🔌 PLUG-IN: Unified Auth Hook - Always call both hooks internally to satisfy React rules
+// This hook decides at runtime which implementation to use based on feature flag
+export const useAuth = (): UseFirebaseAuthReturn => {
+  const authEnabled = isFeatureEnabled('auth');
+  
+  // Always call both hooks to satisfy React Hooks rules
+  const firebaseAuth = useFirebaseAuth();
+  const mockAuth = useMockAuth();
+  
+  // Return the appropriate implementation based on feature flag
+  return authEnabled ? firebaseAuth : mockAuth;
+};
+
 // 🔌 PLUG-IN: Fallback Hook for when auth is disabled
+// This hook is always called to satisfy React Hooks rules, but only used when auth is disabled
 export const useMockAuth = (): UseFirebaseAuthReturn => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
@@ -324,7 +338,7 @@ export const useMockAuth = (): UseFirebaseAuthReturn => {
     console.log('Mock: Password reset for', email);
   };
 
-  const updateUserProfile = async (updates: any) => {
+  const updateUserProfile = async (updates: { displayName?: string; photoURL?: string }) => {
     if (user) {
       setUser({ ...user, ...updates });
     }
@@ -342,9 +356,4 @@ export const useMockAuth = (): UseFirebaseAuthReturn => {
     resetPassword,
     updateUserProfile
   };
-};
-
-// 🔌 PLUG-IN: Auto-select hook based on feature flag
-export const useAuth = () => {
-  return isFeatureEnabled('auth') ? useFirebaseAuth() : useMockAuth();
 };

@@ -1,287 +1,232 @@
-import { MessageCircle, Sparkles, Zap, ArrowDown } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { env } from '@/config/env';
+import { TextLoop } from '@/components/ui/text-loop';
+
+const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1771006702/0213_3_ftmadc.mp4';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [entranceComplete, setEntranceComplete] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    setIsLoaded(true);
+    const entranceTimer = setTimeout(() => setIsLoaded(true), 100);
+    const completeTimer = setTimeout(() => setEntranceComplete(true), 1500);
+    const scrollTimer = setTimeout(() => setShowScrollIndicator(false), 3000);
     
-    // Hide scroll indicator after 3 seconds
-    const timer = setTimeout(() => setShowScrollIndicator(false), 3000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(entranceTimer);
+      clearTimeout(completeTimer);
+      clearTimeout(scrollTimer);
+    };
   }, []);
 
-  // Detect desktop viewport and reduced motion preference
   useEffect(() => {
-    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
-    checkDesktop();
-    window.addEventListener('resize', checkDesktop);
-
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(media.matches);
     const onChange = () => setPrefersReducedMotion(media.matches);
-    onChange();
-
-    if (media.addEventListener) {
-      media.addEventListener('change', onChange);
-    } else {
-      // Safari fallback
-      media.addListener(onChange);
-    }
-
-    return () => {
-      window.removeEventListener('resize', checkDesktop);
-      if (media.removeEventListener) {
-        media.removeEventListener('change', onChange);
-      } else {
-        media.removeListener(onChange);
-      }
-    };
+    media.addEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
   }, []);
 
-
-  // Parallax scroll effect for background (desktop only, respects reduced-motion)
   useEffect(() => {
-    if (!isDesktop || prefersReducedMotion) return;
-
-    let ticking = false;
-    const parallax = document.querySelector('.parallax-bg') as HTMLElement;
-
-    const update = () => {
-      ticking = false;
-      const scrolled = window.pageYOffset;
-      if (parallax) {
-        parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-      }
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    };
-
+    if (prefersReducedMotion || !entranceComplete) return;
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prefersReducedMotion, entranceComplete]);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll as EventListener);
-    };
-  }, [isDesktop, prefersReducedMotion]);
+  const handleVideoEnded = useCallback(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   return (
     <section
       ref={heroRef}
       id="home"
-      className="relative min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden py-4 sm:py-6 lg:py-12"
+      className="tech-hero relative overflow-hidden h-screen flex items-center justify-start pt-16"
     >
-      
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
+      {/* Background Video with Parallax */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          transform: prefersReducedMotion 
+            ? 'none' 
+            : entranceComplete 
+              ? `translateY(${scrollY * 0.3}px)` 
+              : 'translateY(0)',
+          transition: 'transform 0.1s linear',
+        }}
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          onEnded={handleVideoEnded}
+          className="w-full h-full object-cover"
           style={{
-            backgroundImage: 'url(https://res.cloudinary.com/dwlfwnbt0/image/upload/v1764162732/bg-site_l56chg_2048x1148_dzunhj.jpg)'
+            filter: 'brightness(0.85) contrast(1.05) saturate(0.95) blur(0.5px)',
+            transform: prefersReducedMotion 
+              ? 'none' 
+              : entranceComplete 
+                ? `scale(1.15) translateY(-${scrollY * 0.15}px)` 
+                : 'scale(1.3)',
+            opacity: isLoaded ? 1 : 0,
+            transition: entranceComplete 
+              ? 'transform 0.1s linear' 
+              : 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-out',
+          }}
+        >
+          <source src={VIDEO_URL} type="video/mp4" />
+        </video>
+
+        {/* Overlay */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.8s ease-out 0.3s',
           }}
         />
-
-        {/* Overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
       </div>
 
-      {/* Subtle gradient effects only */}
-      <div className="absolute inset-0 transition-all duration-1000 ease-out" style={{
-        backgroundImage: `radial-gradient(circle at 25% 25%, hsla(var(--primary) / ${isLoaded ? '0.1' : '0'}) 0%, transparent 50%),
-                         radial-gradient(circle at 75% 75%, hsla(var(--accent) / ${isLoaded ? '0.08' : '0'}) 0%, transparent 50%)`
-      }} />
-
-      {/* Enhanced Floating particles with staggered animation */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute ${isLoaded ? 'animate-float' : 'opacity-0'}`}
+      {/* Main Content - Left Aligned */}
+      <div className="container relative z-10 mx-auto px-5 sm:px-6 lg:px-12">
+        <div 
+          className="w-full max-w-2xl space-y-3.5 sm:space-y-4 lg:space-y-6"
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.8s ease-out 0.4s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+          }}
+        >
+          {/* Badge - Ecosystem 360 */}
+          <div 
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-green-400/10 border border-green-400/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${4 + i * 0.5}s`
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateX(0)' : 'translateX(-20px)',
+              transition: 'opacity 0.6s ease-out 0.5s, transform 0.6s ease-out 0.5s',
             }}
           >
-            <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4 text-primary/40 hover:text-primary/60 transition-colors duration-300`} />
+            <span className="text-[13px] sm:text-sm font-bold text-green-400">Ecossistema 360° Digital & Técnico</span>
           </div>
-        ))}
+
+          {/* Main Headline */}
+          <h1 
+            className="text-[28px] sm:text-[38px] md:text-[48px] lg:text-[60px] font-extrabold tracking-[-0.02em] leading-[1.1] sm:leading-[1.05] text-white"
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.6s ease-out 0.6s, transform 0.6s ease-out 0.6s',
+            }}
+          >
+            <span style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>Tudo para lançar,</span>
+            <br />
+            <span 
+              className="text-primary"
+              style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}
+            >
+              promover e equipar
+            </span>
+            <br />
+            <span style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>o seu negócio</span>
+          </h1>
+
+          {/* Rotating Text - Services by Category */}
+          <div 
+            className="text-[18px] sm:text-[22px] md:text-[28px] lg:text-[34px] font-bold text-white/90 leading-[1.15] sm:leading-[1.1]"
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.6s ease-out 0.7s, transform 0.6s ease-out 0.7s',
+            }}
+          >
+            <TextLoop interval={3} transition={{ duration: 0.4 }}>
+              <span>Design que impacta e marca</span>
+              <span>Sites e Apps online,<br />vendendo sem parar</span>
+              <span>Marketing estratégico,<br />tráfego que converte</span>
+              <span>Audiovisual que comunica</span>
+              <span>Importação que facilita</span>
+              <span>GSM Mobile que resolve</span>
+            </TextLoop>
+          </div>
+
+          {/* Short Subheadline */}
+          <p 
+            className="text-[15px] sm:text-base lg:text-lg text-white/70 font-medium max-w-lg leading-relaxed"
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.6s ease-out 0.8s, transform 0.6s ease-out 0.8s',
+            }}
+          >
+            Do <span className="font-bold text-white">design</span> à <span className="font-bold text-white">venda online</span>, do <span className="font-bold text-white">marketing</span> à <span className="font-bold text-white">importação</span> e <span className="font-bold text-white">assistência GSM mobile</span> — a <span className="font-bold text-primary">Tchova resolve</span> num só lugar.
+          </p>
+
+          {/* CTA Buttons */}
+          <div 
+            className="flex flex-col sm:flex-row justify-start items-stretch sm:items-start gap-2.5 sm:gap-3 pt-1 sm:pt-2"
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.6s ease-out 0.9s, transform 0.6s ease-out 0.9s',
+            }}
+          >
+            {/* Primary CTA */}
+            <Button
+              size="lg"
+              className="rounded-[22px] sm:rounded-[24px] py-3 sm:py-3.5 px-6 sm:px-8 font-bold transition-all duration-400 bg-gradient-to-r from-[#22C55E] to-emerald-600 border-2 border-green-400 text-white hover:from-[#16A34A] hover:to-emerald-700 hover:border-green-500 text-[15px] sm:text-base lg:text-lg hover:scale-[1.02] sm:hover:scale-105 hover:shadow-xl w-full sm:w-auto min-h-[50px] sm:min-h-[52px] lg:min-h-[56px] shadow-lg shadow-green-500/25"
+              onClick={() => {
+                const message = encodeURIComponent('Olá! Quero saber mais sobre o ecossistema 360°.');
+                window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+              }}
+            >
+              Começar agora
+            </Button>
+            {/* Secondary CTA - Glassmorphism */}
+            <Button
+              variant="ghost"
+              size="lg"
+              className="rounded-[22px] sm:rounded-[24px] py-3 sm:py-3.5 px-6 sm:px-8 font-medium transition-all duration-300 border border-white/20 text-white/90 hover:bg-white/20 hover:border-white/40 hover:text-white text-[15px] sm:text-base lg:text-lg w-full sm:w-auto min-h-[50px] sm:min-h-[52px] lg:min-h-[56px] backdrop-blur-xl bg-white/10 shadow-lg shadow-black/10"
+              onClick={() => document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Ver Serviços
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Enhanced Glassmorphism container */}
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className={`max-w-5xl mx-auto space-y-3 sm:space-y-4 lg:space-y-6 transition-all duration-1000 ${isLoaded ? 'animate-fade-up opacity-100' : 'opacity-0 translate-y-10'}`}>
-
-           {/* Enhanced Typographic hierarchy */}
-           <div className="space-y-4 sm:space-y-6">
-             <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">
-               <span className="block mb-2 sm:mb-3 drop-shadow-lg">
-                 <span className="gradient-text">Criatividade que Vende</span>
-               </span>
-               <span className="block drop-shadow-lg">
-                 <span className="text-yellow-300 dark:text-yellow-400 font-extrabold">Tecnologia que </span>
-                 <span className="text-yellow-300 dark:text-yellow-400 font-extrabold">Resolve</span>
-               </span>
-             </h1>
-           </div>
-
-           <p className={`text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-yellow-100 dark:text-yellow-200 font-medium leading-relaxed max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto drop-shadow-lg transition-all duration-700 delay-500 ${isLoaded ? 'animate-fade-up opacity-100' : 'opacity-0 translate-y-10'}`}>
-             Tudo no Mesmo Lugar, Sem Complicação. <span className="text-yellow-200 dark:text-yellow-300 font-semibold">Do Design Top ao Suporte que Resolve Tudo.</span>
-           </p>
-
-           {/* Enhanced CTA Buttons with Original Effects */}
-           <div className={`flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 transition-all duration-700 delay-300 ${isLoaded ? 'animate-fade-up opacity-100' : 'opacity-0 translate-y-10'}`}>
-
-             <Button
-               size="lg"
-               className="modern-cta-button button-enhanced bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-green-600 hover:border-green-600 font-bold px-3 sm:px-4 md:px-6 lg:px-8 xl:px-9 py-2.5 sm:py-3 md:py-4 lg:py-4 xl:py-5 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl hover-lift transition-all duration-300 w-full sm:w-auto relative overflow-hidden group hover:scale-105 hover:shadow-2xl active:bg-green-700 active:border-green-700"
-               onClick={(e) => {
-                 // Enhanced ripple effect
-                 const button = e.currentTarget;
-                 const ripple = document.createElement('span');
-                 const rect = button.getBoundingClientRect();
-                 const size = Math.max(rect.width, rect.height);
-                 const x = e.clientX - rect.left - size / 2;
-                 const y = e.clientY - rect.top - size / 2;
-
-                 ripple.style.width = ripple.style.height = size + 'px';
-                 ripple.style.left = x + 'px';
-                 ripple.style.top = y + 'px';
-                 ripple.classList.add('ripple');
-
-                 button.appendChild(ripple);
-
-                 setTimeout(() => {
-                   ripple.remove();
-                   document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' });
-                 }, 300);
-               }}
-             >
-               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
-               <Zap className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6 mr-1.5 sm:mr-2 text-green-400 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 relative z-10 drop-shadow-sm flex-shrink-0" />
-               <span className="relative z-10 font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl tracking-wide text-green-400 group-hover:text-white drop-shadow-sm truncate">VER O QUE FAZEMOS</span>
-             </Button>
-
-             <Button
-               variant="outline"
-               size="lg"
-               className="modern-cta-button button-enhanced bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-yellow-400 hover:text-yellow-900 hover:border-yellow-400 font-bold px-3 sm:px-4 md:px-6 lg:px-8 xl:px-9 py-2.5 sm:py-3 md:py-4 lg:py-4 xl:py-5 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl hover-lift transition-all duration-500 w-full sm:w-auto relative overflow-hidden group shadow-[0_8px_32px_rgba(34,197,94,0.15)] hover:shadow-[0_12px_40px_rgba(251,191,36,0.25)] hover:scale-105 active:bg-yellow-500 active:text-yellow-900 active:border-yellow-500"
-               onClick={(e) => {
-                 // Enhanced ripple effect for WhatsApp button
-                 const button = e.currentTarget;
-                 const ripple = document.createElement('span');
-                 const rect = button.getBoundingClientRect();
-                 const size = Math.max(rect.width, rect.height);
-                 const x = e.clientX - rect.left - size / 2;
-                 const y = e.clientY - rect.top - size / 2;
-
-                 ripple.style.width = ripple.style.height = size + 'px';
-                 ripple.style.left = x + 'px';
-                 ripple.style.top = y + 'px';
-                 ripple.classList.add('ripple');
-
-                 button.appendChild(ripple);
-
-                 setTimeout(() => {
-                   ripple.remove();
-                   const message = encodeURIComponent('Olá! Vi seu site e quero transformar meu negócio em digital. Podemos conversar sobre como a TchovaDigital pode ajudar?');
-                   window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
-                 }, 300);
-               }}
-             >
-               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
-               <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6 mr-1.5 sm:mr-2 text-yellow-400 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 relative z-10 drop-shadow-sm flex-shrink-0" />
-               <span className="relative z-10 font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl tracking-wide text-yellow-400 group-hover:text-white drop-shadow-sm truncate">VAMOS CONVERSAR</span>
-             </Button>
-           </div>
-
-           {/* Trust Signals & Stats */}
-           <div className={`space-y-4 transition-all duration-700 delay-1000 ${isLoaded ? 'animate-fade-up opacity-100' : 'opacity-0 translate-y-10'}`}>
-             {/* Trust Badges */}
-             <div className="flex justify-center items-center gap-3 sm:gap-4 flex-wrap">
-               <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
-                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                 <span className="text-xs font-medium text-white">100% Seguro</span>
-               </div>
-               <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
-                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                 <span className="text-xs font-medium text-white">Suporte 24/7</span>
-               </div>
-               <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
-                 <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                 <span className="text-xs font-medium text-white">Satisfação Garantida</span>
-               </div>
-             </div>
-
-             {/* Enhanced Stats with counter animation */}
-             <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-sm sm:max-w-lg mx-auto">
-               {[
-                 { number: '100+', label: 'Projetos', suffix: '', type: 'projects' },
-                 { number: '50+', label: 'Clientes', suffix: '', type: 'clients' },
-                 { number: '3+', label: 'Anos', suffix: '', type: 'years' }
-               ].map((stat, index) => (
-                 <div key={index} className="text-center p-2 sm:p-3 rounded-lg sm:rounded-xl transition-all duration-300 hover:bg-primary/10 dark:hover:bg-primary/5 hover:scale-105 group cursor-pointer">
-                   <div className="flex items-center justify-center mb-1 drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-                     {/* Liquid Glass Icons - Matching Text Colors */}
-                     {stat.type === 'projects' && (
-                       <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded-full bg-gradient-to-br from-yellow-400/20 to-orange-600/20 backdrop-blur-sm border border-yellow-400/30 shadow-inner flex items-center justify-center mr-1">
-                         <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-sm transform rotate-45 shadow-lg"></div>
-                       </div>
-                     )}
-                     {stat.type === 'clients' && (
-                       <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded-full bg-gradient-to-br from-yellow-400/20 to-orange-600/20 backdrop-blur-sm border border-yellow-400/30 shadow-inner flex items-center justify-center mr-1">
-                         <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-sm relative">
-                           <div className="absolute -top-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-yellow-200 to-orange-300 rounded-full"></div>
-                         </div>
-                       </div>
-                     )}
-                     {stat.type === 'years' && (
-                       <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded-full bg-gradient-to-br from-yellow-400/20 to-orange-600/20 backdrop-blur-sm border border-yellow-400/30 shadow-inner flex items-center justify-center mr-1">
-                         <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-sm transform rotate-45 relative">
-                           <div className="absolute inset-0 bg-gradient-to-r from-yellow-200 to-orange-300 rounded-sm opacity-60"></div>
-                         </div>
-                       </div>
-                     )}
-                     <span className="text-sm sm:text-base lg:text-lg font-bold text-yellow-300 dark:text-yellow-400">
-                       {stat.number}
-                     </span>
-                   </div>
-                   <div className="text-xs sm:text-sm text-yellow-100 dark:text-yellow-200 font-medium leading-tight drop-shadow-sm">
-                     {stat.label}
-                   </div>
-                 </div>
-               ))}
-             </div>
-           </div>
-         </div>
-      </div>
-
-      {/* Enhanced Scroll indicator with better UX */}
+      {/* Scroll indicator */}
       {showScrollIndicator && (
-        <div className={`absolute bottom-4 xs:bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-700 ${isLoaded ? (prefersReducedMotion ? 'opacity-100' : 'animate-bounce opacity-100') : 'opacity-0'}`}>
+        <div 
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10"
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            animation: isLoaded && !prefersReducedMotion ? 'bounce 2s infinite 1.5s' : 'none',
+            transition: 'opacity 0.6s ease-out 1.2s',
+          }}
+        >
           <button
             onClick={() => document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group flex flex-col items-center space-y-2 p-3 rounded-full hover:bg-white/10 transition-all duration-300"
-            aria-label="Scroll to services"
+            className="group flex flex-col items-center space-y-1 p-2 rounded-full hover:bg-white/10 transition-all duration-300"
+            aria-label="Ver serviços"
           >
-            <div className="w-5 h-8 xs:w-6 xs:h-10 border-2 border-primary/60 dark:border-primary/70 rounded-full flex justify-center p-1 group-hover:border-primary transition-colors duration-300">
-              <div className="w-0.5 h-2 xs:h-3 bg-primary dark:bg-primary/90 rounded-full mt-1 xs:mt-2 animate-pulse" />
+            <div className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center p-1 group-hover:border-white/60 transition-colors">
+              <div className="w-0.5 h-2 bg-white/60 rounded-full animate-pulse" />
             </div>
-            <span className="text-xs text-primary/60 dark:text-primary/70 group-hover:text-primary transition-colors duration-300">
-              Rolar
-            </span>
-            <ArrowDown className="w-3 h-3 text-primary/60 dark:text-primary/70 animate-bounce" />
+            <ArrowDown className="w-3 h-3 text-white/40" />
           </button>
         </div>
       )}

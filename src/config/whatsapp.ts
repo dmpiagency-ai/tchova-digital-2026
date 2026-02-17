@@ -110,7 +110,7 @@ export async function sendWhatsAppMessage(
 ): Promise<{ success: boolean; method: 'api' | 'fallback'; data?: any; error?: string }> {
   try {
     // Clean phone number (remove + and spaces)
-    const cleanNumber = phoneNumber.replace(/[\+\s]/g, '');
+    const cleanNumber = phoneNumber.replace(/[+\s]/g, '');
 
     if (useAPI && whatsappService.isConfigured()) {
       // Use WhatsApp Business API

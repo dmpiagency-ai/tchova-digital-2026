@@ -21,6 +21,7 @@ import {
   Loader2
 } from 'lucide-react';
 import logo from '@/assets/logo.svg';
+import { registerLocalUser, isUsingLocalAuth } from '@/services/localAuthService';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
 
@@ -82,35 +84,42 @@ const Login = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setErrors({});
+    setSuccessMessage('');
     
     try {
-      // For registration, we'll store extra data in localStorage for now
+      // Handle registration
       if (formData.isRegistering) {
-        localStorage.setItem('pendingUserData', JSON.stringify({
-          name: formData.name,
-          phone: formData.phone
-        }));
-      }
-      
-      const success = await login(formData.email, formData.password);
-      
-      if (success) {
-        // If this was a registration, update the user data
-        if (formData.isRegistering) {
-          const pendingData = localStorage.getItem('pendingUserData');
-          if (pendingData) {
-            const data = JSON.parse(pendingData);
-            const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-            const updatedUser = { ...currentUser, ...data };
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-            localStorage.removeItem('pendingUserData');
+        if (isUsingLocalAuth()) {
+          // Local registration
+          const result = registerLocalUser({
+            email: formData.email,
+            password: formData.password,
+            name: formData.name,
+            phone: formData.phone
+          });
+          
+          if (result.success) {
+            setSuccessMessage('Conta criada com sucesso! Faça login para continuar.');
+            setFormData(prev => ({ ...prev, isRegistering: false }));
+            setIsSubmitting(false);
+            return;
+          } else {
+            setErrors({ submit: result.error || 'Erro ao criar conta' });
+            setIsSubmitting(false);
+            return;
           }
         }
-        
+      }
+      
+      // Handle login
+      const result = await login(formData.email, formData.password);
+      
+      if (result.success) {
         // Navigate to intended page or home
         navigate(from, { replace: true });
       } else {
-        setErrors({ submit: 'Email ou senha incorretos' });
+        setErrors({ submit: result.error || 'Email ou senha incorretos' });
       }
     } catch (error: unknown) {
       setErrors({ submit: error instanceof Error ? error.message : 'Erro ao fazer login' });
@@ -122,6 +131,7 @@ const Login = () => {
   const toggleMode = () => {
     setFormData(prev => ({ ...prev, isRegistering: !prev.isRegistering }));
     setErrors({});
+    setSuccessMessage('');
   };
 
   return (
@@ -146,7 +156,7 @@ const Login = () => {
       </div>
 
       <div className="flex items-center justify-center min-h-screen p-4">
-        <Card className="w-full max-w-md backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 shadow-2xl animate-fade-up">
+        <Card className="w-full max-w-md backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-white/5 border border-white/20 shadow-2xl animate-fade-up rounded-[48px]">
           <CardHeader className="text-center space-y-4 pb-6">
             {/* Logo */}
             <div className="flex items-center justify-center space-x-3">
@@ -184,7 +194,7 @@ const Login = () => {
                         placeholder="Seu nome completo"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground ${errors.name ? 'border-red-500' : ''}`}
+                        className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground rounded-[16px] ${errors.name ? 'border-red-500' : ''}`}
                       />
                     </div>
                     {errors.name && (
@@ -207,7 +217,7 @@ const Login = () => {
                         placeholder="+258 8X XXX XXXX"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground ${errors.phone ? 'border-red-500' : ''}`}
+                        className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground rounded-[16px] ${errors.phone ? 'border-red-500' : ''}`}
                       />
                     </div>
                     {errors.phone && (
@@ -233,7 +243,7 @@ const Login = () => {
                     placeholder="seu@email.com"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground ${errors.email ? 'border-red-500' : ''}`}
+                    className={`pl-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground rounded-[16px] ${errors.email ? 'border-red-500' : ''}`}
                   />
                 </div>
                 {errors.email && (
@@ -257,7 +267,7 @@ const Login = () => {
                     placeholder="Sua senha"
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
-                    className={`pl-10 pr-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground ${errors.password ? 'border-red-500' : ''}`}
+                    className={`pl-10 pr-10 backdrop-blur-md bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground rounded-[16px] ${errors.password ? 'border-red-500' : ''}`}
                   />
                   <button
                     type="button"
@@ -283,11 +293,29 @@ const Login = () => {
                 </Alert>
               )}
 
+              {/* Success Message */}
+              {successMessage && (
+                <Alert className="border-green-200 bg-green-50/10">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <AlertDescription className="text-sm text-green-600">{successMessage}</AlertDescription>
+                </Alert>
+              )}
+
+              {/* Demo Credentials Info */}
+              {!formData.isRegistering && isUsingLocalAuth() && (
+                <Alert className="border-blue-200 bg-blue-50/10">
+                  <AlertCircle className="h-4 w-4 text-blue-500" />
+                  <AlertDescription className="text-xs text-blue-600">
+                    <strong>Demo:</strong> admin@tchova.digital / admin123
+                  </AlertDescription>
+                </Alert>
+              )}
+
               {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={isSubmitting || isLoading}
-                className="w-full h-11 text-sm font-bold bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 rounded-xl"
+                className="w-full h-11 text-sm font-bold bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-400 rounded-[24px]"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -316,7 +344,7 @@ const Login = () => {
               <Button
                 variant="outline"
                 onClick={toggleMode}
-                className="w-full h-9 text-sm font-semibold backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-primary/50 text-foreground hover:text-primary transition-all duration-300 rounded-xl"
+                className="w-full h-9 text-sm font-semibold backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-[#22C55E]/50 text-foreground hover:text-[#22C55E] transition-all duration-400 rounded-[24px]"
               >
                 {formData.isRegistering ? 'Entrar na Conta' : 'Criar Nova Conta'}
               </Button>

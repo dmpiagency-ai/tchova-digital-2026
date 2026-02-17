@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
+import HowItWorks from '@/components/HowItWorks';
 import About from '@/components/About';
 import Pricing from '@/components/Pricing';
 import Contact from '@/components/Contact';
@@ -12,10 +12,10 @@ import GSMDashboard from '@/components/GSMDashboard';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
 
-// View type for navigation state
+// View types
 type ViewType = 'home' | 'gsm-login' | 'login' | 'gsm-dashboard' | 'dashboard' | 'tool-rental';
 
-// User interface for authentication state
+// Interfaces
 interface User {
   id: string;
   name: string;
@@ -25,21 +25,19 @@ interface User {
   partnerReferral?: string;
 }
 
-// Service data interface
 interface ServiceData {
   title: string;
   type: string;
   requiresLogin: boolean;
 }
 
-// Login credentials interface
 interface LoginCredentials {
   email: string;
   password: string;
   whatsapp?: string;
 }
 
-// Extend window object for service routing
+// Extend window for service routing
 declare global {
   interface Window {
     handleServiceAccess?: (serviceType: string, serviceData?: ServiceData | null) => void;
@@ -47,8 +45,7 @@ declare global {
 }
 
 const Index = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [selectedService, setSelectedService] = useState<{ type: string; data?: ServiceData } | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -305,7 +302,7 @@ const Index = () => {
                         />
                         <button
                           type="submit"
-                          className="w-full neo hover-lift px-3 py-3 rounded-lg font-semibold text-sm transition-all duration-300"
+                          className="tech-button w-full rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-3 font-semibold text-sm"
                         >
                           Criar conta
                         </button>
@@ -317,20 +314,29 @@ const Index = () => {
                   <div className="neo p-4 rounded-xl border">
                     <div className="grid grid-cols-2 gap-3 mb-4">
                       <button
-                        onClick={() => navigate('/payment?service=GSM%20Saldo%20-%20500&amount=500')}
-                        className="neo hover-lift px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300"
+                        onClick={() => {
+                          const message = encodeURIComponent(`Olá! Gostaria de adicionar 500 MZN de saldo ao meu GSM.`);
+                          window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                        }}
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-3 font-semibold text-xs"
                       >
                         500 MZN
                       </button>
                       <button
-                        onClick={() => navigate('/payment?service=GSM%20Saldo%20-%201000&amount=1000')}
-                        className="neo hover-lift px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300"
+                        onClick={() => {
+                          const message = encodeURIComponent(`Olá! Gostaria de adicionar 1000 MZN de saldo ao meu GSM.`);
+                          window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                        }}
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-3 font-semibold text-xs"
                       >
                         1000 MZN
                       </button>
                       <button
-                        onClick={() => navigate('/payment?service=GSM%20Saldo%20-%202000&amount=2000')}
-                        className="neo hover-lift px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300"
+                        onClick={() => {
+                          const message = encodeURIComponent(`Olá! Gostaria de adicionar 2000 MZN de saldo ao meu GSM.`);
+                          window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                        }}
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-3 font-semibold text-xs"
                       >
                         2000 MZN
                       </button>
@@ -339,7 +345,7 @@ const Index = () => {
                           const message = encodeURIComponent(`Olá! Gostaria de adicionar saldo ao meu GSM.`);
                           window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                         }}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300 flex items-center justify-center"
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-3 py-3 font-semibold text-xs flex items-center justify-center"
                       >
                         <span>💳</span>
                         Outros
@@ -349,7 +355,7 @@ const Index = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         onClick={() => setCurrentView('gsm-dashboard')}
-                        className="neo hover-lift px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300 flex items-center justify-center"
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-3 font-semibold text-xs flex items-center justify-center"
                       >
                         <span className="mr-1">🔧</span>
                         GSM
@@ -359,7 +365,7 @@ const Index = () => {
                           const message = encodeURIComponent(`Olá! Preciso de suporte GSM.`);
                           window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                         }}
-                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-3 rounded-lg font-semibold text-xs transition-all duration-300 flex items-center justify-center"
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 bg-green-500 hover:bg-green-600 text-white px-3 py-3 font-semibold text-xs flex items-center justify-center"
                       >
                         <span className="mr-1">💬</span>
                         Suporte
@@ -370,7 +376,7 @@ const Index = () => {
                   {/* Back Button */}
                   <button
                     onClick={() => setCurrentView('home')}
-                    className="w-full neo hover-lift px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center justify-center"
+                    className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full neo hover-lift px-4 py-3 font-semibold text-sm flex items-center justify-center"
                   >
                     ← Voltar
                   </button>
@@ -401,7 +407,7 @@ const Index = () => {
                       <div className="space-y-2">
                         <button
                           onClick={() => setCurrentView('gsm-dashboard')}
-                          className="w-full neo hover-lift px-3 py-2 rounded-lg font-semibold text-xs transition-all duration-300 flex items-center justify-center"
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full neo hover-lift px-3 py-2 font-semibold text-xs flex items-center justify-center"
                         >
                           <span className="mr-1">🔧</span>
                           GSM
@@ -411,7 +417,7 @@ const Index = () => {
                             const message = encodeURIComponent(`Olá! Preciso de suporte GSM.`);
                             window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                           }}
-                          className="w-full bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-xs transition-all duration-300 flex items-center justify-center"
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full bg-green-500 hover:bg-green-600 text-white px-3 py-2 font-semibold text-xs flex items-center justify-center"
                         >
                           <span className="mr-1">💬</span>
                           Suporte
@@ -460,7 +466,7 @@ const Index = () => {
                           />
                           <button
                             type="submit"
-                            className="w-full neo hover-lift px-3 py-2 rounded-lg font-semibold text-sm transition-all duration-300"
+                            className="tech-button w-full rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-3 py-2 font-semibold text-sm"
                           >
                             Criar conta
                           </button>
@@ -471,7 +477,7 @@ const Index = () => {
                     {/* Back Button */}
                     <button
                       onClick={() => setCurrentView('home')}
-                      className="w-full neo hover-lift px-3 py-2 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center"
+                      className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full neo hover-lift px-3 py-2 font-semibold text-sm flex items-center justify-center"
                     >
                       ← Voltar
                     </button>
@@ -486,20 +492,29 @@ const Index = () => {
                       </h3>
                       <div className="grid grid-cols-2 gap-2 mb-3">
                         <button
-                          onClick={() => navigate('/payment?service=GSM%20Saldo%20-%20500&amount=500')}
-                          className="neo hover-lift px-2 py-2 rounded text-xs font-semibold transition-all duration-300"
+                          onClick={() => {
+                            const message = encodeURIComponent(`Olá! Gostaria de adicionar 500 MZN de saldo ao meu GSM.`);
+                            window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                          }}
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-2 py-2 text-xs font-semibold"
                         >
                           500
                         </button>
                         <button
-                          onClick={() => navigate('/payment?service=GSM%20Saldo%20-%201000&amount=1000')}
-                          className="neo hover-lift px-2 py-2 rounded text-xs font-semibold transition-all duration-300"
+                          onClick={() => {
+                            const message = encodeURIComponent(`Olá! Gostaria de adicionar 1000 MZN de saldo ao meu GSM.`);
+                            window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                          }}
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-2 py-2 text-xs font-semibold"
                         >
                           1000
                         </button>
                         <button
-                          onClick={() => navigate('/payment?service=GSM%20Saldo%20-%202000&amount=2000')}
-                          className="neo hover-lift px-2 py-2 rounded text-xs font-semibold transition-all duration-300"
+                          onClick={() => {
+                            const message = encodeURIComponent(`Olá! Gostaria de adicionar 2000 MZN de saldo ao meu GSM.`);
+                            window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                          }}
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 neo hover-lift px-2 py-2 text-xs font-semibold"
                         >
                           2000
                         </button>
@@ -508,7 +523,7 @@ const Index = () => {
                             const message = encodeURIComponent(`Olá! Gostaria de adicionar saldo ao meu GSM.`);
                             window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                           }}
-                          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-2 py-2 rounded text-xs font-semibold transition-all duration-300 flex items-center justify-center"
+                          className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-2 py-2 text-xs font-semibold flex items-center justify-center"
                         >
                           <span>💳</span>
                         </button>
@@ -544,7 +559,7 @@ const Index = () => {
                       const message = encodeURIComponent(`Olá! Gostaria de acessar o serviço "${serviceName}". Podemos conversar sobre os detalhes e próximos passos?`);
                       window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                     }}
-                    className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
+                    className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 transition-colors flex items-center justify-center gap-2 mb-4"
                   >
                     <span>💬 Conversar no WhatsApp</span>
                   </button>
@@ -588,7 +603,7 @@ const Index = () => {
                       </div>
                       <button
                         type="submit"
-                        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg transition-colors"
+                        className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 transition-colors"
                       >
                         Entrar
                       </button>
@@ -597,7 +612,7 @@ const Index = () => {
 
                   <button
                     onClick={() => setCurrentView('home')}
-                    className="w-full mt-4 text-primary hover:text-primary/80 font-medium"
+                    className="tech-button rounded-[24px] py-2 px-6 font-bold transition-all duration-400 w-full mt-4 text-primary hover:text-primary/80 font-medium"
                   >
                     ← Voltar ao site
                   </button>
@@ -617,36 +632,20 @@ const Index = () => {
       default:
         return (
           <>
-            {/* App loading screen - like mobile app */}
-            {isLoading && (
-              <div className="app-loading-screen">
-                <div className="loading-container">
-                  <div className="loading-logo-container">
-                    <img src="/logo.svg" alt="TchovaDigital" className="loading-logo" />
-                    <div className="loading-pulse"></div>
-                  </div>
-                  <div className="loading-text">TchovaDigital</div>
-                  <div className="loading-bar">
-                    <div className="loading-progress"></div>
-                  </div>
-                </div>
-              </div>
-            )}
-
+            {/* Header is outside app-main to ensure fixed positioning works */}
+            <Header />
 
             {/* Main app content */}
-            <div className={`app-main ${isLoading ? 'app-loading' : 'app-loaded'}`}>
-              <Header />
-              <main id="main-content" role="main" tabIndex={-1}>
-                <Hero />
-                <Services />
-                <About />
-                <Pricing />
-                <Contact />
-              </main>
-              <Footer />
-              <FloatingWhatsApp />
-            </div>
+            <main id="main-content" role="main" tabIndex={-1}>
+              <Hero />
+              <Services />
+              <HowItWorks />
+              <About />
+              <Pricing />
+              <Contact />
+            </main>
+            <Footer />
+            <FloatingWhatsApp />
           </>
         );
     }

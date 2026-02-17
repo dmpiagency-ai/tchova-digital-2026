@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
+import { PaymentType, PaymentStage, getPaymentStageLabel, getPaymentTypeLabel, getPaymentUIContext } from '@/types/payment';
 import {
   CreditCard,
   Smartphone,
@@ -26,7 +27,9 @@ import {
   TrendingUp,
   Gift,
   Award,
-  ArrowLeft
+  ArrowLeft,
+  FileText,
+  Rocket
 } from 'lucide-react';
 
 interface PaymentModalProps {
@@ -35,6 +38,11 @@ interface PaymentModalProps {
   onPaymentSuccess?: (result: PaymentResult) => void;
   initialAmount?: number;
   serviceName?: string;
+  paymentType?: PaymentType;
+  paymentStage?: PaymentStage;
+  description?: string;
+  deliverables?: string[];
+  timeline?: string;
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -42,9 +50,17 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   onClose,
   onPaymentSuccess,
   initialAmount = 0,
-  serviceName = 'Serviço Digital'
+  serviceName = 'Serviço Digital',
+  paymentType,
+  paymentStage,
+  description,
+  deliverables = [],
+  timeline
 }) => {
   const { user } = useAuth();
+  
+  // Get payment context for non-e-commerce language
+  const paymentContext = paymentType && paymentStage ? getPaymentUIContext(paymentType, paymentStage) : null;
   const [step, setStep] = useState<'methods' | 'details' | 'processing' | 'result'>('methods');
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
   const [amount, setAmount] = useState(initialAmount.toString());
@@ -166,7 +182,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                 placeholder="+258 84/85 XXX XXXX"
                 value={paymentData.phone || ''}
                 onChange={(e) => setPaymentData({...paymentData, phone: e.target.value})}
-                className="mt-2 h-12"
+                className="mt-2 h-12 rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
               />
             </div>
           </div>
@@ -182,7 +198,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                 placeholder="+258 82/83 XXX XXXX"
                 value={paymentData.phone || ''}
                 onChange={(e) => setPaymentData({...paymentData, phone: e.target.value})}
-                className="mt-2 h-12"
+                className="mt-2 h-12 rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
               />
             </div>
           </div>
@@ -209,7 +225,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                   placeholder="1234 5678 9012 3456"
                   value={paymentData.cardNumber || ''}
                   onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
-                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm"
+                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2 sm:gap-4">
@@ -220,7 +236,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                     placeholder="MM/AA"
                     value={paymentData.expiry || ''}
                     onChange={(e) => setPaymentData({...paymentData, expiry: e.target.value})}
-                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm"
+                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                   />
                 </div>
                 <div>
@@ -231,7 +247,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                     type="password"
                     value={paymentData.cvv || ''}
                     onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
-                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm"
+                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                   />
                 </div>
               </div>
@@ -242,7 +258,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                   placeholder="João Silva"
                   value={paymentData.cardName || ''}
                   onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
-                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm"
+                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                 />
               </div>
             </div>
@@ -340,7 +356,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-2 sm:p-4 animate-fade-in backdrop-blur-sm" data-modal-backdrop="payment">
-      <div className="bg-white dark:bg-card rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden animate-fade-up border border-white/20 relative flex flex-col lg:flex-row" data-modal="payment" style={{maxHeight: '95vh'}}>
+      <div className="tech-modal rounded-[48px] backdrop-blur-[20px] bg-white/90 dark:bg-black/90 w-full max-w-4xl overflow-hidden animate-fade-up border border-white/20 relative flex flex-col lg:flex-row" data-modal="payment" style={{maxHeight: '95vh'}}>
         
         {/* Desktop Layout - Side by Side */}
         <div className="hidden lg:flex w-full">
@@ -353,8 +369,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                   <Shield className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-foreground">Checkout Seguro</h2>
-                  <p className="text-sm text-gray-500 dark:text-muted-foreground">Processamento protegido</p>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-foreground">
+                    {paymentContext ? paymentContext.title : 'Pagamento Seguro'}
+                  </h2>
+                  <p className="text-sm text-gray-500 dark:text-muted-foreground">
+                    {paymentContext ? paymentContext.description : 'Processamento protegido'}
+                  </p>
                 </div>
               </div>
               <Button
@@ -377,11 +397,15 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-foreground">{serviceName}</h3>
-                      <p className="text-muted-foreground">Serviço digital profissional</p>
+                      <p className="text-muted-foreground">
+                        {paymentContext ? paymentContext.description : 'Serviço digital profissional'}
+                      </p>
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-primary">{totalPrice.toLocaleString()} MZN</div>
-                      <p className="text-sm text-muted-foreground">Valor do serviço</p>
+                      <p className="text-sm text-muted-foreground">
+                        {paymentContext ? 'Valor do pagamento' : 'Valor do serviço'}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -393,7 +417,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                 {/* Amount Input */}
                 <div className="bg-white/50 dark:bg-gray-800/50 rounded-2xl p-6 border">
                   <Label htmlFor="amount" className="text-lg font-semibold mb-4 block">
-                    💰 Valor do Investimento
+                    💰 {paymentContext ? 'Valor do Pagamento' : 'Valor do Investimento'}
                   </Label>
                   <div className="relative">
                     <Input
@@ -402,7 +426,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                       placeholder="3500"
                       value={amount}
                       onChange={(e) => handleAmountChange(e.target.value)}
-                      className="text-2xl font-bold h-16 border-2 focus:border-primary text-center"
+                      className="text-2xl font-bold h-16 rounded-[16px] border-gray-200 focus:ring-[#22C55E] text-center"
                       min="1"
                       max="100000"
                     />
@@ -514,8 +538,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                     className="h-14 text-lg font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300"
                   >
                     <Lock className="w-5 h-5 mr-2" />
-                    <span className="hidden sm:inline">🔒 Confirmar Pagamento - {finalTotal.toLocaleString()} MZN</span>
-                    <span className="sm:hidden">Confirmar - {finalTotal.toLocaleString()} MZN</span>
+                    <span className="hidden sm:inline">
+                      🔒 {paymentContext ? paymentContext.cta : `Confirmar Pagamento - ${finalTotal.toLocaleString()} MZN`}
+                    </span>
+                    <span className="sm:hidden">
+                      {paymentContext ? paymentContext.cta : `Confirmar - ${finalTotal.toLocaleString()} MZN`}
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -609,7 +637,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
           {/* Right Side - Summary */}
           <div className="w-80 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8 border-l border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-bold text-foreground mb-6">Resumo do Pedido</h3>
+            <h3 className="text-xl font-bold text-foreground mb-6">Resumo do Pagamento</h3>
             
             {/* Service Details */}
             <div className="space-y-4 mb-6">
@@ -689,10 +717,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-foreground">
-                  Checkout Seguro
+                  {paymentContext ? paymentContext.title : 'Pagamento Seguro'}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-muted-foreground">
-                  Processamento protegido
+                  {paymentContext ? paymentContext.description : 'Processamento protegido'}
                 </p>
               </div>
             </div>
@@ -727,7 +755,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                     placeholder="3500"
                     value={amount}
                     onChange={(e) => handleAmountChange(e.target.value)}
-                    className="text-xl font-bold h-12 border-2 focus:border-primary"
+                    className="text-xl font-bold h-12 rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
                     min="1"
                     max="100000"
                   />

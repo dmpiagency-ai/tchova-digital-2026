@@ -1,0 +1,275 @@
+/* StaggeredMenu.css - Animated Mobile Menu */
+
+.staggered-menu-wrapper {
+  --sm-accent: #22C55E;
+  --sm-bg: #0a0a0a;
+  --sm-text: #ffffff;
+  --sm-text-muted: rgba(255, 255, 255, 0.6);
+  position: relative;
+  z-index: 1000;
+}
+
+.staggered-menu-wrapper.fixed-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+}
+
+.staggered-menu-wrapper[data-position='left'] .sm-prelayers,
+.staggered-menu-wrapper[data-position='left'] .staggered-menu-panel {
+  left: 0;
+  right: auto;
+}
+
+.staggered-menu-wrapper[data-position='right'] .sm-prelayers,
+.staggered-menu-wrapper[data-position='right'] .staggered-menu-panel {
+  right: 0;
+  left: auto;
+}
+
+/* Prelayers - Animated background layers */
+.sm-prelayers {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sm-prelayer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* Header */
+.staggered-menu-header {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: transparent;
+}
+
+.sm-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sm-logo-img {
+  height: 28px;
+  width: auto;
+}
+
+.sm-logo-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+/* Dark mode */
+.dark .sm-logo-text {
+  color: #ffffff;
+}
+
+/* Toggle Button */
+.sm-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.sm-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sm-toggle:focus-visible {
+  outline: 2px solid var(--sm-accent);
+  outline-offset: 2px;
+}
+
+/* Toggle Text Animation */
+.sm-toggle-textWrap {
+  height: 1.25em;
+  overflow: hidden;
+  position: relative;
+}
+
+.sm-toggle-textInner {
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-toggle-line {
+  display: block;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+
+/* Toggle Icon (Plus) */
+.sm-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sm-icon-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.sm-icon-line-v {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Panel */
+.staggered-menu-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: var(--sm-bg);
+  z-index: 50;
+  will-change: transform;
+  overflow: hidden;
+}
+
+.sm-panel-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem 2rem;
+}
+
+/* Panel List */
+.sm-panel-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sm-panel-itemWrap {
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.sm-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--sm-text);
+  padding: 0.75rem 0;
+  transition: color 0.2s ease;
+}
+
+.sm-panel-item:hover {
+  color: var(--sm-accent);
+}
+
+.sm-panel-itemLabel {
+  display: inline-block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Numbering */
+.sm-panel-list[data-numbering] .sm-panel-item::before {
+  content: counter(item-counter, decimal-leading-zero);
+  counter-increment: item-counter;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--sm-accent);
+  opacity: var(--sm-num-opacity, 1);
+  transition: opacity 0.3s ease;
+  min-width: 2rem;
+}
+
+.sm-panel-list[data-numbering] {
+  counter-reset: item-counter;
+}
+
+/* Socials */
+.sm-socials {
+  margin-top: auto;
+  padding-top: 3rem;
+}
+
+.sm-socials-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sm-text-muted);
+  margin-bottom: 1rem;
+}
+
+.sm-socials-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sm-socials-link {
+  color: var(--sm-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.sm-socials-link:hover {
+  color: var(--sm-accent);
+}
+
+/* Desktop - Hide on larger screens */
+@media (min-width: 768px) {
+  .staggered-menu-wrapper {
+    display: none;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .sm-panel-itemLabel {
+    font-size: 2rem;
+  }
+  
+  .sm-panel-inner {
+    padding: 5rem 1.5rem 1.5rem;
+  }
+}

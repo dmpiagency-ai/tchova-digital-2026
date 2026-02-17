@@ -1,15 +1,7 @@
-import { Heart, ArrowUp, Facebook, Instagram } from 'lucide-react';
+import { ArrowUp, MessageCircle } from 'lucide-react';
 import { env } from '@/config/env';
 
 const Footer = () => {
-  const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Serviços', href: '#services' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Planos', href: '#planos' },
-    { name: 'Contacto', href: '#contact' },
-  ];
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -22,109 +14,73 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-muted/40 border-t border-border/30 relative">
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 lg:py-8">
+    <footer className="bg-muted/30 border-t border-border/20 relative">
+      <div className="container mx-auto px-4 py-8">
         
-        {/* Compact Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-4 lg:mb-6">
+        {/* Main Footer Content - Simplified */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           
-          {/* Brand Section */}
+          {/* Brand */}
           <div className="text-center md:text-left">
             <h3 className="text-lg font-bold gradient-text mb-2">
               TchovaDigital
             </h3>
-            <p className="text-muted-foreground mb-3 leading-relaxed text-sm">
-              Transformação digital local.
+            <p className="text-sm text-muted-foreground">
+              Soluções digitais para negócios que crescem
             </p>
-            <div className="flex justify-center md:justify-start">
-              <button
-                onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
-                className="glass-card hover-glow px-4 py-2 rounded-lg font-medium text-primary border border-primary/25 hover:bg-primary/10 transition-all duration-300 text-sm"
-              >
-                Conversar
-              </button>
-            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="text-center">
-            <h4 className="font-bold text-foreground mb-3 text-sm">Navegação</h4>
-            <nav className="space-y-2">
-              {quickLinks.map((link, index) => (
-                <button
-                  key={index}
-                  onClick={() => scrollToSection(link.href)}
-                  className="block text-muted-foreground hover:text-primary transition-colors font-medium mx-auto text-sm"
-                >
-                  {link.name}
-                </button>
-              ))}
-            </nav>
+          <div className="flex gap-6">
+            {[
+              { name: 'Serviços', href: '#services' },
+              { name: 'Planos', href: '#planos' },
+              { name: 'Contacto', href: '#contact' },
+            ].map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollToSection(link.href)}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                {link.name}
+              </button>
+            ))}
           </div>
 
-          {/* Contact Info */}
-          <div className="text-center md:text-right">
-            <h4 className="font-bold text-foreground mb-3 text-sm">Contacto</h4>
-            <div className="space-y-1.5 text-muted-foreground text-xs">
-              <p>Maputo</p>
-              <p>+258 87 909 7249</p>
-              <p>hello@tchovadigital.com</p>
-            </div>
+          {/* CTA */}
+          <button
+            onClick={() => {
+              const message = encodeURIComponent('Olá! Vi o site e gostaria de saber mais.');
+              window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            }}
+            className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white rounded-full py-2 px-5 font-medium transition-all duration-300 hover:scale-105 text-sm"
+          >
+            <MessageCircle className="w-4 h-4" />
+            WhatsApp
+          </button>
+        </div>
 
-            {/* Social Media Links */}
-            <div className="mt-4 flex justify-center md:justify-end space-x-3">
-              <a
-                href="https://www.facebook.com/profile.php?id=61582720743448"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-blue-600 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.instagram.com/tchovadigitalmz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-pink-600 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
+        {/* Bottom Bar */}
+        <div className="border-t border-border/20 mt-6 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-muted-foreground">
+            © 2025 TchovaDigital. Moçambique.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-muted-foreground">
+              desenvolvido por TchovaDigital
+            </span>
             
-            {/* Compact Back to Top Button */}
+            {/* Back to Top */}
             <button
-              type="button"
               onClick={scrollToTop}
+              className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300 hover:scale-110"
               aria-label="Voltar ao topo"
-              className="mt-4 w-10 h-10 neo rounded-lg flex items-center justify-center text-primary hover:scale-110 transition-all duration-300 mx-auto md:mx-0 md:ml-auto"
             >
-              <ArrowUp className="w-4 h-4" aria-hidden="true" focusable="false" />
+              <ArrowUp className="w-4 h-4" />
             </button>
           </div>
         </div>
-
-        {/* Compact Bottom Bar */}
-        <div className="border-t border-border/30 pt-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-            <p className="text-muted-foreground text-xs text-center sm:text-left">
-              © 2025 TchovaDigital
-            </p>
-
-            <p className="text-muted-foreground text-xs flex items-center">
-              Feito com
-              <span className="mx-1">💚</span>
-              localmente
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute bottom-0 left-20 w-64 h-64 bg-primary rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-20 w-48 h-48 bg-accent rounded-full blur-3xl" />
       </div>
     </footer>
   );

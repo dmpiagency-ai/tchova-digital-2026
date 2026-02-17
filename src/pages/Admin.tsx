@@ -1,8 +1,8 @@
 import React from 'react';
-import AdminPanel from '@/components/AdminPanel';
+import ClowdBotPanel from '@/components/ClowdBotPanel';
 
 const Admin: React.FC = () => {
-  return <AdminPanel />;
+  return <ClowdBotPanel />;
 };
 
 export default Admin;

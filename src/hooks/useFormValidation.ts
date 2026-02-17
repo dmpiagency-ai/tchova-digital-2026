@@ -18,7 +18,7 @@ export const passwordSchema = z
   .regex(/[A-Z]/, 'Deve conter pelo menos uma letra maiúscula')
   .regex(/[a-z]/, 'Deve conter pelo menos uma letra minúscula')
   .regex(/[0-9]/, 'Deve conter pelo menos um número')
-  .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, 'Deve conter pelo menos um caractere especial');
+  .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'Deve conter pelo menos um caractere especial');
 
 // Simplified password for login (no requirements, just check if provided)
 export const loginPasswordSchema = z

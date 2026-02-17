@@ -341,17 +341,17 @@ export const AICreditsPanel: React.FC<AICreditsPanelProps> = ({
           {isProcessing ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              Processando Pagamento...
+              Processando solicitação...
             </>
           ) : selectedPackage ? (
             <>
               <CreditCard className="w-5 h-5 mr-2" />
-              Comprar {selectedPackage.price} MZN ({selectedPackage.bonus > 0 ? selectedPackage.credits + selectedPackage.bonus : selectedPackage.credits} créditos)
+              Solicitar {selectedPackage.price} MZN ({selectedPackage.bonus > 0 ? selectedPackage.credits + selectedPackage.bonus : selectedPackage.credits} créditos)
             </>
           ) : customAmount && parseInt(customAmount) >= 50 ? (
             <>
               <CreditCard className="w-5 h-5 mr-2" />
-              Comprar {customAmount} MZN ({customAmount} créditos)
+              Solicitar {customAmount} MZN ({customAmount} créditos)
             </>
           ) : (
             <>
@@ -362,7 +362,7 @@ export const AICreditsPanel: React.FC<AICreditsPanelProps> = ({
         </Button>
 
         <p className="text-xs text-muted-foreground max-w-md mx-auto">
-          Ao prosseguir com a compra, você concorda com nossos <a href="#" className="text-primary hover:underline">Termos de Serviço</a> e <a href="#" className="text-primary hover:underline">Política de Reembolso</a>.
+          Ao prosseguir, você concorda com nossos <a href="#" className="text-primary hover:underline">Termos de Serviço</a> e <a href="#" className="text-primary hover:underline">Política de Uso</a>.
         </p>
       </div>
 

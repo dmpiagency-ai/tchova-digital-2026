@@ -601,7 +601,7 @@ export const AIToolsDashboard: React.FC<AIToolsDashboardProps> = ({ onClose }) =
 
       {/* Modal de Ferramenta Selecionada com Design Moderno */}
       <Dialog open={!!selectedTool} onOpenChange={() => setSelectedTool(null)}>
-        <DialogContent className="max-w-2xl max-h-[95vh] overflow-y-auto bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-xl custom-scrollbar">
+        <DialogContent className="max-w-2xl max-h-[95vh] overflow-y-auto bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-[48px] backdrop-blur-[20px] bg-white/90 dark:bg-black/90 shadow-2xl custom-scrollbar">
           <DialogHeader className="pb-4">
             <DialogTitle className="flex items-center space-x-3 text-2xl">
               <div className="p-2 bg-gradient-to-br from-primary to-accent text-white rounded-xl">

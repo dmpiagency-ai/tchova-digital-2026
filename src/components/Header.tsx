@@ -1,223 +1,255 @@
-import { useState } from 'react';
+'use client';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, MessageCircle, ArrowLeft, LogIn, LogOut, User } from 'lucide-react';
+import { ArrowLeft, Palette, Globe, TrendingUp, Smartphone, Video, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/contexts/AuthContext';
-import logo from '@/assets/logo.svg';
+import { cn } from '@/lib/utils';
+import { Menu, MenuItem, HoveredLink } from '@/components/ui/navbar-menu';
+import { StaggeredMenu } from '@/components/ui/StaggeredMenu';
+import { useScroll } from '@/components/ui/use-scroll';
 import { env } from '@/config/env';
+import logo from '@/assets/logo.svg';
 
-
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+export default function Header() {
+  const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
+  const [active, setActive] = React.useState<string | null>(null);
+  const scrolled = useScroll(10);
+  useAuth(); // Keep context initialized
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuth();
 
   const isPaymentPage = location.pathname === '/payment';
+  const isServiceDetailsPage = location.pathname === '/service-details';
 
-  const menuItems = [
-    { name: 'Home', href: '/', isRoute: true },
-    { name: 'Serviços', href: '#services' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Planos', href: '#planos' },
-    { name: 'Contacto', href: '#contact' },
+  // Services for dropdown - each links to specific service detail page
+  const servicesItems = [
+    { name: 'Design Gráfico & Branding', serviceId: 1, icon: Palette },
+    { name: 'Criação de Sites & Apps', serviceId: 2, icon: Globe },
+    { name: 'Marketing Digital', serviceId: 3, icon: TrendingUp },
+    { name: 'Produção Audiovisual', serviceId: 4, icon: Video },
+    { name: 'Importação Assistida', serviceId: 5, icon: Package },
+    { name: 'Assistência GSM Mobile', serviceId: 6, icon: Smartphone },
   ];
 
-  const handleNavigation = (item: typeof menuItems[0]) => {
-    if (item.isRoute) {
-      navigate(item.href);
-    } else {
-      const element = document.querySelector(item.href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+  // Plans for dropdown
+  const plansItems = [
+    { name: 'Start - 5.000 MT', href: '#planos' },
+    { name: 'Business - 15.000 MT', href: '#planos' },
+    { name: 'Pro - 35.000 MT', href: '#planos' },
+  ];
+
+  // StaggeredMenu items
+  const menuItems = [
+    { label: 'Início', link: '#home', onClick: () => handleNavigation('#home') },
+    { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
+    { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
+    { label: 'Como Funciona', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
+    { label: 'Sobre Nós', link: '#about', onClick: () => handleNavigation('#about') },
+    { label: 'Contacto', link: '#contact', onClick: () => handleNavigation('#contact') },
+  ];
+
+  const socialItems = [
+    { label: 'WhatsApp', link: `https://wa.me/${env.WHATSAPP_NUMBER}` },
+    { label: 'Instagram', link: 'https://instagram.com/tchovadigital' },
+  ];
+
+  const handleNavigation = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMenuOpen(false);
+    setActive(null);
+  };
+
+  const handleServiceNavigation = (serviceId: number) => {
+    navigate(`/service-details?id=${serviceId}`);
+    setActive(null);
   };
 
   return (
     <>
-      {/* Skip to main content link for accessibility */}
+      {/* Skip Link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg"
       >
-        Pular para o conteúdo principal
+        Pular para conteúdo
       </a>
 
       <DarkModeToggle />
-      <header role="banner" className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/20">
-        <div className="container mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px] xl:h-20 relative">
-            {/* Back Button for Payment Page */}
-            {isPaymentPage && (
+
+      {/* Mobile StaggeredMenu - Only on home page */}
+      {!isPaymentPage && !isServiceDetailsPage && (
+        <StaggeredMenu
+          position="right"
+          colors={['#0a0a0a', '#111111', '#1a1a1a']}
+          items={menuItems}
+          socialItems={socialItems}
+          displaySocials={true}
+          displayItemNumbering={true}
+          logoUrl={logo}
+          accentColor="#22C55E"
+          isFixed={true}
+          closeOnClickAway={true}
+        />
+      )}
+
+      {/* Desktop Header */}
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-[1100] w-full transition-all duration-500 ease-out',
+          isPaymentPage || isServiceDetailsPage 
+            ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border' 
+            : scrolled 
+              ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border'
+              : 'bg-transparent',
+          isPaymentPage || isServiceDetailsPage ? 'block' : 'hidden md:block'
+        )}
+      >
+        <nav 
+          className={cn(
+            'flex w-full items-center justify-between px-4 transition-all duration-500 ease-out',
+            scrolled ? 'h-14' : 'h-16'
+          )}
+        >
+          {/* Logo */}
+          <div className={cn(
+            'flex items-center gap-2 transition-all duration-500 ease-out',
+            scrolled && 'scale-90'
+          )}>
+            {(isPaymentPage || isServiceDetailsPage) && (
               <Button
                 variant="ghost"
-                onClick={() => navigate(-1)}
-                className="lg:hidden p-2 rounded-lg glass hover:bg-primary/10 transition-colors mr-2"
-                aria-label="Voltar"
+                size="icon"
+                onClick={() => navigate('/')}
+                className="p-2 rounded-full hover:bg-primary/10"
               >
                 <ArrowLeft className="w-5 h-5 text-primary" />
               </Button>
             )}
-
-            {/* Logo - Mobile-first optimized */}
-            <div className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 lg:gap-3">
-              {isPaymentPage && (
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate(-1)}
-                  className="hidden lg:flex p-1.5 sm:p-2 rounded-lg glass hover:bg-primary/10 transition-colors mr-1.5 sm:mr-2"
-                  aria-label="Voltar"
-                >
-                  <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-primary mr-1.5 sm:mr-2" />
-                  <span className="text-sm sm:text-base">Voltar</span>
-                </Button>
+            <img 
+              src={logo} 
+              alt="TchovaDigital" 
+              className={cn(
+                'w-auto transition-all duration-500 ease-out',
+                scrolled ? 'h-6' : 'h-7 sm:h-8'
+              )} 
+            />
+            <h1 
+              className={cn(
+                'font-bold tracking-tight text-foreground transition-all duration-500 ease-out',
+                scrolled ? 'text-sm' : 'text-base sm:text-lg'
               )}
-              <img src={logo} alt="TchovaDigital Logo" className="h-6 sm:h-8 lg:h-10 xl:h-12 w-auto" />
-              <h1 className="text-sm sm:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl font-bold font-nunito text-[#283533] dark:text-primary navbar-logo-text">
-                TchovaDigital
-              </h1>
-            </div>
+            >
+              TchovaDigital
+            </h1>
+          </div>
 
-            {/* Desktop Navigation - Simplified */}
-            <nav role="navigation" aria-label="Menu principal" className="hidden lg:flex items-center space-x-4 xl:space-x-6 2xl:space-x-8">
-               {menuItems.map((item, index) => (
-                  <button
-                    key={item.name}
-                    onClick={() => handleNavigation(item)}
-                    className="text-foreground hover:text-primary transition-colors font-medium px-2 xl:px-3 py-1.5 xl:py-2 rounded-lg hover:bg-primary/10 text-sm xl:text-base"
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </nav>
-
-            {/* User Authentication & WhatsApp - Desktop */}
-            <div className="hidden lg:flex items-center space-x-2 xl:space-x-3">
-              {/* WhatsApp Button */}
-              <Button
-                variant="outline"
-                size="sm"
-                aria-label="Abrir conversa no WhatsApp"
-                className="border-primary/20 hover:bg-primary/10 text-primary hover:text-primary font-medium px-3 xl:px-4 focus-visible text-sm xl:text-base"
-                onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
+          {/* Desktop Navigation with Hover Dropdowns */}
+          <div className="hidden md:flex items-center gap-2">
+            <Menu setActive={setActive} className="flex items-center gap-1">
+              {/* Serviços Dropdown */}
+              <MenuItem 
+                active={active} 
+                item="Serviços"
+                className={cn(
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary",
+                  scrolled || isPaymentPage || isServiceDetailsPage
+                    ? "text-foreground"
+                    : "text-white"
+                )}
               >
-                <MessageCircle className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" aria-hidden="true" focusable="false" />
-                <span className="hidden xl:inline">WhatsApp</span>
-                <span className="xl:hidden">WA</span>
-              </Button>
-
-              {/* Login/Logout Button */}
-              {isAuthenticated ? (
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-center space-x-2 bg-primary/10 rounded-lg px-3 py-1.5">
-                    <User className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-primary hidden xl:inline">
-                      {user?.name || 'Usuário'}
-                    </span>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      try {
-                        logout();
-                      } catch (error) {
-                        // Error during logout (removed console.error for production)
-                        // Error details: ${error}
-                        // Fallback: forçar reload da página
-                        window.location.reload();
-                      }
-                    }}
-                    className="border-red-200 hover:bg-red-50 text-red-600 hover:text-red-700"
-                  >
-                    <LogOut className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" />
-                    <span className="hidden xl:inline">Sair</span>
-                  </Button>
+                <div className="flex flex-col space-y-1 text-sm">
+                  {servicesItems.map((item) => (
+                    <HoveredLink 
+                      key={item.name}
+                      onClick={() => handleServiceNavigation(item.serviceId)}
+                      className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10"
+                    >
+                      <item.icon className="w-4 h-4 text-primary" />
+                      {item.name}
+                    </HoveredLink>
+                  ))}
                 </div>
-              ) : (
-                <Button
-                  variant="default"
-                  size="sm"
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="bg-primary hover:bg-primary/90 text-white font-medium px-4 xl:px-6 focus-visible text-sm xl:text-base"
-                >
-                  <LogIn className="w-3 h-3 xl:w-4 xl:h-4 mr-1.5 xl:mr-2" />
-                  <span className="hidden xl:inline">Entrar</span>
-                  <span className="xl:hidden">Login</span>
-                </Button>
-              )}
-            </div>
+              </MenuItem>
 
-            {/* Mobile Menu Button */}
-            {!isPaymentPage && (
-              <button
-                type="button"
-                className="lg:hidden p-1.5 sm:p-2 rounded-lg glass hover:bg-primary/10 transition-colors"
-                aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
-                aria-controls="mobile-menu"
-                data-state={isMenuOpen ? 'open' : 'closed'}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              {/* Planos Dropdown */}
+              <MenuItem 
+                active={active} 
+                item="Planos"
+                className={cn(
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary",
+                  scrolled || isPaymentPage || isServiceDetailsPage
+                    ? "text-foreground"
+                    : "text-white"
+                )}
               >
-                 {isMenuOpen ? (
-                   <X className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" focusable="false" />
-                 ) : (
-                   <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-primary" aria-hidden="true" focusable="false" />
-                 )}
-               </button>
-            )}
-          </div>
-        </div>
+                <div className="flex flex-col space-y-1 text-sm">
+                  {plansItems.map((item) => (
+                    <HoveredLink 
+                      key={item.name}
+                      onClick={() => handleNavigation(item.href)}
+                      className="py-1.5 px-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10"
+                    >
+                      {item.name}
+                    </HoveredLink>
+                  ))}
+                </div>
+              </MenuItem>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && !isPaymentPage && (
-          <div id="mobile-menu" className="lg:hidden glass-card border-t border-primary/20 mx-3 sm:mx-4 mt-2 mb-3 sm:mb-4 animate-fade-in">
-            <nav className="py-3 sm:py-4 space-y-1.5 sm:space-y-2">
-              {menuItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavigation(item)}
-                  className="block w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 text-foreground hover:text-primary hover:bg-primary/5 transition-colors font-medium rounded-lg text-sm sm:text-base"
-                >
-                  {item.name}
-                </button>
-              ))}
-              <div className="px-3 sm:px-4 pt-2">
-                <Button
-                  variant="default"
-                  size="sm"
-                  aria-label="Abrir conversa no WhatsApp"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-medium focus-visible text-sm sm:text-base"
-                  onClick={() => {
-                    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank');
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" aria-hidden="true" focusable="false" />
-                  WhatsApp
-                </Button>
-              </div>
-            </nav>
+              {/* Contacto - Simple link */}
+              <button
+                onClick={() => handleNavigation('#how-it-works')}
+                className={cn(
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  scrolled || isPaymentPage || isServiceDetailsPage
+                    ? "text-foreground"
+                    : "text-white"
+                )}
+              >
+                Como Funciona
+              </button>
+              <button
+                onClick={() => handleNavigation('#about')}
+                className={cn(
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  scrolled || isPaymentPage || isServiceDetailsPage
+                    ? "text-foreground"
+                    : "text-white"
+                )}
+              >
+                Sobre Nós
+              </button>
+              <button
+                onClick={() => handleNavigation('#contact')}
+                className={cn(
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  scrolled || isPaymentPage || isServiceDetailsPage
+                    ? "text-foreground"
+                    : "text-white"
+                )}
+              >
+                Contacto
+              </button>
+            </Menu>
+
+            {/* CTA Button */}
+            <Button
+              size="sm"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-1.5 text-sm rounded-full transition-all duration-300 hover:scale-105"
+              onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
+            >
+              WhatsApp
+            </Button>
           </div>
-        )}
+        </nav>
       </header>
 
       {/* Login Modal */}
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        title="Acesso TchovaDigital"
-        description="Entre na sua conta para acessar todos os recursos exclusivos"
-      />
-
-      {/* Spacer for fixed header */}
-      <div className="h-14 sm:h-16 lg:h-[72px] xl:h-20" />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
   );
-};
-
-export default Header;
+}

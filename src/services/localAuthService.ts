@@ -1,5 +1,7 @@
 // Local Authentication Service
 // Works without Firebase - uses localStorage for demo/development
+// ⚠️ SECURITY WARNING: This is for DEMO/DEVELOPMENT only!
+// In production, ALWAYS use Firebase Auth or another secure backend
 
 export interface LocalUser {
   id: string;
@@ -13,36 +15,72 @@ export interface LocalUser {
   lastLogin?: Date;
 }
 
-// Demo users for testing
-const DEMO_USERS: LocalUser[] = [
-  {
-    id: 'admin-001',
-    email: 'admin@tchova.digital',
-    password: 'admin123',
-    name: 'Tchova Admin',
-    role: 'admin',
-    phone: '+258 87 909 7249',
-    createdAt: new Date('2024-01-01'),
-  },
-  {
-    id: 'user-001',
-    email: 'cliente@tchova.digital',
-    password: 'cliente123',
-    name: 'Cliente Demo',
-    role: 'user',
-    phone: '+258 84 123 4567',
-    createdAt: new Date('2024-01-15'),
-  },
-  {
-    id: 'user-002',
-    email: 'teste@tchova.digital',
-    password: 'teste123',
-    name: 'Usuário Teste',
-    role: 'user',
-    phone: '+258 82 987 6543',
-    createdAt: new Date('2024-02-01'),
-  },
-];
+// Generate secure random password for demo users
+const generateDemoPassword = (): string => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let password = '';
+  for (let i = 0; i < 12; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return password;
+};
+
+// Demo users for testing - passwords generated dynamically
+// In production, users must register or use Firebase Auth
+const createDemoUsers = (): LocalUser[] => {
+  // Check if we're in development mode
+  const isDev = import.meta.env.DEV;
+  
+  if (!isDev) {
+    // In production, return empty array - no demo users!
+    console.warn('[LocalAuth] Demo users disabled in production. Use Firebase Auth.');
+    return [];
+  }
+  
+  // Generate random passwords for demo users each session
+  // These are displayed in console for development testing only
+  const adminPassword = generateDemoPassword();
+  const clientPassword = generateDemoPassword();
+  const testPassword = generateDemoPassword();
+  
+  console.log('%c🔐 DEMO CREDENTIALS (Development Only)', 'color: #ff6600; font-weight: bold; font-size: 14px;');
+  console.log(`   Admin: admin@tchova.digital / ${adminPassword}`);
+  console.log(`   Client: cliente@tchova.digital / ${clientPassword}`);
+  console.log(`   Test: teste@tchova.digital / ${testPassword}`);
+  
+  return [
+    {
+      id: 'admin-001',
+      email: 'admin@tchova.digital',
+      password: adminPassword,
+      name: 'Tchova Admin',
+      role: 'admin',
+      phone: '+258 87 909 7249',
+      createdAt: new Date('2024-01-01'),
+    },
+    {
+      id: 'user-001',
+      email: 'cliente@tchova.digital',
+      password: clientPassword,
+      name: 'Cliente Demo',
+      role: 'user',
+      phone: '+258 84 123 4567',
+      createdAt: new Date('2024-01-15'),
+    },
+    {
+      id: 'user-002',
+      email: 'teste@tchova.digital',
+      password: testPassword,
+      name: 'Usuário Teste',
+      role: 'user',
+      phone: '+258 82 987 6543',
+      createdAt: new Date('2024-02-01'),
+    },
+  ];
+};
+
+// Initialize demo users
+const DEMO_USERS = createDemoUsers();
 
 const USERS_STORAGE_KEY = 'tchova_local_users';
 const CURRENT_USER_KEY = 'tchova_current_user';
