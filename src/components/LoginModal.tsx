@@ -103,6 +103,12 @@ const LoginModal: React.FC<LoginModalProps> = ({
           const loginResult = await login(formData.email, formData.password);
           if (loginResult.success) {
             setRegistrationComplete(true);
+            
+            // Dispatch event to show WelcomeModal (only for NEW registrations)
+            window.dispatchEvent(new CustomEvent('new-user-registered', {
+              detail: { user: registerResult.user }
+            }));
+            
             onClose();
             if (redirectTo) {
               window.location.href = redirectTo;

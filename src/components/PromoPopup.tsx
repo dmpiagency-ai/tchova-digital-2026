@@ -164,24 +164,36 @@ const PromoPopup: React.FC<PromoPopupProps> = ({ isOpen, onClose, onAction }) =>
  * - Aumenta tempo para 15 segundos (era 5)
  * - Só mostra quando usuário JÁ passou do hero
  * - Não interrompe a experiência inicial
+ * - NÃO mostra para usuários que já têm conta (localStorage)
  */
 export const usePromoPopup = () => {
   const [showPromo, setShowPromo] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
   useEffect(() => {
     // Check if user has already seen the promo
     const hasSeenPromo = localStorage.getItem('tchova_promo_seen');
-    const hasLoggedIn = localStorage.getItem('tchova_user');
     
-    // Don't show if already seen or logged in
-    if (hasSeenPromo || hasLoggedIn) {
+    // Check if user has an existing account/session
+    const hasLoggedIn = localStorage.getItem('tchova_user');
+    const hasLocalAuthUser = localStorage.getItem('tchova_local_current_user');
+    const hasClientSession = localStorage.getItem('tchova_client_session');
+    
+    // If any user session exists, mark as existing user
+    if (hasLoggedIn || hasLocalAuthUser || hasClientSession) {
+      setIsExistingUser(true);
+      return; // Don't show promo to existing users
+    }
+    
+    // Don't show if already seen
+    if (hasSeenPromo) {
       return;
     }
 
     // Timer for 15 seconds (mais tempo para não interromper hero)
     const timer = setTimeout(() => {
-      if (!hasTriggered) {
+      if (!hasTriggered && !isExistingUser) {
         setHasTriggered(true);
         setShowPromo(true);
       }
@@ -189,7 +201,7 @@ export const usePromoPopup = () => {
 
     // Scroll listener - só mostra quando passou DO hero
     const handleScroll = () => {
-      if (hasTriggered) return;
+      if (hasTriggered || isExistingUser) return;
       
       const scrollY = window.scrollY;
       const heroHeight = window.innerHeight; // 100% da viewport (hero completo)
@@ -208,7 +220,7 @@ export const usePromoPopup = () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [hasTriggered]);
+  }, [hasTriggered, isExistingUser]);
 
   const closePromo = useCallback(() => {
     setShowPromo(false);

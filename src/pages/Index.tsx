@@ -54,7 +54,8 @@ const Index = () => {
   const [user, setUser] = useState<User | null>(null);
   
   // Auth context for Firebase integration
-  const { user: authUser, isAuthenticated } = useAuth();
+  // Note: We don't use isAuthenticated here to avoid showing modals on page load
+  // Instead, we listen for custom events from LoginModal
   
   // Modal states
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -190,17 +191,20 @@ const Index = () => {
     };
   }, []);
 
-  // Show welcome modal when user logs in for the first time
+  // Show welcome modal ONLY after a NEW registration (not on page load with existing session)
   useEffect(() => {
-    if (isAuthenticated && authUser) {
-      // Check if this is a new login (not a page refresh)
-      const hasSeenWelcome = sessionStorage.getItem('tchova_welcome_shown');
-      if (!hasSeenWelcome) {
-        setShowWelcomeModal(true);
-        sessionStorage.setItem('tchova_welcome_shown', 'true');
-      }
-    }
-  }, [isAuthenticated, authUser]);
+    // Listen for the custom event dispatched by LoginModal after successful registration
+    const handleNewRegistration = () => {
+      setShowWelcomeModal(true);
+      sessionStorage.setItem('tchova_welcome_shown', 'true');
+    };
+
+    window.addEventListener('new-user-registered', handleNewRegistration as EventListener);
+
+    return () => {
+      window.removeEventListener('new-user-registered', handleNewRegistration as EventListener);
+    };
+  }, []);
 
   // Make service routing function available globally
   useEffect(() => {
