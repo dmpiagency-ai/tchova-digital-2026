@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import './StaggeredMenu.css';
 
@@ -52,6 +52,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   onMenuClose
 }) => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const openRef = useRef(false);
   const panelRef = useRef<HTMLElement>(null);
   const preLayersRef = useRef<HTMLDivElement>(null);
@@ -70,6 +71,16 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
   const busyRef = useRef(false);
   const itemEntranceTweenRef = useRef<gsap.core.Tween | null>(null);
+
+  // Scroll detection for blur glass effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -403,7 +414,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         })()}
       </div>
       
-      <header className="staggered-menu-header" aria-label="Main navigation header">
+      <header className={`staggered-menu-header${scrolled ? ' scrolled' : ''}`} aria-label="Main navigation header">
         {logoUrl && (
           <div className="sm-logo" aria-label="Logo">
             <img
