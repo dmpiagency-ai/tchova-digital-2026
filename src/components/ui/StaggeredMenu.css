@@ -57,26 +57,29 @@
   transition: all 0.3s ease;
 }
 
-/* Blur glass effect when scrolled */
-.staggered-menu-header.scrolled {
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-}
-
-/* Dark mode blur glass */
-.dark .staggered-menu-header.scrolled {
-  background: rgba(10, 10, 10, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
 .sm-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+/* Blur glass effect on logo container when scrolled */
+.staggered-menu-header.scrolled .sm-logo {
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode blur glass on logo container */
+.dark .staggered-menu-header.scrolled .sm-logo {
+  background: rgba(30, 30, 30, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sm-logo-img {
@@ -94,15 +97,6 @@
 
 /* Dark mode */
 .dark .sm-logo-text {
-  color: #ffffff;
-}
-
-/* Logo text when scrolled - ensure visibility */
-.staggered-menu-header.scrolled .sm-logo-text {
-  color: #1a1a1a;
-}
-
-.dark .staggered-menu-header.scrolled .sm-logo-text {
   color: #ffffff;
 }
 
