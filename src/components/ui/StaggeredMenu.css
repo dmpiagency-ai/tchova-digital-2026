@@ -54,32 +54,12 @@
   justify-content: space-between;
   padding: 1rem 1.25rem;
   background: transparent;
-  transition: all 0.3s ease;
 }
 
 .sm-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-/* Blur glass effect on logo container when scrolled */
-.staggered-menu-header.scrolled .sm-logo {
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-/* Dark mode blur glass on logo container */
-.dark .staggered-menu-header.scrolled .sm-logo {
-  background: rgba(30, 30, 30, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sm-logo-img {
@@ -100,33 +80,27 @@
   color: #ffffff;
 }
 
-/* Toggle Button - sem blur, design minimalista */
+/* Toggle Button */
 .sm-toggle {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
   padding: 0.625rem 1.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #1a1a1a;
+  color: #fff;
   font-weight: 600;
   font-size: 0.875rem;
 }
 
 .sm-toggle:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-/* Dark mode toggle button */
-.dark .sm-toggle {
-  color: #ffffff;
-}
-
-.dark .sm-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .sm-toggle:focus-visible {
