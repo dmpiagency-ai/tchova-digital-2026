@@ -60,6 +60,22 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+/* Blur glass effect on logo container when scrolled - same style as menu button */
+.staggered-menu-header.scrolled .sm-logo {
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.staggered-menu-header.scrolled .sm-logo:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .sm-logo-img {
