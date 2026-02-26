@@ -118,16 +118,19 @@ class ConfigManager {
 
   // Deep merge de objetos
   private deepMerge<T>(target: T, source: Partial<T>): T {
-    const result = { ...target };
+    const result = { ...target } as T;
 
-    Object.keys(source).forEach(key => {
-      const sourceValue = (source as any)[key];
-      const targetValue = (result as any)[key];
+    Object.keys(source).forEach((key) => {
+      const sourceValue = source[key as keyof T];
+      const targetValue = result[key as keyof T];
 
       if (this.isObject(sourceValue) && this.isObject(targetValue)) {
-        (result as any)[key] = this.deepMerge(targetValue, sourceValue);
+        (result as Record<string, unknown>)[key] = this.deepMerge(
+          targetValue,
+          sourceValue as Partial<typeof targetValue>
+        );
       } else if (sourceValue !== undefined) {
-        (result as any)[key] = sourceValue;
+        (result as Record<string, unknown>)[key] = sourceValue;
       }
     });
 
@@ -174,17 +177,17 @@ class ConfigManager {
   // Obter valor específico da configuração
   get<T>(path: string): T | undefined {
     const keys = path.split('.');
-    let current: any = this.config;
+    let current: unknown = this.config;
 
     for (const key of keys) {
       if (current && typeof current === 'object' && key in current) {
-        current = current[key];
+        current = (current as Record<string, unknown>)[key];
       } else {
         return undefined;
       }
     }
 
-    return current;
+    return current as T;
   }
 
   // Verificar se uma feature está habilitada

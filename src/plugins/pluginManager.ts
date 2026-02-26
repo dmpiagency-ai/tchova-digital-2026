@@ -1,6 +1,30 @@
 // Sistema de Plugins Modulares para TchovaDigital
 // Permite extensões sem modificar o código core
 
+import React from 'react';
+
+// Type definitions for plugin system
+export interface PluginUser {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+  [key: string]: unknown;
+}
+
+export interface PluginPayment {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  userId: string;
+  [key: string]: unknown;
+}
+
+export interface PluginConfigUpdate {
+  [key: string]: unknown;
+}
+
 export interface PluginConfig {
   id: string;
   name: string;
@@ -12,12 +36,12 @@ export interface PluginConfig {
 }
 
 export interface PluginHooks {
-  onUserLogin?: (user: any) => void;
-  onUserLogout?: (user: any) => void;
-  onServiceAccess?: (serviceType: string, user: any) => boolean;
-  onPaymentProcessed?: (payment: any) => void;
-  onDashboardRender?: (user: any) => React.ReactNode;
-  onConfigUpdate?: (config: any) => void;
+  onUserLogin?: (user: PluginUser) => void;
+  onUserLogout?: (user: PluginUser) => void;
+  onServiceAccess?: (serviceType: string, user: PluginUser) => boolean;
+  onPaymentProcessed?: (payment: PluginPayment) => void;
+  onDashboardRender?: (user: PluginUser) => React.ReactNode;
+  onConfigUpdate?: (config: PluginConfigUpdate) => void;
 }
 
 export interface Plugin {
@@ -27,9 +51,23 @@ export interface Plugin {
   destroy?: () => Promise<void>;
 }
 
+// Type for hook function
+type HookFunction = (...args: unknown[]) => unknown | Promise<unknown>;
+
+// Type for stored hooks
+interface StoredHook {
+  [key: string]: HookFunction;
+}
+
+// Type for plugin state items stored in localStorage
+interface PluginStateItem {
+  id: string;
+  config: Partial<PluginConfig>;
+}
+
 class PluginManager {
   private plugins: Map<string, Plugin> = new Map();
-  private hooks: Map<string, PluginHooks[]> = new Map();
+  private hooks: Map<string, StoredHook[]> = new Map();
 
   // Registrar um plugin
   register(plugin: Plugin): boolean {
@@ -45,7 +83,7 @@ class PluginManager {
       if (!this.hooks.has(hookName)) {
         this.hooks.set(hookName, []);
       }
-      this.hooks.get(hookName)!.push({ [hookName]: hookFn } as any);
+      this.hooks.get(hookName)!.push({ [hookName]: hookFn as HookFunction });
     });
 
     console.log(`Plugin ${plugin.config.name} registrado com sucesso`);
@@ -67,7 +105,7 @@ class PluginManager {
     // Remover hooks do plugin
     this.hooks.forEach((hookList, hookName) => {
       this.hooks.set(hookName, hookList.filter(hooks =>
-        !Object.values(hooks).includes(plugin.hooks[hookName as keyof PluginHooks])
+        !Object.values(hooks).includes(plugin.hooks[hookName as keyof PluginHooks] as HookFunction)
       ));
     });
 
@@ -76,15 +114,15 @@ class PluginManager {
   }
 
   // Executar hook
-  async executeHook<T = any>(hookName: string, ...args: any[]): Promise<T[]> {
+  async executeHook<T = unknown>(hookName: string, ...args: unknown[]): Promise<T[]> {
     const hookList = this.hooks.get(hookName) || [];
     const results: T[] = [];
 
     for (const hooks of hookList) {
-      const hookFn = (hooks as any)[hookName];
+      const hookFn = hooks[hookName];
       if (hookFn) {
         try {
-          const result = await hookFn(...args);
+          const result = await hookFn(...args) as T;
           if (result !== undefined) {
             results.push(result);
           }
@@ -168,8 +206,8 @@ class PluginManager {
     const state = localStorage.getItem('tchova-plugins');
     if (state) {
       try {
-        const parsedState = JSON.parse(state);
-        parsedState.forEach((item: any) => {
+        const parsedState: PluginStateItem[] = JSON.parse(state);
+        parsedState.forEach((item) => {
           const plugin = this.plugins.get(item.id);
           if (plugin) {
             plugin.config = { ...plugin.config, ...item.config };

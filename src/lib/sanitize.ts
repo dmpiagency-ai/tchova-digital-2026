@@ -55,7 +55,7 @@ export const sanitizeLocalStorageData = <T>(data: string, defaultValue: T): T =>
 /**
  * Recursively sanitizes all string properties in an object
  */
-const sanitizeObject = (obj: any): any => {
+const sanitizeObject = (obj: Record<string, unknown> | unknown): Record<string, unknown> | unknown => {
   if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
@@ -64,10 +64,10 @@ const sanitizeObject = (obj: any): any => {
     return obj.map(item => sanitizeObject(item));
   }
 
-  const sanitized: any = {};
+  const sanitized: Record<string, unknown> = {};
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value = obj[key];
+      const value = (obj as Record<string, unknown>)[key];
 
       if (typeof value === 'string') {
         sanitized[key] = escapeHtml(value);

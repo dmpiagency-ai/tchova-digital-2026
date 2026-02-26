@@ -7,10 +7,13 @@ import { env } from '@/config/env';
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type LogData = any; // Allow any data type for logging flexibility
+
 interface LogEntry {
   level: LogLevel;
   message: string;
-  data?: any;
+  data?: LogData;
   timestamp: string;
 }
 
@@ -26,7 +29,7 @@ class Logger {
   /**
    * Log informational messages (only in development)
    */
-  info(message: string, ...data: any[]): void {
+  info(message: string, ...data: LogData[]): void {
     if (this.isDevelopment) {
       console.log(`[INFO] ${message}`, ...data);
       this.addLog('info', message, data);
@@ -36,7 +39,7 @@ class Logger {
   /**
    * Log warnings (only in development)
    */
-  warn(message: string, ...data: any[]): void {
+  warn(message: string, ...data: LogData[]): void {
     if (this.isDevelopment) {
       console.warn(`[WARN] ${message}`, ...data);
       this.addLog('warn', message, data);
@@ -46,7 +49,7 @@ class Logger {
   /**
    * Log errors (always visible, even in production)
    */
-  error(message: string, ...data: any[]): void {
+  error(message: string, ...data: LogData[]): void {
     console.error(`[ERROR] ${message}`, ...data);
     this.addLog('error', message, data);
 
@@ -59,7 +62,7 @@ class Logger {
   /**
    * Debug logs (only in development, verbose)
    */
-  debug(message: string, ...data: any[]): void {
+  debug(message: string, ...data: LogData[]): void {
     if (this.isDevelopment) {
       console.debug(`[DEBUG] ${message}`, ...data);
       this.addLog('debug', message, data);
@@ -69,7 +72,7 @@ class Logger {
   /**
    * Add log entry to in-memory storage
    */
-  private addLog(level: LogLevel, message: string, data?: any): void {
+  private addLog(level: LogLevel, message: string, data?: LogData): void {
     const entry: LogEntry = {
       level,
       message,
@@ -103,7 +106,7 @@ class Logger {
    * Send error to tracking service (Sentry, LogRocket, etc.)
    * Placeholder for future implementation
    */
-  private sendToErrorTracking(message: string, data: any[]): void {
+  private sendToErrorTracking(message: string, data: LogData[]): void {
     // TODO: Integrate with error tracking service
     // Example: Sentry.captureException(new Error(message), { extra: data });
 
@@ -121,7 +124,7 @@ class Logger {
   /**
    * Log service/API calls (only in development)
    */
-  logServiceCall(serviceName: string, method: string, params?: any): void {
+  logServiceCall(serviceName: string, method: string, params?: LogData): void {
     if (this.isDevelopment) {
       console.log(
         `%c[SERVICE] ${serviceName}.${method}`,

@@ -3,6 +3,20 @@
 
 import { useState, useEffect } from 'react';
 
+// Network Information API interface
+interface NetworkInformation {
+  effectiveType?: string;
+  downlink?: number;
+  addEventListener(type: 'change', listener: () => void): void;
+  removeEventListener(type: 'change', listener: () => void): void;
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: NetworkInformation;
+  mozConnection?: NetworkInformation;
+  webkitConnection?: NetworkInformation;
+}
+
 export interface MobileDeviceInfo {
   isMobile: boolean;
   isSlowConnection: boolean;
@@ -36,16 +50,17 @@ export const useMozambiqueMobile = (): MobileDeviceInfo => {
       else if (width < 768) screenSize = 'medium';
 
       // Detect slow connections (common in Mozambique)
-      const connection = (navigator as any).connection ||
-                        (navigator as any).mozConnection ||
-                        (navigator as any).webkitConnection;
+      const nav = navigator as NavigatorWithConnection;
+      const connection = nav.connection ||
+                        nav.mozConnection ||
+                        nav.webkitConnection;
 
       let isSlowConnection = false;
       let connectionType: 'fast' | 'slow' | 'unknown' = 'unknown';
 
       if (connection) {
         const effectiveType = connection.effectiveType;
-        const downlink = connection.downlink;
+        const downlink = connection.downlink ?? 10; // Default to fast if unknown
 
         // Consider slow if 2G, slow 3G, or very low bandwidth
         isSlowConnection = effectiveType === 'slow-2g' ||
@@ -83,9 +98,10 @@ export const useMozambiqueMobile = (): MobileDeviceInfo => {
     window.addEventListener('orientationchange', updateDeviceInfo);
 
     // Listen for connection changes
-    const connection = (navigator as any).connection ||
-                      (navigator as any).mozConnection ||
-                      (navigator as any).webkitConnection;
+    const nav = navigator as NavigatorWithConnection;
+    const connection = nav.connection ||
+                      nav.mozConnection ||
+                      nav.webkitConnection;
 
     if (connection) {
       const handleConnectionChange = () => updateDeviceInfo();

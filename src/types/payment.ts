@@ -73,7 +73,7 @@ export interface PaymentRequest {
   description: string;
   
   // Additional metadata
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface PaymentResult {

@@ -9,6 +9,15 @@ export interface WhatsAppConfig {
   businessAccountId: string;
 }
 
+// WhatsApp template component type
+export interface WhatsAppTemplateComponent {
+  type: 'body' | 'header' | 'button';
+  parameters: Array<{
+    type: 'text' | 'currency' | 'date_time';
+    text?: string;
+  }>;
+}
+
 export interface WhatsAppMessage {
   to: string;
   message: string;
@@ -16,7 +25,23 @@ export interface WhatsAppMessage {
   template?: {
     name: string;
     language: string;
-    components?: any[];
+    components?: WhatsAppTemplateComponent[];
+  };
+}
+
+// WhatsApp API response type
+export interface WhatsAppAPIResponse {
+  messaging_product: string;
+  contacts: Array<{
+    input: string;
+    wa_id: string;
+  }>;
+  messages: Array<{
+    id: string;
+  }>;
+  error?: {
+    code: number;
+    message: string;
   };
 }
 
@@ -44,7 +69,7 @@ export class WhatsAppService {
   }
 
   // Send text message via WhatsApp API
-  async sendMessage(message: WhatsAppMessage): Promise<any> {
+  async sendMessage(message: WhatsAppMessage): Promise<WhatsAppAPIResponse> {
     try {
       const url = `${this.config.apiUrl}/${this.config.phoneNumberId}/messages`;
 
@@ -77,7 +102,7 @@ export class WhatsAppService {
   }
 
   // Send template message
-  async sendTemplateMessage(to: string, templateName: string, language: string = 'pt_BR'): Promise<any> {
+  async sendTemplateMessage(to: string, templateName: string, language: string = 'pt_BR'): Promise<WhatsAppAPIResponse> {
     return this.sendMessage({
       to,
       message: '',
@@ -107,7 +132,7 @@ export async function sendWhatsAppMessage(
   phoneNumber: string,
   message: string,
   useAPI: boolean = fallbackConfig.useAPI
-): Promise<{ success: boolean; method: 'api' | 'fallback'; data?: any; error?: string }> {
+): Promise<{ success: boolean; method: 'api' | 'fallback'; data?: WhatsAppAPIResponse; error?: string }> {
   try {
     // Clean phone number (remove + and spaces)
     const cleanNumber = phoneNumber.replace(/[+\s]/g, '');

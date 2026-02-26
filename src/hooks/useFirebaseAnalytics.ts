@@ -9,7 +9,7 @@ import { analytics } from '@/config/firebase';
 // 🔌 PLUG-IN: Analytics Event Types
 interface AnalyticsEvent {
   name: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, unknown>;
 }
 
 // 🔌 PLUG-IN: Predefined Events for TchovaDigital
@@ -45,13 +45,13 @@ export const ANALYTICS_EVENTS = {
 interface UseFirebaseAnalyticsReturn {
   // Event Tracking
   trackEvent: (event: AnalyticsEvent) => void;
-  trackPageView: (pageName: string, parameters?: Record<string, any>) => void;
+  trackPageView: (pageName: string, parameters?: Record<string, unknown>) => void;
   trackServiceView: (serviceName: string) => void;
   trackWhatsAppClick: (source: string, service?: string) => void;
   trackFormSubmit: (formName: string, success: boolean) => void;
 
   // User Tracking
-  setUser: (userId: string, properties?: Record<string, any>) => void;
+  setUser: (userId: string, properties?: Record<string, unknown>) => void;
   trackConversion: (conversionType: string, value?: number) => void;
 
   // E-commerce Tracking
@@ -78,7 +78,7 @@ export const useFirebaseAnalytics = (): UseFirebaseAnalyticsReturn => {
   };
 
   // 🔌 PLUG-IN: Page View Tracking
-  const trackPageView = (pageName: string, parameters: Record<string, any> = {}) => {
+  const trackPageView = (pageName: string, parameters: Record<string, unknown> = {}) => {
     trackEvent({
       name: ANALYTICS_EVENTS.PAGE_VIEW,
       parameters: {
@@ -125,7 +125,7 @@ export const useFirebaseAnalytics = (): UseFirebaseAnalyticsReturn => {
   };
 
   // 🔌 PLUG-IN: User Identification
-  const setUser = (userId: string, properties: Record<string, any> = {}) => {
+  const setUser = (userId: string, properties: Record<string, unknown> = {}) => {
     if (!analyticsEnabled || !analytics) {
       console.log('👤 User Set (disabled):', userId, properties);
       return;

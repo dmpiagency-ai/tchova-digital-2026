@@ -4,6 +4,17 @@
 import { env } from '@/config/env';
 import { sendWhatsAppMessage } from '@/config/whatsapp';
 
+// Google Analytics gtag function type
+type GtagFunction = (
+  command: 'event' | 'config' | 'set',
+  eventNameOrTarget: string,
+  params?: Record<string, unknown>
+) => void;
+
+interface WindowWithGtag extends Window {
+  gtag?: GtagFunction;
+}
+
 // 🔌 PLUG-IN: WhatsApp message templates by context
 export const WHATSAPP_MESSAGES = {
   // Hero section - General inquiry
@@ -97,12 +108,15 @@ export const trackWhatsAppInteraction = (context: string, subContext?: string): 
   console.log('WhatsApp interaction:', { context, subContext });
 
   // Future: Send to analytics service
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'whatsapp_click', {
-      event_category: 'engagement',
-      event_label: context,
-      custom_parameter: subContext || 'general'
-    });
+  if (typeof window !== 'undefined') {
+    const windowWithGtag = window as WindowWithGtag;
+    if (windowWithGtag.gtag) {
+      windowWithGtag.gtag('event', 'whatsapp_click', {
+        event_category: 'engagement',
+        event_label: context,
+        custom_parameter: subContext || 'general'
+      });
+    }
   }
 };
 

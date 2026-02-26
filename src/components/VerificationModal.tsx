@@ -76,7 +76,8 @@ const VerificationModal = ({
     if (isOpen && status === 'idle') {
       handleSendCode();
     }
-  }, [isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]); // Only run when modal opens
 
   const handleSendCode = async () => {
     setStatus('sending');

@@ -8,12 +8,34 @@ export interface AnalyticsEvent {
   category: string;
   label?: string;
   value?: number;
-  customParameters?: Record<string, any>;
+  customParameters?: Record<string, unknown>;
+}
+
+// Extended analytics event with metadata
+interface AnalyticsEventWithMetadata extends AnalyticsEvent {
+  timestamp: string;
+  sessionId: string;
+  userAgent: string;
+  url: string;
+}
+
+// Google Analytics gtag function type
+type GtagFunction = (
+  command: 'event' | 'config' | 'set',
+  eventNameOrTarget: string,
+  params?: Record<string, unknown>
+) => void;
+
+// Extend Window interface for gtag
+declare global {
+  interface Window {
+    gtag?: GtagFunction;
+  }
 }
 
 // Mock analytics for development - ready to be replaced with real analytics
 class AnalyticsService {
-  private events: AnalyticsEvent[] = [];
+  private events: AnalyticsEventWithMetadata[] = [];
   private isEnabled = true;
 
   // Track any user interaction
@@ -107,10 +129,10 @@ class AnalyticsService {
   }
 
   // Send to analytics service (Firebase/Google Analytics)
-  private sendToAnalytics(event: any): void {
+  private sendToAnalytics(event: AnalyticsEventWithMetadata): void {
     // Future Firebase integration
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', event.action, {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', event.action, {
         event_category: event.category,
         event_label: event.label,
         value: event.value,
@@ -130,7 +152,7 @@ class AnalyticsService {
   }
 
   // Get stored events (for debugging)
-  getEvents(): AnalyticsEvent[] {
+  getEvents(): AnalyticsEventWithMetadata[] {
     return [...this.events];
   }
 

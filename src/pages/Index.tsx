@@ -8,7 +8,7 @@ import Pricing from '@/components/Pricing';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
-import GSMDashboard from '@/components/GSMDashboard';
+import GSMToolsPanel from '@/components/GSMToolsPanelNew';
 import LoginModal from '@/components/LoginModal';
 import WelcomeModal from '@/components/WelcomeModal';
 import PromoPopup, { usePromoPopup } from '@/components/PromoPopup';
@@ -641,10 +641,24 @@ const Index = () => {
         );
 
       case 'gsm-dashboard':
-        return <GSMDashboard />;
+        return (
+          <div className="min-h-screen bg-background p-4">
+            <Header />
+            <main id="main-content" role="main" tabIndex={-1} className="container mx-auto px-4 py-8 lg:py-12">
+              <GSMToolsPanel />
+            </main>
+          </div>
+        );
 
       case 'dashboard':
-        return <GSMDashboard />;
+        return (
+          <div className="min-h-screen bg-background p-4">
+            <Header />
+            <main id="main-content" role="main" tabIndex={-1} className="container mx-auto px-4 py-8 lg:py-12">
+              <GSMToolsPanel />
+            </main>
+          </div>
+        );
 
 
       default:

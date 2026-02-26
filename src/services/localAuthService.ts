@@ -205,7 +205,7 @@ export const isUsingLocalAuth = (): boolean => {
   const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
   
   // List of placeholder values that indicate Firebase is not properly configured
-  const placeholderValues = [
+  const placeholderValues: (string | undefined | null)[] = [
     'demo-key',
     'your_firebase_api_key_here',
     'demo.firebaseapp.com',
@@ -217,13 +217,13 @@ export const isUsingLocalAuth = (): boolean => {
   ];
   
   // If API key is a placeholder or missing, use local auth
-  if (placeholderValues.includes(apiKey as any)) {
+  if (placeholderValues.includes(apiKey)) {
     console.log('[Auth] Using LOCAL auth - API key is placeholder or missing:', apiKey);
     return true;
   }
   
   // If project ID is a placeholder or missing, use local auth
-  if (placeholderValues.includes(projectId as any)) {
+  if (placeholderValues.includes(projectId)) {
     console.log('[Auth] Using LOCAL auth - Project ID is placeholder or missing:', projectId);
     return true;
   }

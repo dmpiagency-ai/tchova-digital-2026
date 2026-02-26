@@ -215,13 +215,48 @@ O que gostaria de fazer hoje?`,
       return;
     }
 
-    const recognition = new (window as any).webkitSpeechRecognition();
+    // TypeScript types for WebKit Speech Recognition
+    interface SpeechRecognitionEvent extends Event {
+      results: SpeechRecognitionResultList;
+    }
+
+    interface SpeechRecognitionResultList {
+      readonly length: number;
+      item(index: number): SpeechRecognitionResult;
+      [index: number]: SpeechRecognitionResult;
+    }
+
+    interface SpeechRecognitionResult {
+      readonly length: number;
+      item(index: number): SpeechRecognitionAlternative;
+      readonly isFinal: boolean;
+      [index: number]: SpeechRecognitionAlternative;
+    }
+
+    interface SpeechRecognitionAlternative {
+      readonly transcript: string;
+      readonly confidence: number;
+    }
+
+    interface WebKitSpeechRecognition extends EventTarget {
+      lang: string;
+      continuous: boolean;
+      onstart: (() => void) | null;
+      onend: (() => void) | null;
+      onresult: ((event: SpeechRecognitionEvent) => void) | null;
+      start(): void;
+      stop(): void;
+      abort(): void;
+    }
+
+    const SpeechRecognitionClass = (window as Window & { webkitSpeechRecognition: new () => WebKitSpeechRecognition }).webkitSpeechRecognition;
+    const recognition = new SpeechRecognitionClass();
     recognition.lang = 'pt-MZ';
     recognition.continuous = false;
 
     recognition.onstart = () => setIsListening(true);
     recognition.onend = () => setIsListening(false);
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       setInput(transcript);
       handleSend(transcript);

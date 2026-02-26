@@ -8,6 +8,32 @@
 import { APIResponse, AnalyticsEvent } from './types';
 
 // ============================================
+// GLOBAL TYPE DECLARATIONS
+// ============================================
+
+// Google Analytics gtag function type
+type GtagFunction = (
+  command: 'event' | 'config' | 'set',
+  eventNameOrTarget: string,
+  params?: Record<string, unknown>
+) => void;
+
+// Facebook Pixel fbq function type
+type FbqFunction = (
+  command: 'track' | 'trackCustom' | 'init' | 'page',
+  eventName?: string,
+  params?: Record<string, unknown>
+) => void;
+
+// Extend Window interface for analytics providers
+declare global {
+  interface Window {
+    gtag?: GtagFunction;
+    fbq?: FbqFunction;
+  }
+}
+
+// ============================================
 // TYPES
 // ============================================
 
@@ -341,9 +367,9 @@ class AnalyticsService {
 
   private sendToProviders(event: TrackingEvent): void {
     // Google Analytics 4
-    if (this.isProduction && typeof window !== 'undefined' && (window as any).gtag) {
+    if (this.isProduction && typeof window !== 'undefined' && window.gtag) {
       try {
-        (window as any).gtag('event', event.name, {
+        window.gtag('event', event.name, {
           event_category: event.category,
           event_label: event.label,
           value: event.value,
@@ -355,9 +381,9 @@ class AnalyticsService {
     }
 
     // Facebook Pixel
-    if (this.isProduction && typeof window !== 'undefined' && (window as any).fbq) {
+    if (this.isProduction && typeof window !== 'undefined' && window.fbq) {
       try {
-        (window as any).fbq('trackCustom', event.name, event.parameters);
+        window.fbq('trackCustom', event.name, event.parameters);
       } catch (error) {
         console.error('FB Pixel tracking error:', error);
       }
@@ -366,9 +392,9 @@ class AnalyticsService {
 
   private sendPageViewToProviders(pageView: PageView): void {
     // Google Analytics 4
-    if (this.isProduction && typeof window !== 'undefined' && (window as any).gtag) {
+    if (this.isProduction && typeof window !== 'undefined' && window.gtag) {
       try {
-        (window as any).gtag('event', 'page_view', {
+        window.gtag('event', 'page_view', {
           page_path: pageView.path,
           page_title: pageView.title,
           page_referrer: pageView.referrer

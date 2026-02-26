@@ -174,7 +174,7 @@ export interface SelectOption {
 
 export interface ValidationRule {
   type: 'required' | 'email' | 'minLength' | 'maxLength' | 'pattern' | 'custom';
-  value?: any;
+  value?: string | number | RegExp;
   message: string;
 }
 

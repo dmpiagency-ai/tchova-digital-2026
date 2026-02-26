@@ -34,7 +34,7 @@ export interface Plan {
   buttonColor: string;
   buttonText: string;
   buttonAction: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   badge?: string;
   savings?: string;
   deliveryTime: string;

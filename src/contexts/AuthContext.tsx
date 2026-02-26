@@ -308,27 +308,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       logger.info('Login successful', { email });
       setIsLoading(false);
       return { success: true };
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error('Login failed:', error);
 
       let errorMessage = 'Erro ao fazer login. Tente novamente.';
 
-      switch (error.code) {
-        case 'auth/user-not-found':
-          errorMessage = 'Usuário não encontrado.';
-          break;
-        case 'auth/wrong-password':
-          errorMessage = 'Senha incorreta.';
-          break;
-        case 'auth/invalid-email':
-          errorMessage = 'Email inválido.';
-          break;
-        case 'auth/too-many-requests':
-          errorMessage = 'Muitas tentativas. Tente novamente mais tarde.';
-          break;
-        case 'auth/network-request-failed':
-          errorMessage = 'Erro de conexão. Verifique sua internet.';
-          break;
+      const firebaseError = error as { code?: string };
+      if (firebaseError.code) {
+        switch (firebaseError.code) {
+          case 'auth/user-not-found':
+            errorMessage = 'Usuário não encontrado.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Senha incorreta.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Email inválido.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Muitas tentativas. Tente novamente mais tarde.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Erro de conexão. Verifique sua internet.';
+            break;
+        }
       }
 
       setIsLoading(false);

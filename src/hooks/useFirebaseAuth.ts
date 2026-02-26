@@ -126,8 +126,9 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
       setError(null);
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (err: any) {
-      const errorMessage = getAuthErrorMessage(err.code);
+    } catch (err: unknown) {
+      const errorCode = err instanceof Error && 'code' in err ? (err as { code: string }).code : 'unknown';
+      const errorMessage = getAuthErrorMessage(errorCode);
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {
@@ -149,8 +150,9 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
       if (displayName && result.user) {
         await updateProfile(result.user, { displayName });
       }
-    } catch (err: any) {
-      const errorMessage = getAuthErrorMessage(err.code);
+    } catch (err: unknown) {
+      const errorCode = err instanceof Error && 'code' in err ? (err as { code: string }).code : 'unknown';
+      const errorMessage = getAuthErrorMessage(errorCode);
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {
@@ -169,8 +171,9 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
       setLoading(true);
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-    } catch (err: any) {
-      const errorMessage = getAuthErrorMessage(err.code);
+    } catch (err: unknown) {
+      const errorCode = err instanceof Error && 'code' in err ? (err as { code: string }).code : 'unknown';
+      const errorMessage = getAuthErrorMessage(errorCode);
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {
@@ -185,7 +188,7 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
     try {
       setError(null);
       await signOut(auth);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Erro ao fazer logout');
       throw new Error('Erro ao fazer logout');
     }
@@ -200,8 +203,9 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
     try {
       setError(null);
       await sendPasswordResetEmail(auth, email);
-    } catch (err: any) {
-      const errorMessage = getAuthErrorMessage(err.code);
+    } catch (err: unknown) {
+      const errorCode = err instanceof Error && 'code' in err ? (err as { code: string }).code : 'unknown';
+      const errorMessage = getAuthErrorMessage(errorCode);
       setError(errorMessage);
       throw new Error(errorMessage);
     }
@@ -222,7 +226,7 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
         const userRef = doc(db, 'users', user.uid);
         await setDoc(userRef, updates, { merge: true });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Erro ao atualizar perfil');
       throw new Error('Erro ao atualizar perfil');
     }
