@@ -129,7 +129,7 @@ export const STANDALONE_SERVICES: Service[] = [
     deliveryTime: 'Acesso imediato',
     revisions: 'Suporte técnico contínuo',
     tags: ['GSM', 'Ferramentas', 'Desbloqueio', 'Reparação'],
-    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755441/Gemini_Generated_Image_66r0q266r0q266r0_kbpqc8.png',
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg',
     isIndividuallyAvailable: true,
     isStandaloneService: true
   }
