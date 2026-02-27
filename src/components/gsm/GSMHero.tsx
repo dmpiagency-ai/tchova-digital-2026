@@ -51,6 +51,18 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* ============================================ */}
+      {/* BACKGROUND IMAGE */}
+      {/* ============================================ */}
+      <div className="absolute inset-0">
+        <img
+          src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772181938/tchova_bg_rental_dkuvji.png"
+          alt="Tchova Rental Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+      </div>
+      
+      {/* ============================================ */}
       {/* BACKGROUND EFFECTS */}
       {/* ============================================ */}
       
