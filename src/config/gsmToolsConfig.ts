@@ -56,12 +56,12 @@ export const TOOL_CATEGORIES: ToolCategoryInfo[] = [
 ];
 
 // ============================================
-// TOOLS CATALOG
+// TOOLS CATALOG - 6 Ferramentas Principais
 // ============================================
 
 export const GSM_TOOLS: GSMTool[] = [
   // ============================================
-  // INSTANT TOOLS
+  // MDM FIX TOOL
   // ============================================
   {
     id: 'mdm-fix-tool',
@@ -106,91 +106,9 @@ export const GSM_TOOLS: GSMTool[] = [
     reviewCount: 156,
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772201650/Gemini_Generated_Image_uw5vn1uw5vn1uw5v_civaxn.png'
   },
-  {
-    id: 'frp-bypass-pro',
-    key: 'FRP',
-    name: 'FRP Bypass Pro',
-    description: 'Solução profissional para remoção de FRP (Factory Reset Protection) em dispositivos Samsung, LG, Motorola e outras marcas.',
-    shortDescription: 'FRP Removal Samsung/LG/Moto/Outros',
-    category: 'instant',
-    pricing: {
-      cliente: { usd: 1.50, mtn: 96.00 },
-      vip: { usd: 1.28, mtn: 81.60 },
-      revenda: { usd: 1.05, mtn: 67.20 }
-    },
-    duration: {
-      min: 1,
-      max: 12,
-      options: [1, 2, 4, 6, 8, 12]
-    },
-    features: [
-      'FRP Reset Samsung',
-      'FRP Reset LG',
-      'FRP Reset Motorola',
-      'Suporte Multi-Marca',
-      'Credenciais Instantâneas'
-    ],
-    icon: 'Lock',
-    color: '#3B82F6',
-    gradient: 'from-blue-500 to-indigo-500',
-    popular: true,
-    available: true,
-    slots: {
-      total: 15,
-      occupied: 5
-    },
-    server: {
-      url: 'https://frp.tchova.co.mz',
-      protocol: 'https'
-    },
-    tags: ['FRP', 'Samsung', 'LG', 'Motorola', 'Instant'],
-    rating: 4.8,
-    reviewCount: 234
-  },
-  {
-    id: 'imei-repair-tool',
-    key: 'IMEI',
-    name: 'IMEI Repair Tool',
-    description: 'Ferramenta avançada para reparação de IMEI em dispositivos Android. Suporte para múltiplas marcas com alta taxa de sucesso.',
-    shortDescription: 'Reparação de IMEI Android',
-    category: 'instant',
-    pricing: {
-      cliente: { usd: 3.00, mtn: 192.00 },
-      vip: { usd: 2.55, mtn: 163.20 },
-      revenda: { usd: 2.10, mtn: 134.40 }
-    },
-    duration: {
-      min: 1,
-      max: 8,
-      options: [1, 2, 4, 6, 8]
-    },
-    features: [
-      'IMEI Repair Samsung',
-      'IMEI Repair Xiaomi',
-      'IMEI Repair Oppo/Vivo',
-      'Backup NV Data',
-      'Restore Original IMEI'
-    ],
-    icon: 'Smartphone',
-    color: '#10B981',
-    gradient: 'from-green-500 to-emerald-500',
-    popular: false,
-    available: true,
-    slots: {
-      total: 8,
-      occupied: 1
-    },
-    server: {
-      url: 'https://imei.tchova.co.mz',
-      protocol: 'https'
-    },
-    tags: ['IMEI', 'Repair', 'Android', 'Samsung', 'Xiaomi'],
-    rating: 4.7,
-    reviewCount: 89
-  },
-
+  
   // ============================================
-  // SERVER TOOLS
+  // CHIMERA TOOL
   // ============================================
   {
     id: 'chimera-tool',
@@ -235,17 +153,21 @@ export const GSM_TOOLS: GSMTool[] = [
     rating: 4.9,
     reviewCount: 412
   },
+  
+  // ============================================
+  // CHEETAH TOOL
+  // ============================================
   {
-    id: 'unlocktool-server',
-    key: 'UNLOCKTOOL',
-    name: 'UnlockTool',
-    description: 'Servidor de desbloqueio rápido para Samsung, LG, Motorola e outras marcas. Excelente para FRP e Unlock de rede.',
-    shortDescription: 'Servidor Unlock Rápido Multi-Marca',
+    id: 'cheetah-tool',
+    key: 'CHEETAH',
+    name: 'Cheetah Tool',
+    description: 'Ferramenta de alta performance para dispositivos Android com suporte a múltiplas marcas. Ideal para técnicos que precisam de velocidade e eficiência.',
+    shortDescription: 'Android Multi-Brand Tool',
     category: 'server',
     pricing: {
-      cliente: { usd: 2.50, mtn: 160.00 },
-      vip: { usd: 2.13, mtn: 136.00 },
-      revenda: { usd: 1.75, mtn: 112.00 }
+      cliente: { usd: 3.50, mtn: 224.00 },
+      vip: { usd: 2.98, mtn: 190.40 },
+      revenda: { usd: 2.45, mtn: 156.80 }
     },
     duration: {
       min: 1,
@@ -253,36 +175,41 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8, 12]
     },
     features: [
-      'FRP Reset Rápido',
-      'Unlock de Rede',
-      'Suporte Samsung/LG/Moto',
-      'Credenciais Instantâneas',
-      'Alta Taxa de Sucesso'
+      'FRP Reset Universal',
+      'Desbloqueio de Rede',
+      'IMEI Repair',
+      'Flash Firmware',
+      'Suporte Rapido',
+      'Atualizações Frequentes'
     ],
-    icon: 'Key',
-    color: '#F59E0B',
-    gradient: 'from-amber-500 to-orange-500',
+    icon: 'Zap',
+    color: '#10B981',
+    gradient: 'from-green-500 to-emerald-500',
     popular: true,
     available: true,
     slots: {
-      total: 25,
-      occupied: 12
+      total: 15,
+      occupied: 5
     },
     server: {
-      url: 'https://unlock.tchova.co.mz',
+      url: 'https://cheetah.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['Unlock', 'FRP', 'Samsung', 'LG', 'Motorola'],
+    tags: ['Cheetah', 'Android', 'FRP', 'Unlock', 'IMEI'],
     rating: 4.8,
-    reviewCount: 567
+    reviewCount: 328
   },
+  
+  // ============================================
+  // AMT TOOL
+  // ============================================
   {
-    id: 'hydra-tool',
-    key: 'HYDRA',
-    name: 'Hydra Tool',
-    description: 'Servidor especializado em dispositivos chineses e coreanos. Excelente suporte para Oppo, Vivo, Xiaomi, Realme.',
-    shortDescription: 'Especialista em Dispositivos Chineses',
-    category: 'server',
+    id: 'amt-tool',
+    key: 'AMT',
+    name: 'AMT Tool',
+    description: 'Android Multi Tool com suporte a diversas marcas e modelos. Ferramenta versátil para técnicos que trabalham com dispositivos Android.',
+    shortDescription: 'Android Multi Tool',
+    category: 'instant',
     pricing: {
       cliente: { usd: 2.00, mtn: 128.00 },
       vip: { usd: 1.70, mtn: 108.80 },
@@ -290,84 +217,44 @@ export const GSM_TOOLS: GSMTool[] = [
     },
     duration: {
       min: 1,
-      max: 12,
-      options: [1, 2, 4, 6, 8, 12]
+      max: 8,
+      options: [1, 2, 4, 6, 8]
     },
     features: [
-      'FRP Reset Oppo/Vivo/Xiaomi',
-      'Unlock de Rede',
-      'Suporte Dispositivos Chineses',
-      'Credenciais Rápidas',
-      'Atualizações Frequentes'
+      'FRP Reset Android',
+      'Desbloqueio de Tela',
+      'IMEI Repair',
+      'Backup de Dados',
+      'Ativação Instantânea',
+      'Suporte 24/7'
     ],
-    icon: 'RefreshCw',
+    icon: 'Smartphone',
     color: '#06B6D4',
     gradient: 'from-cyan-500 to-blue-500',
     popular: false,
     available: true,
     slots: {
-      total: 15,
+      total: 12,
       occupied: 3
     },
     server: {
-      url: 'https://hydra.tchova.co.mz',
+      url: 'https://amt.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['Hydra', 'Oppo', 'Vivo', 'Xiaomi', 'FRP'],
-    rating: 4.6,
-    reviewCount: 178
+    tags: ['AMT', 'Android', 'FRP', 'Repair', 'Instant'],
+    rating: 4.7,
+    reviewCount: 189
   },
-  {
-    id: 'tcm-tool',
-    key: 'TCM',
-    name: 'TCM Tool',
-    description: 'Ferramenta especializada em FRP e Unlock para dispositivos móveis com suporte técnico dedicado.',
-    shortDescription: 'FRP e Unlock com Suporte Dedicado',
-    category: 'server',
-    pricing: {
-      cliente: { usd: 3.00, mtn: 192.00 },
-      vip: { usd: 2.55, mtn: 163.20 },
-      revenda: { usd: 2.10, mtn: 134.40 }
-    },
-    duration: {
-      min: 1,
-      max: 8,
-      options: [1, 2, 4, 6, 8]
-    },
-    features: [
-      'FRP Reset Profissional',
-      'Unlock de Rede',
-      'Suporte Técnico Dedicado',
-      'Atualizações Constantes',
-      'Multi-Marca'
-    ],
-    icon: 'Activity',
-    color: '#EC4899',
-    gradient: 'from-pink-500 to-rose-500',
-    popular: false,
-    available: true,
-    slots: {
-      total: 10,
-      occupied: 2
-    },
-    server: {
-      url: 'https://tcm.tchova.co.mz',
-      protocol: 'https'
-    },
-    tags: ['TCM', 'FRP', 'Unlock', 'Suporte'],
-    rating: 4.5,
-    reviewCount: 98
-  },
-
+  
   // ============================================
-  // BOX TOOLS
+  // DFT PRO
   // ============================================
   {
-    id: 'eft-pro-box',
-    key: 'EFT',
-    name: 'EFT Pro',
-    description: 'Box profissional com suporte a múltiplas marcas. Ideal para técnicos que trabalham com diversos dispositivos.',
-    shortDescription: 'Box Multi-Marca Profissional',
+    id: 'dft-pro',
+    key: 'DFT',
+    name: 'DFT Pro',
+    description: 'Ferramenta profissional para dispositivos Nokia e Microsoft. Suporte completo para flashing, unlock e reparação de software.',
+    shortDescription: 'Nokia/Microsoft Professional',
     category: 'box',
     pricing: {
       cliente: { usd: 5.00, mtn: 320.00 },
@@ -380,157 +267,75 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [2, 4, 6, 8, 12, 24]
     },
     features: [
-      'Suporte Multi-Marca',
-      'FRP Reset Universal',
-      'IMEI Repair Avançado',
-      'Flash e Firmware',
-      'Suporte Técnico 24/7',
+      'Flash Nokia/Microsoft',
+      'Unlock de Rede',
+      'FRP Reset',
+      'Reparo de Software',
+      'Suporte Técnico',
       'Atualizações Diárias'
     ],
-    icon: 'Zap',
-    color: '#EF4444',
-    gradient: 'from-red-500 to-orange-500',
+    icon: 'Activity',
+    color: '#EC4899',
+    gradient: 'from-pink-500 to-rose-500',
     popular: true,
-    available: true,
-    slots: {
-      total: 12,
-      occupied: 4
-    },
-    server: {
-      url: 'https://eft.tchova.co.mz',
-      port: 9000,
-      protocol: 'https'
-    },
-    tags: ['EFT', 'Box', 'Multi-Marca', 'FRP', 'IMEI'],
-    rating: 4.9,
-    reviewCount: 345
-  },
-  {
-    id: 'octoplus-box',
-    key: 'OCTOPLUS',
-    name: 'Octoplus Box',
-    description: 'Box profissional para Samsung e LG com suporte completo a FRP, Unlock e IMEI Repair.',
-    shortDescription: 'Samsung/LG Especializado',
-    category: 'box',
-    pricing: {
-      cliente: { usd: 4.00, mtn: 256.00 },
-      vip: { usd: 3.40, mtn: 217.60 },
-      revenda: { usd: 2.80, mtn: 179.20 }
-    },
-    duration: {
-      min: 2,
-      max: 24,
-      options: [2, 4, 6, 8, 12, 24]
-    },
-    features: [
-      'Samsung/LG Especializado',
-      'FRP Reset Avançado',
-      'IMEI Repair',
-      'Flash e Firmware',
-      'Suporte Técnico'
-    ],
-    icon: 'Box',
-    color: '#6366F1',
-    gradient: 'from-indigo-500 to-purple-500',
-    popular: false,
-    available: true,
-    slots: {
-      total: 8,
-      occupied: 2
-    },
-    server: {
-      url: 'https://octoplus.tchova.co.mz',
-      protocol: 'https'
-    },
-    tags: ['Octoplus', 'Samsung', 'LG', 'Box', 'FRP'],
-    rating: 4.7,
-    reviewCount: 189
-  },
-  {
-    id: 'z3x-box',
-    key: 'Z3X',
-    name: 'Z3X Box',
-    description: 'Box completa para Samsung, LG e outros. Uma das mais populares entre técnicos GSM.',
-    shortDescription: 'Samsung/LG Popular',
-    category: 'box',
-    pricing: {
-      cliente: { usd: 3.50, mtn: 224.00 },
-      vip: { usd: 2.98, mtn: 190.40 },
-      revenda: { usd: 2.45, mtn: 156.80 }
-    },
-    duration: {
-      min: 2,
-      max: 24,
-      options: [2, 4, 6, 8, 12, 24]
-    },
-    features: [
-      'Samsung/LG Popular',
-      'FRP Reset Fácil',
-      'Unlock de Rede',
-      'Suporte Ativo',
-      'Comunidade Grande'
-    ],
-    icon: 'Box',
-    color: '#F97316',
-    gradient: 'from-orange-500 to-amber-500',
-    popular: false,
     available: true,
     slots: {
       total: 10,
-      occupied: 3
+      occupied: 4
     },
     server: {
-      url: 'https://z3x.tchova.co.mz',
+      url: 'https://dft.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['Z3X', 'Samsung', 'LG', 'Box', 'Popular'],
+    tags: ['DFT', 'Nokia', 'Microsoft', 'Flash', 'Unlock'],
     rating: 4.6,
-    reviewCount: 267
+    reviewCount: 256
   },
-
+  
   // ============================================
-  // TEAMVIEWER TOOLS
+  // TSM TOOL
   // ============================================
   {
-    id: 'teamviewer-gsm',
-    key: 'TVGSM',
-    name: 'TeamViewer GSM',
-    description: 'Acesso remoto via TeamViewer com todas as ferramentas GSM instaladas. Ideal para serviços específicos com suporte ao vivo.',
-    shortDescription: 'Acesso Remoto com Ferramentas',
-    category: 'teamviewer',
+    id: 'tsm-tool',
+    key: 'TSM',
+    name: 'TSM Tool',
+    description: 'Ferramenta especializada em dispositivos Xiaomi, Redmi e Poco. Suporte para FRP, unlock e reparação de software.',
+    shortDescription: 'Xiaomi/Redmi/Poco Specialist',
+    category: 'server',
     pricing: {
-      cliente: { usd: 6.00, mtn: 384.00 },
-      vip: { usd: 5.10, mtn: 326.40 },
-      revenda: { usd: 4.20, mtn: 268.80 }
+      cliente: { usd: 2.50, mtn: 160.00 },
+      vip: { usd: 2.13, mtn: 136.00 },
+      revenda: { usd: 1.75, mtn: 112.00 }
     },
     duration: {
       min: 1,
-      max: 4,
-      options: [1, 2, 3, 4]
+      max: 12,
+      options: [1, 2, 4, 6, 8, 12]
     },
     features: [
-      'Acesso Remoto Completo',
-      'Todas as Ferramentas Instaladas',
-      'Suporte Técnico ao Vivo',
-      'Ideal para Serviços Únicos',
-      'Sessão Guiada'
+      'FRP Reset Xiaomi',
+      'Unlock Bootloader',
+      'Flash Firmware',
+      'MI Account Removal',
+      'Suporte Xiaomi',
+      'Atualizações Constantes'
     ],
-    icon: 'Monitor',
-    color: '#0EA5E9',
-    gradient: 'from-sky-500 to-blue-500',
+    icon: 'RefreshCw',
+    color: '#F59E0B',
+    gradient: 'from-amber-500 to-orange-500',
     popular: true,
     available: true,
     slots: {
-      total: 5,
-      occupied: 1
+      total: 18,
+      occupied: 6
     },
     server: {
-      url: 'teamviewer://tchova.co.mz',
-      protocol: 'rdp'
+      url: 'https://tsm.tchova.co.mz',
+      protocol: 'https'
     },
-    tags: ['TeamViewer', 'Remoto', 'Suporte', 'GSM'],
-    rating: 4.9,
-    reviewCount: 123
+    tags: ['TSM', 'Xiaomi', 'Redmi', 'Poco', 'FRP'],
+    rating: 4.8,
+    reviewCount: 298
   }
 ];
 
