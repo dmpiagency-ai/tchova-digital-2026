@@ -59,7 +59,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
           alt="Tchova Rental Background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50" />
       </div>
       
       {/* ============================================ */}
@@ -68,9 +68,9 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
       
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-primary/30 via-brand-green/20 to-transparent rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 -right-20 w-[600px] h-[600px] bg-gradient-to-tl from-brand-yellow/20 via-primary/15 to-transparent rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-primary/40 via-brand-green/30 to-transparent rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 -right-20 w-[600px] h-[600px] bg-gradient-to-tl from-brand-yellow/30 via-primary/25 to-transparent rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/15 via-transparent to-transparent rounded-full blur-3xl" />
       </div>
 
       {/* Grid Pattern */}
@@ -81,7 +81,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-primary/40 rounded-full animate-float"
+            className="absolute w-1 h-1 bg-white/60 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -97,7 +97,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
       {/* ============================================ */}
       <div className="relative z-10 container mx-auto px-4 py-12 lg:py-20">
         <div className="max-w-5xl mx-auto">
-          
+            
           {/* Badge */}
           <div 
             className={`flex justify-center mb-8 transition-all duration-700 ${
@@ -106,10 +106,10 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
           >
             <Badge 
               variant="outline" 
-              className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 via-brand-green/10 to-primary/10 border-primary/30 backdrop-blur-xl rounded-full"
+              className="px-4 py-2 text-sm font-medium bg-white/10 backdrop-blur-xl rounded-full border-white/30"
             >
-              <Sparkles className="w-4 h-4 mr-2 text-primary animate-pulse" />
-              <span className="bg-gradient-to-r from-primary via-brand-green to-primary bg-clip-text text-transparent">
+              <Sparkles className="w-4 h-4 mr-2 text-white animate-pulse" />
+              <span className="text-white font-semibold">
                 Ecossistema 360° Técnico GSM
               </span>
             </Badge>
@@ -122,13 +122,13 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
             }`}
           >
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black leading-tight mb-6">
-              <span className="block text-foreground">Alugue ferramentas GSM</span>
-              <span className="block mt-2 bg-gradient-to-r from-primary via-brand-green to-brand-yellow bg-clip-text text-transparent">
+              <span className="block text-white">Alugue ferramentas GSM</span>
+              <span className="block mt-2 bg-gradient-to-r from-primary via-brand-green to-brand-yellow bg-clip-text text-transparent drop-shadow-lg">
                 com segurança e velocidade
               </span>
             </h1>
             
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
               Credenciais liberadas em <span className="text-primary font-semibold">segundos</span>, 
               API 24/7, suporte técnico especializado. 
               A plataforma mais confiável para técnicos GSM em Moçambique.
@@ -144,12 +144,12 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 dark:bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/30 hover:bg-white/20 transition-all duration-300 group"
               >
-                <span className="text-primary group-hover:scale-110 transition-transform">
+                <span className="text-white group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </span>
-                <span className="text-sm font-medium text-foreground/80">{feature.text}</span>
+                <span className="text-sm font-medium text-white">{feature.text}</span>
               </div>
             ))}
           </div>
@@ -163,7 +163,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
             <Button
               size="lg"
               onClick={onCtaClick}
-              className="group relative h-14 px-8 text-lg font-bold rounded-2xl overflow-hidden bg-gradient-to-r from-primary to-brand-green hover:from-primary-darker hover:to-brand-green text-white shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
+              className="group relative h-14 px-8 text-lg font-bold rounded-2xl overflow-hidden bg-gradient-to-r from-primary to-brand-green hover:from-primary-darker hover:to-brand-green text-white shadow-2xl shadow-primary/50 hover:shadow-primary/70 transition-all duration-300"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Começar Agora
@@ -176,7 +176,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
               size="lg"
               variant="outline"
               onClick={onToolsClick}
-              className="h-14 px-8 text-lg font-semibold rounded-2xl border-2 border-primary/30 bg-white/5 backdrop-blur-xl hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+              className="h-14 px-8 text-lg font-semibold rounded-2xl border-2 border-white/40 bg-white/10 backdrop-blur-xl hover:bg-white/20 hover:border-white/60 text-white transition-all duration-300"
             >
               <span className="flex items-center justify-center gap-2">
                 Ver Ferramentas
@@ -196,16 +196,16 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
                 key={index}
                 className={`relative p-4 rounded-2xl backdrop-blur-xl border transition-all duration-500 ${
                   activeStat === index 
-                    ? 'bg-primary/10 border-primary/40 scale-105' 
-                    : 'bg-white/5 border-white/10 hover:bg-white/10'
+                    ? 'bg-primary/20 border-primary/60 scale-105' 
+                    : 'bg-white/10 border-white/30 hover:bg-white/20'
                 }`}
               >
                 <div className="flex flex-col items-center text-center">
-                  <span className={`mb-2 transition-colors ${activeStat === index ? 'text-primary' : 'text-muted-foreground'}`}>
+                  <span className={`mb-2 transition-colors ${activeStat === index ? 'text-primary' : 'text-white'}`}>
                     {stat.icon}
                   </span>
-                  <span className="text-2xl sm:text-3xl font-black text-foreground">{stat.value}</span>
-                  <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
+                  <span className="text-2xl sm:text-3xl font-black text-white">{stat.value}</span>
+                  <span className="text-xs sm:text-sm text-gray-200">{stat.label}</span>
                 </div>
                 
                 {/* Active Indicator */}
@@ -218,25 +218,25 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
 
           {/* Trust Indicators */}
           <div 
-            className={`flex flex-wrap justify-center items-center gap-6 mt-12 pt-8 border-t border-white/10 transition-all duration-700 delay-700 ${
+            className={`flex flex-wrap justify-center items-center gap-6 mt-12 pt-8 border-t border-white/20 transition-all duration-700 delay-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2 text-gray-200">
               <Clock className="w-4 h-4 text-primary" />
               <span className="text-sm">Resposta em até 1 hora</span>
             </div>
-            <div className="w-px h-4 bg-white/20" />
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="w-px h-4 bg-white/30" />
+            <div className="flex items-center gap-2 text-gray-200">
               <Shield className="w-4 h-4 text-primary" />
               <span className="text-sm">100% Seguro e Auditado</span>
             </div>
-            <div className="w-px h-4 bg-white/20" />
+            <div className="w-px h-4 bg-white/30" />
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-brand-yellow text-brand-yellow" />
               ))}
-              <span className="text-sm text-muted-foreground ml-1">4.9/5</span>
+              <span className="text-sm text-gray-200 ml-1">4.9/5</span>
             </div>
           </div>
         </div>
@@ -244,7 +244,7 @@ const GSMHero: React.FC<GSMHeroProps> = ({ onCtaClick, onToolsClick }) => {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <ChevronDown className="w-6 h-6 text-primary/60" />
+        <ChevronDown className="w-6 h-6 text-white/80" />
       </div>
     </section>
   );
