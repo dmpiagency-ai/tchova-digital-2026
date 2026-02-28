@@ -115,6 +115,7 @@ export interface GSMTool {
   tags: string[];
   rating: number;
   reviewCount: number;
+  image?: string; // Optional image URL for the tool card
 }
 
 // ============================================

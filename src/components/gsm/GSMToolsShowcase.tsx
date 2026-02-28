@@ -256,15 +256,25 @@ const GSMToolsShowcase: React.FC<GSMToolsShowcaseProps> = ({
                   {viewMode === 'grid' ? (
                     // Grid View
                     <>
-                      {/* Icon */}
-                      <div 
-                        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                        style={{ background: `linear-gradient(135deg, ${tool.color}, ${tool.gradient.split(' ')[0].replace('from-', '')})` }}
-                      >
-                        <span className="text-white text-xl">
-                          {iconMap[tool.icon]}
-                        </span>
-                      </div>
+                      {/* Image or Icon */}
+                      {tool.image ? (
+                        <div className="mb-4">
+                          <img 
+                            src={tool.image} 
+                            alt={tool.name}
+                            className="w-full h-32 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ) : (
+                        <div 
+                          className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                          style={{ background: `linear-gradient(135deg, ${tool.color}, ${tool.gradient.split(' ')[0].replace('from-', '')})` }}
+                        >
+                          <span className="text-white text-xl">
+                            {iconMap[tool.icon]}
+                          </span>
+                        </div>
+                      )}
 
                       {/* Title & Description */}
                       <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
@@ -320,15 +330,25 @@ const GSMToolsShowcase: React.FC<GSMToolsShowcaseProps> = ({
                   ) : (
                     // List View
                     <div className="flex items-center gap-4">
-                      {/* Icon */}
-                      <div 
-                        className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"
-                        style={{ background: `linear-gradient(135deg, ${tool.color}, ${tool.gradient.split(' ')[0].replace('from-', '')})` }}
-                      >
-                        <span className="text-white">
-                          {iconMap[tool.icon]}
-                        </span>
-                      </div>
+                      {/* Image or Icon */}
+                      {tool.image ? (
+                        <div className="flex-shrink-0">
+                          <img 
+                            src={tool.image} 
+                            alt={tool.name}
+                            className="w-20 h-16 object-cover rounded-xl shadow-lg"
+                          />
+                        </div>
+                      ) : (
+                        <div 
+                          className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"
+                          style={{ background: `linear-gradient(135deg, ${tool.color}, ${tool.gradient.split(' ')[0].replace('from-', '')})` }}
+                        >
+                          <span className="text-white">
+                            {iconMap[tool.icon]}
+                          </span>
+                        </div>
+                      )}
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">

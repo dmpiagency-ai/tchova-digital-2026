@@ -103,7 +103,8 @@ export const GSM_TOOLS: GSMTool[] = [
     },
     tags: ['MDM', 'iOS', 'Android', 'Knox', 'Instant'],
     rating: 4.9,
-    reviewCount: 156
+    reviewCount: 156,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772201650/Gemini_Generated_Image_uw5vn1uw5vn1uw5v_civaxn.png'
   },
   {
     id: 'frp-bypass-pro',
