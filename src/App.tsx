@@ -23,6 +23,7 @@ const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
 const ClientPanel = lazy(() => import("./pages/ClientPanel"));
 const PlanCustomizer = lazy(() => import("./pages/PlanCustomizer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const GSMServicePage = lazy(() => import("@/components/gsm/GSMServicePage"));
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
                     <Route path="/admin" element={<AdminPanel />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/service-details" element={<ServiceDetails />} />
+                    <Route path="/gsm" element={<GSMServicePage />} />
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/checkout/seguro" element={<Checkout />} />
                     <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />

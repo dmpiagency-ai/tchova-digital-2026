@@ -67,8 +67,7 @@ export const GSM_TOOLS: GSMTool[] = [
     id: 'mdm-fix-tool',
     key: 'MDM',
     name: 'MDM FIX TOOL',
-    description: 'Ferramenta especializada para remoção de MDM (Mobile Device Management) em dispositivos Apple e Android. Ideal para técnicos que trabalham com dispositivos corporativos.',
-    shortDescription: 'KG, IT ADMIN AND MDM HOT TOOL',
+    description: 'Ferramenta profissional completa para remoção de MDM, KnoxGuard, FRP e muito mais. Suporte a Android 14/15 e dispositivos Xiaomi.',
     category: 'instant',
     pricing: {
       cliente: { usd: 2.41, mtn: 154.24 },
@@ -81,12 +80,18 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8, 12, 24]
     },
     features: [
-      'MDM Bypass iOS/Android',
-      'KG (Knox Guard) Removal',
+      'MDM Lock Removal',
+      'KG (KnoxGuard) Unlock',
+      'FRP Bypass',
       'IT Admin Removal',
+      'Mi Account Reset',
+      'IMEI Repair (SPD)',
+      'Serial Number Repair',
+      'ADB/EDL Mode',
+      'Samsung Flash',
+      'Network Unlock',
       'Ativação Instantânea',
-      'Suporte 24/7',
-      'Alta Taxa de Sucesso'
+      'Suporte 24/7'
     ],
     icon: 'Shield',
     color: '#FF6B00',
@@ -101,10 +106,14 @@ export const GSM_TOOLS: GSMTool[] = [
       url: 'https://mdm.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['MDM', 'iOS', 'Android', 'Knox', 'Instant'],
+    tags: ['MDM', 'iOS', 'Android', 'Knox', 'FRP', 'KG', 'Mi Account', 'IMEI', 'Instant'],
     rating: 4.9,
     reviewCount: 156,
-    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772201650/Gemini_Generated_Image_uw5vn1uw5vn1uw5v_civaxn.png'
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772708628/MDM_FIX_yjtfys.png',
+    requires_imei: true,
+    requires_serial: true,
+    checktool_endpoint: '/api/checktool/mdm',
+    rent_endpoint: '/api/rent/mdm'
   },
   
   // ============================================
@@ -114,8 +123,7 @@ export const GSM_TOOLS: GSMTool[] = [
     id: 'chimera-tool',
     key: 'CHIMERA',
     name: 'Chimera Tool',
-    description: 'Ferramenta profissional completa para Samsung, HTC, BlackBerry e LG. Suporte total para FRP, Unlock, IMEI Repair e muito mais.',
-    shortDescription: 'Samsung/HTC/LG/BlackBerry Pro Tool',
+    description: 'Ferramenta profissional all-in-one para desbloqueio, reparação e gestão de dispositivos móveis. Suporta mais de 10.000 modelos de mais de 30 fabricantes.',
     category: 'server',
     pricing: {
       cliente: { usd: 4.00, mtn: 256.00 },
@@ -128,12 +136,18 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8, 12, 24]
     },
     features: [
-      'FRP Reset Samsung/HTC/LG',
-      'Desbloqueio de Rede',
-      'IMEI Repair Avançado',
-      'Flash e Firmware',
-      'Suporte Multi-Marca',
-      'Atualizações Constantes'
+      'FRP Bypass',
+      'Network/SIM Unlock',
+      'Carrier Relock',
+      'IMEI & MAC Repair',
+      'Patch Certificate',
+      'Modem Repair',
+      'Firmware Updates',
+      'CSC Change',
+      'Bootloader Management',
+      'Exynos Support',
+      'Qualcomm EDL Mode',
+      '10.000+ Modelos'
     ],
     icon: 'Box',
     color: '#8B5CF6',
@@ -149,9 +163,14 @@ export const GSM_TOOLS: GSMTool[] = [
       port: 8080,
       protocol: 'https'
     },
-    tags: ['Chimera', 'Samsung', 'HTC', 'LG', 'FRP', 'Unlock'],
+    tags: ['Chimera', 'Samsung', 'Huawei', 'Xiaomi', 'Oppo', 'Motorola', 'FRP', 'Unlock', 'IMEI', 'Network'],
     rating: 4.9,
-    reviewCount: 412
+    reviewCount: 412,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772708627/chimera-tool_wqdefp.png',
+    requires_imei: true,
+    requires_serial: false,
+    checktool_endpoint: '/api/checktool/chimera',
+    rent_endpoint: '/api/rent/chimera'
   },
   
   // ============================================
@@ -160,9 +179,8 @@ export const GSM_TOOLS: GSMTool[] = [
   {
     id: 'cheetah-tool',
     key: 'CHEETAH',
-    name: 'Cheetah Tool',
-    description: 'Ferramenta de alta performance para dispositivos Android com suporte a múltiplas marcas. Ideal para técnicos que precisam de velocidade e eficiência.',
-    shortDescription: 'Android Multi-Brand Tool',
+    name: 'Cheetah Tool Pro',
+    description: 'Ferramenta profissional de reparação de telemóveis projetada para simplificar procedimentos técnicos complexos. Workflows automáticos "few-click" que não requerem habilidades profissionais avançadas.',
     category: 'server',
     pricing: {
       cliente: { usd: 3.50, mtn: 224.00 },
@@ -175,12 +193,18 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8, 12]
     },
     features: [
-      'FRP Reset Universal',
-      'Desbloqueio de Rede',
+      'FRP Reset',
+      'MDM & PayJoy Removal',
       'IMEI Repair',
-      'Flash Firmware',
-      'Suporte Rapido',
-      'Atualizações Frequentes'
+      'Security Repair (NV RAM)',
+      'Network Unlock',
+      'KnoxGuard Management',
+      'Firmware Flashing',
+      '.PAC Support (Unisoc)',
+      'Scatter Files (MediaTek)',
+      'Bootloader Control',
+      'Partition Management',
+      'Read Device Info'
     ],
     icon: 'Zap',
     color: '#10B981',
@@ -195,9 +219,14 @@ export const GSM_TOOLS: GSMTool[] = [
       url: 'https://cheetah.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['Cheetah', 'Android', 'FRP', 'Unlock', 'IMEI'],
+    tags: ['Cheetah', 'Android', 'FRP', 'Unlock', 'IMEI', 'MDM', 'PayJoy', 'KnoxGuard', 'MediaTek', 'Unisoc'],
     rating: 4.8,
-    reviewCount: 328
+    reviewCount: 328,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772299925/cheetah_tool_pro_module_bkjshe.png',
+    requires_imei: false,
+    requires_serial: true,
+    checktool_endpoint: '/api/checktool/cheetah',
+    rent_endpoint: '/api/rent/cheetah'
   },
   
   // ============================================
@@ -207,8 +236,7 @@ export const GSM_TOOLS: GSMTool[] = [
     id: 'amt-tool',
     key: 'AMT',
     name: 'AMT Tool',
-    description: 'Android Multi Tool com suporte a diversas marcas e modelos. Ferramenta versátil para técnicos que trabalham com dispositivos Android.',
-    shortDescription: 'Android Multi Tool',
+    description: 'Advanced all-in-one software solution for flashing, unlocking, and repairing Android smartphones. Designed for security bypasses and firmware maintenance for Samsung, Xiaomi, Vivo, Oppo, and Realme.',
     category: 'instant',
     pricing: {
       cliente: { usd: 2.00, mtn: 128.00 },
@@ -221,12 +249,18 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8]
     },
     features: [
-      'FRP Reset Android',
-      'Desbloqueio de Tela',
-      'IMEI Repair',
-      'Backup de Dados',
-      'Ativação Instantânea',
-      'Suporte 24/7'
+      'FRP Bypass',
+      'Screen Lock Removal',
+      'Mi Account Removal',
+      'EDL Authentication',
+      'MDM Bypass',
+      'KG (KnoxGuard) Bypass',
+      'Flash Firmware',
+      'Auth Support (MTK/QCOM)',
+      'Oppo/Realme Decryption',
+      'Fastboot & ADB',
+      'Device Info Recovery',
+      'IMEI Repair'
     ],
     icon: 'Smartphone',
     color: '#06B6D4',
@@ -241,9 +275,14 @@ export const GSM_TOOLS: GSMTool[] = [
       url: 'https://amt.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['AMT', 'Android', 'FRP', 'Repair', 'Instant'],
+    tags: ['AMT', 'Android', 'Samsung', 'Xiaomi', 'Vivo', 'Oppo', 'Realme', 'FRP', 'Unlock', 'IMEI', 'Flash'],
     rating: 4.7,
-    reviewCount: 189
+    reviewCount: 189,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772708628/amt-tool_f8mrcm.png',
+    requires_imei: true,
+    requires_serial: false,
+    checktool_endpoint: '/api/checktool/amt',
+    rent_endpoint: '/api/rent/amt'
   },
   
   // ============================================
@@ -253,8 +292,7 @@ export const GSM_TOOLS: GSMTool[] = [
     id: 'dft-pro',
     key: 'DFT',
     name: 'DFT Pro',
-    description: 'Ferramenta profissional para dispositivos Nokia e Microsoft. Suporte completo para flashing, unlock e reparação de software.',
-    shortDescription: 'Nokia/Microsoft Professional',
+    description: 'Specialized Android service software for mobile technicians to perform advanced unlocking, flashing, and technical repairs. Supports Qualcomm, MediaTek (MTK), and Unisoc chipsets with modern Android security patches.',
     category: 'box',
     pricing: {
       cliente: { usd: 5.00, mtn: 320.00 },
@@ -267,12 +305,18 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [2, 4, 6, 8, 12, 24]
     },
     features: [
-      'Flash Nokia/Microsoft',
-      'Unlock de Rede',
-      'FRP Reset',
-      'Reparo de Software',
-      'Suporte Técnico',
-      'Atualizações Diárias'
+      'FRP Bypass',
+      'Android 16 Support',
+      'Bootloader Unlock/Relock',
+      'MI Account Removal',
+      'Network Unlock',
+      'MDM Unlock',
+      'IMEI Repair',
+      'Baseband Repair',
+      'Fastboot Flash',
+      'Partition Management',
+      'EFS Backup/Restore',
+      'APK Manager & Security Scan'
     ],
     icon: 'Activity',
     color: '#EC4899',
@@ -287,9 +331,14 @@ export const GSM_TOOLS: GSMTool[] = [
       url: 'https://dft.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['DFT', 'Nokia', 'Microsoft', 'Flash', 'Unlock'],
+    tags: ['DFT', 'Nokia', 'Microsoft', 'Samsung', 'Xiaomi', 'Huawei', 'Oppo', 'Vivo', 'Realme', 'Infinix', 'Tecno', 'Qualcomm', 'MediaTek', 'Unisoc', 'Flash', 'Unlock', 'FRP', 'IMEI'],
     rating: 4.6,
-    reviewCount: 256
+    reviewCount: 256,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772199789/dftprologo3d_itlfmw.png',
+    requires_imei: false,
+    requires_serial: true,
+    checktool_endpoint: '/api/checktool/dft',
+    rent_endpoint: '/api/rent/dft'
   },
   
   // ============================================
@@ -299,8 +348,7 @@ export const GSM_TOOLS: GSMTool[] = [
     id: 'tsm-tool',
     key: 'TSM',
     name: 'TSM Tool',
-    description: 'Ferramenta especializada em dispositivos Xiaomi, Redmi e Poco. Suporte para FRP, unlock e reparação de software.',
-    shortDescription: 'Xiaomi/Redmi/Poco Specialist',
+    description: 'Turbo Service Mobile - Specialized all-in-one software utility for mobile repair technicians. Used for bypassing security locks and repairing Android devices from Samsung, Xiaomi, Motorola, and Oppo.',
     category: 'server',
     pricing: {
       cliente: { usd: 2.50, mtn: 160.00 },
@@ -313,12 +361,21 @@ export const GSM_TOOLS: GSMTool[] = [
       options: [1, 2, 4, 6, 8, 12]
     },
     features: [
-      'FRP Reset Xiaomi',
-      'Unlock Bootloader',
-      'Flash Firmware',
-      'MI Account Removal',
-      'Suporte Xiaomi',
-      'Atualizações Constantes'
+      'Samsung KG Removal',
+      'MDM Removal',
+      'KG Active/Broken/Error',
+      'FRP Bypass',
+      'Mi Account Removal (EDL)',
+      'Bootloader Unlock/Relock',
+      'Read/Write Firmware',
+      'Repair Boot (Samsung MTK)',
+      'Partition Management',
+      'EFS/Security Operations',
+      'OTA Control',
+      'Factory Reset Control',
+      'Direct App Launching',
+      '4G/VoLTE Settings',
+      'Security Config Repair'
     ],
     icon: 'RefreshCw',
     color: '#F59E0B',
@@ -333,9 +390,14 @@ export const GSM_TOOLS: GSMTool[] = [
       url: 'https://tsm.tchova.co.mz',
       protocol: 'https'
     },
-    tags: ['TSM', 'Xiaomi', 'Redmi', 'Poco', 'FRP'],
+    tags: ['TSM', 'Turbo Service Mobile', 'Samsung', 'Xiaomi', 'Motorola', 'Oppo', 'KnoxGuard', 'KG', 'FRP', 'MDM', 'Unlock', 'Flash'],
     rating: 4.8,
-    reviewCount: 298
+    reviewCount: 298,
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772710108/tsm-tool_drflnf.png',
+    requires_imei: true,
+    requires_serial: false,
+    checktool_endpoint: '/api/checktool/tsm',
+    rent_endpoint: '/api/rent/tsm'
   }
 ];
 
@@ -373,7 +435,6 @@ export const searchTools = (query: string): GSMTool[] => {
   return GSM_TOOLS.filter(tool =>
     tool.name.toLowerCase().includes(lowerQuery) ||
     tool.description.toLowerCase().includes(lowerQuery) ||
-    tool.shortDescription.toLowerCase().includes(lowerQuery) ||
     tool.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) ||
     tool.features.some(feature => feature.toLowerCase().includes(lowerQuery))
   );

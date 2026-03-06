@@ -5,7 +5,6 @@
 
 import {
   Currency,
-  EXCHANGE_RATES,
   UserLevel,
   USER_LEVELS,
   GSMTool,
@@ -19,6 +18,7 @@ import {
   ToolPricing,
   CheckoutItem
 } from '@/types/gsm';
+import { convertCurrency as convertCurrencyAsync, getExchangeRates, fetchExchangeRates } from './exchangeRateService';
 
 // ============================================
 // CONSTANTS
@@ -36,35 +36,26 @@ const STORAGE_KEYS = {
 // ============================================
 
 /**
- * Converte valor de uma moeda para outra
+ * Converte valor de uma moeda para outra (versão assíncrona)
  * @param amount Valor a converter
  * @param from Moeda de origem
  * @param to Moeda de destino
  * @returns Valor convertido
  */
-export const convertCurrency = (
-  amount: number,
-  from: Currency,
-  to: Currency
-): number => {
-  if (from === to) return amount;
-  
-  const fromRate = EXCHANGE_RATES[from].rate;
-  const toRate = EXCHANGE_RATES[to].rate;
-  
-  // Converter para USD primeiro, depois para a moeda destino
-  const usdAmount = amount / fromRate;
-  return parseFloat((usdAmount * toRate).toFixed(2));
-};
+export const convertCurrency = convertCurrencyAsync;
 
 /**
  * Converte ToolPricing para uma moeda específica
  */
-export const convertPricing = (
+export const convertPricing = async (
   pricing: ToolPricing,
   currency: Currency
-): number => {
-  return currency === 'USD' ? pricing.usd : pricing.mtn;
+): Promise<number> => {
+  if (currency === 'USD') {
+    return pricing.usd;
+  } else {
+    return await convertCurrency(pricing.usd, 'USD', 'MTN');
+  }
 };
 
 /**
@@ -74,8 +65,11 @@ export const formatCurrency = (
   amount: number,
   currency: Currency
 ): string => {
-  const symbol = EXCHANGE_RATES[currency].symbol;
-  return `${symbol} ${amount.toLocaleString('pt-MZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const symbols: Record<Currency, string> = {
+    USD: '$',
+    MTN: 'MTn'
+  };
+  return `${symbols[currency]} ${amount.toLocaleString('pt-MZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
 // ============================================
@@ -103,21 +97,21 @@ export const calculateLevelDiscount = (
 /**
  * Calcula preço do aluguel com descontos progressivos
  */
-export const calculateRentalPrice = (
+export const calculateRentalPrice = async (
   tool: GSMTool,
   duration: number,
   level: UserLevel,
   currency: Currency
-): {
+): Promise<{
   basePrice: number;
   durationDiscount: number;
   levelDiscount: number;
   totalDiscount: number;
   finalPrice: number;
   currency: Currency;
-} => {
+}> => {
   // Preço base por hora
-  const hourlyPrice = convertPricing(tool.pricing[level], currency);
+  const hourlyPrice = await convertPricing(tool.pricing[level], currency);
   const basePrice = hourlyPrice * duration;
   
   // Desconto por duração (progressivo)
@@ -337,20 +331,20 @@ const generateRentalId = (): string => {
 /**
  * Cria um novo aluguel
  */
-export const createRental = (
+export const createRental = async (
   tool: GSMTool,
   userId: string,
   userEmail: string,
   userName: string,
   duration: number,
   currency: Currency
-): { rental: GSMRental; transaction: GSMTransaction } | null => {
+): Promise<{ rental: GSMRental; transaction: GSMTransaction } | null> => {
   // Obter carteira e nível
   const wallet = getWallet(userId);
   const level = wallet?.level || 'cliente';
   
   // Calcular preço
-  const pricing = calculateRentalPrice(tool, duration, level, currency);
+  const pricing = await calculateRentalPrice(tool, duration, level, currency);
   
   // Verificar saldo
   const balanceCheck = hasSufficientBalance(userId, pricing.finalPrice, currency);
@@ -382,13 +376,13 @@ export const createRental = (
     durationMinutes: duration * 60,
     pricing: {
       basePrice: {
-        usd: convertCurrency(pricing.basePrice, currency, 'USD'),
-        mtn: convertCurrency(pricing.basePrice, currency, 'MTN')
+        usd: await convertCurrency(pricing.basePrice, currency, 'USD'),
+        mtn: await convertCurrency(pricing.basePrice, currency, 'MTN')
       },
       discount: pricing.totalDiscount,
       finalPrice: {
-        usd: convertCurrency(pricing.finalPrice, currency, 'USD'),
-        mtn: convertCurrency(pricing.finalPrice, currency, 'MTN')
+        usd: await convertCurrency(pricing.finalPrice, currency, 'USD'),
+        mtn: await convertCurrency(pricing.finalPrice, currency, 'MTN')
       },
       currency
     },

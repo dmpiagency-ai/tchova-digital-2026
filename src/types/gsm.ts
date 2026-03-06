@@ -85,7 +85,7 @@ export interface GSMTool {
   key: string; // URL-friendly key
   name: string;
   description: string;
-  shortDescription: string;
+  shortDescription?: string; // Optional - for display cards
   category: ToolCategory;
   pricing: {
     cliente: ToolPricing;
@@ -113,9 +113,14 @@ export interface GSMTool {
     protocol: 'http' | 'https' | 'rdp';
   };
   tags: string[];
-  rating: number;
-  reviewCount: number;
+  rating?: number; // Optional - for display
+  reviewCount?: number; // Optional - for display
   image?: string; // Optional image URL for the tool card
+  // Checktool and rental functionality
+  requires_imei: boolean;
+  requires_serial: boolean;
+  checktool_endpoint?: string;
+  rent_endpoint?: string;
 }
 
 // ============================================
@@ -246,6 +251,43 @@ export interface CheckoutSession {
   status: 'pending' | 'processing' | 'completed' | 'failed';
   createdAt: Date;
   expiresAt: Date;
+}
+
+// ============================================
+// CHECKTOOL TYPES
+// ============================================
+
+export interface ChecktoolRequest {
+  id: string;
+  userId: string;
+  toolId: string;
+  inputData: {
+    imei?: string;
+    serial?: string;
+  };
+  result: {
+    status: string;
+    details?: Record<string, any>;
+  };
+  cost: number;
+  createdAt: Date;
+}
+
+// ============================================
+// NOTIFICATION TYPES
+// ============================================
+
+export type GSMNotificationType = 'payment_success' | 'payment_failed' | 'rental_created' | 'rental_expiring' | 'rental_expired' | 'low_balance' | 'credits_added';
+
+export interface GSMNotification {
+  id: string;
+  userId: string;
+  type: GSMNotificationType;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: Date;
+  metadata?: Record<string, any>;
 }
 
 // ============================================

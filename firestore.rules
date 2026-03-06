@@ -127,6 +127,43 @@ service cloud.firestore {
     }
     
     // ============================================
+    // COLEÇÃO: checktool_requests
+    // ============================================
+    // Solicitações de checktool por dispositivos
+    match /checktool_requests/{requestId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: gsm_rentals
+    // ============================================
+    // Aluguel de ferramentas GSM
+    match /gsm_rentals/{rentalId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // COLEÇÃO: gsm_transactions
+    // ============================================
+    // Transações financeiras GSM
+    match /gsm_transactions/{transactionId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
     // NEGAR TUDO MAIS (segurança padrão)
     // ============================================
     match /{document=**} {

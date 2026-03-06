@@ -32,9 +32,9 @@ import {
   Coins
 } from 'lucide-react';
 import { paymentGateway, PaymentResponse } from '@/services/paymentGateway';
-import { addCredits } from '@/services/gsmRentalService';
+import { addCredits, convertCurrency } from '@/services/gsmRentalService';
 import { useToast } from '@/hooks/use-toast';
-import { notifyPaymentSuccess, notifyPaymentFailed } from '@/services/gsmFirebase';
+
 
 // ============================================
 // TYPES
@@ -165,7 +165,7 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
 
        if (result.success) {
          // Adicionar créditos à carteira
-         const amountUsd = convertCurrency(amount, 'MTN', 'USD');
+         const amountUsd = await convertCurrency(amount, 'MTN', 'USD');
          addCredits(userId, { usd: amountUsd, mtn: amount }, selectedMethod, result.transactionId);
         
         // Enviar notificação de sucesso

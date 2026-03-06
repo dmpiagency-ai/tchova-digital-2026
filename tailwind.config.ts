@@ -158,6 +158,60 @@ export default {
             transform: "translateY(-10px)",
           },
         },
+        "fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(30px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "scale-up": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.8)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
+        "slide-left": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-50px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "slide-right": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(50px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "carousel-reveal": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(30px) scale(0.95)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0) scale(1)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -168,6 +222,13 @@ export default {
         "glow": "glow 2s ease-in-out infinite alternate",
         "hover-lift": "hover-lift 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         "tech-float": "tech-float 3s ease-in-out infinite",
+        // Entrance animations
+        "animate-fade-up": "fade-up 0.6s ease-out forwards",
+        "animate-fade-in": "fade-in 0.6s ease-out forwards",
+        "animate-scale-up": "scale-up 0.6s ease-out forwards",
+        "animate-slide-left": "slide-left 0.6s ease-out forwards",
+        "animate-slide-right": "slide-right 0.6s ease-out forwards",
+        "animate-carousel-reveal": "carousel-reveal 0.5s ease-out forwards",
       },
     },
   },

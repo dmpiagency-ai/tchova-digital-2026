@@ -184,13 +184,14 @@ const Hero = () => {
               transition: 'opacity 0.6s ease-out 0.9s, transform 0.6s ease-out 0.9s',
             }}
           >
-            {/* Primary CTA */}
+             {/* Primary CTA */}
             <Button
               size="lg"
               className="rounded-[22px] sm:rounded-[24px] py-3 sm:py-3.5 px-6 sm:px-8 font-bold transition-all duration-400 bg-gradient-to-r from-[#22C55E] to-emerald-600 border-2 border-green-400 text-white hover:from-[#16A34A] hover:to-emerald-700 hover:border-green-500 text-[15px] sm:text-base lg:text-lg hover:scale-[1.02] sm:hover:scale-105 hover:shadow-xl w-full sm:w-auto min-h-[50px] sm:min-h-[52px] lg:min-h-[56px] shadow-lg shadow-green-500/25"
               onClick={() => {
-                const message = encodeURIComponent('Olá! Quero saber mais sobre o ecossistema 360°.');
-                window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
+                if (typeof window !== 'undefined' && window.handleServiceAccess) {
+                  window.handleServiceAccess('gsm-rental');
+                }
               }}
             >
               Começar agora
