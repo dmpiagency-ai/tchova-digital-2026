@@ -364,7 +364,8 @@ class PaymentService {
       type: 'card',
       icon: '💳',
       description: 'Pagamento com cartão internacional',
-      enabled: true,
+      // Desativado no frontend por segurança/PCI (sem hosted fields no modo atual)
+      enabled: false,
       config: {
         apiKey: 'STRIPE_PUBLISHABLE_KEY',
         supportedCurrencies: ['USD', 'EUR', 'MZN'],

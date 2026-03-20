@@ -10,7 +10,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { PaymentType, PaymentStage, getPaymentStageLabel, getPaymentTypeLabel, getPaymentUIContext } from '@/types/payment';
 import {
-  CreditCard,
   Smartphone,
   DollarSign,
   Bitcoin,
@@ -151,9 +150,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       case 'mpesa': return <Smartphone className="w-6 h-6 text-green-600" />;
       case 'emola': return <Smartphone className="w-6 h-6 text-orange-600" />;
       case 'paypal': return <DollarSign className="w-6 h-6 text-blue-600" />;
-      case 'card': return <CreditCard className="w-6 h-6 text-purple-600" />;
       case 'bitcoin': return <Bitcoin className="w-6 h-6 text-orange-500" />;
-      default: return <CreditCard className="w-6 h-6" />;
+      default: return <Bitcoin className="w-6 h-6" />;
     }
   };
 
@@ -162,7 +160,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       case 'mpesa': return 'border-green-200 bg-green-50 hover:bg-green-100 dark:bg-green-900/20';
       case 'emola': return 'border-orange-200 bg-orange-50 hover:bg-orange-100 dark:bg-orange-900/20';
       case 'paypal': return 'border-blue-200 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20';
-      case 'card': return 'border-purple-200 bg-purple-50 hover:bg-purple-100 dark:bg-purple-900/20';
       case 'bitcoin': return 'border-orange-200 bg-orange-50 hover:bg-orange-100 dark:bg-orange-900/20';
       default: return 'border-gray-200 bg-gray-50 hover:bg-gray-100';
     }
@@ -214,57 +211,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           </Alert>
         );
 
-      case 'card':
-        return (
-          <div className="space-y-4">
-            <div className="space-y-3 sm:space-y-4">
-              <div>
-                <Label htmlFor="cardNumber" className="text-xs sm:text-sm font-semibold">Número do Cartão</Label>
-                <Input
-                  id="cardNumber"
-                  placeholder="1234 5678 9012 3456"
-                  value={paymentData.cardNumber || ''}
-                  onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
-                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2 sm:gap-4">
-                <div>
-                  <Label htmlFor="expiry" className="text-xs sm:text-sm font-semibold">Validade</Label>
-                  <Input
-                    id="expiry"
-                    placeholder="MM/AA"
-                    value={paymentData.expiry || ''}
-                    onChange={(e) => setPaymentData({...paymentData, expiry: e.target.value})}
-                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="cvv" className="text-xs sm:text-sm font-semibold">CVV</Label>
-                  <Input
-                    id="cvv"
-                    placeholder="123"
-                    type="password"
-                    value={paymentData.cvv || ''}
-                    onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
-                    className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="cardName" className="text-xs sm:text-sm font-semibold">Nome no Cartão</Label>
-                <Input
-                  id="cardName"
-                  placeholder="João Silva"
-                  value={paymentData.cardName || ''}
-                  onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
-                  className="mt-1 sm:mt-2 h-10 sm:h-12 text-sm rounded-[16px] border-gray-200 focus:ring-[#22C55E]"
-                />
-              </div>
-            </div>
-          </div>
-        );
-
       case 'bitcoin':
         return (
           <div className="space-y-4">
@@ -296,13 +242,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     if (selectedMethod.type === 'mpesa' || selectedMethod.type === 'emola') {
       if (!paymentData.phone) {
         setError('Número de telefone é obrigatório');
-        return;
-      }
-    }
-
-    if (selectedMethod.type === 'card') {
-      if (!paymentData.cardNumber || !paymentData.expiry || !paymentData.cvv || !paymentData.cardName) {
-        setError('Todos os campos do cartão são obrigatórios');
         return;
       }
     }
