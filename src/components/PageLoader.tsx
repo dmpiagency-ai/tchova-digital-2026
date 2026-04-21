@@ -59,6 +59,8 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   useGSAP(() => {
     if (!isVisible) return;
 
+    if (!isVisible || !contentRef.current) return;
+
     // 1. Entrance animation
     gsap.from(contentRef.current, {
       opacity: 0,

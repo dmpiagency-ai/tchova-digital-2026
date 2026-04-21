@@ -12,7 +12,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     // Only initialize if the user doesn't prefer reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !document.body) return;
 
     lenisRef.current = new Lenis({
       duration: 1.2,

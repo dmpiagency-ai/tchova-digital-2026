@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Check, Clock, Target } from "lucide-react";
 import { TiltCard } from '@/components/ui/TiltCard';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 // Plans with detailed feature lists
 const PLANS = [

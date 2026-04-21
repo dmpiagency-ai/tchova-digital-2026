@@ -2,9 +2,7 @@ import { ArrowDown } from 'lucide-react';
 import { useState, useRef, useCallback } from 'react';
 import { TextLoop } from '@/components/ui/text-loop';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1771006702/0213_3_ftmadc.mp4';
 

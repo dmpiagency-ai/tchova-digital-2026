@@ -1,10 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";

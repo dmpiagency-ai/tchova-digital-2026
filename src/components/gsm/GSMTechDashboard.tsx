@@ -5,8 +5,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 import logo from '@/assets/logo.svg';
 import { 
   Smartphone, 
@@ -196,7 +195,8 @@ const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const activeBtn = containerRef.current?.querySelector(`[data-id="${activeView}"]`) as HTMLElement;
+    if (!containerRef.current) return;
+    const activeBtn = containerRef.current.querySelector(`[data-id="${activeView}"]`) as HTMLElement;
     
     // Animate Indicator
     if (activeBtn && indicatorRef.current) {
@@ -219,8 +219,8 @@ const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
 
       if (isActive) {
         gsap.to(btn, { opacity: 1, duration: 0.3 });
-        gsap.to(icon, { scale: 1.15, duration: 0.4, ease: 'back.out(1.5)' });
-        gsap.to(label, { 
+        if (icon) gsap.to(icon, { scale: 1.15, duration: 0.4, ease: 'back.out(1.5)' });
+        if (label) gsap.to(label, { 
           width: 'auto', 
           opacity: 1, 
           marginLeft: 6,
@@ -230,8 +230,8 @@ const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
         });
       } else {
         gsap.to(btn, { opacity: 0.6, duration: 0.3 });
-        gsap.to(icon, { scale: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.to(label, { 
+        if (icon) gsap.to(icon, { scale: 1, duration: 0.4, ease: 'power2.out' });
+        if (label) gsap.to(label, { 
           width: 0, 
           opacity: 0, 
           marginLeft: 0,
@@ -244,7 +244,7 @@ const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
   }, { scope: containerRef, dependencies: [activeView] });
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden pb-[max(env(safe-area-inset-bottom),1rem)]">
       <div className="mx-2 sm:mx-3 mb-2 sm:mb-3">
         <div ref={containerRef} className={`
           relative rounded-[32px] sm:rounded-[36px] backdrop-blur-3xl shadow-3xl overflow-hidden px-1 sm:px-2

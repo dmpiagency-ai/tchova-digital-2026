@@ -5,9 +5,7 @@ import { Eye, Rocket, MessageCircle } from 'lucide-react';
 import { InteractiveContactModal } from './InteractiveContactModal';
 import { TiltCard } from '@/components/ui/TiltCard';
 import { env } from '@/config/env';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 const Services = () => {
   const navigate = useNavigate();

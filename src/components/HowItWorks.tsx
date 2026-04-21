@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { MessageSquare, Settings, Rocket, ArrowRight, Sparkles, Zap, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 
 const HowItWorks = () => {
   const containerRef = useRef<HTMLDivElement>(null);

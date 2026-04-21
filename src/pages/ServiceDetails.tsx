@@ -15,9 +15,7 @@ import {
 } from '@/constants/servicesData';
 import { InteractiveServiceCard } from '@/components/InteractiveServiceCard';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 import {
   Package,
@@ -44,6 +42,7 @@ const ServiceDetails = () => {
   const headerSectionRef = useRef<HTMLDivElement>(null);
   const nextEvolRef = useRef<HTMLDivElement>(null);
   const ctaSectionRef = useRef<HTMLDivElement>(null);
+  const bentoGridRef = useRef<HTMLDivElement>(null);
 
   const serviceId = searchParams.get('id');
   const service = INDIVIDUAL_SERVICES.find(s => s.id.toString() === serviceId) || null;
@@ -90,6 +89,24 @@ const ServiceDetails = () => {
         });
       }
     });
+
+    // Safety check for staggered elements in bento grid
+    if (bentoGridRef.current) {
+      const gridItems = bentoGridRef.current.querySelectorAll('.bento-item');
+      if (gridItems.length > 0) {
+        gsap.from(gridItems, {
+          y: 50,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 1,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: bentoGridRef.current,
+            start: "top 80%",
+          }
+        });
+      }
+    }
 
     // Handle GSAP cleanup for scroll triggers not strictly bound by standard timeline
     return () => {
@@ -238,7 +255,7 @@ const ServiceDetails = () => {
               
               {/* O FATOR DIFERENCIAL - BENTO GRID LAYOUT */}
               {heroData?.heroCards && heroData.heroCards.length > 0 && (
-                <div className="scroll-section">
+                <div className="scroll-section" ref={bentoGridRef}>
                   <div className="flex flex-col items-center gap-4 mb-16 justify-center text-center">
                     <div className="w-16 h-16 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-2">
                        <Rocket className="w-8 h-8 text-primary animate-bounce-slow" />
@@ -249,14 +266,14 @@ const ServiceDetails = () => {
                     <p className="text-muted-foreground text-lg max-w-2xl">Os elementos-chave que elevam esta solução ao estatuto de elite digital.</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6 min-h-[500px]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 min-h-[400px] sm:min-h-[600px]">
                     {heroData.heroCards.map((card: any, i: number) => (
                       <div 
                         key={i} 
-                        className={`stagger-card ${
+                        className={`bento-item ${
                           card.spans === 2 
-                            ? "md:col-span-2 md:row-span-2" 
-                            : "md:col-span-2 lg:col-span-1"
+                            ? "md:col-span-2 lg:col-span-4" 
+                            : "md:col-span-2 lg:col-span-4"
                         }`}
                       >
                         <InteractiveServiceCard {...card} featured={card.spans === 2} />

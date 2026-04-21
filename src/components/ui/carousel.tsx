@@ -178,12 +178,24 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
 
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
+    if (!autoplay || !emblaApi) return;
+
+    const onTimerSet = () => {
+      // Safely access timeUntilNext if it exists
+      const timeUntilNext = (autoplay as any).timeUntilNext?.();
+      if (typeof timeUntilNext === 'number') {
+        startProgress(timeUntilNext);
+      }
+    };
 
     emblaApi
-      .on("autoplay:timerset", () => startProgress(autoplay.timeUntilNext()))
+      .on("autoplay:timerset", onTimerSet)
       .on("autoplay:timerstopped", () => setShowAutoplayProgress(false));
-  }, [emblaApi]);
+      
+    return () => {
+      emblaApi.off("autoplay:timerset", onTimerSet);
+    };
+  }, [emblaApi, startProgress]);
 
   useEffect(() => {
     return () => {
