@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { env } from '@/config/env';
+import { auth } from '@/lib/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 export interface UserSession {
   id: string;
@@ -21,7 +22,7 @@ interface AdminContextType {
   updateActivity: (userId: string) => void;
   clearAllSessions: () => void;
   isAdmin: boolean;
-  loginAsAdmin: (password: string) => boolean;
+  loginAsAdmin: (email: string) => Promise<boolean>;
   logoutAdmin: () => void;
 }
 
@@ -113,15 +114,39 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
     window.dispatchEvent(new CustomEvent('gsm-all-sessions-cleared'));
   };
 
-  const loginAsAdmin = (password: string): boolean => {
-    // Use secure password from environment variables
-    if (password === env.ADMIN_PASSWORD) {
+  // Lista de emails de admin permitidos - configurar no .env.local
+  const ADMIN_EMAILS: string[] = (import.meta.env.VITE_ADMIN_EMAILS || '')
+    .split(',')
+    .map((e: string) => e.trim())
+    .filter((e: string) => Boolean(e));
+  
+  const loginAsAdmin = async (email: string): Promise<boolean> => {
+    // Agora usa Firebase Auth - verificação por email do usuário logado
+    const currentUser = auth.currentUser;
+    
+    if (currentUser && ADMIN_EMAILS.includes(currentUser.email || '')) {
       setIsAdmin(true);
       localStorage.setItem('admin-logged', 'true');
       return true;
     }
     return false;
   };
+
+  // Verificar automaticamente se o usuário é admin quando o auth muda
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+      if (user && ADMIN_EMAILS.includes(user.email || '')) {
+        setIsAdmin(true);
+        localStorage.setItem('admin-logged', 'true');
+      } else if (user === null) {
+        // Usuário fez logout
+        setIsAdmin(false);
+        localStorage.removeItem('admin-logged');
+      }
+    });
+    
+    return () => unsubscribe();
+  }, []);
 
   const logoutAdmin = () => {
     setIsAdmin(false);

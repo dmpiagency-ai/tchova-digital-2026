@@ -44,7 +44,6 @@ const CheckoutSuccess = () => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate(`/service?id=${serviceId}`);
           return 0;
         }
         return prev - 1;
@@ -52,7 +51,14 @@ const CheckoutSuccess = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [showCountdown, navigate, serviceId]);
+  }, [showCountdown]);
+
+  // Navigate when countdown reaches 0
+  useEffect(() => {
+    if (showCountdown && countdown === 0) {
+      navigate(`/service?id=${serviceId}`);
+    }
+  }, [countdown, showCountdown, navigate, serviceId]);
 
   // Handle WhatsApp contact
   const handleWhatsApp = useCallback(() => {
@@ -166,7 +172,7 @@ const CheckoutSuccess = () => {
                   <span className="text-sm font-bold text-primary">2</span>
                 </div>
                 <p className="text-sm text-muted-foreground pt-1">
-                  Você receberá uma mensagem no WhatsApp
+                  A nossa equipa entrará em contacto directo consigo
                 </p>
               </div>
 
@@ -217,7 +223,7 @@ const CheckoutSuccess = () => {
               className="w-full h-12 sm:h-14 rounded-[20px] sm:rounded-[24px] font-semibold text-sm sm:text-base border-2 border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
-              Falar com a Tchova no WhatsApp
+              Falar com o Gestor de Projecto
             </Button>
           </div>
 

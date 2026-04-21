@@ -72,7 +72,7 @@ const ServicePackages = ({ onRequestQuote }: ServicePackagesProps) => {
   };
 
   return (
-    <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+    <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
       <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-8 lg:mb-12 flex items-center">
         <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-black">
           Pacotes Disponíveis

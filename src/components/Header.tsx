@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Palette, Globe, TrendingUp, Smartphone, Video, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,49 +25,59 @@ export default function Header() {
   const isServiceDetailsPage = location.pathname === '/service-details';
 
   // Services for dropdown - each links to specific service detail page
-  const servicesItems = [
+  const servicesItems = useMemo(() => [
     { name: 'Design Gráfico & Branding', serviceId: 1, icon: Palette },
     { name: 'Criação de Sites & Apps', serviceId: 2, icon: Globe },
     { name: 'Marketing Digital', serviceId: 3, icon: TrendingUp },
     { name: 'Produção Audiovisual', serviceId: 4, icon: Video },
     { name: 'Importação Assistida', serviceId: 5, icon: Package },
     { name: 'Assistência GSM Mobile', serviceId: 6, icon: Smartphone },
-  ];
+  ], []);
 
   // Plans for dropdown
-  const plansItems = [
+  const plansItems = useMemo(() => [
     { name: 'Start - 5.000 MT', href: '#planos' },
     { name: 'Business - 15.000 MT', href: '#planos' },
     { name: 'Pro - 35.000 MT', href: '#planos' },
-  ];
+  ], []);
+
+  const handleNavigation = useCallback((href: string) => {
+    // If we're on a sub-page, navigate to homepage first then scroll
+    if (location.pathname !== '/') {
+      navigate('/' + href);
+      setActive(null);
+      return;
+    }
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setActive(null);
+  }, [location.pathname, navigate]);
+
+  const handleServiceNavigation = useCallback((serviceId: number) => {
+    navigate(`/service-details?id=${serviceId}`);
+    setActive(null);
+  }, [navigate]);
+
+  const handleWhatsAppClick = useCallback(() => {
+    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank');
+  }, []);
 
   // StaggeredMenu items
-  const menuItems = [
+  const menuItems = useMemo(() => [
     { label: 'Início', link: '#home', onClick: () => handleNavigation('#home') },
     { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
     { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
     { label: 'Como Funciona', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
     { label: 'Sobre Nós', link: '#about', onClick: () => handleNavigation('#about') },
     { label: 'Contacto', link: '#contact', onClick: () => handleNavigation('#contact') },
-  ];
+  ], [handleNavigation]);
 
-  const socialItems = [
+  const socialItems = useMemo(() => [
     { label: 'WhatsApp', link: `https://wa.me/${env.WHATSAPP_NUMBER}` },
     { label: 'Instagram', link: 'https://instagram.com/tchovadigital' },
-  ];
-
-  const handleNavigation = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setActive(null);
-  };
-
-  const handleServiceNavigation = (serviceId: number) => {
-    navigate(`/service-details?id=${serviceId}`);
-    setActive(null);
-  };
+  ], []);
 
   return (
     <>
@@ -101,12 +111,10 @@ export default function Header() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-[1100] w-full transition-all duration-500 ease-out',
-          isPaymentPage || isServiceDetailsPage 
-            ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border' 
-            : scrolled 
-              ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border'
-              : 'bg-transparent',
-          isPaymentPage || isServiceDetailsPage ? 'block' : 'hidden md:block'
+          (isPaymentPage || isServiceDetailsPage || scrolled)
+            ? 'bg-background/95 backdrop-blur-lg shadow-lg border-b border-border'
+            : 'bg-transparent',
+          (isPaymentPage || isServiceDetailsPage) ? 'block' : 'hidden md:block'
         )}
       >
         <nav 
@@ -138,14 +146,14 @@ export default function Header() {
                 scrolled ? 'h-6' : 'h-7 sm:h-8'
               )} 
             />
-            <h1 
+            <span 
               className={cn(
                 'font-bold tracking-tight text-foreground transition-all duration-500 ease-out',
                 scrolled ? 'text-sm' : 'text-base sm:text-lg'
               )}
             >
               TchovaDigital
-            </h1>
+            </span>
           </div>
 
           {/* Desktop Navigation with Hover Dropdowns */}
@@ -240,7 +248,7 @@ export default function Header() {
             <Button
               size="sm"
               className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-1.5 text-sm rounded-full transition-all duration-300 hover:scale-105"
-              onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
+              onClick={handleWhatsAppClick}
             >
               WhatsApp
             </Button>

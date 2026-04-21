@@ -48,7 +48,7 @@ export {
   getCollection,
   setDocument,
   deleteDocument
-} from './firebase';
+} from '@/lib/firebase';
 
 // ============================================
 // PAYMENT SERVICES

@@ -1,5 +1,6 @@
-import { useCallback, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useCallback, useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 
 interface RippleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,8 +25,11 @@ function RippleButton({
     isLeaving?: boolean;
   } | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const rippleRef = useRef<HTMLSpanElement>(null);
 
-  const createRipple = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+  const { contextSafe } = useGSAP({ scope: buttonRef });
+
+  const createRipple = contextSafe((event: React.MouseEvent<HTMLButtonElement>) => {
     if (isHovered || !buttonRef.current) return;
     setIsHovered(true);
 
@@ -36,24 +40,26 @@ function RippleButton({
     const y = event.clientY - rect.top;
 
     setRipple({ x, y, size, key: Date.now() });
-  }, [isHovered]);
+  });
 
-  const removeRipple = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+  const removeRipple = contextSafe((event: React.MouseEvent<HTMLButtonElement>) => {
     if (event.target !== event.currentTarget) return;
     setIsHovered(false);
 
-    const button = buttonRef.current;
-    if (!button) return;
+    if (!ripple) return;
 
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height) * 2;
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    gsap.to(rippleRef.current, {
+      scale: 0,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.in",
+      onComplete: () => {
+        setRipple(null);
+      }
+    });
+  });
 
-    setRipple({ x, y, size, key: Date.now(), isLeaving: true });
-  }, []);
-
-  const handleMouseMove = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseMove = contextSafe((event: React.MouseEvent<HTMLButtonElement>) => {
     if (!buttonRef.current || !isHovered || !ripple) return;
 
     const button = buttonRef.current;
@@ -61,10 +67,25 @@ function RippleButton({
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    setRipple(prev => prev ? ({ ...prev, x, y }) : null);
-  }, [isHovered, ripple]);
+    // Follow mouse with GSAP for smoothness
+    gsap.to(rippleRef.current, {
+      left: x,
+      top: y,
+      duration: 0.4,
+      ease: "power2.out"
+    });
+  });
 
-  const baseClasses = "relative flex items-center justify-center overflow-hidden rounded-xl font-semibold transition-all duration-300 hover-lift focus-visible focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  useGSAP(() => {
+    if (ripple && !ripple.isLeaving && rippleRef.current) {
+      gsap.fromTo(rippleRef.current,
+        { scale: 0, opacity: 0.5 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: "power2.out" }
+      );
+    }
+  }, { scope: buttonRef, dependencies: [ripple] });
+
+  const baseClasses = "relative flex items-center justify-center overflow-hidden rounded-xl font-semibold transition-all duration-300 hover-lift focus-visible focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform-gpu";
 
   const variantClasses = {
     primary: "bg-gradient-to-r from-primary to-primary-light text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95",
@@ -95,43 +116,29 @@ function RippleButton({
       onMouseMove={handleMouseMove}
       {...props}
     >
-      <span className="relative z-[2] flex items-center gap-2">{children}</span>
+      <span className="relative z-[2] flex items-center gap-2 pointer-events-none">{children}</span>
 
-      <AnimatePresence>
-        {ripple && (
-          <motion.span
-            key={ripple.key}
-            className="absolute rounded-full bg-white/30 pointer-events-none z-[1]"
-            style={{
-              width: ripple.size,
-              height: ripple.size,
-              left: ripple.x,
-              top: ripple.y,
-              x: '-50%',
-              y: '-50%',
-            }}
-            initial={{ scale: 0, opacity: 1 }}
-            animate={{
-              scale: ripple.isLeaving ? 0 : 1,
-              x: '-50%',
-              y: '-50%',
-            }}
-            exit={{ scale: 0, opacity: 1 }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut",
-            }}
-            onAnimationComplete={() => {
-              if (ripple.isLeaving) {
-                setRipple(null);
-              }
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {ripple && (
+        <span
+          ref={rippleRef}
+          className="absolute rounded-full bg-white/30 pointer-events-none z-[1]"
+          style={{
+            width: ripple.size,
+            height: ripple.size,
+            left: ripple.x,
+            top: ripple.y,
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      )}
     </button>
   );
 }
+
+}
+
+export { RippleButton };
+
 
 // Demo Component
 export function Component() {

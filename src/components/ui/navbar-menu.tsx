@@ -1,24 +1,17 @@
 "use client";
-import React, { useRef, useCallback, createContext, useContext } from "react";
-import { motion, Transition } from "framer-motion";
+import React, { useRef, useCallback, createContext, useContext, useEffect, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 
-const transition: Transition = {
-  type: "spring",
-  mass: 0.5,
-  damping: 11.5,
-  stiffness: 100,
-  restDelta: 0.001,
-  restSpeed: 0.001,
-};
-
 // Delay in milliseconds before closing the dropdown
-const CLOSE_DELAY = 200;
+const CLOSE_DELAY = 150;
 
 // Context to share the close timeout ref between Menu and MenuItem
 const MenuContext = createContext<{
   closeTimeoutRef: React.MutableRefObject<NodeJS.Timeout | null>;
-  setActive: (item: string) => void;
+  setActive: (item: string | null) => void;
+  active: string | null;
 } | null>(null);
 
 export const MenuItem = ({
@@ -33,10 +26,13 @@ export const MenuItem = ({
   className?: string;
 }) => {
   const context = useContext(MenuContext);
-  
+  const itemRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { contextSafe } = useGSAP({ scope: itemRef });
+
   const handleMouseEnter = useCallback(() => {
     if (context) {
-      // Clear any pending close timeout when mouse enters
       if (context.closeTimeoutRef.current) {
         clearTimeout(context.closeTimeoutRef.current);
         context.closeTimeoutRef.current = null;
@@ -45,40 +41,42 @@ export const MenuItem = ({
     }
   }, [context, item]);
 
+  useGSAP(() => {
+    if (active === item && children && dropdownRef.current) {
+      gsap.fromTo(dropdownRef.current,
+        { opacity: 0, scale: 0.95, y: 15 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(2)" }
+      );
+    }
+  }, { scope: itemRef, dependencies: [active, item] });
+
   return (
-    <div onMouseEnter={handleMouseEnter} className="relative">
-      <motion.p
-        transition={{ duration: 0.3 }}
+    <div 
+      ref={itemRef} 
+      onMouseEnter={handleMouseEnter} 
+      className="relative"
+    >
+      <p
         className={cn(
-          "cursor-pointer hover:opacity-[0.9] dark:text-white text-sm font-medium",
+          "cursor-pointer hover:opacity-[0.8] dark:text-white text-sm font-bold uppercase tracking-widest transition-opacity px-4 py-2",
+          active === item ? "opacity-100" : "opacity-60",
           className
         )}
       >
         {item}
-      </motion.p>
-      {active !== null && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={transition}
+      </p>
+      
+      {active === item && children && (
+        <div 
+          ref={dropdownRef}
+          className="absolute top-[calc(100%_+_0.5rem)] left-1/2 transform -translate-x-1/2 pt-2 z-50 pointer-events-auto"
         >
-          {active === item && children && (
-            <div className="absolute top-[calc(100%_+_1rem)] left-1/2 transform -translate-x-1/2 pt-2">
-              <motion.div
-                transition={transition}
-                layoutId="active"
-                className="bg-white dark:bg-zinc-900 backdrop-blur-xl rounded-2xl overflow-hidden border border-black/[0.1] dark:border-white/[0.1] shadow-2xl"
-              >
-                <motion.div
-                  layout
-                  className="w-max h-full p-4"
-                >
-                  {children}
-                </motion.div>
-              </motion.div>
+          <div className="bg-white/80 dark:bg-zinc-900/90 backdrop-blur-2xl rounded-2xl overflow-hidden border border-black/[0.05] dark:border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] min-w-max">
+            <div className="p-6">
+              {children}
             </div>
-          )}
-        </motion.div>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -93,27 +91,29 @@ export const Menu = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  // Ref to store the timeout for delayed close
+  const [active, setInternalActive] = useState<string | null>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navRef = useRef<HTMLElement>(null);
 
-  // Delayed close handler - waits before closing the dropdown
   const handleMouseLeave = useCallback(() => {
     closeTimeoutRef.current = setTimeout(() => {
       setActive(null);
+      setInternalActive(null);
     }, CLOSE_DELAY);
   }, [setActive]);
 
-  // Create wrapper function that matches context type
-  const setActiveItem = useCallback((item: string) => {
+  const setActiveItem = useCallback((item: string | null) => {
     setActive(item);
+    setInternalActive(item);
   }, [setActive]);
 
   return (
-    <MenuContext.Provider value={{ closeTimeoutRef, setActive: setActiveItem }}>
+    <MenuContext.Provider value={{ closeTimeoutRef, setActive: setActiveItem, active }}>
       <nav
+        ref={navRef}
         onMouseLeave={handleMouseLeave}
         className={cn(
-          "relative rounded-full flex justify-center items-center space-x-1",
+          "relative rounded-full flex justify-center items-center py-2 px-6",
           className
         )}
       >
@@ -139,22 +139,22 @@ export const ProductItem = ({
   return (
     <button
       onClick={onClick}
-      className="flex space-x-3 text-left hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-xl transition-colors"
+      className="flex space-x-4 text-left hover:bg-black/[0.03] dark:hover:bg-white/[0.05] p-3 rounded-2xl transition-all duration-300 group"
     >
       {src && (
-        <img
-          src={src}
-          width={100}
-          height={60}
-          alt={title}
-          className="flex-shrink-0 rounded-lg shadow-lg object-cover"
-        />
+        <div className="relative overflow-hidden rounded-xl w-24 h-16 shadow-lg group-hover:scale-105 transition-transform duration-500">
+          <img
+            src={src}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
-      <div className="flex flex-col justify-center">
-        <h4 className="text-base font-bold mb-1 text-black dark:text-white">
+      <div className="flex flex-col justify-center max-w-[12rem]">
+        <h4 className="text-sm font-black mb-1 text-black dark:text-white uppercase tracking-tight group-hover:text-primary transition-colors">
           {title}
         </h4>
-        <p className="text-neutral-600 text-xs max-w-[10rem] dark:text-neutral-400">
+        <p className="text-neutral-500 text-[11px] font-medium leading-relaxed dark:text-neutral-400">
           {description}
         </p>
       </div>
@@ -177,7 +177,7 @@ export const HoveredLink = ({
     <button
       onClick={onClick}
       className={cn(
-        "text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors text-left w-full",
+        "text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-all duration-200 text-left w-full py-1.5 text-xs font-bold uppercase tracking-widest",
         className
       )}
     >

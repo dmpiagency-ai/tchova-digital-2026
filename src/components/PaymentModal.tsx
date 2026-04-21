@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { PaymentType, PaymentStage, getPaymentStageLabel, getPaymentTypeLabel, getPaymentUIContext } from '@/types/payment';
+import { env } from '@/config/env';
 import {
   Smartphone,
   DollarSign,
@@ -638,7 +639,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               <Button
                 variant="outline"
                 className="w-full h-10 text-sm font-semibold border-primary/30 hover:bg-primary/10"
-                onClick={() => window.open('https://wa.me/258123456789', '_blank')}
+                onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
               >
                 💬 Falar com Suporte
               </Button>

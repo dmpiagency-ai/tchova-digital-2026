@@ -1,24 +1,42 @@
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { env } from '@/config/env';
 
 const FloatingWhatsApp = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleWhatsAppClick = () => {
+  const handleWhatsAppClick = useCallback(() => {
     const message = encodeURIComponent(
       'Olá! Vi seu site e gostaria de saber mais sobre seus serviços de design digital.'
     );
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
     setIsOpen(false);
-  };
+  }, []);
+
+  const toggleOpen = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  // Auto-show tooltip on first visit
+  useEffect(() => {
+    const hasSeenTooltip = sessionStorage.getItem('hasSeenWhatsAppTooltip');
+    
+    if (!hasSeenTooltip) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+        sessionStorage.setItem('hasSeenWhatsAppTooltip', 'true');
+      }, 3500); // Show after 3.5 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <>
       {/* Main WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggleOpen}
           className={`w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center hover:animate-none ${
             isOpen ? 'bg-green-600 rotate-90' : 'animate-bounce'
           }`}

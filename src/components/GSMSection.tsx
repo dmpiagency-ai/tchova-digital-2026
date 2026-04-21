@@ -37,7 +37,7 @@ const GSMSection = () => {
   return (
     <>
       {/* Ferramentas Disponíveis */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-8 lg:mb-12 flex items-center">
           <Box className="text-4xl lg:text-6xl text-blue-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent font-black">
@@ -59,7 +59,7 @@ const GSMSection = () => {
       </div>
 
       {/* Serviços Técnicos Suportados */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-8 lg:mb-12 flex items-center">
           <Target className="text-4xl lg:text-6xl text-green-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent font-black">
@@ -85,7 +85,7 @@ const GSMSection = () => {
       </div>
 
       {/* Marcas Suportadas */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-8 lg:mb-12 flex items-center">
           <Phone className="text-4xl lg:text-6xl text-purple-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent font-black">
@@ -106,7 +106,7 @@ const GSMSection = () => {
       </div>
 
       {/* Como Funciona o Acesso */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-8 lg:mb-12 flex items-center">
           <ClipboardList className="text-4xl lg:text-6xl text-orange-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent font-black">
@@ -133,7 +133,7 @@ const GSMSection = () => {
       </div>
 
       {/* Pagamento */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-6 lg:mb-8 flex items-center">
           <DollarSign className="text-4xl lg:text-6xl text-green-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent font-black">
@@ -166,7 +166,7 @@ const GSMSection = () => {
       </div>
 
       {/* Segurança & Uso */}
-      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 shadow-2xl">
+      <div className="liquid-card rounded-[48px] p-8 lg:p-12 mb-12 lg:mb-16 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-white/10 border-slate-200 shadow-2xl">
         <h2 className="text-xl lg:text-3xl font-bold text-foreground mb-6 lg:mb-8 flex items-center">
           <Shield className="text-4xl lg:text-6xl text-red-500 mr-3 lg:mr-4" />
           <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent font-black">

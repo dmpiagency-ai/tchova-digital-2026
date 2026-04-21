@@ -6,14 +6,13 @@
  * Suporta: M-Pesa, E-mola, Cartão
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter
+  DialogDescription
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,13 +27,13 @@ import {
   AlertCircle,
   Loader2,
   ArrowLeft,
-  DollarSign,
-  Coins
+  DollarSign
 } from 'lucide-react';
-import { paymentGateway, PaymentResponse } from '@/services/paymentGateway';
 import { addCredits, convertCurrency } from '@/services/gsmRentalService';
+import { notifyPaymentSuccess, notifyPaymentFailed } from '@/services/gsmFirebase';
 import { useToast } from '@/hooks/use-toast';
-
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 // ============================================
 // TYPES
@@ -60,6 +59,21 @@ interface PaymentMethod {
   enabled: boolean;
 }
 
+// Mock gateway for illustrative purposes
+const paymentGateway = {
+  processMPesaPayment: async (req: any) => ({ success: true, transactionId: 'MP'+Date.now(), confirmationCode: 'ABC-123', message: 'Success' }),
+  processEmolaPayment: async (req: any) => ({ success: true, transactionId: 'EM'+Date.now(), confirmationCode: 'XYZ-789', message: 'Success' }),
+  processCardPayment: async (req: any) => ({ success: true, transactionId: 'CC'+Date.now(), confirmationCode: 'CARD-XXX', message: 'Success' }),
+  validatePhoneNumber: (num: string, type: string) => ({ valid: num.length >= 9 })
+};
+
+interface PaymentResponse {
+  success: boolean;
+  transactionId: string;
+  confirmationCode: string;
+  message: string;
+}
+
 // ============================================
 // COMPONENT
 // ============================================
@@ -82,6 +96,10 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentResult, setPaymentResult] = useState<PaymentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const { contextSafe } = useGSAP({ scope: containerRef });
 
   // Payment methods
   const paymentMethods: PaymentMethod[] = [
@@ -114,6 +132,15 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
   // Quick amounts
   const quickAmounts = [100, 200, 500, 1000, 2000, 5000];
 
+  useGSAP(() => {
+    if (isOpen && contentRef.current) {
+      gsap.fromTo(contentRef.current,
+        { x: 30, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
+      );
+    }
+  }, { scope: containerRef, dependencies: [isOpen, step] });
+
   // Handlers
   const handleAmountSelect = (value: number) => {
     setAmount(value);
@@ -125,21 +152,31 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
       return;
     }
     setError(null);
-    setStep('method');
+    setTransitionStep('method');
   };
 
   const handleMethodSelect = (method: 'mpesa' | 'emola' | 'card') => {
     setSelectedMethod(method);
-    setStep('details');
+    setTransitionStep('details');
   };
+
+  const setTransitionStep = contextSafe((newStep: PaymentStep) => {
+    gsap.to(contentRef.current, {
+      x: -30,
+      opacity: 0,
+      duration: 0.2,
+      onComplete: () => {
+        setStep(newStep);
+      }
+    });
+  });
 
   const handlePayment = useCallback(async () => {
     setIsProcessing(true);
-    setStep('processing');
+    setTransitionStep('processing');
     setError(null);
 
     try {
-      // Criar request base
       const paymentRequest = {
         amount,
         currency: 'MZN' as const,
@@ -150,7 +187,6 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
         userId
       };
 
-      // Chamar método correto baseado no tipo
       let result: PaymentResponse;
       
       if (selectedMethod === 'mpesa') {
@@ -164,14 +200,12 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
       setPaymentResult(result);
 
        if (result.success) {
-         // Adicionar créditos à carteira
-         const amountUsd = await convertCurrency(amount, 'MTN', 'USD');
-         addCredits(userId, { usd: amountUsd, mtn: amount }, selectedMethod, result.transactionId);
+          const amountUsd = await convertCurrency(amount, 'MTN', 'USD');
+          addCredits(userId, { usd: amountUsd, mtn: amount }, selectedMethod, result.transactionId);
         
-        // Enviar notificação de sucesso
         notifyPaymentSuccess(userId, amount, selectedMethod).catch(console.error);
         
-        setStep('success');
+        setTransitionStep('success');
         
         toast({
           title: 'Pagamento realizado!',
@@ -183,36 +217,32 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
           onSuccess(amount, selectedMethod);
         }
       } else {
-        // Enviar notificação de falha
-        notifyPaymentFailed(userId, amount, result.message).catch(console.error);
-        
+        notifyPaymentFailed(userId, amount, result.message || 'Erro desconhecido').catch(console.error);
         setError(result.message || 'Erro ao processar pagamento');
-        setStep('error');
+        setTransitionStep('error');
       }
     } catch (err) {
-      // Enviar notificação de falha
       notifyPaymentFailed(userId, amount, err instanceof Error ? err.message : 'Erro desconhecido').catch(console.error);
-      
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      setStep('error');
+      setTransitionStep('error');
     } finally {
       setIsProcessing(false);
     }
-  }, [amount, phoneNumber, selectedMethod, userId, onSuccess, toast]);
+  }, [amount, phoneNumber, selectedMethod, userId, onSuccess, toast, setTransitionStep]);
 
   const handleBack = () => {
     switch (step) {
       case 'method':
-        setStep('amount');
+        setTransitionStep('amount');
         break;
       case 'details':
-        setStep('method');
+        setTransitionStep('method');
         break;
       case 'error':
-        setStep('details');
+        setTransitionStep('details');
         break;
       default:
-        setStep('amount');
+        setTransitionStep('amount');
     }
   };
 
@@ -225,10 +255,8 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
     onClose();
   };
 
-  // Validate phone for M-Pesa/E-mola
   const isPhoneValid = () => {
     if (selectedMethod === 'card') return true;
-    
     const validation = paymentGateway.validatePhoneNumber(
       phoneNumber,
       selectedMethod === 'mpesa' ? 'vodacom' : 'movitel'
@@ -236,253 +264,222 @@ const GSMPaymentModal: React.FC<GSMPaymentModalProps> = ({
     return validation.valid;
   };
 
-  // ============================================
-  // RENDER
-  // ============================================
-
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-primary" />
-            Adicionar Créditos GSM
-          </DialogTitle>
-          <DialogDescription>
-            Saldo atual: <span className="font-bold text-primary">
-              {currency === 'USD' ? `$${currentBalance.toFixed(2)}` : `${currentBalance.toLocaleString()} MTn`}
-            </span>
-          </DialogDescription>
-        </DialogHeader>
-
-        {/* Step: Amount Selection */}
-        {step === 'amount' && (
-          <div className="space-y-4 py-4">
-            <Label className="text-base font-semibold">Selecione o valor</Label>
-            
-            {/* Quick Amounts */}
-            <div className="grid grid-cols-3 gap-2">
-              {quickAmounts.map((value) => (
-                <Button
-                  key={value}
-                  variant={amount === value ? 'default' : 'outline'}
-                  className={`h-14 ${amount === value ? 'bg-gradient-to-r from-primary to-brand-green' : ''}`}
-                  onClick={() => handleAmountSelect(value)}
-                >
-                  <span className="font-bold">{value}</span>
-                  <span className="text-xs ml-1">MTn</span>
-                </Button>
-              ))}
-            </div>
-
-            {/* Custom Amount */}
-            <div className="space-y-2">
-              <Label htmlFor="custom-amount">Ou digite um valor personalizado</Label>
-              <div className="relative">
-                <Input
-                  id="custom-amount"
-                  type="number"
-                  min="10"
-                  max="50000"
-                  value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value))}
-                  className="pr-16"
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  MTn
+      <DialogContent className="sm:max-w-md overflow-hidden bg-background/80 backdrop-blur-2xl border-white/10 shadow-3xl rounded-[2.5rem]">
+        <div ref={containerRef} className="w-full">
+          <div ref={contentRef} className="opacity-0">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-3 text-2xl font-black uppercase tracking-tighter">
+                <div className="p-2 bg-primary/10 rounded-xl">
+                  <DollarSign className="w-6 h-6 text-primary" />
+                </div>
+                CRÉDITOS GSM
+              </DialogTitle>
+              <DialogDescription className="font-bold">
+                Saldo atual: <span className="text-primary">
+                  {currency === 'USD' ? `$${currentBalance.toFixed(2)}` : `${currentBalance.toLocaleString()} MTn`}
                 </span>
-              </div>
-            </div>
+              </DialogDescription>
+            </DialogHeader>
 
-            {error && (
-              <div className="flex items-center gap-2 text-red-500 text-sm">
-                <AlertCircle className="w-4 h-4" />
-                {error}
-              </div>
-            )}
+            {step === 'amount' && (
+              <div className="space-y-6 py-4">
+                <Label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Selecione o valor</Label>
+                
+                <div className="grid grid-cols-3 gap-3">
+                  {quickAmounts.map((value) => (
+                    <Button
+                      key={value}
+                      variant={amount === value ? 'default' : 'outline'}
+                      className={`h-16 rounded-2xl transition-all duration-300 font-black text-lg ${
+                        amount === value 
+                          ? 'bg-primary text-primary-foreground shadow-2xl shadow-primary/20 scale-[1.05]' 
+                          : 'hover:border-primary/50'
+                      }`}
+                      onClick={() => handleAmountSelect(value)}
+                    >
+                      {value}
+                    </Button>
+                  ))}
+                </div>
 
-            <Button
-              onClick={handleContinueToMethod}
-              className="w-full bg-gradient-to-r from-primary to-brand-green"
-              size="lg"
-            >
-              Continuar
-            </Button>
-          </div>
-        )}
-
-        {/* Step: Method Selection */}
-        {step === 'method' && (
-          <div className="space-y-4 py-4">
-            <div className="flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={handleBack}>
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                Voltar
-              </Button>
-              <Badge variant="secondary" className="text-lg">
-                {amount.toLocaleString()} MTn
-              </Badge>
-            </div>
-
-            <Label className="text-base font-semibold">Escolha o método de pagamento</Label>
-
-            <div className="space-y-2">
-              {paymentMethods.map((method) => (
-                <button
-                  key={method.id}
-                  onClick={() => handleMethodSelect(method.id)}
-                  disabled={!method.enabled}
-                  className={`w-full p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] ${
-                    selectedMethod === method.id
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/50'
-                  } ${!method.enabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${method.color} flex items-center justify-center text-white`}>
-                      {method.icon}
-                    </div>
-                    <div className="flex-1 text-left">
-                      <h4 className="font-bold">{method.name}</h4>
-                      <p className="text-sm text-muted-foreground">{method.description}</p>
-                    </div>
-                    {selectedMethod === method.id && (
-                      <CheckCircle className="w-5 h-5 text-primary" />
-                    )}
+                <div className="space-y-3">
+                  <Label htmlFor="custom-amount" className="text-xs font-black uppercase tracking-widest text-muted-foreground">Valor personalizado</Label>
+                  <div className="relative group">
+                    <Input
+                      id="custom-amount"
+                      type="number"
+                      value={amount}
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                      className="h-16 rounded-2xl bg-muted/50 border-white/5 focus:border-primary/50 text-xl font-black px-6 transition-all"
+                    />
+                    <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black text-muted-foreground tracking-tighter">
+                      MTN
+                    </span>
                   </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+                </div>
 
-        {/* Step: Payment Details */}
-        {step === 'details' && (
-          <div className="space-y-4 py-4">
-            <div className="flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={handleBack}>
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                Voltar
-              </Button>
-              <Badge className="bg-gradient-to-r from-primary to-brand-green">
-                {paymentMethods.find(m => m.id === selectedMethod)?.name}
-              </Badge>
-            </div>
-
-            {/* Phone Number for M-Pesa/E-mola */}
-            {selectedMethod !== 'card' && (
-              <div className="space-y-2">
-                <Label htmlFor="phone">Número de telefone</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder={selectedMethod === 'mpesa' ? '84/85 XXX XXXX' : '86/87 XXX XXXX'}
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-                <p className="text-xs text-muted-foreground">
-                  {selectedMethod === 'mpesa' 
-                    ? 'Digite seu número M-Pesa (Vodacom)'
-                    : 'Digite seu número E-mola (Movitel)'}
-                </p>
+                <Button
+                  onClick={handleContinueToMethod}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-16 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-primary/20 group overflow-hidden"
+                >
+                  Continuar
+                  <ArrowLeft className="w-5 h-5 ml-2 rotate-180 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </div>
             )}
 
-            {/* Card Info */}
-            {selectedMethod === 'card' && (
-              <div className="bg-muted/50 rounded-xl p-4 text-center">
-                <CreditCard className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">
-                  Você será redirecionado para uma página segura para inserir os dados do cartão
-                </p>
+            {step === 'method' && (
+              <div className="space-y-6 py-4">
+                <div className="flex items-center justify-between">
+                  <Button variant="ghost" size="sm" onClick={handleBack} className="font-black uppercase tracking-widest text-xs">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Voltar
+                  </Button>
+                  <Badge className="bg-primary/10 text-primary border-none px-4 py-1.5 font-black text-sm">
+                    {amount} MTN
+                  </Badge>
+                </div>
+
+                <div className="space-y-3">
+                  {paymentMethods.map((method) => (
+                    <button
+                      key={method.id}
+                      onClick={() => handleMethodSelect(method.id)}
+                      disabled={!method.enabled}
+                      className={`w-full p-6 rounded-[2rem] border-2 transition-all duration-500 group relative overflow-hidden ${
+                        selectedMethod === method.id
+                          ? 'border-primary bg-primary/5 shadow-2xl shadow-primary/10'
+                          : 'border-white/5 bg-muted/30 hover:border-primary/30'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4 relative z-10">
+                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.color} flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-500`}>
+                          {method.icon}
+                        </div>
+                        <div className="flex-1 text-left">
+                          <h4 className="font-black uppercase tracking-tight text-lg">{method.name}</h4>
+                          <p className="text-xs font-bold text-muted-foreground">{method.description}</p>
+                        </div>
+                        {selectedMethod === method.id && (
+                          <div className="p-2 bg-primary rounded-full">
+                            <CheckCircle className="w-4 h-4 text-primary-foreground" />
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
-            {/* Summary */}
-            <div className="bg-gradient-to-r from-primary/10 to-brand-green/10 rounded-xl p-4">
-              <h4 className="font-semibold mb-2">Resumo</h4>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span>Valor:</span>
-                  <span className="font-bold">{amount.toLocaleString()} MTn</span>
+            {step === 'details' && (
+              <div className="space-y-6 py-4">
+                <div className="flex items-center justify-between">
+                  <Button variant="ghost" size="sm" onClick={handleBack} className="font-black uppercase tracking-widest text-xs">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Voltar
+                  </Button>
+                  <Badge className="bg-primary text-primary-foreground font-black uppercase tracking-widest px-4">
+                    {paymentMethods.find(m => m.id === selectedMethod)?.name}
+                  </Badge>
                 </div>
-                <div className="flex justify-between">
-                  <span>Método:</span>
-                  <span>{paymentMethods.find(m => m.id === selectedMethod)?.name}</span>
+
+                {selectedMethod !== 'card' && (
+                  <div className="space-y-3">
+                    <Label htmlFor="phone" className="text-xs font-black uppercase tracking-widest text-muted-foreground">Número de telefone</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder={selectedMethod === 'mpesa' ? '84 XXX XXXX' : '86 XXX XXXX'}
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="h-16 rounded-2xl bg-muted/50 border-white/5 font-black text-xl px-6"
+                    />
+                  </div>
+                )}
+
+                <div className="bg-primary/5 rounded-[2rem] p-6 border border-primary/10">
+                  <h4 className="font-black uppercase tracking-widest text-xs text-primary mb-4">Resumo da Transação</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="font-bold text-muted-foreground">Subtotal</span>
+                      <span className="font-black">{amount.toLocaleString()} MTn</span>
+                    </div>
+                    <Separator className="bg-primary/10" />
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="font-black uppercase tracking-widest text-xs">Total a Pagar</span>
+                      <span className="text-2xl font-black text-primary tracking-tighter">
+                        {amount.toLocaleString()} <span className="text-sm">MTn</span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <Separator className="my-2" />
-                <div className="flex justify-between font-bold">
-                  <span>Total:</span>
-                  <span className="text-primary">{amount.toLocaleString()} MTn</span>
+
+                <Button
+                  onClick={handlePayment}
+                  disabled={selectedMethod !== 'card' && !isPhoneValid()}
+                  className="w-full bg-primary hover:bg-primary/95 text-primary-foreground h-16 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-primary/20"
+                >
+                  Confirmar Pagamento
+                </Button>
+              </div>
+            )}
+
+            {step === 'processing' && (
+              <div className="py-20 text-center space-y-6">
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
+                  <Loader2 className="w-20 h-20 animate-spin text-primary relative z-10" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-black uppercase tracking-tighter">Processando...</h3>
+                  <p className="text-muted-foreground font-bold px-8">
+                    Confirme o prompt no seu telefone para autorizar a transação.
+                  </p>
                 </div>
               </div>
-            </div>
-
-            <Button
-              onClick={handlePayment}
-              disabled={selectedMethod !== 'card' && !isPhoneValid()}
-              className="w-full bg-gradient-to-r from-primary to-brand-green"
-              size="lg"
-            >
-              {selectedMethod !== 'card' && !isPhoneValid() 
-                ? 'Número inválido' 
-                : `Pagar ${amount.toLocaleString()} MTn`}
-            </Button>
-          </div>
-        )}
-
-        {/* Step: Processing */}
-        {step === 'processing' && (
-          <div className="py-12 text-center">
-            <Loader2 className="w-16 h-16 mx-auto animate-spin text-primary mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Processando pagamento...</h3>
-            <p className="text-muted-foreground">
-              {selectedMethod === 'card' 
-                ? 'Aguarde enquanto processamos seu cartão'
-                : 'Verifique seu telefone e confirme a transação'}
-            </p>
-          </div>
-        )}
-
-        {/* Step: Success */}
-        {step === 'success' && (
-          <div className="py-8 text-center">
-            <div className="w-20 h-20 mx-auto mb-4 bg-green-500/20 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-12 h-12 text-green-500" />
-            </div>
-            <h3 className="text-xl font-bold text-green-600 mb-2">Pagamento realizado!</h3>
-            <p className="text-muted-foreground mb-4">
-              {amount.toLocaleString()} MTn foram adicionados à sua carteira
-            </p>
-            {paymentResult?.confirmationCode && (
-              <Badge variant="secondary" className="mb-4">
-                Código: {paymentResult.confirmationCode}
-              </Badge>
             )}
-            <Button onClick={handleClose} className="w-full">
-              Concluir
-            </Button>
-          </div>
-        )}
 
-        {/* Step: Error */}
-        {step === 'error' && (
-          <div className="py-8 text-center">
-            <div className="w-20 h-20 mx-auto mb-4 bg-red-500/20 rounded-full flex items-center justify-center">
-              <AlertCircle className="w-12 h-12 text-red-500" />
-            </div>
-            <h3 className="text-xl font-bold text-red-600 mb-2">Erro no pagamento</h3>
-            <p className="text-muted-foreground mb-4">{error}</p>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={handleBack} className="flex-1">
-                Tentar novamente
-              </Button>
-              <Button onClick={handleClose} className="flex-1">
-                Cancelar
-              </Button>
-            </div>
+            {step === 'success' && (
+              <div className="py-12 text-center space-y-8">
+                <div className="w-24 h-24 mx-auto bg-green-500/10 rounded-[2.5rem] flex items-center justify-center border border-green-500/20 shadow-2xl shadow-green-500/10">
+                  <CheckCircle className="w-12 h-12 text-green-500" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-black uppercase tracking-tighter text-green-600">SUCESSO!</h3>
+                  <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">
+                    {amount} MTn adicionados à carteira
+                  </p>
+                </div>
+                <Button onClick={handleClose} className="w-full bg-green-600 hover:bg-green-700 h-16 rounded-2xl font-black uppercase tracking-widest">
+                  Concluído
+                </Button>
+              </div>
+            )}
+
+            {step === 'error' && (
+              <div className="py-12 text-center space-y-8">
+                <div className="w-24 h-24 mx-auto bg-red-500/10 rounded-[2.5rem] flex items-center justify-center border border-red-500/20 shadow-2xl shadow-red-500/10">
+                  <AlertCircle className="w-12 h-12 text-red-500" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-black uppercase tracking-tighter text-red-600">FALHA</h3>
+                  <p className="text-muted-foreground font-bold px-8">{error}</p>
+                </div>
+                <div className="flex gap-4 px-4">
+                  <Button variant="outline" onClick={handleBack} className="flex-1 h-14 rounded-xl font-black uppercase tracking-widest text-xs">
+                    Tentar Novamente
+                  </Button>
+                  <Button onClick={handleClose} className="flex-1 h-14 rounded-xl font-black uppercase tracking-widest text-xs bg-red-600 hover:bg-red-700">
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </DialogContent>
     </Dialog>
   );

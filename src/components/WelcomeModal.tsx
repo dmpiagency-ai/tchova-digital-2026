@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { 
   Sparkles, 
   Rocket, 
@@ -47,210 +48,231 @@ const welcomeSteps: WelcomeStep[] = [
   }
 ];
 
-/**
- * WelcomeModal - Modal de boas-vindas após login/registro
- * 
- * UX Strategy:
- * 1. Mostra animação de celebração
- * 2. Apresenta benefícios em steps
- * 3. Oferece próximo passo claro
- */
 const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const { user } = useAuth();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const confettiRef = useRef<HTMLDivElement>(null);
+  const orb1Ref = useRef<HTMLDivElement>(null);
+  const orb2Ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentStep(0);
-      setIsAnimating(true);
-      
-      // Auto-advance steps
-      const interval = setInterval(() => {
-        setCurrentStep(prev => {
-          if (prev < welcomeSteps.length - 1) return prev + 1;
-          clearInterval(interval);
-          return prev;
-        });
-      }, 3000);
+  const { contextSafe } = useGSAP({ scope: containerRef });
 
-      return () => clearInterval(interval);
-    }
-  }, [isOpen]);
+  // Animation for step transitions
+  const animateStep = contextSafe((newStep: number) => {
+    const tl = gsap.timeline();
+    tl.to(contentRef.current, { 
+      opacity: 0, 
+      x: -30, 
+      duration: 0.3, 
+      ease: 'power2.in',
+      onComplete: () => {
+        setCurrentStep(newStep);
+        gsap.fromTo(contentRef.current, 
+          { opacity: 0, x: 30 },
+          { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out' }
+        );
+      }
+    });
+  });
 
-  const handleNext = () => {
+  const handleNext = contextSafe(() => {
     if (currentStep < welcomeSteps.length - 1) {
-      setCurrentStep(prev => prev + 1);
+      animateStep(currentStep + 1);
     } else {
       onClose();
     }
-  };
+  });
 
-  const handleSkip = () => {
+  const handleSkip = contextSafe(() => {
     onClose();
-  };
+  });
+
+  // Background ambient animation
+  useGSAP(() => {
+    if (!isOpen) return;
+
+    gsap.to(orb1Ref.current, {
+      scale: 1.2,
+      opacity: 0.2,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+
+    gsap.to(orb2Ref.current, {
+      scale: 1.1,
+      opacity: 0.1,
+      duration: 2.5,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      delay: 0.5
+    });
+
+    // Confetti effect on first step
+    if (currentStep === 0 && confettiRef.current) {
+      const particles = Array.from(confettiRef.current.children);
+      particles.forEach((p) => {
+        gsap.set(p, { 
+          x: gsap.utils.random(0, 400),
+          y: -20,
+          opacity: 1,
+          scale: gsap.utils.random(0.5, 1.5),
+          rotation: gsap.utils.random(0, 360)
+        });
+        
+        gsap.to(p, {
+          y: 500,
+          x: `+=${gsap.utils.random(-100, 100)}`,
+          rotation: `+=${gsap.utils.random(360, 720)}`,
+          opacity: 0,
+          duration: gsap.utils.random(1.5, 3),
+          delay: gsap.utils.random(0, 0.5),
+          ease: 'power1.out'
+        });
+      });
+    }
+
+    // Auto-advance logic
+    const interval = setInterval(() => {
+      setCurrentStep(prev => {
+        if (prev < welcomeSteps.length - 1) {
+          animateStep(prev + 1);
+          return prev; // State will be updated by animateStep's onComplete
+        }
+        clearInterval(interval);
+        return prev;
+      });
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, { scope: containerRef, dependencies: [isOpen, currentStep] });
 
   const step = welcomeSteps[currentStep];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg rounded-3xl border-0 overflow-hidden p-0 bg-gradient-to-br from-background via-background to-primary/5">
-        {/* Close button */}
-        <button
-          onClick={handleSkip}
-          title="Fechar"
-          aria-label="Fechar modal de boas-vindas"
-          className="absolute right-4 top-4 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-        >
-          <X className="w-4 h-4 text-muted-foreground" />
-        </button>
+      <DialogContent className="sm:max-w-lg rounded-[2rem] border-0 overflow-hidden p-0 bg-background/95 backdrop-blur-3xl shadow-3xl">
+        <div ref={containerRef} className="relative w-full h-full p-8 md:p-12">
+          {/* Close button */}
+          <button
+            onClick={handleSkip}
+            className="absolute right-6 top-6 z-50 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 transition-all active:scale-90"
+          >
+            <X className="w-5 h-5 text-muted-foreground" />
+          </button>
 
-        {/* Animated background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.1 }}
-            transition={{ duration: 1 }}
-            className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-primary"
-          />
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.05 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-blue-500"
-          />
-        </div>
-
-        <div className="relative p-8 pt-12">
-          {/* Progress dots */}
-          <div className="flex justify-center gap-2 mb-8">
-            {welcomeSteps.map((_, index) => (
-              <motion.button
-                key={index}
-                onClick={() => setCurrentStep(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentStep 
-                    ? 'w-8 bg-primary' 
-                    : index < currentStep 
-                      ? 'bg-primary/50' 
-                      : 'bg-muted'
-                }`}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-              />
-            ))}
+          {/* Ambient Background Elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+              ref={orb1Ref}
+              className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary/20 blur-3xl opacity-0"
+            />
+            <div
+              ref={orb2Ref}
+              className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl opacity-0"
+            />
           </div>
 
-          {/* Step content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-              className="text-center"
-            >
-              {/* Icon */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 mb-6"
-              >
-                {step.icon}
-              </motion.div>
+          <div className="relative z-10">
+            {/* Progress indicators */}
+            <div className="flex justify-center gap-2 mb-10">
+              {welcomeSteps.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => animateStep(index)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    index === currentStep 
+                      ? 'w-10 bg-primary' 
+                      : index < currentStep 
+                        ? 'w-4 bg-primary/40' 
+                        : 'w-4 bg-muted/40'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Step Content */}
+            <div ref={contentRef} className="text-center">
+              {/* Icon Container with Glassmorphism */}
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-primary/20 to-transparent border border-white/10 shadow-xl mb-8">
+                <div className="transform scale-125">
+                  {step.icon}
+                </div>
+              </div>
 
               {/* Highlight badge */}
               {step.highlight && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-                >
-                  <Zap className="w-3 h-3" />
-                  {step.highlight}
-                </motion.div>
+                <div className="flex justify-center mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest shadow-lg shadow-primary/5">
+                    <Zap className="w-3.5 h-3.5" />
+                    {step.highlight}
+                  </div>
+                </div>
               )}
 
               {/* Title */}
-              <h2 className="text-2xl font-bold mb-3">
+              <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter text-foreground drop-shadow-sm">
                 {step.title}
               </h2>
 
               {/* Description */}
-              <p className="text-muted-foreground mb-6">
+              <p className="text-muted-foreground text-base mb-8 font-medium leading-relaxed max-w-[90%] mx-auto">
                 {step.description}
               </p>
 
-              {/* User greeting */}
+              {/* User Identity Note */}
               {currentStep === 0 && user && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-4"
-                >
+                <div className="flex items-center justify-center gap-2 text-xs font-bold text-muted-foreground/60 mb-6 uppercase tracking-widest">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span>Logado como <strong>{user.email}</strong></span>
-                </motion.div>
+                  <span>Pronto para operar: <strong className="text-foreground">{user.email?.split('@')[0]}</strong></span>
+                </div>
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
 
-          {/* Actions */}
-          <div className="flex flex-col gap-3 mt-6">
-            <Button
-              onClick={handleNext}
-              className="w-full rounded-full py-6 text-lg font-semibold group"
-            >
-              <span>
-                {currentStep < welcomeSteps.length - 1 ? 'Próximo' : 'Começar a Explorar'}
-              </span>
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            {/* Actions Section */}
+            <div className="flex flex-col gap-4 mt-8">
+              <Button
+                onClick={handleNext}
+                className="w-full rounded-[1.2rem] py-8 text-lg font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl shadow-primary/20 group overflow-hidden relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative z-10">
+                  {currentStep < welcomeSteps.length - 1 ? 'Seguir Viagem' : 'Lançar Ecossistema'}
+                </span>
+                <ArrowRight className="w-6 h-6 ml-3 relative z-10 group-hover:translate-x-2 transition-transform" />
+              </Button>
 
-            <button
-              onClick={handleSkip}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Pular introdução
-            </button>
+              <button
+                onClick={handleSkip}
+                className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors py-2"
+              >
+                Pular Introdução
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Confetti effect placeholder */}
-        {isOpen && currentStep === 0 && (
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
+          {/* Confetti Particle System */}
+          <div ref={confettiRef} className="absolute inset-0 pointer-events-none overflow-hidden">
+            {[...Array(25)].map((_, i) => (
+              <div
                 key={i}
-                initial={{ 
-                  opacity: 1, 
-                  y: -20, 
-                  x: Math.random() * 400,
-                  rotate: 0 
-                }}
-                animate={{ 
-                  opacity: 0, 
-                  y: 400, 
-                  rotate: Math.random() * 360 
-                }}
-                transition={{ 
-                  duration: 2, 
-                  delay: Math.random() * 0.5,
-                  ease: "easeOut"
-                }}
-                className={`absolute w-2 h-2 rounded-full ${
+                className={`absolute w-2 h-2 rounded-sm opacity-0 ${
                   ['bg-primary', 'bg-yellow-400', 'bg-blue-400', 'bg-green-400', 'bg-pink-400'][i % 5]
                 }`}
               />
             ))}
           </div>
-        )}
+        </div>
       </DialogContent>
     </Dialog>
   );
 };
+
+export default WelcomeModal;
+
 
 export default WelcomeModal;

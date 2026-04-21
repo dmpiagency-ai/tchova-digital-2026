@@ -4,7 +4,7 @@
 import React from 'react';
 import { useAuth } from '@/hooks/useFirebaseAuth';
 import { useAnalytics } from '@/hooks/useFirebaseAnalytics';
-import { getFirebaseStatus } from '@/config/firebase';
+import { getFirebaseStatus } from '@/lib/firebase';
 import { getFeaturesStatus } from '@/config/features';
 import { validateEnvironment } from '@/config/environment';
 

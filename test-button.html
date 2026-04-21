@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .test-info {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Button Click Test Page</h1>
+    
+    <div class="test-container">
+        <h2>Basic Button Test</h2>
+        <button id="basic-button">Click Me (Basic)</button>
+        <div id="basic-button-info" class="test-info">Button not clicked yet</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Inline Handler Test</h2>
+        <button onclick="inlineButtonHandler()">Click Me (Inline)</button>
+        <div id="inline-button-info" class="test-info">Button not clicked yet</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>DOM Event Listener Test</h2>
+        <button id="dom-button">Click Me (DOM Listener)</button>
+        <div id="dom-button-info" class="test-info">Button not clicked yet</div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Global Click Listener</h2>
+        <div id="global-click-info" class="test-info">No clicks captured yet</div>
+    </div>
+
+    <script>
+        // Basic button test
+        const basicButton = document.getElementById('basic-button');
+        const basicButtonInfo = document.getElementById('basic-button-info');
+        let basicClickCount = 0;
+        
+        basicButton.addEventListener('click', function(event) {
+            basicClickCount++;
+            basicButtonInfo.textContent = `Button clicked ${basicClickCount} times`;
+            console.log('Basic button clicked', event);
+            console.log('Event details:', {
+                type: event.type,
+                target: event.target,
+                currentTarget: event.currentTarget,
+                path: event.composedPath(),
+                phase: event.eventPhase
+            });
+        });
+        
+        // Inline handler
+        window.inlineButtonHandler = function(event) {
+            const info = document.getElementById('inline-button-info');
+            const currentText = info.textContent;
+            const match = currentText.match(/clicked (\d+) times/);
+            const count = match ? parseInt(match[1]) + 1 : 1;
+            info.textContent = `Button clicked ${count} times`;
+            console.log('Inline button clicked', event);
+        };
+        
+        // DOM listener test
+        const domButton = document.getElementById('dom-button');
+        const domButtonInfo = document.getElementById('dom-button-info');
+        let domClickCount = 0;
+        
+        domButton.addEventListener('click', function(event) {
+            domClickCount++;
+            domButtonInfo.textContent = `Button clicked ${domClickCount} times`;
+            console.log('DOM button clicked', event);
+        });
+        
+        // Global click listener
+        const globalClickInfo = document.getElementById('global-click-info');
+        let globalClickCount = 0;
+        
+        document.addEventListener('click', function(event) {
+            globalClickCount++;
+            globalClickInfo.textContent = `Total clicks captured: ${globalClickCount}`;
+            console.log('Global click captured:', event);
+            console.log('Event target:', event.target);
+            console.log('Event currentTarget:', event.currentTarget);
+            console.log('Event phase:', event.eventPhase);
+            console.log('Event path:', event.composedPath());
+        });
+        
+        console.log('Test page loaded');
+        console.log('Available buttons:');
+        console.log('Basic button:', basicButton);
+        console.log('Inline button:', document.querySelector('button[onclick]'));
+        console.log('DOM button:', domButton);
+    </script>
+</body>
+</html>

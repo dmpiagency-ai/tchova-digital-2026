@@ -53,7 +53,7 @@ const ProjectStatus = ({
   return (
     <div className="mb-8 sm:mb-12 lg:mb-16">
       {/* Status do Projeto - Dynamic Status Display */}
-      <div className="liquid-card rounded-[24px] sm:rounded-[32px] lg:rounded-[48px] p-4 sm:p-6 lg:p-8 mb-6 backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-primary/20 shadow-2xl">
+      <div className="liquid-card rounded-[24px] sm:rounded-[32px] lg:rounded-[48px] p-4 sm:p-6 lg:p-8 mb-6 backdrop-blur-xl dark:bg-black/5 bg-slate-50/80 border dark:border-primary/20 border-slate-200 shadow-2xl">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-lg ${
@@ -113,11 +113,11 @@ const ProjectStatus = ({
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white/5 dark:bg-black/10 rounded-2xl p-4 border border-white/10">
+          <div className="dark:bg-black/10 bg-slate-100 rounded-2xl p-4 border dark:border-white/10 border-slate-200">
             <p className="text-xs text-muted-foreground mb-1">Serviço</p>
             <p className="text-sm sm:text-base font-bold text-foreground truncate">{serviceTitle}</p>
           </div>
-          <div className="bg-white/5 dark:bg-black/10 rounded-2xl p-4 border border-white/10">
+          <div className="dark:bg-black/10 bg-slate-100 rounded-2xl p-4 border dark:border-white/10 border-slate-200">
             <p className="text-xs text-muted-foreground mb-1">Tipo de Pagamento</p>
             <p className="text-sm sm:text-base font-bold text-foreground">
               {paymentStatus === 'entry-50' && 'Entrada (50%)'}
@@ -125,13 +125,13 @@ const ProjectStatus = ({
               {paymentStatus === 'final' && 'Pagamento Final'}
             </p>
           </div>
-          <div className="bg-white/5 dark:bg-black/10 rounded-2xl p-4 border border-white/10">
+          <div className="dark:bg-black/10 bg-slate-100 rounded-2xl p-4 border dark:border-white/10 border-slate-200">
             <p className="text-xs text-muted-foreground mb-1">Valor Pago</p>
             <p className="text-sm sm:text-base font-bold text-primary">
               {paymentAmount ? `${parseInt(paymentAmount).toLocaleString('pt-MZ')} MZN` : 'Confirmado'}
             </p>
           </div>
-          <div className="bg-white/5 dark:bg-black/10 rounded-2xl p-4 border border-white/10">
+          <div className="dark:bg-black/10 bg-slate-100 rounded-2xl p-4 border dark:border-white/10 border-slate-200">
             <p className="text-xs text-muted-foreground mb-1">ID do Projeto</p>
             <p className="text-sm sm:text-base font-bold text-foreground font-mono">{projectId || `#PRJ-${Date.now().toString().slice(-6)}`}</p>
           </div>
@@ -152,7 +152,7 @@ const ProjectStatus = ({
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                 stage.id < currentStage ? 'bg-primary text-white' :
                 stage.id === currentStage ? 'bg-brand-yellow text-white animate-pulse' :
-                'bg-white/10 text-white/40'
+                'dark:bg-white/10 dark:text-white/40 bg-slate-100 text-slate-400 border border-slate-200 dark:border-transparent'
               }`}>
                 {stage.id < currentStage ? <CheckCircle className="w-5 h-5" /> : stage.icon}
               </div>
@@ -183,7 +183,7 @@ const ProjectStatus = ({
                 <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center ${
                   stage.id < currentStage ? 'bg-primary text-white' :
                   stage.id === currentStage ? 'bg-brand-yellow text-white animate-pulse shadow-lg shadow-brand-yellow/30' :
-                  'bg-white/10 text-white/40'
+                  'dark:bg-white/10 dark:text-white/40 bg-slate-100 text-slate-400 border border-slate-200 dark:border-transparent'
                 }`}>
                   {stage.id < currentStage ? <CheckCircle className="w-5 h-5 lg:w-6 lg:h-6" /> : stage.icon}
                 </div>

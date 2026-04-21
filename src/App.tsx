@@ -1,15 +1,33 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import { AICreditsProvider } from "@/contexts/AICreditsContext";
 import { Notification } from "@/components/Notification";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { PageLoader } from "@/components/PageLoader";
+import { SmoothScroll } from "@/components/SmoothScroll";
+
+// Redirect component for /gsm/tools
+const ToolsRedirect = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('/gsm?view=tools', { replace: true });
+  }, [navigate]);
+  return null;
+};
 
 // Code splitting: Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -23,7 +41,7 @@ const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
 const ClientPanel = lazy(() => import("./pages/ClientPanel"));
 const PlanCustomizer = lazy(() => import("./pages/PlanCustomizer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const GSMServicePage = lazy(() => import("@/components/gsm/GSMServicePage"));
+const GSMTechDashboard = lazy(() => import("@/components/gsm/GSMTechDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -32,8 +50,8 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
-        enableSystem
+        defaultTheme="dark"
+        enableSystem={false}
         disableTransitionOnChange={false}
         storageKey="tchova-digital-theme"
       >
@@ -45,23 +63,29 @@ const App = () => (
               <Sonner />
               <Notification />
               <BrowserRouter>
-                <Suspense fallback={null}>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/admin/gsm" element={<Admin />} />
-                    <Route path="/admin" element={<AdminPanel />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/service-details" element={<ServiceDetails />} />
-                    <Route path="/gsm" element={<GSMServicePage />} />
-                    <Route path="/payment" element={<Payment />} />
-                    <Route path="/checkout/seguro" element={<Checkout />} />
-                    <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />
-                    <Route path="/painel/:token" element={<ClientPanel />} />
-                    <Route path="/customize-plan" element={<PlanCustomizer />} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
+                <SmoothScroll>
+                  <Suspense fallback={<PageLoader />}>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/admin/gsm" element={<Admin />} />
+                      <Route path="/admin" element={<AdminPanel />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/service-details" element={<ServiceDetails />} />
+                      <Route path="/gsm" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/tech" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/rental" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/dashboard" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/tools" element={<ToolsRedirect />} />
+                      <Route path="/payment" element={<Payment />} />
+                      <Route path="/checkout/seguro" element={<Checkout />} />
+                      <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />
+                      <Route path="/painel/:token" element={<ClientPanel />} />
+                      <Route path="/customize-plan" element={<PlanCustomizer />} />
+                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </SmoothScroll>
               </BrowserRouter>
             </TooltipProvider>
           </AICreditsProvider>

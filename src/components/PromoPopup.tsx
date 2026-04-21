@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { 
   Sparkles, 
   Gift, 
@@ -16,23 +17,29 @@ interface PromoPopupProps {
   onAction?: () => void;
 }
 
-/**
- * PromoPopup - Notificação discreta para novos visitantes
- * 
- * Aparece como um card flutuante no canto inferior direito
- * NÃO bloqueia a interação com o hero
- * 
- * Lógica:
- * 1. Aparece após 15 segundos na página
- * 2. OU quando usuário scrolla para baixo do hero (seção About)
- * 3. Apenas para usuários que ainda não viram (localStorage)
- */
 const PromoPopup: React.FC<PromoPopupProps> = ({ isOpen, onClose, onAction }) => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [shouldRender, setShouldRender] = useState(isOpen);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLButtonElement>(null);
 
-  const handleAction = () => {
+  const { contextSafe } = useGSAP({ scope: containerRef });
+
+  const handleClose = contextSafe(() => {
     localStorage.setItem('tchova_promo_seen', 'true');
-    onClose();
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setShouldRender(false);
+        onClose();
+      }
+    });
+    tl.to(containerRef.current, { y: 100, opacity: 0, duration: 0.4, ease: 'power2.in' });
+  });
+
+  const handleAction = contextSafe(() => {
+    localStorage.setItem('tchova_promo_seen', 'true');
+    handleClose();
     if (onAction) {
       onAction();
     } else {
@@ -43,184 +50,170 @@ const PromoPopup: React.FC<PromoPopupProps> = ({ isOpen, onClose, onAction }) =>
         }
       }));
     }
-  };
+  });
 
-  const handleClose = () => {
-    localStorage.setItem('tchova_promo_seen', 'true');
-    onClose();
-  };
+  const toggleMinimize = contextSafe((minimize: boolean) => {
+    const tl = gsap.timeline({
+      onComplete: () => setIsMinimized(minimize)
+    });
 
-  const handleMinimize = () => {
-    setIsMinimized(true);
-  };
+    if (minimize) {
+      // Transition from card to badge
+      tl.to(cardRef.current, { scale: 0.8, opacity: 0, duration: 0.3, ease: 'power2.in' });
+    } else {
+      // Transition from badge to card
+      tl.to(badgeRef.current, { scale: 0.8, opacity: 0, duration: 0.3, ease: 'power2.in' });
+    }
+  });
 
-  const handleExpand = () => {
-    setIsMinimized(false);
-  };
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+    } else {
+      // External close trigger
+      if (shouldRender) handleClose();
+    }
+  }, [isOpen]);
+
+  useGSAP(() => {
+    if (!shouldRender) return;
+
+    if (!isMinimized) {
+      // Entrance for full card
+      gsap.fromTo(cardRef.current, 
+        { scale: 0.8, opacity: 0, y: 50 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' }
+      );
+    } else {
+      // Entrance for minimized badge
+      gsap.fromTo(badgeRef.current,
+        { scale: 0.8, opacity: 0, y: 20 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'back.out(2)' }
+      );
+    }
+  }, { scope: containerRef, dependencies: [isMinimized, shouldRender] });
+
+  if (!shouldRender) return null;
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: 100, x: 0 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, y: 100, x: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-4 right-4 z-40 max-w-sm"
-        >
-          {isMinimized ? (
-            // Minimized state - small badge
-            <motion.button
-              onClick={handleExpand}
-              className="flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-primary/80 text-white shadow-lg hover:shadow-xl transition-all group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Gift className="w-5 h-5" />
-              <span className="font-semibold">10% OFF</span>
-              <ChevronUp className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-            </motion.button>
-          ) : (
-            // Expanded state - full card
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-            >
-              {/* Close button */}
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-[100] pointer-events-none">
+      <div className="pointer-events-auto">
+        {isMinimized ? (
+          <button
+            ref={badgeRef}
+            onClick={() => toggleMinimize(false)}
+            className="flex items-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-primary to-primary/80 text-white shadow-3xl hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all group scale-0 opacity-0"
+          >
+            <Gift className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+            <span className="font-black text-sm tracking-widest uppercase">10% OFF</span>
+            <ChevronUp className="w-4 h-4 opacity-70 group-hover:translate-y-[-2px] transition-all" />
+          </button>
+        ) : (
+          <div
+            ref={cardRef}
+            className="relative w-full max-w-[320px] bg-background/90 backdrop-blur-2xl rounded-[2rem] shadow-3xl border border-white/10 overflow-hidden scale-0 opacity-0"
+          >
+            {/* Header Decorations */}
+            <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-br from-primary/20 via-transparent to-transparent pointer-events-none" />
+            <div className="h-1.5 bg-gradient-to-r from-primary via-yellow-400 to-green-400" />
+
+            {/* Top Bar Actions */}
+            <div className="absolute top-4 right-4 z-20 flex gap-2">
+              <button
+                onClick={() => toggleMinimize(true)}
+                className="p-1.5 rounded-full bg-foreground/5 hover:bg-foreground/10 text-muted-foreground transition-colors"
+                title="Minimizar"
+              >
+                <ChevronUp className="w-4 h-4 rotate-180" />
+              </button>
               <button
                 onClick={handleClose}
+                className="p-1.5 rounded-full bg-foreground/5 hover:bg-foreground/10 text-muted-foreground transition-all hover:rotate-90"
                 title="Fechar"
-                aria-label="Fechar popup de promoção"
-                className="absolute right-2 top-2 z-10 p-1.5 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
-                <X className="w-3.5 h-3.5 text-gray-500" />
+                <X className="w-4 h-4" />
               </button>
+            </div>
 
-              {/* Minimize button */}
-              <button
-                onClick={handleMinimize}
-                title="Minimizar"
-                aria-label="Minimizar popup"
-                className="absolute right-10 top-2 z-10 p-1.5 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              >
-                <ChevronUp className="w-3.5 h-3.5 text-gray-500" />
-              </button>
-
-              {/* Gradient accent */}
-              <div className="h-1.5 bg-gradient-to-r from-primary via-yellow-400 to-green-400" />
-
-              <div className="p-5 pt-4">
-                {/* Header */}
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-md">
-                    <Gift className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 pr-8">
-                    <h3 className="font-bold text-lg text-gray-900 dark:text-white">
-                      Desconto exclusivo
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Oferta para novos clientes
-                    </p>
-                  </div>
+            <div className="p-8 pt-10 relative z-10">
+              {/* Header Icon */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-xl shadow-primary/20 rotate-3">
+                  <Gift className="w-7 h-7 text-white" />
                 </div>
-
-                {/* Discount badge */}
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500 text-white font-bold text-sm mb-3">
-                  <Percent className="w-4 h-4" />
-                  <span>10% OFF</span>
+                <div>
+                  <h3 className="font-black text-xl text-foreground uppercase tracking-tighter leading-none">
+                    Vantagem <br/> Exclusiva
+                  </h3>
                 </div>
-
-                {/* Description */}
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                  Ganhe <strong>10% de desconto</strong> no seu primeiro projeto!
-                  <br />
-                  <span className="text-primary font-medium">Código: BEMVINDO10</span>
-                </p>
-
-                {/* CTA Button */}
-                <Button
-                  onClick={handleAction}
-                  className="w-full rounded-xl py-3 font-semibold group bg-primary hover:bg-primary/90"
-                >
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  <span>Começar a Explorar</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
               </div>
-            </motion.div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+
+              {/* Discount Tag */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 font-black text-[10px] uppercase tracking-[0.2em] mb-4">
+                <Percent className="w-3.5 h-3.5" />
+                <span>Oferta Limitada</span>
+              </div>
+
+              {/* Description */}
+              <p className="text-sm text-muted-foreground mb-8 font-medium leading-relaxed">
+                Queres fazer o teu negócio <strong className="text-foreground">bater maningue</strong>? 
+                Começa com 10% de desconto.
+                <br />
+                <span className="text-primary font-black uppercase tracking-widest mt-2 inline-block">BEMVINDO10</span>
+              </p>
+
+              {/* CTA Button */}
+              <Button
+                onClick={handleAction}
+                className="w-full rounded-[1.2rem] py-7 font-black uppercase tracking-widest bg-primary hover:bg-primary/95 text-primary-foreground shadow-2xl shadow-primary/10 group relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative z-10 text-xs">Ativar Cupão</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform relative z-10" />
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
-/**
- * Hook to manage promo popup logic
- * 
- * Mudanças:
- * - Aumenta tempo para 15 segundos (era 5)
- * - Só mostra quando usuário JÁ passou do hero
- * - Não interrompe a experiência inicial
- * - NÃO mostra para usuários que já têm conta (localStorage)
- */
 export const usePromoPopup = () => {
   const [showPromo, setShowPromo] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
-  const [isExistingUser, setIsExistingUser] = useState(false);
+  const hasTriggeredRef = useRef(false);
 
   useEffect(() => {
-    // Check if user has already seen the promo
     const hasSeenPromo = localStorage.getItem('tchova_promo_seen');
+    const hasLoggedIn = localStorage.getItem('tchova_user') || 
+                       localStorage.getItem('tchova_local_current_user') || 
+                       localStorage.getItem('tchova_client_session');
     
-    // Check if user has an existing account/session
-    const hasLoggedIn = localStorage.getItem('tchova_user');
-    const hasLocalAuthUser = localStorage.getItem('tchova_local_current_user');
-    const hasClientSession = localStorage.getItem('tchova_client_session');
-    
-    // If any user session exists, mark as existing user
-    if (hasLoggedIn || hasLocalAuthUser || hasClientSession) {
-      setIsExistingUser(true);
-      return; // Don't show promo to existing users
-    }
-    
-    // Don't show if already seen
-    if (hasSeenPromo) {
-      return;
-    }
+    if (hasLoggedIn || hasSeenPromo) return;
 
-    // Timer for 15 seconds (mais tempo para não interromper hero)
+    // Time-based trigger (15s)
     const timer = setTimeout(() => {
-      if (!hasTriggered && !isExistingUser) {
-        setHasTriggered(true);
+      if (!hasTriggeredRef.current) {
+        hasTriggeredRef.current = true;
         setShowPromo(true);
       }
     }, 15000);
 
-    // Scroll listener - só mostra quando passou DO hero
+    // Scroll-based trigger
     const handleScroll = () => {
-      if (hasTriggered || isExistingUser) return;
-      
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight; // 100% da viewport (hero completo)
-      
-      // Só mostra quando scrollou ALÉM do hero (entrou em outra seção)
-      if (scrollY > heroHeight * 1.2) {
-        setHasTriggered(true);
-        // Pequeno delay para não aparecer "do nada"
+      if (hasTriggeredRef.current) return;
+      if (window.scrollY > window.innerHeight * 1.2) {
+        hasTriggeredRef.current = true;
         setTimeout(() => setShowPromo(true), 500);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [hasTriggered, isExistingUser]);
+  }, []);
 
   const closePromo = useCallback(() => {
     setShowPromo(false);

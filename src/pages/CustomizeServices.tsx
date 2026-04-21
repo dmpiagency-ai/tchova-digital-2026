@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Header from '@/components/Header';
+import { env } from '@/config/env';
 import {
   Calculator,
   Plus,
@@ -176,7 +177,7 @@ const CustomizeServices = () => {
       `📝 Observações: ${customNotes || 'Nenhuma'}\n\n` +
       `Podemos discutir os detalhes e condições especiais?`
     );
-    window.open(`https://wa.me/258123456789?text=${message}`, '_blank');
+    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
 
   const totalPrice = calculateTotal();
@@ -457,7 +458,7 @@ const CustomizeServices = () => {
                         `📝 Observações: ${customNotes || 'Nenhuma'}\n\n` +
                         `Podemos prosseguir com o pagamento?`
                       );
-                      window.open(`https://wa.me/258123456789?text=${message}`, '_blank');
+                      window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
                     }}
                     className="h-10"
                   >

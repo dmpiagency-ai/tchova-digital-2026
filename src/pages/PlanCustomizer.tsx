@@ -423,8 +423,8 @@ const PlanCustomizer = () => {
 
                               <div className="mb-4">
                                 <div className="flex flex-wrap gap-2">
-                                  {service.features.slice(0, isMobile ? 2 : 3).map((feature: string, index: number) => (
-                                    <div key={index} className="flex items-center space-x-1.5 bg-green-50 dark:bg-green-900/10 rounded-full px-2 py-1">
+                                  {service.features.slice(0, isMobile ? 2 : 3).map((feature: string) => (
+                                    <div key={feature} className="flex items-center space-x-1.5 bg-green-50 dark:bg-green-900/10 rounded-full px-2 py-1">
                                       <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
                                       <span className="text-xs text-green-700 dark:text-green-300 font-medium">{feature}</span>
                                     </div>

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { useAdmin } from './AdminContext';
-import { auth, db } from '@/config/firebase';
+import { auth, db } from '@/lib/firebase';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
 import { sanitizeLocalStorageData } from '@/lib/sanitize';
@@ -130,6 +130,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // ============================================
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
     const initializeAuth = async () => {
       try {
         // Initialize local users for demo
@@ -178,7 +180,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         // Check for Firebase auth state
-        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+        unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
           if (firebaseUser) {
             // User is signed in with Firebase
             await handleFirebaseAuth(firebaseUser);
@@ -207,7 +209,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         await checkClientSession();
 
         setIsLoading(false);
-        return () => unsubscribe();
       } catch (error) {
         logger.error('Auth initialization error:', error);
         setIsLoading(false);
@@ -215,6 +216,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     initializeAuth();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   // ============================================
@@ -260,14 +265,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
-    console.log('[AuthContext] Login attempt for:', email);
-    console.log('[AuthContext] isUsingLocalAuth():', isUsingLocalAuth());
 
     // Check if using local auth (Firebase not configured)
     if (isUsingLocalAuth()) {
-      console.log('[AuthContext] Using LOCAL auth');
       const result = validateLocalLogin(email, password);
-      console.log('[AuthContext] Local auth result:', result);
       
       if (result.success && result.user) {
         const newUser: User = {
@@ -300,7 +301,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     // Firebase login
-    console.log('[AuthContext] Using FIREBASE auth');
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       await handleFirebaseAuth(userCredential.user);

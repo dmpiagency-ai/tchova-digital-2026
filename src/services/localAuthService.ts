@@ -2,6 +2,14 @@
 // Works without Firebase - uses localStorage for demo/development
 // ⚠️ SECURITY WARNING: This is for DEMO/DEVELOPMENT only!
 // In production, ALWAYS use Firebase Auth or another secure backend
+// 
+// SECURITY FIX: Em produção, esta função deve sempre retornar false
+// forçando o uso de Firebase Auth. Configure as variáveis do
+// Firebase corretamente para ativar a autenticação segura.
+
+const isProduction = (): boolean => {
+  return import.meta.env.PROD === true || import.meta.env.MODE === 'production';
+};
 
 export interface LocalUser {
   id: string;
@@ -33,20 +41,13 @@ const createDemoUsers = (): LocalUser[] => {
   
   if (!isDev) {
     // In production, return empty array - no demo users!
-    console.warn('[LocalAuth] Demo users disabled in production. Use Firebase Auth.');
     return [];
   }
   
   // Generate random passwords for demo users each session
-  // These are displayed in console for development testing only
   const adminPassword = generateDemoPassword();
   const clientPassword = generateDemoPassword();
   const testPassword = generateDemoPassword();
-  
-  console.log('%c🔐 DEMO CREDENTIALS (Development Only)', 'color: #ff6600; font-weight: bold; font-size: 14px;');
-  console.log(`   Admin: admin@tchova.digital / ${adminPassword}`);
-  console.log(`   Client: cliente@tchova.digital / ${clientPassword}`);
-  console.log(`   Test: teste@tchova.digital / ${testPassword}`);
   
   return [
     {
@@ -80,7 +81,8 @@ const createDemoUsers = (): LocalUser[] => {
 };
 
 // Initialize demo users
-const DEMO_USERS = createDemoUsers();
+// Em produção, não há usuários de demo
+const DEMO_USERS = isProduction() ? [] : createDemoUsers();
 
 const USERS_STORAGE_KEY = 'tchova_local_users';
 const CURRENT_USER_KEY = 'tchova_current_user';
@@ -201,6 +203,12 @@ export const clearCurrentUser = (): void => {
 
 // Check if using local auth (Firebase not configured)
 export const isUsingLocalAuth = (): boolean => {
+  // PROTEÇÃO: Em produção, SEMPRE usar Firebase Auth
+  if (isProduction()) {
+    console.warn('[Auth] Production mode - Using Firebase Auth only');
+    return false;
+  }
+  
   const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
   const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
   
@@ -211,6 +219,7 @@ export const isUsingLocalAuth = (): boolean => {
     'demo.firebaseapp.com',
     'demo-project',
     'your_project_id',
+    'AIzaSy_EXEMPLO',
     undefined,
     null,
     ''
@@ -230,13 +239,13 @@ export const isUsingLocalAuth = (): boolean => {
   
   // Check if the values look like real Firebase config
   // Real Firebase API keys are typically 39 characters and start with "AIza"
-  if (apiKey && typeof apiKey === 'string' && apiKey.startsWith('AIza')) {
+  if (apiKey && typeof apiKey === 'string' && apiKey.startsWith('AIza') && apiKey.length >= 30) {
     console.log('[Auth] Using FIREBASE auth - Real API key detected');
     return false; // Real Firebase config detected
   }
   
-  // Default to local auth if uncertain
-  console.log('[Auth] Using LOCAL auth - Default fallback');
+  // Default to local auth if uncertain (development only)
+  console.log('[Auth] Using LOCAL auth - Default fallback (development mode)');
   return true;
 };
 

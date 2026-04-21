@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import Header from '@/components/Header';
+import { env } from '@/config/env';
 import {
   Smartphone,
   DollarSign,
@@ -526,7 +527,7 @@ const Payment = () => {
                     <Button
                       variant="outline"
                       className="w-full h-9 text-xs font-semibold border-[#22C55E]/30 hover:bg-[#22C55E]/10 rounded-[24px]"
-                      onClick={() => window.open('https://wa.me/258123456789', '_blank')}
+                      onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}`, '_blank')}
                     >
                       💬 Suporte
                     </Button>
