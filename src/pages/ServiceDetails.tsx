@@ -49,14 +49,14 @@ const ServiceDetails = () => {
   const service = INDIVIDUAL_SERVICES.find(s => s.id.toString() === serviceId) || null;
 
   useGSAP(() => {
-    if (!service || !mainRef.current) return;
+    if (!service || !mainRef.current || !heroData) return;
 
     // 1. Initial Page Entrance
     const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
     
-    tl.from(headerSectionRef.current, { y: 30, opacity: 0 })
-      .from(nextEvolRef.current, { y: 30, opacity: 0 }, "-=0.5")
-      .from(ctaSectionRef.current, { scale: 0.95, opacity: 0 }, "-=0.4");
+    if (headerSectionRef.current) tl.from(headerSectionRef.current, { y: 30, opacity: 0 });
+    if (nextEvolRef.current) tl.from(nextEvolRef.current, { y: 30, opacity: 0 }, "-=0.5");
+    if (ctaSectionRef.current) tl.from(ctaSectionRef.current, { scale: 0.95, opacity: 0 }, "-=0.4");
 
     // 2. ScrollTrigger for sequential sections
     const sections = gsap.utils.toArray('.scroll-section');
@@ -220,16 +220,16 @@ const ServiceDetails = () => {
                 </Badge>
                 
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-black dark:text-white text-slate-900 mb-8 leading-[0.95] tracking-tighter">
-                  <span className="block opacity-50 text-3xl md:text-4xl lg:text-5xl mb-2">SOLUÇÃO EM</span>
+                  <span className="block opacity-50 text-3xl md:text-4xl lg:text-5xl mb-2 uppercase">Solução em</span>
                   <span className="bg-gradient-to-r dark:from-brand-green dark:via-brand-bright dark:to-brand-yellow from-emerald-600 via-green-600 to-emerald-700 bg-clip-text text-transparent uppercase">
-                    {heroData.title}
+                    {heroData?.title || service?.title}
                   </span>
                 </h1>
                 
                 <div className="w-24 h-1.5 bg-primary mx-auto mb-8 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
                 
                 <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
-                  {heroData.heroDescription}
+                  {heroData?.heroDescription || service?.description}
                 </p>
               </div>
             </div>
@@ -237,7 +237,7 @@ const ServiceDetails = () => {
             <div className="space-y-24">
               
               {/* O FATOR DIFERENCIAL - BENTO GRID LAYOUT */}
-              {heroData.heroCards && heroData.heroCards.length > 0 && (
+              {heroData?.heroCards && heroData.heroCards.length > 0 && (
                 <div className="scroll-section">
                   <div className="flex flex-col items-center gap-4 mb-16 justify-center text-center">
                     <div className="w-16 h-16 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-2">
@@ -288,7 +288,7 @@ const ServiceDetails = () => {
               )}
 
               {/* ATIVAÇÃO TCHOVA - TIMELINE VISUAL */}
-              {heroData.process && heroData.process.length > 0 && (
+              {heroData?.process && heroData.process.length > 0 && (
                 <div className="scroll-section max-w-4xl mx-auto relative">
                   <div className="flex flex-col items-center gap-4 mb-16 justify-center text-center">
                     <div className="w-16 h-16 bg-brand-yellow/10 rounded-[2rem] flex items-center justify-center mb-2">
