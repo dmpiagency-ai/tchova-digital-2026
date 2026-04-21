@@ -18,8 +18,16 @@ const firebaseConfig = {
 // 🔌 PLUG-IN: Initialize Firebase (Singleton)
 let app: FirebaseApp;
 
+const isConfigValid = !!firebaseConfig.apiKey && firebaseConfig.apiKey !== 'undefined';
+
 if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
+  if (isConfigValid) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    console.warn('Firebase configuration is missing or invalid. Authentication features will be disabled.');
+    // Initialize with an empty app to avoid total bundle crash
+    app = initializeApp({ apiKey: "mock-key", projectId: "mock-id", appId: "mock-app" });
+  }
 } else {
   app = getApps()[0];
 }
