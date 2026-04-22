@@ -99,86 +99,105 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'bg-green-500';
-      case 'good': return 'bg-blue-500';
-      case 'average': return 'bg-yellow-500';
-      case 'poor': return 'bg-red-500';
+      case 'excellent': return 'bg-emerald-500 shadow-lg shadow-emerald-500/20';
+      case 'good': return 'bg-blue-500 shadow-lg shadow-blue-500/20';
+      case 'average': return 'bg-amber-500 shadow-lg shadow-amber-500/20';
+      case 'poor': return 'bg-rose-500 shadow-lg shadow-rose-500/20';
       default: return 'bg-gray-500';
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'excellent': return 'Excelente';
-      case 'good': return 'Bom';
-      case 'average': return 'Regular';
-      case 'poor': return 'Ruim';
+      case 'excellent': return 'Performance de Elite';
+      case 'good': return 'Crescimento Sólido';
+      case 'average': return 'Moderado / Atenção';
+      case 'poor': return 'Alerta Crítico';
       default: return 'N/A';
     }
   };
 
+  // Real-time calculation effect
+  React.useEffect(() => {
+    const invest = parseFloat(investment);
+    const revenue = parseFloat(expectedRevenue);
+    if (!isNaN(invest) && !isNaN(revenue) && invest > 0) {
+      calculateROI();
+    } else {
+      setResults(null);
+    }
+  }, [investment, expectedRevenue]);
+
   return (
     <div ref={containerRef} className="max-w-2xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-3">
         <div className="flex items-center justify-center space-x-3">
-          <TrendingUp className="w-8 h-8 text-primary" />
-          <h1 className="text-2xl sm:text-3xl font-black gradient-text uppercase tracking-tighter">Calculadora ROI Elite</h1>
+          <div className="p-2 bg-primary/10 rounded-xl">
+            <TrendingUp className="w-8 h-8 text-primary animate-pulse" />
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-emerald-600 via-primary to-emerald-700 bg-clip-text text-transparent uppercase tracking-tighter">Calculadora ROI Elite</h1>
         </div>
-        <p className="text-muted-foreground text-sm sm:text-base font-medium">
+        <p className="text-slate-600 dark:text-white/60 text-sm sm:text-lg font-bold uppercase tracking-widest opacity-80 px-4">
           Mensure a eficiência do seu capital com precisão técnica
         </p>
       </div>
 
-      <Card className="border-primary/20 bg-white dark:bg-white/5 backdrop-blur-xl">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <DollarSign className="w-5 h-5 text-primary" />
+      <Card className="border-primary/20 bg-white dark:bg-white/5 backdrop-blur-xl shadow-2xl shadow-primary/5 rounded-[40px] overflow-hidden">
+        <CardHeader className="pb-2">
+          <CardTitle className="flex items-center space-x-3 text-2xl font-black text-slate-900 dark:text-white">
+            <div className="p-2 bg-primary/20 rounded-lg">
+              <DollarSign className="w-6 h-6 text-primary" />
+            </div>
             <span>Parâmetros de Investimento</span>
           </CardTitle>
-          <CardDescription>Insira os valores para projeção de lucro</CardDescription>
+          <CardDescription className="text-base">Insira os valores para projeção instantânea de lucro</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="investment" className="text-xs font-bold uppercase text-slate-500 dark:text-white/60">Investimento (MZN)</Label>
+            <div className="space-y-2">
+              <Label htmlFor="investment" className="text-sm font-black uppercase text-primary/80 ml-1">Investimento (MZN)</Label>
               <Input
                 id="investment"
                 type="number"
                 placeholder="Ex: 50000"
                 value={investment}
                 onChange={(e) => setInvestment(e.target.value)}
-                className="h-11 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
+                className="h-14 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xl font-black rounded-2xl focus:ring-primary/40 focus:border-primary transition-all pr-4"
               />
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="revenue" className="text-xs font-bold uppercase text-slate-500 dark:text-white/60">Receita Esperada (MZN)</Label>
+            <div className="space-y-2">
+              <Label htmlFor="revenue" className="text-sm font-black uppercase text-primary/80 ml-1">Receita Esperada (MZN)</Label>
               <Input
                 id="revenue"
                 type="number"
                 placeholder="Ex: 150000"
                 value={expectedRevenue}
                 onChange={(e) => setExpectedRevenue(e.target.value)}
-                className="h-11 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
+                className="h-14 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xl font-black rounded-2xl focus:ring-primary/40 focus:border-primary transition-all pr-4"
               />
             </div>
           </div>
-          <Button
-            onClick={calculateROI}
-            className="w-full h-12 font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-            disabled={!investment || !expectedRevenue}
-          >
-            Executar Diagnóstico
-          </Button>
+          <div className="pt-2">
+            <div className="w-full h-1 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-700 ease-out" 
+                style={{ width: investment && expectedRevenue ? '100%' : '0%' }}
+              />
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       <div ref={resultsRef} style={{ opacity: results ? 1 : 0 }}>
         {results && (
-          <Card className="border-primary/40 bg-primary/5 backdrop-blur-2xl">
+          <Card className="border-primary/40 bg-primary/5 backdrop-blur-2xl rounded-[40px] shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-10 -mt-10" />
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-primary" />
-                <span>Análise de Desempenho</span>
+              <CardTitle className="flex items-center space-x-3 text-2xl font-black text-slate-900 dark:text-white">
+                <div className="p-2 bg-primary/20 rounded-lg">
+                  <Target className="w-6 h-6 text-primary" />
+                </div>
+                <span>Análise de Desempenho Digital</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">

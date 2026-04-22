@@ -64,26 +64,26 @@ const ServiceDetails = () => {
       
       if (cards.length > 0) {
         gsap.from(cards, {
-          y: 40,
+          y: window.innerWidth < 768 ? 5 : 40,
           opacity: 0,
           duration: 0.8,
           stagger: 0.1,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top 85%',
+            start: window.innerWidth < 768 ? 'top bottom' : 'top 92%',
             toggleActions: 'play none none none'
           }
         });
       } else {
         gsap.from(section, {
-          y: 40,
+          y: window.innerWidth < 768 ? 5 : 40,
           opacity: 0,
           duration: 0.8,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top 85%',
+            start: window.innerWidth < 768 ? 'top bottom' : 'top 92%',
             toggleActions: 'play none none none'
           }
         });
@@ -95,14 +95,14 @@ const ServiceDetails = () => {
       const gridItems = bentoGridRef.current.querySelectorAll('.bento-item');
       if (gridItems.length > 0) {
         gsap.from(gridItems, {
-          y: 50,
+          y: window.innerWidth < 768 ? 10 : 50,
           opacity: 0,
           stagger: 0.1,
-          duration: 1,
-          ease: "power4.out",
+          duration: 0.8,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: bentoGridRef.current,
-            start: "top 80%",
+            start: window.innerWidth < 768 ? "top bottom" : "top 80%",
           }
         });
       }
@@ -208,7 +208,7 @@ const ServiceDetails = () => {
   }
 
   return (
-    <div ref={mainRef} className="min-h-screen bg-background relative pb-20">
+    <div ref={mainRef} className="min-h-screen bg-background relative pb-10 sm:pb-20">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-blue-500/8 via-cyan-400/6 to-purple-500/8 rounded-full blur-3xl" />
         <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-to-tr from-emerald-500/8 via-teal-400/6 to-blue-500/8 rounded-full blur-3xl" />
@@ -216,13 +216,13 @@ const ServiceDetails = () => {
 
       {!isGSM && <Header />}
 
-      <main className={isGSM ? "container relative z-10 mx-auto px-0 pb-6" : "container relative z-10 mx-auto px-4 pt-20 pb-6 max-w-5xl"}>
+      <main className={isGSM ? "container relative z-10 mx-auto px-0 pb-6" : "container relative z-10 mx-auto px-4 pt-10 sm:pt-20 pb-6 max-w-5xl"}>
         {isGSM ? (
           <GSMServicePage />
         ) : heroData ? (
           <>
             {/* HERO SECTION CINEMÁTICA */}
-            <div ref={headerSectionRef} className="relative overflow-hidden mb-16 rounded-[40px] sm:rounded-[56px] shadow-2xl border border-white/10 group min-h-[50vh] flex items-center justify-center">
+            <div ref={headerSectionRef} className="relative overflow-hidden mb-8 sm:mb-16 rounded-[40px] sm:rounded-[56px] shadow-2xl border border-white/10 group min-h-[30vh] sm:min-h-[50vh] flex items-center justify-center">
               {/* Background Layers */}
               <div className="absolute inset-0 bg-black/60 z-10" />
               <div className="absolute inset-0 bg-gradient-to-br dark:from-brand-green/20 dark:to-brand-yellow/10 from-emerald-500/10 to-teal-500/10 z-0" />
@@ -231,32 +231,32 @@ const ServiceDetails = () => {
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 animate-pulse" />
               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
 
-              <div className="relative z-20 p-8 sm:p-16 lg:p-24 text-center w-full">
-                <Badge variant="outline" className="mb-8 px-6 py-2 border-primary/40 text-primary bg-primary/5 uppercase tracking-[0.3em] text-[10px] font-black rounded-full backdrop-blur-md">
+              <div className="relative z-20 p-6 sm:p-16 lg:p-24 text-center w-full">
+                <Badge variant="outline" className="mb-6 sm:mb-8 px-4 sm:px-6 py-2 border-primary/40 text-primary bg-primary/5 uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[9px] sm:text-[10px] font-black rounded-full backdrop-blur-md">
                   Ecossistema de Elite
                 </Badge>
                 
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black dark:text-white text-slate-900 mb-8 leading-[0.95] tracking-tighter">
-                  <span className="block opacity-50 text-3xl md:text-4xl lg:text-5xl mb-2 uppercase">Solução em</span>
-                  <span className="bg-gradient-to-r dark:from-brand-green dark:via-brand-bright dark:to-brand-yellow from-emerald-600 via-green-600 to-emerald-700 bg-clip-text text-transparent uppercase">
+                <h1 className="text-3xl md:text-7xl lg:text-8xl font-black dark:text-white text-slate-900 mb-6 sm:mb-8 leading-[1.1] sm:leading-[0.95] tracking-tighter">
+                  <span className="block opacity-50 text-base sm:text-4xl lg:text-5xl mb-1 sm:mb-2 uppercase tracking-widest sm:tracking-normal">Solução em</span>
+                  <span className="bg-gradient-to-r dark:from-brand-green dark:via-brand-bright dark:to-brand-yellow from-emerald-600 via-green-600 to-emerald-700 bg-clip-text text-transparent uppercase text-3xl sm:text-7xl lg:text-8xl">
                     {heroData?.title || service?.title}
                   </span>
                 </h1>
                 
-                <div className="w-24 h-1.5 bg-primary mx-auto mb-8 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
+                <div className="w-16 sm:w-24 h-1 sm:h-1.5 bg-primary mx-auto mb-6 sm:mb-8 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
                 
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
+                <p className="text-base sm:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed px-2 sm:px-0">
                   {heroData?.heroDescription || service?.description}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-24">
+            <div className="space-y-6 sm:space-y-24">
               
               {/* O FATOR DIFERENCIAL - BENTO GRID LAYOUT */}
               {heroData?.heroCards && heroData.heroCards.length > 0 && (
                 <div className="scroll-section" ref={bentoGridRef}>
-                  <div className="flex flex-col items-center gap-4 mb-16 justify-center text-center">
+                  <div className="flex flex-col items-center gap-4 mb-4 sm:mb-16 justify-center text-center">
                     <div className="w-16 h-16 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-2">
                        <Rocket className="w-8 h-8 text-primary animate-bounce-slow" />
                     </div>
@@ -266,7 +266,7 @@ const ServiceDetails = () => {
                     <p className="text-muted-foreground text-lg max-w-2xl">Os elementos-chave que elevam esta solução ao estatuto de elite digital.</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 min-h-[400px] sm:min-h-[600px]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 sm:min-h-[600px]">
                     {heroData.heroCards.map((card: any, i: number) => (
                       <div 
                         key={i} 
@@ -286,16 +286,16 @@ const ServiceDetails = () => {
               {/* ARSENAL TÁTICO / INCLUDES */}
               {(heroData as any).includes && (heroData as any).includes.length > 0 && (
                 <div className="scroll-section">
-                  <div className="flex flex-col items-center gap-3 mb-10 justify-center text-center">
+                  <div className="flex flex-col items-center gap-2 mb-2 sm:mb-10 justify-center text-center">
                     <Package className="w-8 h-8 text-brand-yellow" />
                     <h2 className="text-3xl md:text-4xl font-black dark:text-white text-slate-900 tracking-tight">Arsenal Tático</h2>
                     <p className="text-muted-foreground font-medium">Tecnologias e metodologias exclusivas inclusas neste serviço.</p>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                     {(heroData as any).includes.map((item: any) => (
-                      <div key={item.name} className={`stagger-card group bg-gradient-to-br ${item.color} backdrop-blur-lg rounded-3xl p-8 border dark:border-white/5 border-slate-200 dark:hover:border-white/20 hover:border-slate-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300`}>
-                        <div className="flex flex-col gap-4">
-                          <div className={`w-14 h-14 bg-gradient-to-br ${item.gradient} rounded-xl flex items-center justify-center shadow-lg text-white`}>{item.icon}</div>
+                      <div key={item.name} className={`stagger-card group bg-gradient-to-br ${item.color} backdrop-blur-lg rounded-3xl p-4 sm:p-8 border dark:border-white/5 border-slate-200 dark:hover:border-white/20 hover:border-slate-300 shadow-xl hover:shadow-2xl hover:scale-[1.02]`}>
+                        <div className="flex flex-col gap-2 sm:gap-4">
+                          <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${item.gradient} rounded-xl flex items-center justify-center shadow-lg text-white`}>{item.icon}</div>
                           <h3 className="font-bold text-lg text-foreground leading-tight">{item.name}</h3>
                         </div>
                       </div>
@@ -307,7 +307,7 @@ const ServiceDetails = () => {
               {/* ATIVAÇÃO TCHOVA - TIMELINE VISUAL */}
               {heroData?.process && heroData.process.length > 0 && (
                 <div className="scroll-section max-w-4xl mx-auto relative">
-                  <div className="flex flex-col items-center gap-4 mb-16 justify-center text-center">
+                  <div className="flex flex-col items-center gap-4 mb-4 sm:mb-16 justify-center text-center">
                     <div className="w-16 h-16 bg-brand-yellow/10 rounded-[2rem] flex items-center justify-center mb-2">
                        <Timer className="w-8 h-8 text-brand-yellow" />
                     </div>
@@ -322,7 +322,7 @@ const ServiceDetails = () => {
                     <div className="absolute left-[2.75rem] top-10 bottom-10 w-1 bg-gradient-to-b from-primary via-brand-yellow to-brand-green opacity-20 hidden sm:block" />
 
                     {heroData.process.map((item: any, i: number) => (
-                      <div key={item.title} className="stagger-card flex flex-col sm:flex-row items-center sm:items-start gap-8 p-10 rounded-[40px] dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-200 hover:border-primary/30 transition-all duration-500 group relative z-10">
+                      <div key={item.title} className="stagger-card flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-8 p-4 sm:p-10 rounded-[40px] dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-200 hover:border-primary/30 group relative z-10">
                         <div className="w-24 h-24 sm:w-20 sm:h-20 bg-gradient-to-br from-primary to-brand-green text-white rounded-3xl flex items-center justify-center font-black text-3xl sm:text-2xl flex-shrink-0 shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                           {item.step}
                         </div>
@@ -339,14 +339,14 @@ const ServiceDetails = () => {
               {/* AUDIOVISUAL SPECIAL PACKAGES */}
               {isAudiovisual && (
                 <div className="scroll-section border-t dark:border-white/10 border-slate-200 pt-16 mt-16">
-                  <div className="flex flex-col items-center gap-3 mb-12 justify-center text-center">
+                  <div className="flex flex-col items-center gap-3 mb-4 sm:mb-12 justify-center text-center">
                     <Package className="w-8 h-8 text-primary" />
                     <h2 className="text-3xl md:text-4xl font-black dark:text-white text-slate-900 tracking-tight">Pacotes Especiais</h2>
                     <p className="text-muted-foreground font-medium">Soluções modulares para cada nível de impacto.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {AUDIO_PACKAGES.map((pkg: any) => (
-                      <div key={pkg.name} className={`stagger-card group relative dark:bg-white/5 bg-slate-50 backdrop-blur-xl rounded-[32px] p-8 border ${pkg.popular ? 'border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] ring-1 ring-primary/20' : 'border-slate-200 dark:border-white/10'} hover:scale-[1.03] transition-all duration-500 flex flex-col h-full`}>
+                      <div key={pkg.name} className={`stagger-card group relative dark:bg-white/5 bg-slate-50 backdrop-blur-xl rounded-[32px] p-8 border ${pkg.popular ? 'border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] ring-1 ring-primary/20' : 'border-slate-200 dark:border-white/10'} hover:scale-[1.03] flex flex-col h-full`}>
                         <div className="text-center mb-8 flex-shrink-0">
                           <div className="w-16 h-16 bg-gradient-to-br from-primary to-brand-green rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl text-white transform group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(34,197,94,0.3)] transition-all duration-500">{pkg.icon}</div>
                           <h3 className="font-bold text-xl dark:text-white text-slate-900 mb-2">{pkg.name}</h3>
@@ -388,16 +388,16 @@ const ServiceDetails = () => {
               </div>
             </div>
 
-            <div ref={ctaSectionRef} className="mt-20 mb-10 text-center">
+            <div ref={ctaSectionRef} className="mt-12 sm:mt-20 mb-10 text-center">
               <div className="relative inline-block group">
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary via-brand-green to-primary rounded-[2rem] blur-lg opacity-30 group-hover:opacity-100 transition duration-1000 animate-gradient-x pointer-events-none"></div>
                 {!isPaymentAuthorized ? (
-                  <Button onClick={() => setContactModalOpen(true)} className="relative rounded-[2rem] py-8 px-14 font-black transition-all duration-300 h-20 bg-primary hover:bg-primary/90 text-white shadow-2xl transform hover:scale-[1.03] text-2xl group border border-white/20 uppercase tracking-tighter">
-                    <Rocket className="w-8 h-8 mr-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />Bora fazer acontecer
+                  <Button onClick={() => setContactModalOpen(true)} className="relative w-full sm:w-auto rounded-[2rem] py-3 sm:py-8 px-6 sm:px-14 font-black transition-all duration-300 h-14 sm:h-20 bg-primary hover:bg-primary/90 text-white shadow-2xl transform hover:scale-[1.03] text-base sm:text-2xl group border border-white/20 uppercase tracking-tighter">
+                    <Rocket className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />Bora fazer acontecer
                   </Button>
                 ) : (
-                  <Button onClick={handlePayment} className="relative rounded-[2rem] py-8 px-14 font-black transition-all duration-300 h-20 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white shadow-2xl transform hover:scale-[1.03] text-2xl group border border-white/20 uppercase tracking-tighter">
-                    <ShieldCheck className="w-8 h-8 mr-4 group-hover:scale-110 transition-transform" />Efetuar Pagamento
+                  <Button onClick={handlePayment} className="relative w-full sm:w-auto rounded-[2rem] py-3 sm:py-8 px-6 sm:px-14 font-black transition-all duration-300 h-14 sm:h-20 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white shadow-2xl transform hover:scale-[1.03] text-base sm:text-2xl group border border-white/20 uppercase tracking-tighter">
+                    <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:scale-110 transition-transform" />Efetuar Pagamento
                   </Button>
                 )}
               </div>

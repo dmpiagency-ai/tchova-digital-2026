@@ -128,7 +128,7 @@ const Index = () => {
         <Services />
         <section className="py-20 bg-white/5 backdrop-blur-sm border-y border-white/10">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-black/40 border border-primary/20 shadow-2xl">
+            <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-white/50 dark:bg-black/40 backdrop-blur-xl border border-primary/20 shadow-2xl">
               <ROICalculator />
             </div>
           </div>

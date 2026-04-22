@@ -212,7 +212,7 @@ export default function Header() {
               <button
                 onClick={() => handleNavigation('#how-it-works')}
                 className={cn(
-                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-primary/10",
                   scrolled || isPaymentPage || isServiceDetailsPage
                     ? "text-foreground"
                     : "text-white"
@@ -223,7 +223,7 @@ export default function Header() {
               <button
                 onClick={() => handleNavigation('#about')}
                 className={cn(
-                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-primary/10",
                   scrolled || isPaymentPage || isServiceDetailsPage
                     ? "text-foreground"
                     : "text-white"
@@ -234,7 +234,7 @@ export default function Header() {
               <button
                 onClick={() => handleNavigation('#contact')}
                 className={cn(
-                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-accent",
+                  "px-3 py-1.5 rounded-full transition-colors duration-300 text-sm font-medium hover:text-primary hover:bg-primary/10",
                   scrolled || isPaymentPage || isServiceDetailsPage
                     ? "text-foreground"
                     : "text-white"

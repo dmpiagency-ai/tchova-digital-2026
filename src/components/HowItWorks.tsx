@@ -194,9 +194,9 @@ const HowItWorks = () => {
             <Button
               onClick={handleCTA}
               size="lg"
-              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-8 text-xl font-black shadow-2xl shadow-primary/40 transition-all duration-300 hover:scale-105 uppercase tracking-widest group"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-full px-5 sm:px-12 py-3 sm:py-8 h-14 sm:h-20 text-sm sm:text-xl font-black shadow-2xl shadow-primary/40 transition-all duration-300 hover:scale-105 uppercase tracking-wide sm:tracking-widest group"
             >
-              <Zap className="w-5 h-5 mr-3 animate-pulse text-yellow-300 group-hover:scale-125 transition-transform" />
+              <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-3 animate-pulse text-yellow-300 group-hover:scale-125 transition-transform" />
               Bora começar o meu projeto
             </Button>
             <div className="flex items-center gap-2 text-muted-foreground">

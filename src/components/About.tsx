@@ -160,7 +160,7 @@ const About = () => {
                 <Button
                   onClick={handleCTA}
                   size="lg"
-                  className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-full px-6 sm:px-10 lg:px-12 py-5 sm:py-6 lg:py-8 text-base sm:text-lg lg:text-xl font-black shadow-2xl shadow-primary/40 transition-all duration-300 hover:scale-105 uppercase tracking-widest"
+                  className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-full px-6 sm:px-10 lg:px-12 py-3.5 sm:py-6 lg:py-8 text-sm sm:text-lg lg:text-xl font-black shadow-2xl shadow-primary/40 transition-all duration-300 hover:scale-105 uppercase tracking-wide sm:tracking-widest"
                 >
                   Tchovar meu negócio
                   <Zap className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 animate-pulse" />

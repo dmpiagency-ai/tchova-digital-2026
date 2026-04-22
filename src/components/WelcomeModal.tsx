@@ -237,13 +237,13 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-4 mt-8">
               <Button
                 onClick={handleNext}
-                className="w-full rounded-[1.2rem] py-8 text-lg font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl shadow-primary/20 group overflow-hidden relative"
+                className="w-full rounded-[1.2rem] py-3.5 sm:py-8 text-sm sm:text-lg font-black uppercase tracking-wide sm:tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl shadow-primary/20 group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <span className="relative z-10">
                   {currentStep < welcomeSteps.length - 1 ? 'Seguir Viagem' : 'Lançar Ecossistema'}
                 </span>
-                <ArrowRight className="w-6 h-6 ml-3 relative z-10 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 ml-3 relative z-10 group-hover:translate-x-2 transition-transform" />
               </Button>
 
               <button

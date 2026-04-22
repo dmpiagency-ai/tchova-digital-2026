@@ -154,7 +154,7 @@ const Services = () => {
 
       <div className="container relative z-10 mx-auto px-3 md:px-4 w-full">
         {/* Impact Header */}
-        <div ref={headerRef} className="text-center mb-3 md:mb-8 relative flex flex-col items-center">
+        <div ref={headerRef} className="text-center mb-6 md:mb-12 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] md:text-xs font-bold uppercase tracking-widest mb-3">
             <Rocket className="w-3 h-3" />
             <span>Ecossistema 360°</span>
@@ -189,20 +189,20 @@ const Services = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-colors duration-500" />
                   
                   {/* Content - Super Minimal & Bold */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col justify-end h-full">
-                    <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
-                      <span className="inline-block px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white mb-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end h-full">
+                    <div className="transform transition-all duration-500 group-hover:-translate-y-10">
+                      <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white mb-3">
                         {item.category}
                       </span>
-                      <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
+                      <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-2">
                         {item.title}
                       </h3>
-                    </div>
-                    {/* Pain Point Reveal on Hover */}
-                    <div className="absolute bottom-6 left-6 right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
-                      <p className="text-lg font-bold text-green-400 drop-shadow-md">
-                        {item.painPoint}
-                      </p>
+                      {/* Pain Point integrated into flow to prevent overlap */}
+                      <div className="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                        <p className="text-lg font-bold text-green-400 drop-shadow-md">
+                          {item.painPoint}
+                        </p>
+                      </div>
                     </div>
                   </div>
 
