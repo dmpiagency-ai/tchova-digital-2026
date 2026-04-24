@@ -1,16 +1,20 @@
 import React, { useRef } from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { MessageCircle, Check, Clock, Target } from "lucide-react";
 import { TiltCard } from '@/components/ui/TiltCard';
-import { gsap, useGSAP } from "@/lib/gsapConfig";
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowRight } from 'lucide-react';
+import { EliteRadar, ElitePulse, EliteCore } from '@/components/ui/EliteIcons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Plans with detailed feature lists
 const PLANS = [
   {
     id: 'start',
     name: "Plano Maway (Start)",
-    emoji: "🎯",
+    icon: EliteCore,
     price: "5.000",
     originalPrice: "7.000",
     savings: "2.000",
@@ -36,7 +40,7 @@ const PLANS = [
   {
     id: 'business',
     name: "Plano Business (Pra Bater)",
-    emoji: "⚡",
+    icon: ElitePulse,
     price: "15.000",
     originalPrice: "20.000",
     savings: "5.000",
@@ -62,7 +66,7 @@ const PLANS = [
   {
     id: 'eco360',
     name: "Eco 360 (Tchova Total)",
-    emoji: "💎",
+    icon: EliteRadar,
     price: "35.000",
     originalPrice: "45.000",
     savings: "10.000",
@@ -96,7 +100,7 @@ const Pricing = () => {
   useGSAP(() => {
     // 1. Header Entrance
     gsap.from(headerRef.current, {
-      y: 30,
+      y: 40,
       opacity: 0,
       duration: 1,
       ease: 'power3.out',
@@ -109,15 +113,15 @@ const Pricing = () => {
     // 2. Coordinated Card Entrance
     if (gridRef.current) {
       gsap.from(gridRef.current.children, {
-        y: 50,
+        y: 80,
         scale: 0.9,
         opacity: 0,
-        stagger: 0.15,
+        stagger: 0.2,
         duration: 1.2,
         ease: 'power4.out',
         scrollTrigger: {
           trigger: gridRef.current,
-          start: 'top 80%',
+          start: 'top 75%',
         }
       });
     }
@@ -133,131 +137,138 @@ const Pricing = () => {
   };
 
   return (
-    <section ref={containerRef} id="planos" className="py-24 relative overflow-hidden bg-background/95 dark:bg-background/60 backdrop-blur-lg">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-green-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+    <section ref={containerRef} id="planos" className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+      
+      {/* Liquid Glass Background Effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] mix-blend-screen" />
+        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div ref={headerRef} className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 uppercase tracking-tighter">
-            <span className="bg-gradient-to-r from-primary via-brand-green to-brand-yellow bg-clip-text text-transparent drop-shadow-xl">
-              Investimento Consciente
-            </span>
+      <div className="container relative z-10 mx-auto px-6 lg:px-12">
+        
+        {/* Header */}
+        <div ref={headerRef} className="text-center mb-24 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
+            <EliteRadar className="w-4 h-4 text-primary" />
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Pricing Model</span>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+            Investimento <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Consciente</span>
           </h2>
-          <p className="text-lg sm:text-2xl text-muted-foreground max-w-2xl mx-auto font-medium">
-            Escolha como queres fazer o teu negócio <span className="text-foreground font-black italic">bater</span> hoje.
+          <p className="text-xl md:text-2xl text-muted-foreground/80 font-light leading-relaxed">
+            Escolha como queres fazer o teu negócio <span className="text-white font-semibold italic">bater</span> hoje. Estruturas escaláveis para qualquer estágio.
           </p>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {PLANS.map((plan, index) => (
+        {/* Pricing Grid */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {PLANS.map((plan) => (
             <TiltCard 
               key={plan.id} 
-              className="p-0 overflow-visible border-0 rounded-2xl bg-transparent h-full" 
-              maxTilt={8} 
-              glowOpacity={plan.popular ? 0.3 : 0.15}
-              glowColor={plan.popular ? 'rgba(34, 197, 94, 0.5)' : 'rgba(255, 255, 255, 0.2)'}
+              className="p-0 overflow-visible border-0 rounded-3xl bg-transparent h-full" 
+              maxTilt={5} 
+              glowOpacity={plan.popular ? 0.4 : 0.1}
+              glowColor={plan.popular ? 'rgba(34, 197, 94, 0.6)' : 'rgba(255, 255, 255, 0.2)'}
             >
               <Card
                 className={`relative overflow-hidden h-full flex flex-col ${
                   plan.popular 
-                    ? "border-green-500/50 shadow-2xl bg-gradient-to-b from-green-500/10 to-transparent" 
-                    : "border-border/50 dark:bg-white/5 bg-slate-50/50 backdrop-blur-xl"
+                    ? "border-primary/50 bg-black/80 backdrop-blur-3xl shadow-[0_0_50px_-15px_rgba(34,197,94,0.3)]" 
+                    : "border-white/10 bg-black/40 backdrop-blur-2xl"
                 }`}
               >
+                {/* Popular Plan Top Gradient Line */}
                 {plan.popular && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-500" />
+                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-brand-green to-primary" />
                 )}
 
-                <CardHeader className="text-center pb-2 p-6">
-                  <div className="flex flex-col items-center gap-2 mb-4">
-                    <span className="text-3xl mb-2">{plan.emoji}</span>
-                    <h3 className="text-xl font-black dark:text-white text-slate-900 uppercase tracking-tight">
-                      {plan.name}
-                    </h3>
-                    {plan.popular && (
-                      <span className="text-[10px] bg-green-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest">
-                        Mais Popular
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="mt-2">
-                    {plan.originalPrice && (
-                      <div className="flex items-center justify-center gap-2 mb-1 opacity-50">
-                        <span className="text-lg line-through font-bold">{plan.originalPrice}</span>
-                        <span className="text-xs font-black">MZN</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center justify-center gap-1 scale-110">
-                      <span className="text-4xl sm:text-5xl font-black text-green-500 tracking-tighter">
-                        {plan.price}
-                      </span>
-                      <span className="text-muted-foreground text-xs font-bold uppercase">MZN</span>
+                <CardHeader className="text-center p-10 pb-6">
+                  <div className="flex flex-col items-center gap-4 mb-6">
+                    <div className={`p-4 rounded-2xl border ${plan.popular ? 'bg-primary/10 border-primary/30 text-primary' : 'bg-white/5 border-white/10 text-white/70'}`}>
+                      <plan.icon className="w-8 h-8" />
                     </div>
                     
-                    {plan.savings && (
-                      <div className="mt-4 flex justify-center">
-                        <span className="text-[10px] bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full font-black uppercase tracking-widest">
-                          Poupas {plan.savings} MT
-                        </span>
-                      </div>
+                    <h3 className="text-2xl font-black text-white uppercase tracking-tight">
+                      {plan.name}
+                    </h3>
+                    
+                    {plan.popular && (
+                      <span className="text-[11px] bg-primary/20 text-primary border border-primary/30 px-4 py-1.5 rounded-full font-black uppercase tracking-widest animate-pulse">
+                        Sinal Alpha Recomendado
+                      </span>
                     )}
                   </div>
                   
-                  <p className="text-xs text-muted-foreground mt-4 font-medium leading-relaxed">
+                  <div className="mt-4">
+                    {plan.originalPrice && (
+                      <div className="flex items-center justify-center gap-2 mb-2 opacity-50">
+                        <span className="text-lg line-through font-bold text-white/50">{plan.originalPrice}</span>
+                        <span className="text-xs font-black text-white/50">MZN</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center justify-center gap-2">
+                      <span className={`text-5xl font-black tracking-tighter ${plan.popular ? 'text-primary' : 'text-white'}`}>
+                        {plan.price}
+                      </span>
+                      <span className="text-muted-foreground text-sm font-bold uppercase mt-2">MZN</span>
+                    </div>
+                  </div>
+
+                  <p className="text-muted-foreground mt-6 text-sm leading-relaxed">
                     {plan.description}
                   </p>
                 </CardHeader>
 
-                <CardContent className="pt-4 flex-grow flex flex-col">
-                  <ul className="space-y-3 mb-8 flex-grow">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-xs font-medium">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-foreground/80">{feature}</span>
+                <CardContent className="flex-grow flex flex-col p-10 pt-4 border-t border-white/5">
+                  <ul className="space-y-4 mb-10 flex-grow">
+                    {plan.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <div className={`mt-1 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center ${plan.popular ? 'bg-primary/20 text-primary' : 'bg-white/10 text-white/50'}`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${plan.popular ? 'bg-primary' : 'bg-white/50'}`} />
+                        </div>
+                        <span className={`text-sm ${plan.popular ? 'text-white/90 font-medium' : 'text-muted-foreground'}`}>
+                          {feature}
+                        </span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className="flex flex-col gap-3 mb-6 pt-6 border-t dark:border-white/10 border-slate-200">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground font-bold uppercase tracking-wider">
-                      <Clock className="w-4 h-4 text-primary" />
-                      <span>Velocidade: {plan.delivery}</span>
+                  {/* Pricing Info Footer */}
+                  <div className="grid grid-cols-2 gap-4 mb-8 pt-6 border-t border-white/5">
+                    <div className="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/5">
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Prazo</span>
+                      <span className="text-xs text-white text-center">{plan.delivery}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground font-bold uppercase tracking-wider">
-                      <Target className="w-4 h-4 text-primary" />
-                      <span>Foco: {plan.ideal}</span>
+                    <div className="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/5">
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Pagamento</span>
+                      <span className="text-xs text-white text-center">{plan.period}</span>
                     </div>
                   </div>
 
-                  <Button
+                  <button 
                     onClick={() => handleContact(plan)}
-                    className={`w-full font-black py-7 text-sm rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-95 uppercase tracking-widest ${
+                    className={`group relative w-full flex items-center justify-center gap-2 font-bold h-14 rounded-xl text-sm uppercase tracking-widest overflow-hidden transition-transform hover:scale-[1.02] ${
                       plan.popular 
-                        ? "bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-500/30" 
-                        : "dark:bg-white dark:text-black dark:hover:bg-white/90 bg-slate-900 text-white hover:bg-slate-800"
+                        ? 'bg-white text-black' 
+                        : 'bg-white/10 text-white hover:bg-white/20'
                     }`}
                   >
-                    <MessageCircle className="w-5 h-5 mr-3" />
-                    {plan.buttonText}
-                  </Button>
+                    {plan.popular && (
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    )}
+                    <span className={`relative z-10 flex items-center gap-2 transition-colors duration-300 ${plan.popular ? 'group-hover:text-white' : ''}`}>
+                      {plan.buttonText}
+                      <ArrowRight className={`w-4 h-4 transition-transform ${plan.popular ? 'group-hover:translate-x-1' : ''}`} />
+                    </span>
+                  </button>
                 </CardContent>
               </Card>
             </TiltCard>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <div className="inline-block dark:bg-white/5 bg-slate-50 backdrop-blur-md rounded-2xl px-8 py-4 border dark:border-white/10 border-slate-200">
-            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">
-              Pagamento seguro após validação técnica do projeto
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );

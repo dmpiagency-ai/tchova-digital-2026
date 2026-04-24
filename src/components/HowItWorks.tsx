@@ -1,51 +1,47 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import { MessageSquare, Settings, Rocket, ArrowRight, Sparkles, Zap, CheckCircle2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { gsap, useGSAP } from "@/lib/gsapConfig";
+import React, { useCallback, useRef } from 'react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { EliteRadar, EliteNode, ElitePulse } from '@/components/ui/EliteIcons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HowItWorks = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const pipelineRef = useRef<HTMLDivElement>(null);
 
-  // 3 steps with unique visual styles
-  const steps = useMemo(() => [
+  // 3 steps representing the elite operation pipeline
+  const steps = [
     { 
       id: 'plan',
-      icon: MessageSquare, 
+      icon: EliteRadar, 
       label: 'Diagnóstico Letal', 
       description: 'Ouvimos as tuas dores e traçamos o plano de ataque sem falhas',
-      color: 'from-brand-green to-emerald-500',
-      bgColor: 'bg-brand-green/5',
-      borderColor: 'border-brand-green/20',
       number: '01'
     },
     { 
       id: 'execute',
-      icon: Settings, 
+      icon: EliteNode, 
       label: 'Arquitetura de Elite', 
       description: 'Construímos o teu motor de vendas com engenharia de ponta',
-      color: 'from-primary to-purple-600',
-      bgColor: 'bg-primary/5',
-      borderColor: 'border-primary/20',
       number: '02'
     },
     { 
       id: 'launch',
-      icon: Rocket, 
+      icon: ElitePulse, 
       label: 'Domínio de Mercado', 
       description: 'Lançamos e escalamos até ao topo do teu setor',
-      color: 'from-amber-600 to-orange-600',
-      bgColor: 'bg-amber-600/5',
-      borderColor: 'border-amber-600/20',
       number: '03'
     },
-  ], []);
+  ];
 
   useGSAP(() => {
     // 1. Header Reveal
     gsap.from(headerRef.current, {
-      y: 30,
+      y: 40,
       opacity: 0,
       duration: 1,
       ease: 'power3.out',
@@ -55,35 +51,39 @@ const HowItWorks = () => {
       }
     });
 
-    // 2. Coordinated Staggered Reveal of Steps
+    // 2. The Energy Pipeline Draw Animation
+    if (pipelineRef.current) {
+      gsap.fromTo(pipelineRef.current, 
+        { scaleY: 0, transformOrigin: "top center" },
+        {
+          scaleY: 1,
+          duration: 1.5,
+          ease: 'power3.inOut',
+          scrollTrigger: {
+            trigger: stepsRef.current,
+            start: 'top 60%',
+            end: 'bottom 80%',
+            scrub: 1, // Tie it to scroll position for a technical feel
+          }
+        }
+      );
+    }
+
+    // 3. Staggered Reveal of Operation Nodes (Cards)
     if (stepsRef.current) {
       gsap.from(stepsRef.current.children, {
-        y: 40,
+        x: (index) => index % 2 === 0 ? 50 : -50,
         opacity: 0,
-        stagger: 0.2,
+        stagger: 0.3,
         duration: 1.2,
-        ease: 'power4.out',
+        ease: 'back.out(1.2)',
         scrollTrigger: {
           trigger: stepsRef.current,
-          start: 'top 80%',
+          start: 'top 70%',
         }
       });
     }
 
-    // 3. Subtle floating animation for cards
-    if (stepsRef.current) {
-      gsap.to(stepsRef.current.querySelectorAll('.how-step-card'), {
-        y: -5,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        stagger: {
-          each: 0.3,
-          from: 'center'
-        }
-      });
-    }
   }, { scope: containerRef });
 
   const handleCTA = useCallback(() => {
@@ -95,120 +95,99 @@ const HowItWorks = () => {
     }));
   }, []);
 
-  const { contextSafe } = useGSAP({ scope: containerRef });
-
-  const onCardMouseEnter = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const glare = card.querySelector('.step-glare');
-    gsap.to(card, { scale: 1.05, borderColor: 'rgba(255,255,255,0.3)', duration: 0.4, ease: 'power2.out' });
-    if (glare) gsap.to(glare, { opacity: 1, duration: 0.3 });
-  });
-
-  const onCardMouseLeave = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const glare = card.querySelector('.step-glare');
-    gsap.to(card, { scale: 1, borderColor: 'rgba(255,255,255,0.1)', duration: 0.6, ease: 'elastic.out(1, 0.5)' });
-    if (glare) gsap.to(glare, { opacity: 0, duration: 0.4 });
-  });
-
-  const onCardMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const glare = card.querySelector('.step-glare');
-    if (!glare) return;
-
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    gsap.to(glare, {
-      background: `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.15), transparent 70%)`,
-      duration: 0.2
-    });
-  });
-
   return (
-    <section ref={containerRef} id="how-it-works" className="py-24 relative overflow-hidden bg-background/95 dark:bg-background/60 backdrop-blur-lg">
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-green-500/5 to-transparent rounded-full blur-3xl text-primary/10" />
+    <section ref={containerRef} id="how-it-works" className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+      
+      {/* Liquid Glass Background Effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div ref={headerRef} className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+      <div className="container relative z-10 mx-auto px-6 lg:px-12">
+        
+        {/* Header */}
+        <div ref={headerRef} className="text-center mb-24 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-semibold text-primary">Caminho para o Sucesso</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Caminho para o Sucesso</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight text-foreground">
-            Como <span className="text-primary">Vencemos</span>
+          <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+            Como <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Vencemos</span>
           </h2>
-          <p className="readable-subheading max-w-lg mx-auto">
-            Transformamos a sua dor em lucro em 3 etapas de elite
+          <p className="text-xl md:text-2xl text-muted-foreground/80 font-light leading-relaxed">
+            Transformamos a sua dor em lucro através de uma <span className="text-white font-semibold">operação cirúrgica em 3 etapas</span>.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto px-2 sm:px-0">
-          <div ref={stepsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {steps.map((step, index) => (
-              <div 
-                key={step.id} 
-                className="group relative"
-              >
-                <div 
-                  onMouseEnter={onCardMouseEnter}
-                  onMouseLeave={onCardMouseLeave}
-                  onMouseMove={onCardMouseMove}
-                  className={`how-step-card relative ${step.bgColor} border border-white/10 rounded-3xl p-6 h-full transition-shadow duration-500 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden cursor-default`}
-                >
-                  <div className="step-glare absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300" />
+        {/* Operation Pipeline Setup */}
+        <div className="max-w-4xl mx-auto relative px-4 sm:px-0">
+          
+          {/* Central Glowing Line (The Pipeline) */}
+          <div className="hidden lg:block absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1 bg-white/5 rounded-full overflow-hidden">
+             <div ref={pipelineRef} className="w-full h-full bg-gradient-to-b from-transparent via-primary to-brand-green shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
+          </div>
+
+          <div ref={stepsRef} className="flex flex-col gap-12 lg:gap-24">
+            {steps.map((step, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <div key={step.id} className={`relative flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${isEven ? 'lg:flex-row-reverse' : ''}`}>
                   
-                  <div className={`absolute -top-3 -right-3 w-10 h-10 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white font-black text-sm shadow-xl z-20`}>
-                    {step.number}
+                  {/* Central Node Dot (Desktop Only) */}
+                  <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black border-2 border-primary items-center justify-center z-10 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                    <div className="w-3 h-3 rounded-full bg-primary animate-ping" />
+                    <div className="absolute w-3 h-3 rounded-full bg-primary" />
                   </div>
 
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg mb-6 group-hover:rotate-6 transition-transform duration-500`}>
-                    <step.icon className="w-8 h-8 text-white" />
+                  {/* Card Content */}
+                  <div className={`w-full lg:w-1/2 flex ${isEven ? 'lg:justify-start' : 'lg:justify-end'}`}>
+                    <div className="group relative w-full bg-black/40 backdrop-blur-2xl border border-white/10 p-10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
+                      
+                      {/* Massive Background Number */}
+                      <div className="absolute -bottom-10 -right-6 text-[180px] font-black text-white/5 tracking-tighter leading-none pointer-events-none transition-transform duration-700 group-hover:-translate-y-4">
+                        {step.number}
+                      </div>
+
+                      {/* Icon */}
+                      <div className="relative z-10 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-primary/20 transition-colors duration-500">
+                        <step.icon className="w-8 h-8 text-primary" />
+                      </div>
+
+                      {/* Text */}
+                      <h3 className="relative z-10 text-2xl font-black text-white uppercase tracking-tight mb-4">
+                        {step.label}
+                      </h3>
+                      <p className="relative z-10 text-muted-foreground leading-relaxed text-lg font-light">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
 
-                  <h3 className="text-xl font-black text-foreground mb-3 tracking-tight">
-                    {step.label}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed font-medium">
-                    {step.description}
-                  </p>
-
-                  <div className={`absolute bottom-0 left-6 right-6 h-1 rounded-full bg-gradient-to-r ${step.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  {/* Empty Spacer for alignment */}
+                  <div className="hidden lg:block lg:w-1/2" />
                 </div>
-
-                {index < steps.length - 1 && (
-                  <div className="hidden md:flex absolute top-1/2 -right-4 transform -translate-y-1/2 z-10 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
-                    <ArrowRight className="w-6 h-6 text-primary" />
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        <div className="text-center mt-16 px-4">
-          <div className="inline-flex flex-col items-center gap-4">
-            <Button
-              onClick={handleCTA}
-              size="lg"
-              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-full px-5 sm:px-12 py-3 sm:py-8 h-14 sm:h-20 text-sm sm:text-xl font-black shadow-2xl shadow-primary/40 transition-all duration-300 hover:scale-105 uppercase tracking-wide sm:tracking-widest group"
-            >
-              <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-3 animate-pulse text-yellow-300 group-hover:scale-125 transition-transform" />
-              Bora começar o meu projeto
-            </Button>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-brand-green" />
-              <span className="text-sm font-bold tracking-tight">Resposta rápida em até 60 minutos</span>
-            </div>
-          </div>
+        {/* Call to Action Button */}
+        <div className="mt-32 text-center relative z-10">
+          <button 
+            onClick={handleCTA}
+            className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)]"
+          >
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
+              Iniciar a Operação
+              <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
+            </span>
+          </button>
         </div>
+
       </div>
     </section>
   );
 };
 
 export default HowItWorks;
-

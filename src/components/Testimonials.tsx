@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Star, Quote } from 'lucide-react';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { EliteMatrix } from '@/components/ui/EliteIcons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TESTIMONIALS = [
   {
@@ -34,64 +40,113 @@ const TESTIMONIALS = [
 
 export const Testimonials = () => {
   const { trackEvent } = useAnalytics();
+  const containerRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Reveal Header
+    gsap.from('.test-header', {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: 'top 80%',
+      }
+    });
+
+    // 3D Staggered Reveal for Testimonials
+    if (cardsRef.current) {
+      gsap.from(cardsRef.current.children, {
+        y: 60,
+        opacity: 0,
+        rotationX: -10,
+        scale: 0.95,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'back.out(1.2)',
+        scrollTrigger: {
+          trigger: cardsRef.current,
+          start: 'top 75%',
+        }
+      });
+    }
+  }, { scope: containerRef });
 
   return (
-    <section id="testimonials" className="py-24 relative overflow-hidden bg-background/95 dark:bg-background/80 backdrop-blur-lg">
-      <div className="container px-4 mx-auto relative z-10">
-        <div className="text-center mb-16 animate-on-scroll">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 font-semibold text-sm mb-6 border border-green-500/20">
-            <Star className="w-4 h-4 fill-current" />
-            Prova Social
+    <section id="testimonials" ref={containerRef} className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+      
+      {/* Liquid Glass Background Effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-green/10 rounded-full blur-[120px] mix-blend-screen translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen -translate-x-1/3 translate-y-1/3" />
+      </div>
+
+      <div className="container px-6 lg:px-12 mx-auto relative z-10">
+        
+        {/* Header */}
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <div className="test-header inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
+            <EliteMatrix className="w-4 h-4 text-primary" />
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Prova Social</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">O que dizem <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400">sobre nós</span></h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <h2 className="test-header text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+            O que dizem <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">sobre nós</span>
+          </h2>
+          <p className="test-header text-lg md:text-xl text-muted-foreground/80 font-light leading-relaxed">
             Não acredites apenas na nossa palavra. Vê como estamos a ajudar negócios autênticos em Moçambique a escalar no digital.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {TESTIMONIALS.map((testimonial, i) => (
+        {/* Dashboard Grid */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {TESTIMONIALS.map((testimonial) => (
             <div 
               key={testimonial.id}
-              className={`bg-card/50 dark:bg-card/30 backdrop-blur-sm border border-border/50 p-8 rounded-[2rem] relative group hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-green-500/10 card-3d animate-on-scroll delay-${i + 1}`}
+              className="bg-black/40 backdrop-blur-2xl border border-white/10 p-10 rounded-3xl relative group hover:border-primary/40 transition-colors duration-500 shadow-2xl flex flex-col"
               onMouseEnter={() => trackEvent({
                 action: 'hover',
                 category: 'testimonials',
                 label: testimonial.name
               })}
             >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-green-500/10 group-hover:text-green-500/20 transition-colors" />
+              {/* Decorative Subtle Background Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl pointer-events-none" />
               
-              <div className="flex gap-1 mb-6">
+              <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 group-hover:text-primary/10 transition-colors duration-500" />
+              
+              {/* Stars */}
+              <div className="flex gap-1.5 mb-8">
                 {[...Array(testimonial.rating)].map((_, idx) => (
-                  <Star key={idx} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  <Star key={idx} className="w-5 h-5 fill-brand-yellow text-brand-yellow drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
                 ))}
               </div>
 
-              <p className="text-foreground/80 leading-relaxed mb-8 italic">
+              {/* Content */}
+              <p className="text-white/80 leading-loose mb-10 italic text-lg flex-grow">
                 "{testimonial.content}"
               </p>
 
-              <div className="flex items-center gap-4 mt-auto">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={testimonial.name}
-                  className="w-14 h-14 rounded-full border-2 border-green-500/20 object-cover"
-                />
+              {/* Profile Block */}
+              <div className="flex items-center gap-5 mt-auto pt-6 border-t border-white/10">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-brand-green rounded-full blur opacity-0 group-hover:opacity-50 transition duration-500"></div>
+                  <img 
+                    src={testimonial.avatar} 
+                    alt={testimonial.name}
+                    className="relative w-14 h-14 rounded-full border border-white/20 object-cover"
+                  />
+                </div>
                 <div>
-                  <h4 className="font-bold text-foreground">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
+                  <h4 className="font-bold text-white text-lg tracking-tight">{testimonial.name}</h4>
+                  <p className="text-sm font-mono text-primary/80 uppercase tracking-wider">{testimonial.role}, {testimonial.company}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
-      
-      {/* Background Orbs */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3" />
       </div>
     </section>
   );

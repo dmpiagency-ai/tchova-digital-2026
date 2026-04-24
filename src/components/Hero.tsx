@@ -1,234 +1,114 @@
-import { ArrowDown } from 'lucide-react';
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { TextLoop } from '@/components/ui/text-loop';
+import { ArrowRight } from 'lucide-react';
+import { useState, useRef, useCallback } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP } from "@/lib/gsapConfig";
+import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1776879315/0422_1_hnbyla.mp4';
+const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1776938788/0422_1_3_1_emhog3.mp4';
 
 const Hero = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-  
+
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
-  const video2Ref = useRef<HTMLVideoElement>(null);
-  const isFading = useRef(false);
-  const hasLooped = useRef(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const dynamicGradientRef = useRef<HTMLDivElement>(null);
-  const gradientSetter = useRef<gsap.QuickToFunc | null>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const velocityBadgeRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const labelClipRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const loopingTextRef = useRef<HTMLDivElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const headlineClipRef = useRef<HTMLDivElement>(null);
+  const subheadlineRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const scrollLineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     if (!heroRef.current) return;
 
     const tl = gsap.timeline({
-      onStart: () => setIsLoaded(true),
-      defaults: { ease: 'power4.out', duration: 1.2 }
+      defaults: { ease: 'expo.out', duration: 2 }
     });
 
-    // 1. Entrance Sequence
-    tl.fromTo(videoContainerRef.current, 
-      { scale: 1.05, opacity: 0 },
-      { scale: 1.0, opacity: 1, duration: 1.8, ease: 'power2.out' }
+    // 1. Video entrance — cinematic scale-down
+    tl.fromTo(videoContainerRef.current,
+      { scale: 1.1, filter: 'blur(8px)', opacity: 0 },
+      { scale: 1.0, filter: 'blur(0px)', opacity: 1, duration: 3, ease: 'power2.out' }
     )
-    .fromTo(badgeRef.current,
-      { x: -50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1 },
-      "-=1.2"
+    // 2. Futuristic Label — Reveal
+    .fromTo(labelRef.current,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.8 },
+      "-=2.2"
     )
-    .fromTo(velocityBadgeRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.9"
+    // 3. Headline — Reveal
+    .fromTo(headlineClipRef.current,
+      { clipPath: 'inset(100% 0% 0% 0%)' },
+      { clipPath: 'inset(0% 0% 0% 0%)', duration: 2, ease: 'expo.inOut' },
+      "-=1.8"
     )
     .fromTo(headlineRef.current,
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2 },
-      "-=0.8"
+      { y: 120, skewY: 5, filter: 'blur(10px)', opacity: 0 },
+      { y: 0, skewY: 0, filter: 'blur(0px)', opacity: 1, duration: 2.2 },
+      "<"
     )
-    .fromTo(loopingTextRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.7"
+    // 4. Sub-headline — fade and lift
+    .fromTo(subheadlineRef.current,
+      { y: 30, opacity: 0, filter: 'blur(4px)' },
+      { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.8 },
+      "-=1.4"
     )
-    .fromTo(descriptionRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.6"
+    // 5. CTAs — staggered entrance
+    .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.2, duration: 1.5 },
+      "-=1.2"
     )
-    .fromTo(ctaRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.1, duration: 1 },
-      "-=0.5"
-    )
+    // 6. Scroll indicator — last to appear
     .fromTo(scrollIndicatorRef.current,
-      { opacity: 0, y: -20 },
+      { opacity: 0, y: -10 },
       { opacity: 1, y: 0, duration: 1 },
-      "-=0.2"
+      "-=0.5"
     );
 
-    // 2. Parallax Effects
-    gsap.to(videoContainerRef.current, {
-      y: (i, target) => {
-        const height = target.offsetHeight;
-        return height * 0.05; // Move only 5% to keep it subtle
-      },
-      scale: 1.05, // Slight scale to hide edges during parallax
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-
-    gsap.to(contentRef.current, {
-      y: -50,
-      opacity: 0.3,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-
-    // We no longer use a GSAP timeline for dynamic scaling.
-    // Pure mathematical synchronization is handled in the requestAnimationFrame loop below.
-    // This guarantees perfect continuous sync during the crossfade loop.
-    
-    // Initialize highly optimized GSAP quickTo setter for buttery smooth gradient opacity tracking
-    if (dynamicGradientRef.current) {
-      gradientSetter.current = gsap.quickTo(dynamicGradientRef.current, "opacity", { duration: 0.5, ease: "power2.out" });
+    // Scroll line draw animation
+    if (scrollLineRef.current) {
+      gsap.fromTo(scrollLineRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          duration: 1.5,
+          ease: 'power2.inOut',
+          repeat: -1,
+          yoyo: true,
+          transformOrigin: 'top center'
+        }
+      );
     }
 
-    // Hide scroll indicator on scroll
-    ScrollTrigger.create({
-      trigger: heroRef.current,
-      start: '100 top',
-      onEnter: () => setShowScrollIndicator(false),
-      onLeaveBack: () => setShowScrollIndicator(true)
+    // Parallax — video pushes away on scroll
+    gsap.to(videoContainerRef.current, {
+      y: 150,
+      scale: 1.05,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
+    // Handle scroll indicator visibility
+    gsap.to({}, {
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: '80 top',
+        onEnter: () => setShowScrollIndicator(false),
+        onLeaveBack: () => setShowScrollIndicator(true)
+      }
     });
 
   }, { scope: heroRef });
-
-  const handleTimeUpdate = useCallback((currentRef: React.RefObject<HTMLVideoElement>, nextRef: React.RefObject<HTMLVideoElement>) => {
-    const current = currentRef.current;
-    const next = nextRef.current;
-    const FADE_DURATION = 2.0; // 2.0 video seconds (at 0.65x speed this is ~3 real seconds)
-    
-    if (!current || !current.duration) return;
-
-    // Trigger crossfade before the video ends
-    if (current.duration - current.currentTime <= FADE_DURATION && !isFading.current) {
-      isFading.current = true;
-      hasLooped.current = true;
-      
-      if (next) {
-        // next video is already at currentTime = 0 (reset in previous cycle)
-        const playPromise = next.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(e => console.log("Play interrupted:", e));
-        }
-        
-        const realFadeDuration = FADE_DURATION / (current.playbackRate || 1);
-        
-        // Cinematic crossfade with S-curve easing
-        gsap.to(current, { opacity: 0, duration: realFadeDuration, ease: "power1.inOut" });
-        gsap.to(next, { 
-          opacity: 1, 
-          duration: realFadeDuration, 
-          ease: "power1.inOut",
-          onComplete: () => {
-            current.pause();
-            current.currentTime = 0;
-            isFading.current = false;
-          }
-        });
-      }
-    }
-  }, []);
-
-  // Set cinematic slow-motion for the videos
-  useEffect(() => {
-    const applyCinematicSpeed = (video: HTMLVideoElement | null) => {
-      if (video) {
-        video.playbackRate = 0.65; // Slow down to 65% speed
-      }
-    };
-    
-    applyCinematicSpeed(video1Ref.current);
-    applyCinematicSpeed(video2Ref.current);
-  }, []);
-
-  // Sync the animation mathematically to the dominant video's playback time
-  useEffect(() => {
-    let animationFrameId: number;
-    
-    const updateSync = () => {
-      // Determine which video is currently driving the visuals
-      let driver = video1Ref.current;
-      const v1Opacity = parseFloat(video1Ref.current?.style.opacity || '1');
-      const v2Opacity = parseFloat(video2Ref.current?.style.opacity || '0');
-      
-      if (video2Ref.current && v2Opacity > v1Opacity) {
-        driver = video2Ref.current;
-      }
-
-      if (driver && driver.duration && dynamicGradientRef.current) {
-        const time = driver.currentTime;
-        const duration = driver.duration;
-        const FADE_DURATION = 2.0;
-
-        let progress = 0;
-        
-        if (time >= 4.0 && time < (duration - FADE_DURATION)) {
-            // Darkening phase: 4.0s to 6.0s
-            const p = (time - 4.0) / 2.0;
-            progress = Math.min(Math.max(p, 0), 1);
-        } else if (time >= (duration - FADE_DURATION)) {
-            // Reverting phase 1: Old video fading out
-            const p = (time - (duration - FADE_DURATION)) / FADE_DURATION;
-            progress = 1 - Math.min(Math.max(p, 0), 1);
-        } else if (time <= FADE_DURATION && hasLooped.current) {
-            // Reverting phase 2: New video fading in
-            // Mathematically matches the exact handover point, safely ignores initial load
-            const p = time / FADE_DURATION;
-            progress = 1 - Math.min(Math.max(p, 0), 1);
-        } else {
-            // Neutral state
-            progress = 0;
-        }
-
-        // Apply sine.inOut easing manually for cinematic motion
-        const easeProgress = -(Math.cos(Math.PI * progress) - 1) / 2;
-
-        // Modern Contrast Optimization (replaces moving the text)
-        // Fades in a dark gradient directly behind the text to guarantee
-        // maximum legibility without physically moving UI elements.
-        const opacity = 0.4 * easeProgress; // Subtle 40% opacity at peak
-        
-        // Use GSAP's quickTo for buttery smooth interpolated tracking
-        if (gradientSetter.current) gradientSetter.current(opacity);
-      }
-      
-      animationFrameId = requestAnimationFrame(updateSync);
-    };
-    
-    updateSync();
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
 
   const openContactModal = useCallback(() => {
     window.dispatchEvent(new CustomEvent('open-contact-modal', {
@@ -247,154 +127,129 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="tech-hero relative overflow-hidden h-[100dvh] w-full flex items-center justify-start pt-16"
+      className="tech-hero relative overflow-hidden h-[100dvh] w-full flex items-center justify-center bg-black"
     >
-      {/* Background Video with Parallax & Seamless Crossfade */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Layer 0 — Video Background Full Screen */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#050505]">
+        {/* Background Atmosphere — mimics the video colors to avoid black bars */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
+        
         <div ref={videoContainerRef} className="absolute inset-0 w-full h-full will-change-transform" style={{ opacity: 0 }}>
           <video
             ref={video1Ref}
             autoPlay
             muted
             playsInline
+            loop
             preload="auto"
-            onTimeUpdate={() => handleTimeUpdate(video1Ref, video2Ref)}
-            poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/so_0/v1776879315/0422_1_hnbyla.jpg"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: 'brightness(0.8) contrast(1.1) saturate(0.9) blur(0.4px)', opacity: 1, zIndex: 1 }}
-          >
-            <source src={VIDEO_URL} type="video/mp4" />
-          </video>
-          
-          <video
-            ref={video2Ref}
-            muted
-            playsInline
-            preload="auto"
-            onTimeUpdate={() => handleTimeUpdate(video2Ref, video1Ref)}
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: 'brightness(0.8) contrast(1.1) saturate(0.9) blur(0.4px)', opacity: 0, zIndex: 2 }}
+            className="absolute inset-0 w-full h-full object-cover object-right"
+            style={{ filter: 'brightness(1.0) contrast(1.05) saturate(1.1)', opacity: 1, zIndex: 1 }}
           >
             <source src={VIDEO_URL} type="video/mp4" />
           </video>
         </div>
+      </div>
 
-        {/* Cinematic Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-0 bg-black/10 z-10 pointer-events-none" />
-        
-        {/* Dynamic Collision Avoidance Gradient */}
-        {/* Responsive gradient: centered on mobile for full-width text, isolated to the left on desktop */}
-        <style>{`
-          .dynamic-collision-gradient {
-            background: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 80%);
-          }
-          @media (min-width: 768px) {
-            .dynamic-collision-gradient {
-              background: radial-gradient(ellipse 45% 80% at 15% 50%, rgba(0,0,0,0.8) 0%, transparent 100%);
-            }
-          }
-        `}</style>
+      {/* Localized Readability Gradient — Organic Diagonal Shadow Mask */}
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+        {/* Desktop: Organic Diagonal Wedge (105deg) */}
         <div 
-          ref={dynamicGradientRef}
-          className="absolute inset-0 z-10 pointer-events-none dynamic-collision-gradient"
-          style={{ opacity: 0 }}
+          className="hidden md:block absolute inset-0 w-full h-full bg-[linear-gradient(105deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.8)_40%,rgba(0,0,0,0.3)_60%,transparent_80%)] opacity-100" 
+          style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
         />
+        
+        {/* Mobile: Bottom-focused diagonal fade */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-100" />
       </div>
 
-      {/* Main Content - Left Aligned */}
-      <div ref={contentRef} className="container relative z-20 mx-auto px-5 sm:px-6 lg:px-12">
-        <div className="w-full max-w-lg md:max-w-xl lg:max-w-[60%] xl:max-w-[55%] flex flex-col gap-3 sm:gap-4">
-          
-          {/* Badges - Grouped together */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div ref={badgeRef} className="inline-flex items-center gap-2 px-3 py-1 sm:py-1.5 rounded-full bg-green-400/10 border border-green-400/30">
-              <span className="text-[11px] sm:text-xs font-bold text-green-400">Ecossistema 360° Digital & Técnico</span>
-            </div>
-            
-            <div ref={velocityBadgeRef} className="inline-flex items-center gap-2 px-3 py-1 sm:py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
-               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-white/80">
-                 Hyper-Velocity <span className="text-primary">20x</span>
-               </span>
-            </div>
-          </div>
+      {/* Layer 2 — Content */}
+      <div ref={contentRef} className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center text-center md:items-start md:text-left gap-8 pt-20 md:pt-32">
 
-          <h1 
-            ref={headlineRef}
-            className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.02em] leading-[1.05] text-white text-balance max-w-3xl"
-          >
-            <span className="text-[0.65em] font-bold text-white/80 block mb-2" style={{ textShadow: 'rgba(0, 0, 0, 0.8) 0px 4px 20px, rgba(0, 0, 0, 0.6) 0px 2px 8px' }}>Acelere o seu negócio.</span>
-            <span className="text-primary" style={{ textShadow: 'rgba(0, 0, 0, 0.8) 0px 4px 20px, rgba(0, 0, 0, 0.6) 0px 2px 8px' }}>
-              A máquina de<br />
-              <span className="text-[1.25em] leading-[0.9] inline-block py-1">resultados</span>
+        {/* Futuristic Label Reveal */}
+        <div ref={labelClipRef} className="overflow-hidden">
+          <div ref={labelRef} className="flex items-center gap-3">
+            <div className="w-8 h-[1px] bg-primary/50" />
+            <span className="text-[10px] md:text-xs font-black tracking-[0.4em] text-primary uppercase">
+              Ecossistema 360° Digital & Técnico
             </span>
-            <br />
-            <span style={{ textShadow: 'rgba(0, 0, 0, 0.8) 0px 4px 20px, rgba(0, 0, 0, 0.6) 0px 2px 8px' }}>que não dorme.</span>
+          </div>
+        </div>
+
+        {/* Headline — Monumental Typography */}
+        <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4">
+          <h1
+            ref={headlineRef}
+            className="text-[11vw] md:text-[6vw] lg:text-[5vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
+          >
+            A máquina de<br />
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">
+              resultados
+            </span><br />
+            <span className="text-white/90">que não dorme.</span>
           </h1>
+        </div>
 
-          {/* Rotating Text - Services by Category */}
-          <div 
-            ref={loopingTextRef}
-            className="text-[18px] sm:text-[20px] md:text-[24px] lg:text-[26px] font-bold text-white/90 leading-[1.2]"
+        {/* Sub-headline */}
+        <p
+          ref={subheadlineRef}
+          className="text-base md:text-lg lg:text-xl text-white/70 font-light tracking-wide max-w-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-relaxed"
+        >
+          <span className="text-white/90 border-l-2 border-primary/50 pl-4 mb-6 block italic">
+            Pare de fragmentar o seu orçamento em soluções vazias.
+          </span>
+          <span className="text-white font-medium block">
+            O único ecossistema 360º que funde <span className="text-white font-black underline decoration-primary/40 underline-offset-4">design</span>, <span className="text-white font-black underline decoration-primary/40 underline-offset-4">tecnologia</span> e <span className="text-white font-black underline decoration-primary/40 underline-offset-4">performance</span> num fluxo <span className="text-primary font-black tracking-tighter bg-primary/10 border border-primary/20 shadow-[0_0_10px_rgba(34,197,94,0.1)] px-2 py-0.5 rounded-sm">Hyper-Velocity 20x</span>.
+          </span>
+        </p>
+
+        {/* CTAs */}
+        <div
+          ref={ctaRef}
+          className="flex flex-col sm:flex-row items-center md:items-start gap-5 pt-4"
+        >
+          <MagneticButton
+            onClick={openContactModal}
+            variant="primary"
+            className="group h-16 px-14 text-sm font-black tracking-[0.15em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 rounded-2xl uppercase"
           >
-            <TextLoop interval={3} transition={{ duration: 0.4 }}>
-              <span>Dominamos o Digital</span>
-              <span>Engenharia Web de Elite</span>
-              <span>Tráfego que Converte</span>
-              <span>Audiovisual Futurista</span>
-              <span>Importação Inteligente</span>
-              <span>Suporte GSM Avançado</span>
-            </TextLoop>
-          </div>
+            <span className="flex items-center gap-3">
+              <ElitePulse className="w-5 h-5" />
+              QUERO RESULTADOS
+            </span>
+          </MagneticButton>
 
-          {/* Short Subheadline */}
-          <p 
-            ref={descriptionRef}
-            className="text-[14px] sm:text-[15px] lg:text-[16px] text-white/80 font-medium max-w-[95%] md:max-w-md lg:max-w-lg leading-snug sm:leading-relaxed"
+          <button
+            onClick={scrollToServices}
+            className="group flex items-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
           >
-            Pare de fragmentar o seu orçamento em soluções que não conversam. O único <span className="font-bold text-white">ecossistema 360º</span> que funde design, tecnologia e performance num <span className="font-bold text-primary">fluxo de vendas imbatível</span>.
-          </p>
-
-          {/* CTA Buttons */}
-          <div 
-            ref={ctaRef}
-            className="flex flex-col sm:flex-row justify-start items-stretch sm:items-start gap-2.5 sm:gap-3 pt-2"
-          >
-            <MagneticButton
-              onClick={openContactModal}
-              variant="primary"
-              className="w-full sm:w-auto min-h-[44px] sm:min-h-[48px] px-6 text-[14px] sm:text-base"
-            >
-              Começar agora
-            </MagneticButton>
-
-            <MagneticButton
-              onClick={scrollToServices}
-              variant="secondary"
-              className="w-full sm:w-auto min-h-[44px] sm:min-h-[48px] px-6 text-[14px] sm:text-base bg-white/10 hover:bg-white/20 border-white/20 text-white shadow-none"
-            >
-              Ver Serviços
-            </MagneticButton>
-          </div>
+            <span>VER SERVIÇOS</span>
+            <div className="w-10 h-px bg-white/15 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
+            <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500 text-white/30 group-hover:text-primary" />
+          </button>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div 
+      {/* Layer 3 — Scroll Indicator */}
+      <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10"
-        style={{ display: showScrollIndicator ? 'block' : 'none' }}
+        className="hidden min-h-[700px]:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-700"
+        style={{ opacity: showScrollIndicator ? 1 : 0, pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
       >
         <button
           onClick={scrollToServices}
-          className="group flex flex-col items-center space-y-1 p-2 rounded-full hover:bg-white/10 transition-all duration-300"
-          aria-label="Ver serviços"
+          className="group flex flex-col items-center gap-3 p-4"
+          aria-label="Explorar serviços"
         >
-          <div className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center p-1 group-hover:border-white/60 transition-colors">
-            <div className="w-0.5 h-2 bg-white/60 rounded-full animate-pulse" />
+          <span className="text-[9px] font-black text-white/15 uppercase tracking-[0.5em] group-hover:text-primary/40 transition-colors duration-500">
+            Explore
+          </span>
+          <div className="relative w-px h-12 bg-white/10 overflow-hidden rounded-full">
+            <div
+              ref={scrollLineRef}
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary to-transparent origin-top"
+              style={{ transform: 'scaleY(0)' }}
+            />
           </div>
-          <ArrowDown className="w-3 h-3 text-white/40" />
         </button>
       </div>
     </section>
@@ -402,4 +257,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

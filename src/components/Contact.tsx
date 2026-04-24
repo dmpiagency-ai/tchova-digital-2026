@@ -1,13 +1,59 @@
-import { MessageCircle, Mail, MapPin, Phone, ArrowRight } from 'lucide-react';
+import { useCallback, useState, useRef } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleWhatsAppClick } from '@/lib/whatsapp';
 import { useAnalytics } from '@/hooks/useAnalytics';
-import { useCallback, useState } from 'react';
 import { env } from '@/config/env';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Import our premium custom vectors
+import { EliteRadar, EliteNode, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const { trackButtonClick, trackEvent } = useAnalytics();
   const [message, setMessage] = useState('');
+  const containerRef = useRef<HTMLElement>(null);
+  const leftColumnRef = useRef<HTMLDivElement>(null);
+  const rightColumnRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 75%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Staggered reveal of header
+    tl.from('.contact-header-text', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power3.out'
+    });
+
+    // Animate the left column (Info & Trust)
+    tl.from(leftColumnRef.current, {
+      x: -50,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    }, "-=0.4");
+
+    // Animate the right column (Form)
+    tl.from(rightColumnRef.current, {
+      x: 50,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    }, "-=0.8");
+  }, { scope: containerRef });
 
   const handleQuickMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,115 +73,144 @@ const Contact = () => {
   }, [trackButtonClick]);
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-background/95 dark:bg-background/80 backdrop-blur-lg border-t border-border/50">
-      <div className="container relative z-10 mx-auto px-4">
+    <section 
+      id="contact" 
+      ref={containerRef}
+      className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5"
+    >
+      {/* Dynamic Background Effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[800px] pointer-events-none opacity-40">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/20 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-green/10 blur-[100px] rounded-full mix-blend-screen" />
+      </div>
+
+      <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
-        <div className="text-center mb-16 animate-on-scroll">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Vamos <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-400">conversar?</span></h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Estamos prontos para analisar o teu projeto. O nosso tempo de resposta via WhatsApp costuma ser inferior a 5 minutos.
+        {/* Section Header */}
+        <div className="text-center mb-24">
+          <h2 className="contact-header-text text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+            Iniciar <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Protocolo</span>
+          </h2>
+          <p className="contact-header-text text-muted-foreground/80 text-lg md:text-xl max-w-2xl mx-auto font-light tracking-wide">
+            Acesso direto ao núcleo técnico. Tempo de resposta garantido em &lt; 5 minutos.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          
           {/* Left Column: Info & Trust */}
-          <div className="flex flex-col gap-8 animate-on-scroll delay-1">
-            <div className="bg-card/50 dark:bg-card/30 backdrop-blur-sm border border-border p-8 rounded-3xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div ref={leftColumnRef} className="flex flex-col gap-8">
+            
+            {/* Main Info Card */}
+            <div className="bg-black/40 backdrop-blur-2xl border border-white/10 p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <MessageCircle className="text-green-500 w-6 h-6" />
-                Informações de Contacto
+              <h3 className="text-2xl font-bold mb-10 flex items-center gap-4 text-white">
+                <EliteRadar className="text-primary w-8 h-8" />
+                Vetor de Comunicação
               </h3>
               
-              <div className="space-y-6">
-                <div className="flex items-start gap-4 cursor-pointer hover:-translate-y-1 transition-transform" onClick={handleDirectWhatsApp}>
-                  <div className="p-3 rounded-full bg-green-500/10 text-green-600 dark:text-green-400">
-                    <Phone className="w-5 h-5" />
+              <div className="space-y-8">
+                {/* Contact Item */}
+                <div 
+                  className="flex items-center gap-5 cursor-pointer group/item" 
+                  onClick={handleDirectWhatsApp}
+                >
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-primary group-hover/item:border-primary/50 group-hover/item:scale-110 transition-all duration-300">
+                    <ElitePulse className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Linha Directa (Chat)</p>
-                    <p className="text-muted-foreground">+{env.WHATSAPP_NUMBER}</p>
+                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Linha Directa (Chat)</p>
+                    <p className="text-muted-foreground text-lg group-hover/item:text-white transition-colors">+{env.WHATSAPP_NUMBER}</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                    <Mail className="w-5 h-5" />
+                {/* Contact Item */}
+                <div className="flex items-center gap-5 group/item">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-brand-green group-hover/item:border-brand-green/50 group-hover/item:scale-110 transition-all duration-300">
+                    <EliteCore className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Email</p>
-                    <p className="text-muted-foreground">geral@tchovadigital.co.mz</p>
+                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Transmissão (Email)</p>
+                    <p className="text-muted-foreground text-lg group-hover/item:text-white transition-colors">geral@tchovadigital.co.mz</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400">
-                    <MapPin className="w-5 h-5" />
+                {/* Contact Item */}
+                <div className="flex items-center gap-5 group/item">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-brand-yellow group-hover/item:border-brand-yellow/50 group-hover/item:scale-110 transition-all duration-300">
+                    <EliteNode className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Localização</p>
-                    <p className="text-muted-foreground">Maputo, Moçambique.<br />(Trabalhamos remotamente para todo o país)</p>
+                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Coordenadas</p>
+                    <p className="text-muted-foreground leading-relaxed group-hover/item:text-white transition-colors">Maputo, Moçambique.<br />(Operacional Remote em todo o país)</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-green-500 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl shadow-green-500/20">
-              <div className="absolute top-0 right-0 p-4 opacity-20">
-                <MessageCircle className="w-24 h-24" />
+            {/* Quick Action Card */}
+            <div className="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 backdrop-blur-xl rounded-[2rem] p-10 relative overflow-hidden shadow-2xl shadow-primary/10">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <ElitePulse className="w-32 h-32 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">Suporte Rápido</h3>
-              <p className="text-green-50 mb-6 max-w-sm">
-                Tens uma questão urgente? Clica aqui para falar directamente com a nossa equipa técnica.
+              <h3 className="text-2xl font-bold mb-3 text-white">Bypass de Suporte</h3>
+              <p className="text-white/70 mb-8 max-w-sm text-lg">
+                Questão crítica? Pressiona para ligação encriptada e imediata à equipa técnica.
               </p>
               <Button 
-                variant="secondary" 
+                variant="default" 
                 size="lg" 
-                className="w-full sm:w-auto bg-white text-green-600 hover:bg-green-50 font-bold rounded-full"
+                className="w-full sm:w-auto bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-14 px-8 text-base shadow-xl"
                 onClick={handleDirectWhatsApp}
               >
-                Falar Agora
-                <ArrowRight className="w-4 h-4 ml-2" />
+                Conectar Agora
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
           </div>
 
           {/* Right Column: Quick Message Form */}
-          <div className="bg-card border border-border rounded-3xl p-8 lg:p-10 shadow-lg animate-on-scroll delay-2 relative">
-            <div className="absolute top-0 right-1/4 w-32 h-32 bg-green-500/5 rounded-full blur-3xl -z-10" />
-            
-            <h3 className="text-2xl font-bold mb-6">Mensagem Rápida</h3>
-            <p className="text-muted-foreground mb-8">
-              Escreve-nos o que precisas. A tua mensagem receberá resposta imediata via chat da nossa equipa.
+          <div ref={rightColumnRef} className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 lg:p-12 shadow-2xl relative">
+            <h3 className="text-2xl font-bold mb-4 text-white">Terminal de Entrada</h3>
+            <p className="text-muted-foreground/80 mb-10 text-lg font-light">
+              Descreve os parâmetros da tua necessidade. Encaminhamento em tempo real para a unidade correta.
             </p>
 
-            <form onSubmit={handleQuickMessage} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-semibold text-foreground">A tua mensagem</label>
-                <textarea 
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Olá! Sou o(a)..." 
-                  className="w-full min-h-[160px] p-4 rounded-2xl bg-muted/50 border-border border focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all resize-none font-sans text-foreground"
-                  required
-                />
+            <form onSubmit={handleQuickMessage} className="space-y-8">
+              <div className="space-y-3">
+                <label htmlFor="message" className="text-xs uppercase tracking-widest font-bold text-primary">Carga de Dados (Mensagem)</label>
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-brand-green rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                  <textarea 
+                    id="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Inicia a transmissão aqui..." 
+                    className="relative w-full min-h-[220px] p-6 rounded-xl bg-black/60 border border-white/10 focus:border-primary/50 text-white placeholder:text-white/20 outline-none transition-all resize-none font-mono text-lg shadow-inner"
+                    required
+                  />
+                </div>
               </div>
 
-              <Button 
+              <button 
                 type="submit"
-                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold h-14 rounded-xl text-lg shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:-translate-y-1 transition-all"
+                className="group relative w-full flex items-center justify-center gap-3 bg-white text-black font-bold h-16 rounded-xl text-lg overflow-hidden transition-transform hover:scale-[1.02]"
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Iniciar Conversa Segura
-              </Button>
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
+                  <EliteRadar className="w-5 h-5" />
+                  Submeter Pacote de Dados
+                </span>
+              </button>
               
-              <p className="text-xs text-center text-muted-foreground mt-4">
-                Não guardamos os teus dados neste formulário. Seguro e 100% privado.
-              </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground/50 mt-6 font-mono">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                Ligação segura e não rastreável
+              </div>
             </form>
           </div>
+
         </div>
       </div>
     </section>

@@ -13,8 +13,8 @@ interface ROICalculatorProps {
 }
 
 export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
-  const [investment, setInvestment] = useState('');
-  const [expectedRevenue, setExpectedRevenue] = useState('');
+  const [investment, setInvestment] = useState('50000');
+  const [expectedRevenue, setExpectedRevenue] = useState('150000');
   const [results, setResults] = useState<{
     roi: number;
     profit: number;
@@ -129,119 +129,120 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
   }, [investment, expectedRevenue]);
 
   return (
-    <div ref={containerRef} className="max-w-2xl mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-      <div className="text-center space-y-3">
-        <div className="flex items-center justify-center space-x-3">
-          <div className="p-2 bg-primary/10 rounded-xl">
-            <TrendingUp className="w-8 h-8 text-primary animate-pulse" />
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-emerald-600 via-primary to-emerald-700 bg-clip-text text-transparent uppercase tracking-tighter">Calculadora ROI Elite</h1>
+    <div ref={containerRef} className="max-w-3xl mx-auto p-4 sm:p-6 space-y-4">
+      {/* Immersive Header */}
+      <div className="text-center space-y-1 mb-2">
+        <div className="flex items-center justify-center space-x-2">
+          <TrendingUp className="w-6 h-6 text-primary animate-pulse" />
+          <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-emerald-600 via-primary to-emerald-700 bg-clip-text text-transparent uppercase tracking-tight">ROI Elite</h1>
         </div>
-        <p className="text-slate-600 dark:text-white/60 text-sm sm:text-lg font-bold uppercase tracking-widest opacity-80 px-4">
-          Mensure a eficiência do seu capital com precisão técnica
+        <p className="text-slate-500 dark:text-white/50 text-xs sm:text-sm font-bold uppercase tracking-widest">
+          Mensure a eficiência do capital
         </p>
       </div>
 
-      <Card className="border-primary/20 bg-white dark:bg-white/5 backdrop-blur-xl shadow-2xl shadow-primary/5 rounded-[40px] overflow-hidden">
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center space-x-3 text-2xl font-black text-slate-900 dark:text-white">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <DollarSign className="w-6 h-6 text-primary" />
-            </div>
-            <span>Parâmetros de Investimento</span>
-          </CardTitle>
-          <CardDescription className="text-base">Insira os valores para projeção instantânea de lucro</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6 pt-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="investment" className="text-sm font-black uppercase text-primary/80 ml-1">Investimento (MZN)</Label>
-              <Input
-                id="investment"
-                type="number"
-                placeholder="Ex: 50000"
-                value={investment}
+      <Card className="border-primary/20 bg-white/50 dark:bg-white/5 backdrop-blur-2xl shadow-2xl shadow-primary/5 rounded-[32px] overflow-hidden">
+        <CardContent className="p-0 sm:p-0 flex flex-col md:flex-row">
+          
+          {/* Left Side: Control Panel (Sliders) */}
+          <div className="flex-1 p-5 sm:p-8 space-y-6 md:border-r border-slate-200 dark:border-white/10">
+            <h3 className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-2">Painel de Controlo</h3>
+            
+            {/* Investment Block */}
+            <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group hover:border-primary/30 transition-all">
+              <div className="flex justify-between items-center mb-4">
+                <Label className="text-[10px] font-black uppercase text-primary tracking-widest">Investimento</Label>
+                <div className="flex items-center bg-white dark:bg-white/5 px-2 py-1 rounded-lg border border-slate-200 dark:border-white/10 focus-within:border-primary/50 transition-all">
+                  <input 
+                    type="number"
+                    value={investment}
+                    onChange={(e) => setInvestment(e.target.value)}
+                    className="w-24 bg-transparent border-none outline-none text-right appearance-none font-black text-slate-900 dark:text-white [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <span className="text-[10px] ml-1 text-slate-500 dark:text-white/50 font-bold">MZN</span>
+                </div>
+              </div>
+              <input 
+                type="range" min="5000" max="1000000" step="5000"
+                value={investment || 0}
                 onChange={(e) => setInvestment(e.target.value)}
-                className="h-14 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xl font-black rounded-2xl focus:ring-primary/40 focus:border-primary transition-all pr-4"
+                className="w-full h-1.5 bg-slate-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="revenue" className="text-sm font-black uppercase text-primary/80 ml-1">Receita Esperada (MZN)</Label>
-              <Input
-                id="revenue"
-                type="number"
-                placeholder="Ex: 150000"
-                value={expectedRevenue}
+
+            {/* Revenue Block */}
+            <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group hover:border-green-500/30 transition-all">
+              <div className="flex justify-between items-center mb-4">
+                <Label className="text-[10px] font-black uppercase text-green-600 dark:text-green-500 tracking-widest">Receita Esperada</Label>
+                <div className="flex items-center bg-white dark:bg-white/5 px-2 py-1 rounded-lg border border-slate-200 dark:border-white/10 focus-within:border-green-500/50 transition-all">
+                  <input 
+                    type="number"
+                    value={expectedRevenue}
+                    onChange={(e) => setExpectedRevenue(e.target.value)}
+                    className="w-24 bg-transparent border-none outline-none text-right appearance-none font-black text-slate-900 dark:text-white [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <span className="text-[10px] ml-1 text-slate-500 dark:text-white/50 font-bold">MZN</span>
+                </div>
+              </div>
+              <input 
+                type="range" min="10000" max="5000000" step="10000"
+                value={expectedRevenue || 0}
                 onChange={(e) => setExpectedRevenue(e.target.value)}
-                className="h-14 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xl font-black rounded-2xl focus:ring-primary/40 focus:border-primary transition-all pr-4"
+                className="w-full h-1.5 bg-slate-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-green-500"
               />
             </div>
           </div>
-          <div className="pt-2">
-            <div className="w-full h-1 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-700 ease-out" 
-                style={{ width: investment && expectedRevenue ? '100%' : '0%' }}
-              />
+
+          {/* Right Side: Output Display (Results) */}
+          <div className="flex-1 p-5 sm:p-8 bg-slate-50/50 dark:bg-black/20 flex flex-col justify-center">
+            <h3 className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-6">Diagnóstico em Tempo Real</h3>
+            
+            <div ref={resultsRef} className="transition-opacity duration-500 flex-1 flex flex-col justify-between" style={{ opacity: results ? 1 : 0 }}>
+              {results ? (
+                <div className="space-y-6">
+                  {/* Big ROI Display */}
+                  <div className="text-center p-6 bg-primary/10 rounded-3xl border border-primary/20 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+                    <div className="relative z-10">
+                      <div ref={roiValueRef} className="text-5xl font-black text-primary mb-2 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">0%</div>
+                      <div className="text-[10px] uppercase font-black text-primary/60 tracking-widest">Retorno (ROI)</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-green-500/10 rounded-2xl border border-green-500/20 text-center">
+                      <div ref={profitValueRef} className="text-xl font-black text-green-500 dark:text-green-400 mb-1">0 MZN</div>
+                      <div className="text-[9px] uppercase font-bold text-slate-500 dark:text-white/40 tracking-widest">Lucro Líquido</div>
+                    </div>
+                    <div className="p-4 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col items-center justify-center">
+                      <Badge className={`${getStatusColor(results.status)} text-white mb-1 px-2 py-0.5 font-bold text-[10px]`}>
+                        {getStatusText(results.status)}
+                      </Badge>
+                      <div className="text-[9px] uppercase font-bold text-slate-500 dark:text-white/40 tracking-widest">Status da Operação</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
+                      onClick={() => window.open('https://wa.me/258879097249?text=Ol%C3%A1%2C+fiz+um+c%C3%A1lculo+de+ROI+e+gostaria+de+conversar+sobre+minha+campanha', '_blank')}
+                    >
+                      Consultar Especialista
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-center opacity-50">
+                  <p className="text-xs uppercase tracking-widest font-bold">A aguardar parâmetros...</p>
+                </div>
+              )}
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <div ref={resultsRef} style={{ opacity: results ? 1 : 0 }}>
-        {results && (
-          <Card className="border-primary/40 bg-primary/5 backdrop-blur-2xl rounded-[40px] shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-10 -mt-10" />
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-3 text-2xl font-black text-slate-900 dark:text-white">
-                <div className="p-2 bg-primary/20 rounded-lg">
-                  <Target className="w-6 h-6 text-primary" />
-                </div>
-                <span>Análise de Desempenho Digital</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="text-center p-5 bg-primary/10 rounded-2xl border border-primary/20">
-                  <div ref={roiValueRef} className="text-3xl sm:text-4xl font-black text-primary mb-1">0%</div>
-                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-white/40 tracking-widest">Retorno (ROI)</div>
-                </div>
-                <div className="text-center p-5 bg-green-500/10 rounded-2xl border border-green-500/20">
-                  <div ref={profitValueRef} className="text-2xl sm:text-3xl font-black text-green-500 dark:text-green-400 mb-1">0 MZN</div>
-                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-white/40 tracking-widest">Lucro Líquido</div>
-                </div>
-                <div className="text-center p-5 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col items-center justify-center">
-                  <Badge className={`${getStatusColor(results.status)} text-white mb-2 px-3 py-1 font-bold text-xs`}>
-                    {getStatusText(results.status)}
-                  </Badge>
-                  <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-white/40 tracking-widest">Status</div>
-                </div>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-white/5 rounded-xl p-5 border border-slate-200 dark:border-white/10">
-                <h4 className="font-bold text-sm mb-2 text-slate-800 dark:text-white/80">Parecer Técnico:</h4>
-                <div className="text-sm font-medium">
-                  {results.roi >= 300 && <p className="text-green-600 dark:text-green-400">🚀 Performance de Elite. Sua campanha está a gerar um retorno massivo sobre o capital.</p>}
-                  {results.roi >= 150 && results.roi < 300 && <p className="text-blue-600 dark:text-blue-400">📈 Retorno sólido. Existe margem para escalabilidade vertical.</p>}
-                  {results.roi >= 50 && results.roi < 150 && <p className="text-yellow-600 dark:text-yellow-400">⚖️ Rendimento regular. Recomendamos optimização tática para mitigar fugas de capital.</p>}
-                  {results.roi < 50 && <p className="text-red-600 dark:text-red-400">⚠️ Alerta de Ineficiência. A estratégia actual carece de revisão profunda para evitar perdas.</p>}
-                </div>
-              </div>
-
-              <Button
-                variant="outline"
-                className="w-full h-12 text-sm font-black uppercase tracking-widest border-primary/30 text-primary hover:bg-primary hover:text-white"
-                onClick={() => window.open('https://wa.me/258879097249?text=Ol%C3%A1%2C+fiz+um+c%C3%A1lculo+de+ROI+e+gostaria+de+conversar+sobre+minha+campanha', '_blank')}
-              >
-                Consultar Estratégia Alpha
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      <div className="text-center pt-2">
-        <Button variant="ghost" onClick={onClose} className="text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white text-xs font-bold uppercase tracking-widest">
+      <div className="text-center">
+        <Button variant="ghost" onClick={onClose} className="text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white text-[10px] font-bold uppercase tracking-widest h-8">
           Fechar Simulação
         </Button>
       </div>
