@@ -134,7 +134,13 @@ const Hero = () => {
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
-        <div ref={videoContainerRef} className="absolute inset-[-1px] w-[calc(100%+2px)] h-[calc(100%+2px)] will-change-transform" style={{ opacity: 0 }}>
+        <div 
+          ref={videoContainerRef} 
+          className="absolute inset-[-1px] w-[calc(100%+2px)] h-[calc(100%+2px)] will-change-transform bg-[#050505]"
+        >
+          {/* Fallback Static Atmosphere (Visible while video loads) */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
+          
           <video
             ref={video1Ref}
             autoPlay
@@ -143,7 +149,12 @@ const Hero = () => {
             loop
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-center md:object-right"
-            style={{ filter: 'brightness(1.0) contrast(1.05) saturate(1.1)', opacity: 1, zIndex: 1 }}
+            style={{ filter: 'brightness(1.1) contrast(1.1) saturate(1.1)', opacity: 1, zIndex: 2 }}
+            onCanPlay={() => {
+              if (videoContainerRef.current) {
+                gsap.to(videoContainerRef.current, { opacity: 1, duration: 1 });
+              }
+            }}
           >
             <source src={VIDEO_URL} type="video/mp4" />
           </video>

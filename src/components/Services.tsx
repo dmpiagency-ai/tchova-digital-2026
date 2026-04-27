@@ -185,10 +185,20 @@ const Services = () => {
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
                   {/* Background Image Setup */}
-                  <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+                  <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-[#0a0a0a]">
+                    {/* Base Color Fallback (Based on service ID for variety) */}
+                    <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${
+                      item.id % 3 === 0 ? 'from-primary/40 to-black' : 
+                      item.id % 2 === 0 ? 'from-brand-green/30 to-black' : 
+                      'from-emerald-900/40 to-black'
+                    }`} />
+                    
                     <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
-                      style={{ backgroundImage: `url(${getServiceImage(item)})` }}
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 z-[2]"
+                      style={{ 
+                        backgroundImage: `url(${getServiceImage(item)})`,
+                        backgroundColor: '#0a0a0a' 
+                      }}
                     />
                   </div>
                   
