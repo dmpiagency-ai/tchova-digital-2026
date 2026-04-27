@@ -9,7 +9,7 @@ interface PageLoaderProps {
 
 export const PageLoader: React.FC<PageLoaderProps> = ({
   message = "A carregar ecossistema...",
-  duration = 800
+  duration = 400
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,16 +28,17 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
     tl.to(contentRef.current, { 
       opacity: 0, 
-      y: -20, 
-      duration: 0.4, 
-      ease: 'power2.in' 
+      y: -40, 
+      scale: 0.9,
+      duration: 0.3, 
+      ease: 'expo.in' 
     })
     .to(containerRef.current, { 
       opacity: 0, 
-      scale: 1.1, 
-      duration: 0.6, 
-      ease: 'power4.inOut' 
-    }, "-=0.2");
+      clipPath: 'inset(0% 0% 100% 0%)',
+      duration: 0.5, 
+      ease: 'expo.inOut' 
+    }, "-=0.15");
   });
 
   useEffect(() => {

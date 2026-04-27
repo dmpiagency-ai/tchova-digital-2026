@@ -4,7 +4,7 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1776938788/0422_1_3_1_emhog3.mp4';
+const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:eco,br_1m/v1776938788/0422_1_3_1_emhog3.mp4';
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
