@@ -132,18 +132,28 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] w-full flex flex-col justify-center items-center relative overflow-hidden py-32 bg-background/95 border-t border-white/5 perspective-1000"
+      className="min-h-[100dvh] w-full flex flex-col justify-center items-center relative overflow-hidden py-20 bg-background/95 border-t border-white/5 perspective-1000"
     >
-      {/* Background Deep Glow Effects */}
+      {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-brand-green/10 rounded-full blur-[150px] mix-blend-screen" />
-        <div className="absolute bottom-1/4 left-1/4 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen" />
+        {/* 1. Subtle Dot Matrix (Very Soft) */}
+        <div 
+          className="absolute inset-0 opacity-[0.04]" 
+          style={{ 
+            backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
+            backgroundSize: '40px 40px' 
+          }} 
+        />
+        
+        {/* 2. Dynamic Soft Glows */}
+        <div className="absolute top-1/4 right-1/4 w-[700px] h-[700px] bg-brand-green/10 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '12s' }} />
+        <div className="absolute bottom-1/4 left-1/4 w-[800px] h-[800px] bg-primary/8 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '18s' }} />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 w-full">
         
         {/* Elite Header */}
-        <div ref={headerRef} className="text-center mb-16 md:mb-24 relative flex flex-col items-center">
+        <div ref={headerRef} className="text-center mb-12 md:mb-16 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Ecossistema 360°</span>

@@ -96,17 +96,27 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="how-it-works" className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+    <section ref={containerRef} id="how-it-works" className="py-20 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
       
-      {/* Liquid Glass Background Effects */}
+      {/* Elite Background Architecture (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen" />
+        {/* 1. Subtle Technical Grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          style={{ 
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+            backgroundSize: '120px 120px' 
+          }} 
+        />
+        
+        {/* 2. Core Soft Energy Glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-primary/10 rounded-full blur-[200px] animate-pulse" />
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-24 max-w-3xl mx-auto">
+        <div ref={headerRef} className="text-center mb-12 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Caminho para o Sucesso</span>

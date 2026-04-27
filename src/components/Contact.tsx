@@ -76,7 +76,7 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={containerRef}
-      className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5"
+      className="py-20 relative overflow-hidden bg-background/95 border-t border-white/5"
     >
       {/* Dynamic Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[800px] pointer-events-none opacity-40">
@@ -87,7 +87,7 @@ const Contact = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
         {/* Section Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-12">
           <h2 className="contact-header-text text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
             Iniciar <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Protocolo</span>
           </h2>

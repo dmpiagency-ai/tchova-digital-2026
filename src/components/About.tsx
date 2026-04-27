@@ -118,22 +118,40 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
-      {/* Liquid Glass Background Effects */}
+    <section id="about" ref={containerRef} className="py-20 relative overflow-hidden bg-[#030303] border-t border-white/5 perspective-1000">
+      {/* Elite Background Architecture */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[100px] mix-blend-screen" />
+        {/* 1. Cyber Grid Overlay (Softened) */}
+        <div 
+          className="absolute inset-0 opacity-[0.05]" 
+          style={{ 
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 1px, transparent 0)`,
+            backgroundSize: '64px 64px' 
+          }} 
+        />
+        
+        {/* 2. Liquid Energy Blobs (Softened and Diffused) */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-[-15%] left-[-15%] w-[70%] h-[70%] bg-primary/10 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '10s' }} />
+          <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-brand-green/8 rounded-full blur-[160px] animate-pulse" style={{ animationDuration: '15s' }} />
+        </div>
+
+        {/* 3. Ambient Technical Lines (Subtle) */}
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+          <div className="absolute top-0 left-[80%] w-px h-full bg-gradient-to-b from-transparent via-brand-green/20 to-transparent" />
+        </div>
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         {/* Header */}
-        <div className="text-center mb-24 max-w-4xl mx-auto">
+        <div className="text-center mb-12 max-w-4xl mx-auto">
           <div className="manifesto-title inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
             <EliteMatrix className="w-4 h-4 text-primary" />
             <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto Tchova</span>
           </div>
-          <h2 className="manifesto-title text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
-            O seu negócio, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic">nosso legado</span>
+          <h2 className="manifesto-title text-4xl md:text-6xl font-black mb-6 tracking-tight text-white py-2 px-1">
+            O seu negócio, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">nosso legado</span>
           </h2>
           <p className="manifesto-title text-xl md:text-2xl text-muted-foreground/80 font-light leading-relaxed">
             Somos o estúdio de alta performance em Moçambique. <span className="text-white font-semibold">Fundimos engenharia e design de elite</span> para construir o seu império digital.
@@ -141,7 +159,7 @@ const About = () => {
         </div>
 
         {/* Differential Cards - Liquid Glass 3D Grid */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto mb-32">
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto mb-16">
           {differentials.map((item) => (
             <div
               key={item.id}

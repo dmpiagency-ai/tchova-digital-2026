@@ -137,7 +137,7 @@ const Pricing = () => {
   };
 
   return (
-    <section ref={containerRef} id="planos" className="py-32 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+    <section ref={containerRef} id="planos" className="py-20 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
       
       {/* Liquid Glass Background Effects */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -148,7 +148,7 @@ const Pricing = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-24 max-w-4xl mx-auto">
+        <div ref={headerRef} className="text-center mb-12 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Pricing Model</span>

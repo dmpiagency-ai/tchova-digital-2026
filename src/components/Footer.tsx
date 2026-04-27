@@ -58,7 +58,7 @@ const Footer = () => {
   }, { scope: containerRef });
 
   return (
-    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/5 pt-24 pb-12">
+    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/5 pt-16 pb-12">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
         <div className="absolute -top-[20%] left-[20%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
@@ -68,7 +68,7 @@ const Footer = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12 flex flex-col items-center">
         
         {/* Call to Action Section */}
-        <div className="text-center mb-24 max-w-3xl">
+        <div className="text-center mb-12 max-w-3xl">
           <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Dominar?</p>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
             Pare de jogar à defesa.<br />
@@ -86,7 +86,7 @@ const Footer = () => {
         </div>
 
         {/* Links Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-16 mb-24">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-12 mb-12">
           
           <div className="flex flex-col items-center md:items-start">
             <h4 className="text-white font-semibold mb-6 text-lg">Ecossistema</h4>

@@ -53,9 +53,29 @@ export default function Header() {
 
   return (
     <>
-      <DarkModeToggle />
 
-      {/* Mobile Menu Trigger & System - Visible only on mobile/tablet */}
+      {/* Mobile Header for Sub-pages (Service Details / Payment) */}
+      {(isPaymentPage || isServiceDetailsPage) && (
+        <div className="lg:hidden fixed top-0 left-0 right-0 z-[1100] p-4 flex items-center justify-between bg-black/40 backdrop-blur-xl border-b border-white/10">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/')}
+            className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10"
+          >
+            <ArrowLeft className="w-5 h-5 text-white" />
+          </Button>
+          
+          <div className="flex items-center gap-2" onClick={() => navigate('/')}>
+            <img src={logo} alt="Logo" className="h-6 w-auto" />
+            <span className="font-black text-sm text-white tracking-tighter">Tchova<span className="text-primary">Digital</span></span>
+          </div>
+
+          <div className="w-10" /> {/* Spacer for symmetry */}
+        </div>
+      )}
+
+      {/* Mobile Menu Trigger & System - Visible only on landing page mobile/tablet */}
       {!isPaymentPage && !isServiceDetailsPage && (
         <div className="lg:hidden">
           <StaggeredMenu

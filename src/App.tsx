@@ -6,7 +6,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
+import { useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import { AICreditsProvider } from "@/contexts/AICreditsContext";
@@ -40,6 +41,21 @@ const GSMTechDashboard = lazy(() => import("@/components/gsm/GSMTechDashboard"))
 
 const queryClient = new QueryClient();
 
+// Global Theme Enforcer - Locks public site to dark mode, except GSM
+const ThemeEnforcer = ({ children }: { children: React.ReactNode }) => {
+  const { setTheme } = useTheme();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Only force dark mode if we are NOT in a GSM-related path
+    if (!location.pathname.startsWith('/gsm')) {
+      setTheme('dark');
+    }
+  }, [location.pathname, setTheme]);
+
+  return <>{children}</>;
+};
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -58,8 +74,9 @@ const App = () => (
               <Sonner />
               <Notification />
               <BrowserRouter>
-                <SmoothScroll>
-                  <Suspense fallback={<PageLoader />}>
+                <ThemeEnforcer>
+                  <SmoothScroll>
+                    <Suspense fallback={<PageLoader />}>
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/admin/gsm" element={<Admin />} />
@@ -79,8 +96,9 @@ const App = () => (
                       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
-                  </Suspense>
-                </SmoothScroll>
+                    </Suspense>
+                  </SmoothScroll>
+                </ThemeEnforcer>
               </BrowserRouter>
             </TooltipProvider>
           </AICreditsProvider>

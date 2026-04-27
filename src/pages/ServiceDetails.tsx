@@ -16,6 +16,7 @@ import {
 import { InteractiveServiceCard } from '@/components/InteractiveServiceCard';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import { ServiceVisual } from '@/components/ServiceVisual';
 
 import {
   Package,
@@ -46,6 +47,22 @@ const ServiceDetails = () => {
 
   const serviceId = searchParams.get('id');
   const service = INDIVIDUAL_SERVICES.find(s => s.id.toString() === serviceId) || null;
+
+  const isAudiovisual = service?.category === 'Produção Audiovisual';
+  const isGSM = service?.category === 'Assistência GSM';
+  const isDesignGrafico = service?.category === 'Design Gráfico';
+  const isWebsites = service?.category === 'Desenvolvimento Web';
+  const isMarketing = service?.category === 'Marketing Digital';
+  const isImportacao = service?.category === 'Importação';
+  
+  const serviceKey = isDesignGrafico ? 'design' : 
+                     isWebsites ? 'websites' : 
+                     isMarketing ? 'marketing' : 
+                     isAudiovisual ? 'audiovisual' : 
+                     isImportacao ? 'importacao' :
+                     null;
+  
+  const heroData = serviceKey ? servicesData[serviceKey as keyof typeof servicesData] : null;
 
   useGSAP(() => {
     if (!service || !mainRef.current || !heroData) return;
@@ -108,12 +125,11 @@ const ServiceDetails = () => {
       }
     }
 
-    // Handle GSAP cleanup for scroll triggers not strictly bound by standard timeline
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
 
-  }, { dependencies: [serviceId], scope: mainRef });
+  }, { dependencies: [serviceId, !!heroData], scope: mainRef });
 
   const handleContact = () => {
     if (!service) return;
@@ -177,22 +193,6 @@ const ServiceDetails = () => {
     }
   };
 
-  const isAudiovisual = service?.category === 'Produção Audiovisual';
-  const isGSM = service?.category === 'Assistência GSM';
-  const isDesignGrafico = service?.category === 'Design Gráfico';
-  const isWebsites = service?.category === 'Desenvolvimento Web';
-  const isMarketing = service?.category === 'Marketing Digital';
-  const isImportacao = service?.category === 'Importação';
-  
-  const serviceKey = isDesignGrafico ? 'design' : 
-                     isWebsites ? 'websites' : 
-                     isMarketing ? 'marketing' : 
-                     isAudiovisual ? 'audiovisual' : 
-                     isImportacao ? 'importacao' :
-                     null;
-  
-  const heroData = serviceKey ? servicesData[serviceKey as keyof typeof servicesData] : null;
-
   if (!service) {
     return (
       <div className="min-h-screen bg-background relative">
@@ -208,72 +208,99 @@ const ServiceDetails = () => {
   }
 
   return (
-    <div ref={mainRef} className="min-h-screen bg-background relative pb-10 sm:pb-20">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-blue-500/8 via-cyan-400/6 to-purple-500/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-to-tr from-emerald-500/8 via-teal-400/6 to-blue-500/8 rounded-full blur-3xl" />
+    <div ref={mainRef} className="min-h-screen bg-background relative pb-10 sm:pb-20 overflow-x-hidden">
+      {/* Cinematic Background Atmosphere & Grain */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 right-0 w-[100vw] h-[100vh] bg-[radial-gradient(circle_at_70%_20%,rgba(34,197,94,0.05)_0%,transparent_50%)]" />
+        <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-blue-500/10 via-cyan-400/8 to-purple-500/10 rounded-full blur-[120px] opacity-50" />
+        <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-to-tr from-emerald-500/10 via-teal-400/8 to-blue-500/10 rounded-full blur-[120px] opacity-50" />
+        
+        {/* Subtle Grain Overlay */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       </div>
 
       {!isGSM && <Header />}
 
-      <main className={isGSM ? "container relative z-10 mx-auto px-0 pb-6" : "container relative z-10 mx-auto px-4 pt-10 sm:pt-20 pb-6 max-w-5xl"}>
+      <main className={isGSM ? "container relative z-10 mx-auto px-0 pb-6" : "container relative z-10 mx-auto px-4 pt-24 sm:pt-20 pb-6 max-w-7xl"}>
         {isGSM ? (
           <GSMServicePage />
         ) : heroData ? (
           <>
-            {/* HERO SECTION CINEMÁTICA */}
-            <div ref={headerSectionRef} className="relative overflow-hidden mb-8 sm:mb-16 rounded-[40px] sm:rounded-[56px] shadow-2xl border border-white/10 group min-h-[30vh] sm:min-h-[50vh] flex items-center justify-center">
-              {/* Background Layers */}
-              <div className="absolute inset-0 bg-black/60 z-10" />
-              <div className="absolute inset-0 bg-gradient-to-br dark:from-brand-green/20 dark:to-brand-yellow/10 from-emerald-500/10 to-teal-500/10 z-0" />
+            {/* HERO SECTION MONUMENTAL — TWO COLUMNS ON DESKTOP */}
+            <div ref={headerSectionRef} className="relative mb-20 sm:mb-32 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 min-h-[70vh]">
               
-              {/* Mesh Gradient Effect */}
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 animate-pulse" />
-              <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
-
-              <div className="relative z-20 p-6 sm:p-16 lg:p-24 text-center w-full">
-                <Badge variant="outline" className="mb-6 sm:mb-8 px-4 sm:px-6 py-2 border-primary/40 text-primary bg-primary/5 uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[9px] sm:text-[10px] font-black rounded-full backdrop-blur-md">
+              {/* Left Column: Monumental Content */}
+              <div className="flex-1 text-center lg:text-left z-20">
+                <Badge variant="outline" className="mb-6 px-5 py-2 border-primary/30 text-primary bg-primary/10 uppercase tracking-[0.3em] text-[10px] font-black rounded-full backdrop-blur-md">
                   Ecossistema de Elite
                 </Badge>
                 
-                <h1 className="text-3xl md:text-7xl lg:text-8xl font-black dark:text-white text-slate-900 mb-6 sm:mb-8 leading-[1.1] sm:leading-[0.95] tracking-tighter">
-                  <span className="block opacity-50 text-base sm:text-4xl lg:text-5xl mb-1 sm:mb-2 uppercase tracking-widest sm:tracking-normal">Solução em</span>
-                  <span className="bg-gradient-to-r dark:from-brand-green dark:via-brand-bright dark:to-brand-yellow from-emerald-600 via-green-600 to-emerald-700 bg-clip-text text-transparent uppercase text-3xl sm:text-7xl lg:text-8xl">
+                <h1 className="text-5xl md:text-8xl lg:text-[110px] font-black dark:text-white text-slate-900 mb-8 leading-[0.85] tracking-tighter">
+                  <span className="block opacity-30 text-xl sm:text-4xl lg:text-5xl mb-2 uppercase tracking-widest font-bold">Solução em</span>
+                  <span className="bg-gradient-to-r dark:from-brand-green dark:via-brand-bright dark:to-brand-yellow from-emerald-600 via-green-600 to-emerald-700 bg-clip-text text-transparent uppercase inline-block filter drop-shadow-sm">
                     {heroData?.title || service?.title}
                   </span>
                 </h1>
                 
-                <div className="w-16 sm:w-24 h-1 sm:h-1.5 bg-primary mx-auto mb-6 sm:mb-8 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
+                <div className="hidden lg:block w-32 h-2 bg-gradient-to-r from-primary to-transparent mb-10 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.3)]" />
                 
-                <p className="text-base sm:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed px-2 sm:px-0">
+                <p className="text-lg sm:text-2xl text-foreground/90 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed mb-10 px-2 sm:px-0 drop-shadow-sm">
                   {heroData?.heroDescription || service?.description}
                 </p>
+
+                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                  <Button onClick={() => setContactModalOpen(true)} className="rounded-full px-8 py-7 bg-primary text-white font-black text-lg hover:scale-105 transition-all shadow-[0_20px_50px_rgba(34,197,94,0.3)] uppercase tracking-tighter">
+                    Acionar Especialista
+                  </Button>
+                  <Button variant="outline" className="rounded-full px-8 py-7 border-white/20 text-white font-bold text-lg hover:bg-white/5 transition-all backdrop-blur-sm">
+                    Ver Arsenal
+                  </Button>
+                </div>
               </div>
+
+              {/* Right Column: Dynamic Visual Illustration */}
+              <div className="flex-1 relative w-full lg:w-auto h-[400px] lg:h-[600px] flex items-center justify-center">
+                {/* Visual Anchor */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.2)_0%,transparent_70%)] opacity-60 animate-pulse" />
+                
+                {/* The Dynamic Module */}
+                <ServiceVisual 
+                  type={serviceKey || ''} 
+                  className="scale-110 lg:scale-[1.6] drop-shadow-[0_0_80px_rgba(34,197,94,0.25)]"
+                />
+
+                {/* Floating Tech Badges (Emotion/Context) */}
+                <div className="absolute top-10 right-0 bg-white/5 backdrop-blur-2xl border border-white/10 p-5 rounded-3xl shadow-2xl animate-float pointer-events-none hidden sm:block">
+                  <div className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">Performance</div>
+                  <div className="text-3xl font-black text-white leading-none tracking-tighter">20<span className="text-primary">x</span></div>
+                </div>
+              </div>
+
             </div>
 
             <div className="space-y-6 sm:space-y-24">
               
-              {/* O FATOR DIFERENCIAL - BENTO GRID LAYOUT */}
+              {/* O FATOR DIFERENCIAL — MONUMENTAL GRID LAYOUT */}
               {heroData?.heroCards && heroData.heroCards.length > 0 && (
                 <div className="scroll-section" ref={bentoGridRef}>
-                  <div className="flex flex-col items-center gap-4 mb-4 sm:mb-16 justify-center text-center">
-                    <div className="w-16 h-16 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-2">
-                       <Rocket className="w-8 h-8 text-primary animate-bounce-slow" />
+                  <div className="flex flex-col items-center gap-6 mb-16 sm:mb-24 justify-center text-center">
+                    <div className="w-20 h-20 bg-primary/10 rounded-[2.5rem] flex items-center justify-center mb-2 border border-primary/20 backdrop-blur-xl">
+                       <Rocket className="w-10 h-10 text-primary animate-bounce-slow" />
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black dark:text-white text-slate-900 tracking-tighter uppercase">
-                      O Fator <span className="text-primary">Diferencial</span>
+                    <h2 className="text-5xl md:text-7xl lg:text-9xl font-black dark:text-white text-slate-900 tracking-tighter uppercase leading-[0.85]">
+                      O Fator <br/><span className="text-primary italic">Diferencial</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg max-w-2xl">Os elementos-chave que elevam esta solução ao estatuto de elite digital.</p>
+                    <p className="text-foreground/80 text-xl max-w-2xl font-medium px-4 leading-relaxed">Engenharia de elite para quem não aceita o comum. Cada detalhe é um multiplicador de resultados extraordinários.</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 sm:min-h-[600px]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8">
                     {heroData.heroCards.map((card: any, i: number) => (
                       <div 
                         key={i} 
                         className={`bento-item ${
                           card.spans === 2 
-                            ? "md:col-span-2 lg:col-span-4" 
-                            : "md:col-span-2 lg:col-span-4"
+                            ? "md:col-span-2 lg:col-span-6 lg:row-span-2" 
+                            : "md:col-span-1 lg:col-span-3"
                         }`}
                       >
                         <InteractiveServiceCard {...card} featured={card.spans === 2} />
@@ -283,20 +310,40 @@ const ServiceDetails = () => {
                 </div>
               )}
 
-              {/* ARSENAL TÁTICO / INCLUDES */}
+              {/* ARSENAL TÁTICO — ELITE SPEC SHEET */}
               {(heroData as any).includes && (heroData as any).includes.length > 0 && (
                 <div className="scroll-section">
-                  <div className="flex flex-col items-center gap-2 mb-2 sm:mb-10 justify-center text-center">
-                    <Package className="w-8 h-8 text-brand-yellow" />
-                    <h2 className="text-3xl md:text-4xl font-black dark:text-white text-slate-900 tracking-tight">Arsenal Tático</h2>
-                    <p className="text-muted-foreground font-medium">Tecnologias e metodologias exclusivas inclusas neste serviço.</p>
+                  <div className="flex flex-col items-center lg:items-start gap-4 mb-10 sm:mb-16">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-1 bg-primary rounded-full" />
+                      <h2 className="text-3xl md:text-5xl font-black dark:text-white text-slate-900 tracking-tighter uppercase">Arsenal <span className="text-primary">Tático</span></h2>
+                    </div>
+                    <p className="text-muted-foreground text-lg lg:text-left text-center max-w-2xl font-medium">Especificações técnicas e componentes de elite integrados à sua solução.</p>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                    {(heroData as any).includes.map((item: any) => (
-                      <div key={item.name} className={`stagger-card group bg-gradient-to-br ${item.color} backdrop-blur-lg rounded-3xl p-4 sm:p-8 border dark:border-white/5 border-slate-200 dark:hover:border-white/20 hover:border-slate-300 shadow-xl hover:shadow-2xl hover:scale-[1.02]`}>
-                        <div className="flex flex-col gap-2 sm:gap-4">
-                          <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${item.gradient} rounded-xl flex items-center justify-center shadow-lg text-white`}>{item.icon}</div>
-                          <h3 className="font-bold text-lg text-foreground leading-tight">{item.name}</h3>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5 border border-white/10 rounded-[32px] overflow-hidden shadow-2xl backdrop-blur-xl">
+                    {(heroData as any).includes.map((item: any, idx: number) => (
+                      <div key={item.name} className="stagger-card group relative p-6 sm:p-10 bg-black/20 hover:bg-white/[0.03] transition-all duration-500 border-b lg:border-b-0 lg:border-r border-white/5 last:border-0">
+                        <div className="flex flex-col sm:flex-row items-start gap-6">
+                          <div className={`w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center shadow-2xl text-white transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                            {item.icon}
+                          </div>
+                          <div className="flex-1 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em]">Module_0{idx + 1}</span>
+                              <Badge variant="outline" className="border-white/10 text-[10px] opacity-50">Active_Status</Badge>
+                            </div>
+                            <h3 className="text-2xl font-black text-white uppercase tracking-tight">{item.name}</h3>
+                            <div className="h-px w-12 bg-primary/30 group-hover:w-full transition-all duration-700" />
+                            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base font-medium">
+                              Integração de alta performance focada em resultados escaláveis e arquitetura de ponta.
+                            </p>
+                            <div className="flex gap-2 pt-2">
+                              {['High-End', 'Proprietary', 'AI-Ready'].map(tag => (
+                                <span key={tag} className="text-[9px] font-mono py-1 px-2 border border-white/5 rounded-md opacity-40 uppercase">{tag}</span>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -304,32 +351,46 @@ const ServiceDetails = () => {
                 </div>
               )}
 
-              {/* ATIVAÇÃO TCHOVA - TIMELINE VISUAL */}
+              {/* ATIVAÇÃO TCHOVA — ELITE JOURNEY */}
               {heroData?.process && heroData.process.length > 0 && (
-                <div className="scroll-section max-w-4xl mx-auto relative">
-                  <div className="flex flex-col items-center gap-4 mb-4 sm:mb-16 justify-center text-center">
-                    <div className="w-16 h-16 bg-brand-yellow/10 rounded-[2rem] flex items-center justify-center mb-2">
-                       <Timer className="w-8 h-8 text-brand-yellow" />
-                    </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black dark:text-white text-slate-900 tracking-tighter uppercase">
+                <div className="scroll-section max-w-5xl mx-auto relative px-4 sm:px-0">
+                  <div className="flex flex-col items-center gap-4 mb-16 sm:mb-24 justify-center text-center">
+                    <Badge variant="outline" className="px-4 py-1 border-brand-yellow/30 text-brand-yellow bg-brand-yellow/5 uppercase tracking-[0.2em] text-[9px] font-bold rounded-full">Protocolo de Execução</Badge>
+                    <h2 className="text-4xl md:text-7xl font-black dark:text-white text-slate-900 tracking-tighter uppercase leading-none">
                       Ativação <span className="text-brand-yellow">Tchova</span>
                     </h2>
-                    <p className="text-muted-foreground text-lg max-w-2xl">A jornada da visão à realidade na velocidade da luz.</p>
+                    <p className="text-muted-foreground text-lg max-w-2xl font-medium">Da concepção ao domínio de mercado: o fluxo de alta densidade.</p>
                   </div>
 
-                  <div className="relative space-y-12">
-                    {/* Vertical Timeline line */}
-                    <div className="absolute left-[2.75rem] top-10 bottom-10 w-1 bg-gradient-to-b from-primary via-brand-yellow to-brand-green opacity-20 hidden sm:block" />
+                  <div className="relative space-y-12 sm:space-y-0">
+                    {/* Visual Journey Line — Gradient Connection */}
+                    <div className="absolute left-8 sm:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary via-brand-yellow to-brand-green opacity-20 hidden sm:block -translate-x-1/2" />
 
                     {heroData.process.map((item: any, i: number) => (
-                      <div key={item.title} className="stagger-card flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-8 p-4 sm:p-10 rounded-[40px] dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-200 hover:border-primary/30 group relative z-10">
-                        <div className="w-24 h-24 sm:w-20 sm:h-20 bg-gradient-to-br from-primary to-brand-green text-white rounded-3xl flex items-center justify-center font-black text-3xl sm:text-2xl flex-shrink-0 shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                          {item.step}
+                      <div key={item.title} className={`stagger-card flex flex-col sm:flex-row items-center gap-8 sm:gap-0 relative ${i % 2 === 0 ? 'sm:flex-row-reverse' : ''} mb-20 last:mb-0`}>
+                        
+                        {/* Content Side */}
+                        <div className="flex-1 w-full sm:w-auto">
+                          <div className={`p-8 sm:p-10 rounded-[40px] dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-200 hover:border-primary/40 transition-all duration-500 group shadow-xl ${i % 2 === 0 ? 'sm:ml-12 lg:ml-20' : 'sm:mr-12 lg:mr-20'}`}>
+                            <div className="flex items-center gap-4 mb-4">
+                              <span className="text-xs font-mono text-primary/50 tracking-widest uppercase">Phase_0{item.step}</span>
+                              <div className="h-px flex-1 bg-white/5" />
+                            </div>
+                            <h3 className="text-2xl sm:text-4xl font-black text-white mb-4 tracking-tight uppercase group-hover:text-primary transition-colors">{item.title}</h3>
+                            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed font-medium">{item.description}</p>
+                          </div>
                         </div>
-                        <div className="flex-1 text-center sm:text-left">
-                          <h3 className="font-black text-3xl mb-4 text-primary tracking-tight uppercase">{item.title}</h3>
-                          <p className="text-muted-foreground text-xl leading-relaxed font-medium">{item.description}</p>
+
+                        {/* Central Tech Node */}
+                        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 flex items-center justify-center z-20">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-black border-4 border-white/10 flex items-center justify-center shadow-[0_0_30px_rgba(34,197,94,0.2)] group">
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <span className="relative z-10 font-black text-2xl text-white">{item.step}</span>
+                          </div>
                         </div>
+
+                        {/* Spacer for layout symmetry */}
+                        <div className="hidden sm:block flex-1" />
                       </div>
                     ))}
                   </div>
@@ -371,19 +432,48 @@ const ServiceDetails = () => {
 
             </div>
 
-            <div ref={nextEvolRef} className="mt-12 dark:bg-white/5 bg-slate-50 backdrop-blur-xl border dark:border-white/10 border-slate-200 rounded-[48px] p-8 sm:p-14 relative overflow-hidden group shadow-2xl">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 blur-3xl rounded-full -mr-20 -mt-20 group-hover:bg-primary/20 transition-colors duration-700 pointer-events-none" />
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-14">
-                <div className="flex-1 space-y-5">
-                  <Badge variant="outline" className="px-5 py-2 border-primary/30 text-primary bg-primary/5 uppercase tracking-widest text-xs font-bold rounded-full">A Jornada do Império</Badge>
-                  <h2 className="text-4xl sm:text-5xl font-black dark:text-white text-slate-900 leading-tight">Próxima Evolução: <span className="gradient-text">{heroData.nextStep?.title}</span></h2>
-                  <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">{heroData.nextStep?.logic}</p>
-                  <Button onClick={() => { navigate(`/service-details?id=${heroData.nextStep?.id}`); window.scrollTo(0, 0); }} variant="ghost" className="group/btn pl-0 hover:bg-transparent text-primary hover:text-primary/80 font-bold flex items-center gap-2 text-lg">Explorar esta solução <CheckCircle2 className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform duration-300" /></Button>
+            {/* NEXT EVOLUTION — ELITE COMMAND CENTER */}
+            <div ref={nextEvolRef} className="scroll-section mt-12 sm:mt-32 dark:bg-white/[0.02] bg-slate-50 backdrop-blur-3xl border dark:border-white/10 border-slate-200 rounded-[56px] p-8 sm:p-20 relative overflow-hidden group shadow-[0_50px_100px_rgba(0,0,0,0.4)]">
+              {/* Technical Atmosphere */}
+              <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full -mr-40 -mt-40 group-hover:bg-primary/15 transition-colors duration-700 pointer-events-none" />
+              <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-brand-yellow/5 blur-[80px] rounded-full pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div className="flex-1 space-y-8 text-center lg:text-left">
+                  <div className="flex items-center justify-center lg:justify-start gap-4">
+                    <Badge variant="outline" className="px-5 py-2 border-primary/30 text-primary bg-primary/5 uppercase tracking-[0.3em] text-[10px] font-black rounded-full">Evolution_Link</Badge>
+                    <div className="h-px w-12 bg-white/10 hidden sm:block" />
+                  </div>
+                  
+                  <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black dark:text-white text-slate-900 leading-[0.9] tracking-tighter uppercase">
+                    Próxima Evolução: <br/>
+                    <span className="bg-gradient-to-r from-primary to-brand-green bg-clip-text text-transparent italic">
+                      {heroData.nextStep?.title}
+                    </span>
+                  </h2>
+                  
+                  <p className="text-muted-foreground text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
+                    {heroData.nextStep?.logic}
+                  </p>
+                  
+                  <Button 
+                    onClick={() => { navigate(`/service-details?id=${heroData.nextStep?.id}`); window.scrollTo(0, 0); }} 
+                    variant="ghost" 
+                    className="group/btn pl-0 hover:bg-transparent text-primary hover:text-white font-black flex items-center justify-center lg:justify-start gap-3 text-xl uppercase tracking-tighter transition-all"
+                  >
+                    Ativar Protocolo <CheckCircle2 className="w-8 h-8 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                  </Button>
                 </div>
-                <div className="w-full md:w-auto flex-shrink-0 text-center space-y-3 p-8 rounded-[40px] bg-gradient-to-br from-primary/10 to-brand-green/10 border dark:border-white/10 border-slate-200 shadow-xl">
-                  <div className="text-6xl font-black gradient-text">20x</div>
-                  <div className="text-xs uppercase font-bold text-slate-500 dark:text-white/60 tracking-widest">Hyper-Velocity</div>
-                  <p className="text-xs text-muted-foreground max-w-[140px] mx-auto">Engenharia acelerada via IA + Elite Humana</p>
+
+                {/* Hyper-Velocity Data Module */}
+                <div className="w-full lg:w-[320px] flex-shrink-0 text-center space-y-4 p-10 rounded-[48px] bg-white/[0.03] border border-white/10 shadow-2xl backdrop-blur-xl relative group-hover:scale-105 transition-transform duration-500">
+                  <div className="absolute inset-0 bg-primary/5 rounded-[48px] animate-pulse" />
+                  <div className="relative z-10">
+                    <div className="text-7xl font-black text-white tracking-tighter mb-1">20<span className="text-primary">x</span></div>
+                    <div className="text-[10px] uppercase font-black text-primary tracking-[0.4em] mb-4">Hyper-Velocity</div>
+                    <div className="h-px w-full bg-white/10 mb-4" />
+                    <p className="text-xs text-muted-foreground leading-relaxed uppercase tracking-widest font-bold">IA-Accelerated Engineering</p>
+                  </div>
                 </div>
               </div>
             </div>

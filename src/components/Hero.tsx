@@ -130,11 +130,11 @@ const Hero = () => {
       className="tech-hero relative overflow-hidden h-[100dvh] w-full flex items-center justify-center bg-black"
     >
       {/* Layer 0 — Video Background Full Screen */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[#050505]">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-black">
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
-        <div ref={videoContainerRef} className="absolute inset-0 w-full h-full will-change-transform" style={{ opacity: 0 }}>
+        <div ref={videoContainerRef} className="absolute inset-[-1px] w-[calc(100%+2px)] h-[calc(100%+2px)] will-change-transform" style={{ opacity: 0 }}>
           <video
             ref={video1Ref}
             autoPlay
@@ -142,7 +142,7 @@ const Hero = () => {
             playsInline
             loop
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover object-right"
+            className="absolute inset-0 w-full h-full object-cover object-center md:object-right"
             style={{ filter: 'brightness(1.0) contrast(1.05) saturate(1.1)', opacity: 1, zIndex: 1 }}
           >
             <source src={VIDEO_URL} type="video/mp4" />
@@ -158,8 +158,12 @@ const Hero = () => {
           style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
         />
         
-        {/* Mobile: Bottom-focused diagonal fade */}
-        <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-100" />
+        {/* Mobile: Balanced bottom-to-top fade — subtle enough to see video, dark enough for legibility */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black via-black/65 to-black/20 opacity-100" />
+        
+        {/* Anti-Leakage Section Blender — Seals the bottom edge only on mobile to prevent video light leakage at the fold */}
+        <div className="md:hidden absolute -bottom-[2px] left-0 w-full h-32 bg-gradient-to-t from-black via-black/95 to-transparent z-20 pointer-events-none" />
+        <div className="md:hidden absolute bottom-0 left-0 w-full h-1 bg-black z-30" />
       </div>
 
       {/* Layer 2 — Content */}
