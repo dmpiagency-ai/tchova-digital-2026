@@ -1,13 +1,20 @@
 import { ArrowRight } from 'lucide-react';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best/v1778250435/0508_xnt09o.mp4';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,w_720,c_limit,vc_auto/v1778250435/0508_xnt09o.mp4';
+const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,so_0/v1778250435/0508_xnt09o.jpg';
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [videoSrc, setVideoSrc] = useState('');
+
+  useEffect(() => {
+    setVideoSrc(window.innerWidth < 1024 ? MOBILE_VIDEO : DESKTOP_VIDEO);
+  }, []);
 
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -168,13 +175,14 @@ const Hero = () => {
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-center"
             style={{ filter: 'brightness(1.1) contrast(1.1) saturate(1.1)', opacity: 1, zIndex: 2 }}
+            poster={POSTER_URL}
             onCanPlay={() => {
               if (videoContainerRef.current) {
                 gsap.to(videoContainerRef.current, { opacity: 1, duration: 1 });
               }
             }}
           >
-            <source src={VIDEO_URL} type="video/mp4" />
+            {videoSrc && <source src={videoSrc} type="video/mp4" />}
           </video>
         </div>
       </div>
