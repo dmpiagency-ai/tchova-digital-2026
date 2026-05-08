@@ -4,9 +4,9 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,w_720,c_limit,vc_auto/v1778250435/0508_xnt09o.mp4';
-const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,so_0/v1778250435/0508_xnt09o.jpg';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,vc_auto/v1778250435/0508_xnt09o.mp4';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_720,c_limit,vc_auto/v1778250435/0508_xnt09o.mp4';
+const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,so_0/v1778250435/0508_xnt09o.jpg';
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
@@ -38,8 +38,8 @@ const Hero = () => {
 
     // 1. Video entrance — cinematic scale-down
     tl.fromTo(videoContainerRef.current,
-      { scale: 1.1, filter: 'blur(8px)', opacity: 0 },
-      { scale: 1.0, filter: 'blur(0px)', opacity: 1, duration: 3, ease: 'power2.out' }
+      { scale: 1.05, filter: 'blur(4px)', opacity: 0 },
+      { scale: 1.0, filter: 'blur(0px)', opacity: 1, duration: 2.5, ease: 'power2.out' }
     )
     // 2. Futuristic Label — Reveal
     .fromTo(labelRef.current,
@@ -93,20 +93,23 @@ const Hero = () => {
     }
 
     // 8. Interactive Scroll "Estica" (Stretch) Effect
-    gsap.to(videoContainerRef.current, {
-      scaleY: 1.15,
-      scaleX: 1.05,
-      skewY: 2,
-      opacity: 0.5,
-      filter: 'blur(10px)',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1 // Elastic lag for the "stretch" feel
+    gsap.fromTo(videoContainerRef.current, 
+      { scaleY: 1, scaleX: 1, skewY: 0, opacity: 1, filter: 'blur(0px)' },
+      {
+        scaleY: 1.15,
+        scaleX: 1.05,
+        skewY: 2,
+        opacity: 0.7,
+        filter: 'blur(8px)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
       }
-    });
+    );
 
     gsap.to(contentRef.current, {
       y: -150,
