@@ -218,25 +218,25 @@ const Services = () => {
                   </div>
                   
                   {/* Advanced Gradient Overlay (Liquid Glass base) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent group-hover:from-black/100 group-hover:via-black/70 transition-all duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent group-hover:from-black/100 group-hover:via-black/70 transition-all duration-500 z-10" />
                   
                   {/* Glowing Border on Hover */}
-                  <div className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500 rounded-[2rem] pointer-events-none" />
+                  <div className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500 rounded-[2rem] pointer-events-none z-30" />
 
                   {/* Elite Icon Top Left */}
-                  <div className="absolute top-6 left-6 z-20 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center transition-transform duration-500 group-hover:bg-primary/20">
+                  <div className="absolute top-6 left-6 z-30 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center transition-transform duration-500 group-hover:bg-primary/20">
                     <item.icon className="w-5 h-5 text-white group-hover:text-primary transition-colors" />
                   </div>
 
                   {/* Top Right "Ver Detalhes" Pill */}
-                  <div className="absolute top-6 right-6 z-20 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
+                  <div className="absolute top-6 right-6 z-30 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
                     <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                       Aceder
                     </div>
                   </div>
 
                   {/* Text Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end h-full">
+                  <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end h-full z-40">
                     <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
                       <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-primary mb-3">
                         {item.category}
