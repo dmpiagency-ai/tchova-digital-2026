@@ -4,7 +4,7 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:eco,br_1m/v1776938788/0422_1_3_1_emhog3.mp4';
+const VIDEO_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best/v1778250435/0508_xnt09o.mp4';
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
@@ -88,7 +88,7 @@ const Hero = () => {
     // Parallax — video pushes away on scroll
     gsap.to(videoContainerRef.current, {
       y: 150,
-      scale: 1.05,
+      scale: 1.02,
       ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
@@ -105,6 +105,23 @@ const Hero = () => {
         start: '80 top',
         onEnter: () => setShowScrollIndicator(false),
         onLeaveBack: () => setShowScrollIndicator(true)
+      }
+    });
+
+    // 7. Mobile Video Motion — Robust horizontal panning (0% to 100%)
+    const mm = gsap.matchMedia();
+    mm.add("(max-width: 767px)", () => {
+      if (video1Ref.current) {
+        gsap.fromTo(video1Ref.current,
+          { objectPosition: '16% 50%' },
+          {
+            objectPosition: '66% 50%',
+            duration: 15,
+            ease: 'none',
+            repeat: -1,
+            yoyo: true
+          }
+        );
       }
     });
 
@@ -139,7 +156,8 @@ const Hero = () => {
           className="absolute inset-[-1px] w-[calc(100%+2px)] h-[calc(100%+2px)] will-change-transform bg-[#050505]"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
+          {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
           
           <video
             ref={video1Ref}
@@ -148,7 +166,7 @@ const Hero = () => {
             playsInline
             loop
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover object-center md:object-right"
+            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-center"
             style={{ filter: 'brightness(1.1) contrast(1.1) saturate(1.1)', opacity: 1, zIndex: 2 }}
             onCanPlay={() => {
               if (videoContainerRef.current) {
@@ -169,12 +187,10 @@ const Hero = () => {
           style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
         />
         
-        {/* Mobile: Balanced bottom-to-top fade — subtle enough to see video, dark enough for legibility */}
-        <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black via-black/65 to-black/20 opacity-100" />
-        
-        {/* Anti-Leakage Section Blender — Seals the bottom edge only on mobile to prevent video light leakage at the fold */}
-        <div className="md:hidden absolute -bottom-[2px] left-0 w-full h-32 bg-gradient-to-t from-black via-black/95 to-transparent z-20 pointer-events-none" />
-        <div className="md:hidden absolute bottom-0 left-0 w-full h-1 bg-black z-30" />
+        {/* Mobile: Vertical Readability Gradient — Focused on text area, clearer at the top */}
+        <div 
+          className="md:hidden absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.8)_60%,transparent_95%)]" 
+        />
       </div>
 
       {/* Layer 2 — Content */}
@@ -194,7 +210,7 @@ const Hero = () => {
         <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4">
           <h1
             ref={headlineRef}
-            className="text-[11vw] md:text-[6vw] lg:text-[5vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
+            className="text-[11vw] md:text-[6vw] lg:text-[5vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
           >
             A máquina de<br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">
@@ -207,7 +223,7 @@ const Hero = () => {
         {/* Sub-headline */}
         <p
           ref={subheadlineRef}
-          className="text-base md:text-lg lg:text-xl text-white/70 font-light tracking-wide max-w-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-relaxed"
+          className="text-base md:text-lg lg:text-xl text-white md:text-white/70 font-light tracking-wide max-w-2xl drop-shadow-none md:drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-relaxed"
         >
           <span className="text-white/90 border-l-2 border-primary/50 pl-4 mb-6 block italic">
             Pare de fragmentar o seu orçamento em soluções vazias.
