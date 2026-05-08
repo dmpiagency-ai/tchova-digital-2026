@@ -94,8 +94,8 @@ const Hero = () => {
 
     // Parallax — video pushes away on scroll
     gsap.to(videoContainerRef.current, {
-      y: 150,
-      scale: 1.01,
+      y: 30,
+      scale: 1.002,
       ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
