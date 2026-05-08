@@ -92,16 +92,33 @@ const Hero = () => {
       );
     }
 
-    // Parallax — video pushes away on scroll
+    // 8. Interactive Scroll "Estica" (Stretch) Effect
     gsap.to(videoContainerRef.current, {
-      y: 0,
-      scale: 1.0,
+      scaleY: 1.15,
+      scaleX: 1.05,
+      skewY: 2,
+      opacity: 0.5,
+      filter: 'blur(10px)',
       ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
         start: 'top top',
         end: 'bottom top',
-        scrub: true
+        scrub: 1 // Elastic lag for the "stretch" feel
+      }
+    });
+
+    gsap.to(contentRef.current, {
+      y: -150,
+      scale: 0.9,
+      opacity: 0,
+      filter: 'blur(20px)',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: '70% top',
+        scrub: 1
       }
     });
 
