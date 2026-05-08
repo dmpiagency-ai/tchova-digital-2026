@@ -71,42 +71,42 @@ const Services = () => {
   const services = useMemo(() => [
     {
       id: 1,
-      title: 'Marcas Premium',
+      title: 'Autoridade Visual',
       category: 'Branding',
-      painPoint: 'Respeito Instantâneo',
+      painPoint: 'Diferenciação que Vende',
       icon: EliteMatrix
     },
     {
       id: 2,
-      title: 'Sites Velozes',
+      title: 'Maquinas de Vendas',
       category: 'Web',
-      painPoint: 'Vendas no Automático',
+      painPoint: 'Conversão 24/7',
       icon: EliteVector
     },
     {
       id: 3,
-      title: 'Tráfego Pago',
+      title: 'Escala Exponencial',
       category: 'Performance',
-      painPoint: 'Cofre Aberto (24/7)',
+      painPoint: 'ROI Incontrolável',
       icon: ElitePulse
     },
     {
       id: 4,
-      title: 'Audiovisual Pro',
+      title: 'Impacto Cinema',
       category: 'Mídia',
-      painPoint: 'Desejo Incontrolável',
+      painPoint: 'Desejo Instantâneo',
       icon: EliteRadar
     },
     {
       id: 5,
-      title: 'Importação',
+      title: 'Importação Elite',
       category: 'Logística',
-      painPoint: 'Zero Burocracia',
+      painPoint: 'Zero Burocracia Global',
       icon: EliteNode
     },
     {
       id: 6,
-      title: 'Técnico GSM',
+      title: 'Engenharia GSM',
       category: 'Assistência',
       painPoint: 'Operação Inabalável',
       icon: EliteCore
@@ -208,6 +208,13 @@ const Services = () => {
                         backgroundColor: '#0a0a0a' 
                       }}
                     />
+
+                    {/* Vertical Watermark Title (Elite Aesthetic) */}
+                    <div className="absolute -right-20 top-1/2 -translate-y-1/2 rotate-90 origin-center z-[3] pointer-events-none opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-700">
+                      <span className="text-9xl font-black text-white tracking-tighter uppercase whitespace-nowrap">
+                        {item.title}
+                      </span>
+                    </div>
                   </div>
                   
                   {/* Advanced Gradient Overlay (Liquid Glass base) */}
