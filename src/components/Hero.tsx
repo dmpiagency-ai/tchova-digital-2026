@@ -173,7 +173,7 @@ const Hero = () => {
             playsInline
             loop
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-center"
+            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%]"
             style={{ filter: 'brightness(1.1) contrast(1.1) saturate(1.1)', opacity: 1, zIndex: 2 }}
             poster={POSTER_URL}
             onCanPlay={() => {
