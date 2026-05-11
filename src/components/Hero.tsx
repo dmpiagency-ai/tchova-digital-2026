@@ -4,9 +4,9 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse } from '@/components/ui/EliteIcons';
 
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,w_1080,c_limit,vc_auto/v1778250435/0508_xnt09o.mp4';
-const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,so_0/v1778250435/0508_xnt09o.jpg';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,vc_auto/v1778250435/0508_xnt09o.mp4';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_720,c_limit,vc_auto/v1778250435/0508_xnt09o.mp4';
+const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,so_0/v1778250435/0508_xnt09o.jpg';
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
