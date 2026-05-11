@@ -92,15 +92,13 @@ const Hero = () => {
       );
     }
 
-    // 8. Interactive Scroll "Estica" (Stretch) Effect
+    // 8. Interactive Scroll Effect (Performance Optimized for weak devices)
     gsap.fromTo(videoContainerRef.current, 
-      { scaleY: 1, scaleX: 1, skewY: 0, opacity: 1, filter: 'blur(0px)' },
+      { scaleY: 1, scaleX: 1, opacity: 1 },
       {
-        scaleY: 1.15,
-        scaleX: 1.05,
-        skewY: 2,
-        opacity: 0.7,
-        filter: 'blur(8px)',
+        scaleY: 1.05,
+        scaleX: 1.02,
+        opacity: 0.8,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
@@ -112,10 +110,9 @@ const Hero = () => {
     );
 
     gsap.to(contentRef.current, {
-      y: -150,
-      scale: 0.9,
+      y: -100,
+      scale: 0.95,
       opacity: 0,
-      filter: 'blur(20px)',
       ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
@@ -171,7 +168,7 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="tech-hero relative overflow-hidden h-[100dvh] w-full flex items-center justify-center bg-black"
+      className="tech-hero relative overflow-hidden min-h-[100dvh] w-full flex items-center justify-center bg-black py-24 md:py-32"
     >
       {/* Layer 0 — Video Background Full Screen */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-black">
@@ -238,7 +235,7 @@ const Hero = () => {
         <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4">
           <h1
             ref={headlineRef}
-            className="text-[11vw] md:text-[6vw] lg:text-[5vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
+            className="text-[10vw] sm:text-[8vw] md:text-[5.5vw] lg:text-[4.5vw] xl:text-[4vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
           >
             A máquina de<br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">
