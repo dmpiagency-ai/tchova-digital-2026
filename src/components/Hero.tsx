@@ -39,9 +39,12 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    const isMobile = window.innerWidth < 1024;
-    setVideoSrc(isMobile ? MOBILE_VIDEO : DESKTOP_VIDEO);
+    const mobile = window.innerWidth < 1024;
+    setIsMobile(mobile);
+    setVideoSrc(mobile ? MOBILE_VIDEO : DESKTOP_VIDEO);
   }, []);
 
   // Rotating words cycle with seamless vertical scrolling
@@ -140,12 +143,12 @@ const Hero = () => {
       }
     });
 
-    // ─── MOBILE: Lightweight version (no blur, no skew, no clipPath) ─────────
+    // ─── MOBILE: Lightweight version (no blur, no skew, no clipPath, no objectPosition animation) ─────────
     mm.add('(max-width: 767px)', () => {
       const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
 
-      // Simple fade-in: no blur, no skew — GPU-friendly
-      gsap.set(videoContainerRef.current, { opacity: 1 }); // video visible immediately
+      // Video visible immediately — no filter animation
+      gsap.set(videoContainerRef.current, { opacity: 1 });
 
       tl.fromTo(labelRef.current,
         { y: 20, opacity: 0 },
@@ -167,13 +170,9 @@ const Hero = () => {
         '-=0.3'
       );
 
-      // Subtle horizontal video pan for mobile (GPU-optimised: objectPosition)
-      if (video1Ref.current) {
-        gsap.fromTo(video1Ref.current,
-          { objectPosition: '16% 50%' },
-          { objectPosition: '66% 50%', duration: 15, ease: 'none', repeat: -1, yoyo: true }
-        );
-      }
+      // NO objectPosition animation on mobile — it forces layout recalculation every frame
+      // which starves the video decoder and causes the video to freeze.
+      // The video uses a fixed object-position set via CSS class instead.
 
       // No parallax on mobile — too expensive
     });
@@ -228,9 +227,15 @@ const Hero = () => {
             muted
             playsInline
             loop
-            preload="metadata"
+            preload={isMobile ? 'auto' : 'metadata'}
             className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%]"
-            style={{ filter: 'brightness(1.1) contrast(1.1) saturate(1.1)', opacity: 1, zIndex: 2, willChange: 'transform' }}
+            style={{
+              // Mobile: no filters — they force expensive per-frame GPU re-paint on the video surface
+              filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
+              opacity: 1,
+              zIndex: 2,
+              willChange: 'transform',
+            }}
             poster={POSTER_URL}
             onCanPlay={() => {
               if (videoContainerRef.current) {
