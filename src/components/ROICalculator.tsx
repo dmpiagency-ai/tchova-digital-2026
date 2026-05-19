@@ -129,7 +129,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
   }, [investment, expectedRevenue]);
 
   return (
-    <div ref={containerRef} className="max-w-3xl mx-auto p-4 sm:p-6 space-y-4">
+    <div ref={containerRef} className="max-w-3xl mx-auto p-2 sm:p-6 space-y-4">
       {/* Immersive Header */}
       <div className="text-center space-y-1 mb-2">
         <div className="flex items-center justify-center space-x-2">
@@ -145,7 +145,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
         <CardContent className="p-0 sm:p-0 flex flex-col md:flex-row">
           
           {/* Left Side: Control Panel (Sliders) */}
-          <div className="flex-1 p-5 sm:p-8 space-y-6 md:border-r border-slate-200 dark:border-white/10">
+          <div className="flex-1 p-4 sm:p-8 space-y-6 md:border-r border-slate-200 dark:border-white/10">
             <h3 className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-2">Painel de Controlo</h3>
             
             {/* Investment Block */}
@@ -194,14 +194,14 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
           </div>
 
           {/* Right Side: Output Display (Results) */}
-          <div className="flex-1 p-5 sm:p-8 bg-slate-50/50 dark:bg-black/20 flex flex-col justify-center">
+          <div className="flex-1 p-4 sm:p-8 bg-slate-50/50 dark:bg-black/20 flex flex-col justify-center">
             <h3 className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-6">Diagnóstico em Tempo Real</h3>
             
             <div ref={resultsRef} className="transition-opacity duration-500 flex-1 flex flex-col justify-between" style={{ opacity: results ? 1 : 0 }}>
               {results ? (
                 <div className="space-y-6">
                   {/* Big ROI Display */}
-                  <div className="text-center p-6 bg-primary/10 rounded-3xl border border-primary/20 relative overflow-hidden group">
+                  <div className="text-center p-4 md:p-6 bg-primary/10 rounded-3xl border border-primary/20 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
                     <div className="relative z-10">
                       <div ref={roiValueRef} className="text-5xl font-black text-primary mb-2 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">0%</div>

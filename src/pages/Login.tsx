@@ -20,7 +20,7 @@ import {
   AlertCircle,
   Loader2
 } from 'lucide-react';
-import logo from '@/assets/logo.svg';
+import { AnimatedLogo } from '@/components/AnimatedLogo';
 import { registerLocalUser, isUsingLocalAuth } from '@/services/localAuthService';
 
 const Login = () => {
@@ -160,8 +160,7 @@ const Login = () => {
           <CardHeader className="text-center space-y-4 pb-6">
             {/* Logo */}
             <div className="flex items-center justify-center space-x-3">
-              <img src={logo} alt="TchovaDigital Logo" className="h-10 w-auto" />
-              <h1 className="text-2xl font-bold gradient-text">TchovaDigital</h1>
+              <AnimatedLogo className="w-48 h-12" />
             </div>
             
             <div className="space-y-2">

@@ -139,7 +139,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-poppins;
+    @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
     transition: background-color 0.3s ease, color 0.3s ease;
     margin: 0;
@@ -260,6 +260,34 @@
     box-shadow:
       0 16px 48px rgba(0, 0, 0, 0.04),
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ─── MOBILE PERFORMANCE: Reduce blur cost on all glass elements ──────── */
+  @media (max-width: 767px) {
+    .glass {
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+    }
+    .glass-card {
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+    }
+    .liquid-card {
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+    }
+    /* Force hardware-accelerated compositing on animated elements */
+    .tech-hero video {
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+  }
+
+  /* ─── UNIVERSAL PERFORMANCE UTILITIES ─────────────────────────────────── */
+  /* Apply to sections that are off-screen to skip rendering */
+  .content-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
   }
 
   /* Large Simple Icons */

@@ -16,12 +16,21 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    // Target modern browsers — smaller output, no legacy polyfills
+    target: ['es2020', 'chrome80', 'firefox78', 'safari14'],
     rollupOptions: {
       output: {
         manualChunks: {
+          // Core React — cached aggressively
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Heavy 3D libs — only loaded when Scene3D is visible
           'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+          // Firebase — only loaded for auth flows
           'firebase-vendor': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          // Animation stack — cached independently from app logic
+          'animation-vendor': ['gsap', 'framer-motion', 'lenis'],
+          // UI utilities
+          'ui-vendor': ['embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
         }
       }
     }

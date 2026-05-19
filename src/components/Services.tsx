@@ -106,9 +106,9 @@ const Services = () => {
     },
     {
       id: 6,
-      title: 'Engenharia GSM',
-      category: 'Assistência',
-      painPoint: 'Operação Inabalável',
+      title: 'Painel Rental & GSM Mobile',
+      category: 'Especializado',
+      painPoint: 'Soluções Técnicas de Elite',
       icon: EliteCore
     }
   ], []);
@@ -140,7 +140,7 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] w-full flex flex-col justify-center items-center relative overflow-hidden py-20 bg-background/95 border-t border-white/5 perspective-1000"
+      className="min-h-[100dvh] w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-background/95 border-t border-white/5 perspective-1000"
     >
       {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -161,12 +161,12 @@ const Services = () => {
       <div className="container relative z-10 mx-auto px-4 w-full">
         
         {/* Elite Header */}
-        <div ref={headerRef} className="text-center mb-12 md:mb-16 relative flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-md">
+        <div ref={headerRef} className="text-center mb-10 md:mb-16 relative flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Ecossistema 360°</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
             O Ecossistema que <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Constrói Impérios.</span>
           </h2>
@@ -188,7 +188,7 @@ const Services = () => {
                   role="button"
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                  className="relative h-[480px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
+                  className="relative h-[420px] md:h-[480px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
                   onClick={() => handleServiceClick(item)}
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
@@ -236,12 +236,12 @@ const Services = () => {
                   </div>
 
                   {/* Text Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end h-full z-40">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex flex-col justify-end h-full z-40">
                     <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
                       <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-primary mb-3">
                         {item.category}
                       </span>
-                      <h3 className="text-3xl font-black text-white leading-tight mb-2 tracking-tight drop-shadow-md">
+                      <h3 className="text-2xl md:text-3xl font-black text-white leading-tight mb-2 tracking-tight drop-shadow-md">
                         {item.title}
                       </h3>
                       <div className="h-0 opacity-0 group-hover:opacity-100 group-hover:h-auto group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden">

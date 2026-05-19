@@ -1,4 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState, useEffect } from 'react';
+import { AnimatedLogo } from '../AnimatedLogo';
+import { useScroll } from './use-scroll';
 import gsap from 'gsap';
 import './StaggeredMenu.css';
 
@@ -415,19 +417,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       </div>
       
       <header className={`staggered-menu-header${scrolled ? ' scrolled' : ''}`} aria-label="Main navigation header">
-        {logoUrl && (
-          <div className="sm-logo" aria-label="Logo">
-            <img
-              src={logoUrl}
-              alt="Logo"
-              className="sm-logo-img"
-              draggable={false}
-              width={28}
-              height={28}
-            />
-            <span className="sm-logo-text">TchovaDigital</span>
-          </div>
-        )}
+        <div className="sm-logo" aria-label="Logo">
+          <AnimatedLogo className="h-7" showText={true} />
+        </div>
         <button
           ref={toggleBtnRef}
           className="sm-toggle"

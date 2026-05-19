@@ -58,7 +58,7 @@ const Footer = () => {
   }, { scope: containerRef });
 
   return (
-    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/5 pt-16 pb-12">
+    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/5 pt-12 pb-8 md:pt-16 md:pb-12">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
         <div className="absolute -top-[20%] left-[20%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
@@ -68,25 +68,25 @@ const Footer = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12 flex flex-col items-center">
         
         {/* Call to Action Section */}
-        <div className="text-center mb-12 max-w-3xl">
+        <div className="text-center mb-8 md:mb-12 max-w-3xl">
           <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Dominar?</p>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+          <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
             Pare de jogar à defesa.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Escale o seu Império.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}
-            className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105"
+            className="group relative inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              Iniciar Projeto <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
+              Accionar Protocolo <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
             </span>
           </button>
         </div>
 
         {/* Links Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-12 mb-12">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 border-t border-white/10 pt-8 md:pt-12 mb-8 md:mb-12">
           
           <div className="flex flex-col items-center md:items-start">
             <h4 className="text-white font-semibold mb-6 text-lg">Ecossistema</h4>
@@ -104,11 +104,11 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col items-center md:items-start">
-            <h4 className="text-white font-semibold mb-6 text-lg">Legal & Suporte</h4>
+            <h4 className="text-white font-semibold mb-6 text-lg">Legal & Operações</h4>
             <div className="flex flex-col gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Termos de Serviço</a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Política de Privacidade</a>
-              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Suporte Técnico</button>
+              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Central de Comando</button>
             </div>
           </div>
 

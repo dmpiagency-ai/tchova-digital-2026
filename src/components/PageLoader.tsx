@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -106,7 +107,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/60 backdrop-blur-3xl overflow-hidden pointer-events-auto"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/60 backdrop-blur-xl md:backdrop-blur-3xl overflow-hidden pointer-events-auto"
     >
       {/* Subtle Ambient Light Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />

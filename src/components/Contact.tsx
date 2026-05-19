@@ -76,7 +76,7 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={containerRef}
-      className="py-20 relative overflow-hidden bg-background/95 border-t border-white/5"
+      className="py-12 md:py-24 relative overflow-hidden bg-background/95 border-t border-white/5"
     >
       {/* Dynamic Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[800px] pointer-events-none opacity-40">
@@ -87,11 +87,11 @@ const Contact = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="contact-header-text text-4xl md:text-6xl font-black mb-6 tracking-tighter text-white">
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="contact-header-text text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
             Iniciar <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Protocolo</span>
           </h2>
-          <p className="contact-header-text text-muted-foreground/80 text-lg md:text-xl max-w-2xl mx-auto font-light tracking-wide">
+          <p className="contact-header-text text-muted-foreground/80 text-base md:text-xl max-w-2xl mx-auto font-light tracking-wide px-4 md:px-0">
             Acesso direto ao núcleo técnico. Tempo de resposta garantido em &lt; 5 minutos.
           </p>
         </div>
@@ -99,10 +99,10 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           
           {/* Left Column: Info & Trust */}
-          <div ref={leftColumnRef} className="flex flex-col gap-8">
+          <div ref={leftColumnRef} className="flex flex-col gap-6 md:gap-8">
             
             {/* Main Info Card */}
-            <div className="bg-black/40 backdrop-blur-2xl border border-white/10 p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
+            <div className="bg-black/40 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <h3 className="text-2xl font-bold mb-10 flex items-center gap-4 text-white">
@@ -150,7 +150,7 @@ const Contact = () => {
             </div>
 
             {/* Quick Action Card */}
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 backdrop-blur-xl rounded-[2rem] p-10 relative overflow-hidden shadow-2xl shadow-primary/10">
+            <div className="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 backdrop-blur-xl rounded-[2rem] p-6 md:p-10 relative overflow-hidden shadow-2xl shadow-primary/10">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <ElitePulse className="w-32 h-32 text-primary" />
               </div>
@@ -171,7 +171,7 @@ const Contact = () => {
           </div>
 
           {/* Right Column: Quick Message Form */}
-          <div ref={rightColumnRef} className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-10 lg:p-12 shadow-2xl relative">
+          <div ref={rightColumnRef} className="bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-12 shadow-2xl relative">
             <h3 className="text-2xl font-bold mb-4 text-white">Terminal de Entrada</h3>
             <p className="text-muted-foreground/80 mb-10 text-lg font-light">
               Descreve os parâmetros da tua necessidade. Encaminhamento em tempo real para a unidade correta.

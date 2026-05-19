@@ -9,8 +9,9 @@ import { cn } from '@/lib/utils';
 import { StaggeredMenu } from '@/components/ui/StaggeredMenu';
 import { useScroll } from '@/components/ui/use-scroll';
 import { env } from '@/config/env';
-import logo from '@/assets/logo.svg';
 import { EliteRadar } from '@/components/ui/EliteIcons';
+import { AnimatedLogo } from '@/components/AnimatedLogo';
+import logo from '@/assets/logo.svg';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
@@ -66,9 +67,8 @@ export default function Header() {
             <ArrowLeft className="w-5 h-5 text-white" />
           </Button>
           
-          <div className="flex items-center gap-2" onClick={() => navigate('/')}>
-            <img src={logo} alt="Logo" className="h-6 w-auto" />
-            <span className="font-black text-sm text-white tracking-tighter">Tchova<span className="text-primary">Digital</span></span>
+          <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
+            <AnimatedLogo className="h-7" showText={true} />
           </div>
 
           <div className="w-10" /> {/* Spacer for symmetry */}
@@ -127,33 +127,21 @@ export default function Header() {
                   <ArrowLeft className="w-5 h-5 text-white" />
                 </Button>
               )}
-              <div 
-                className="flex items-center gap-3 cursor-pointer transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 active:scale-95"
-                onClick={() => navigate('/')}
-              >
-                <motion.img 
-                  src={logo} 
-                  alt="TchovaDigital" 
-                  animate={{
-                    height: scrolled ? '1.5rem' : '2rem',
-                  }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 30 }}
-                  className="w-auto" 
-                />
-                <motion.span 
-                  animate={{
-                    fontSize: scrolled ? '1.125rem' : '1.5rem',
-                  }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 30 }}
-                  className="font-black tracking-[-0.02em] text-white"
-                >
-                  Tchova<span className="text-primary">Digital</span>
-                </motion.span>
+              <div className="relative flex items-center cursor-pointer transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105 active:scale-95" onClick={() => navigate('/')}>
+                  <motion.div
+                    animate={{
+                      height: scrolled ? '42px' : '56px',
+                    }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 30 }}
+                    className="flex items-center"
+                  >
+                    <AnimatedLogo className="h-full" showText={true} />
+                  </motion.div>
               </div>
             </div>
 
-            {/* Desktop Navigation Links - Elite Hover Effects */}
-            <div className="hidden lg:flex items-center gap-12">
+            {/* Desktop Navigation Links - Subtly Offset from Center */}
+            <div className="hidden lg:flex absolute left-[57%] -translate-x-1/2 items-center gap-12">
               {menuItems.slice(1, -1).map((item) => (
                 <button
                   key={item.label}
@@ -169,8 +157,8 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Action Group */}
-            <div className="flex items-center gap-6">
+            {/* Action Group Container */}
+            <div className="relative flex flex-col items-end">
               <motion.button
                 onClick={handleWhatsAppClick}
                 animate={{
@@ -188,11 +176,23 @@ export default function Header() {
                 <MessageCircle className="w-4 h-4" />
                 <span>Directo</span>
               </motion.button>
-              
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                <EliteRadar className="w-3.5 h-3.5 text-primary animate-pulse" />
-                <span className="text-[9px] font-black text-white/50 uppercase tracking-widest">Status: Online</span>
-              </div>
+
+              {/* Elite Status Badge — hides on scroll */}
+              <AnimatePresence>
+                {!scrolled && (
+                  <motion.div
+                    key="status-badge"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12, transition: { duration: 0.25, ease: 'easeIn' } }}
+                    transition={{ delay: 1, duration: 0.6, ease: 'easeOut' }}
+                    className="hidden lg:flex absolute top-[calc(100%+12px)] right-0 z-50 items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md pointer-events-none"
+                  >
+                    <EliteRadar className="w-4 h-4 text-primary animate-pulse" />
+                    <span className="text-[10px] font-black text-white/80 uppercase tracking-widest whitespace-nowrap">Status: Online</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.nav>
         </div>

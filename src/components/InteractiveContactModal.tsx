@@ -60,13 +60,13 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
   }, { scope: containerRef, dependencies: [shouldRender, isOpen] });
 
   const handleWhatsApp = useCallback(() => {
-    const message = `Olá TchovaDigital! Quero fazer o meu negócio bater maningue com o serviço de ${serviceName}. Como podemos tchovar isso?`;
+    const message = `Solicito accionamento imediato da unidade de ${serviceName}. Objectivo: Diagnóstico de Ecossistema 360°.`;
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
     handleClose();
   }, [serviceName, handleClose]);
 
   const handleCalendar = useCallback(() => {
-    const message = `Olá Tchova Digital! Bora marcar um Meet rápido pra trocar uma ideia sobre ${serviceName}?`;
+    const message = `Solicito agendamento de Conselho Tático para discutir a unidade de ${serviceName}.`;
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
     handleClose();
   }, [serviceName, handleClose]);
@@ -95,7 +95,7 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
           >
             <X className="w-5 h-5" />
           </button>
-
+ 
           {/* Header Decoration */}
           <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-br from-primary/30 via-brand-green/10 to-transparent pointer-events-none" />
 
@@ -105,15 +105,15 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
             </div>
             
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 leading-[1.1] tracking-tighter uppercase">
-              Tudo pronto <br/>
+              Protocolo 360° <br/>
               <span className="bg-gradient-to-r from-brand-green via-brand-bright to-brand-yellow bg-clip-text text-transparent">
-                para a descolagem?
+                Activo.
               </span>
             </h2>
             
             <p className="text-muted-foreground text-sm sm:text-base mb-10 font-medium">
-              Escolhe o canal de ataque para o serviço de <strong className="text-white">{serviceName}</strong>. 
-              Velocidade de resposta estimada: 20 min.
+              Selecione o canal de ataque para a unidade de <strong className="text-white uppercase tracking-tight">{serviceName}</strong>. 
+              Velocidade de resposta: &lt; 20 min.
             </p>
 
             <div className="space-y-4">

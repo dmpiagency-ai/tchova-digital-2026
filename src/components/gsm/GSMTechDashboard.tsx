@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
-import logo from '@/assets/logo.svg';
+import { AnimatedLogo } from '@/components/AnimatedLogo';
 import { 
   Smartphone, 
   CheckCircle, 
@@ -326,12 +326,8 @@ const Sidebar = ({ activeView, setActiveView, isOpen, setIsOpen, darkMode }: any
         {/* Logo Area */}
         <div className="h-28 flex items-center px-10">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 rounded-2xl">
-              <img src={logo} alt="Tchova" className="w-10 h-10 object-contain" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black uppercase tracking-tighter">TCHOVA <span className="text-primary tracking-normal font-medium">GSM</span></h1>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Tech Dashboard</p>
+            <div className="flex-1 w-full">
+              <AnimatedLogo className="h-10 w-auto" />
             </div>
           </div>
         </div>
