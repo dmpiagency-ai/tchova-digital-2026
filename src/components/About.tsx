@@ -152,18 +152,35 @@ const About = () => {
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12 max-w-4xl mx-auto">
-          <div className="manifesto-title inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
-            <EliteMatrix className="w-4 h-4 text-primary" />
-            <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto do Ecossistema</span>
+        {/* Header & Visual */}
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 mb-16 md:mb-24">
+          {/* Text Content */}
+          <div className="flex-1 text-center lg:text-left max-w-3xl mx-auto lg:mx-0">
+            <div className="manifesto-title inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
+              <EliteMatrix className="w-4 h-4 text-primary" />
+              <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto do Ecossistema</span>
+            </div>
+            <h2 className="manifesto-title text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight text-white py-2 px-1 uppercase leading-[1.1]">
+              O seu negócio,<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">nosso legado</span>
+            </h2>
+            <p className="manifesto-title text-lg md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 lg:px-0">
+              Somos o estúdio de alta performance em Moçambique. <span className="text-white font-semibold">Fundimos engenharia e design de elite</span> para construir o seu império digital.
+            </p>
           </div>
-          <h2 className="manifesto-title text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tight text-white py-2 px-1 uppercase">
-            O seu negócio, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">nosso legado</span>
-          </h2>
-          <p className="manifesto-title text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Somos o estúdio de alta performance em Moçambique. <span className="text-white font-semibold">Fundimos engenharia e design de elite</span> para construir o seu império digital.
-          </p>
+
+          {/* Premium Visual */}
+          <div className="flex-1 w-full max-w-md lg:max-w-none relative manifesto-title group">
+            <div className="absolute -inset-4 bg-primary/20 blur-[80px] rounded-full group-hover:bg-primary/30 transition-colors duration-700" />
+            <div className="aspect-[4/5] lg:aspect-square rounded-[2rem] overflow-hidden relative border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
+               <img 
+                 src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210623/quem_somos_robo_g4vzwl.jpg" 
+                 alt="TchovaDigital Engenharia de Elite" 
+                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+               <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+            </div>
+          </div>
         </div>
 
         {/* Differential Cards - Embla Slider on Mobile */}
