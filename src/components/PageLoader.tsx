@@ -4,8 +4,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 // ── Video URLs (same as Hero — preloaded here so they're cached before Hero mounts) ──
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,vc_auto/v1778250435/0508_xnt09o.mp4';
-const MOBILE_VIDEO  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:good,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
+const MOBILE_VIDEO  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
 
 const getVideoUrl = () => {
   if (typeof window === 'undefined') return DESKTOP_VIDEO;

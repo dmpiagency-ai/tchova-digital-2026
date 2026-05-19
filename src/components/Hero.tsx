@@ -5,12 +5,12 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 
-// Desktop: auto quality + auto codec
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,vc_auto/v1778250435/0508_xnt09o.mp4';
-// Mobile: H264 baseline with good quality — preloaded during PageLoader so it plays instantly
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:good,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
-// Poster: fast JPEG thumbnail for initial load
-const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:good,w_720,so_0/v1778250435/0508_xnt09o.jpg';
+// Desktop: max quality + auto codec
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
+// Mobile: unified max quality (Cloudinary vc_auto serves optimized HEVC/VP9 which is smaller and smoother)
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
+// Poster: high quality JPEG thumbnail for initial load
+const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:best,w_1080,so_0/v1778250435/0508_xnt09o.jpg';
 
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
@@ -202,9 +202,14 @@ const Hero = () => {
         '-=0.3'
       );
 
-      // NO objectPosition animation on mobile — it forces layout recalculation every frame
-      // which starves the video decoder and causes the video to freeze.
-      // The video uses a fixed object-position set via CSS class instead.
+      // Smooth, GPU-accelerated panning animation for mobile (replaces expensive objectPosition)
+      gsap.to(videoContainerRef.current, {
+        xPercent: 3, // Move 3% of the 110% width
+        duration: 15,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
 
       // No parallax on mobile — too expensive
     });
@@ -247,7 +252,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute inset-[-1px] w-[calc(100%+2px)] h-[calc(100%+2px)] will-change-transform bg-[#050505]"
+          className="absolute top-0 h-full w-[110%] -left-[5%] will-change-transform bg-[#050505]"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
           {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
