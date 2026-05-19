@@ -148,6 +148,15 @@
     letter-spacing: -0.011em;
   }
 
+  /* Prevent iOS Safari from showing the huge native play button on videos in Low Power Mode */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+  video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+
   html {
     scroll-behavior: smooth;
   }

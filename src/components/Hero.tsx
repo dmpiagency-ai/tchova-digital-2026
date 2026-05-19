@@ -263,7 +263,7 @@ const Hero = () => {
             loop
             preload="auto"
             poster={POSTER_URL}
-            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%]"
+            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
             style={{
               filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
               opacity: 1,
