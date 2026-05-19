@@ -7,10 +7,13 @@ import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 
 // Desktop: auto quality + auto codec
 const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,vc_auto/v1778250435/0508_xnt09o.mp4';
-// Mobile: H264 baseline (max iPhone X/old Android compat), 720p max, 1.5Mbps bitrate cap
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:good,w_720,vc_h264:baseline:31,br_1500k/v1778250435/0508_xnt09o.mp4';
+// Mobile: simplified H264 baseline — removed bitrate cap that caused Cloudinary timeout on some devices
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:eco,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
 // Poster: fast JPEG thumbnail for initial load
 const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:low,w_720,so_0/v1778250435/0508_xnt09o.jpg';
+
+// Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
+const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
   'Design de Alto Impacto',
@@ -24,7 +27,10 @@ const ROTATING_WORDS = [
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const wordRef = useRef<HTMLDivElement>(null);
-  const [videoSrc, setVideoSrc] = useState('');
+
+  // Lazy initializer — runs synchronously on first render so the correct src is in the DOM immediately
+  const [isMobile] = useState(() => getIsMobile());
+  const videoSrc = isMobile ? MOBILE_VIDEO : DESKTOP_VIDEO;
 
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -39,13 +45,39 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
-  const [isMobile, setIsMobile] = useState(false);
-
+  // iOS Safari autoplay fix: explicitly load + play after mount
   useEffect(() => {
-    const mobile = window.innerWidth < 1024;
-    setIsMobile(mobile);
-    setVideoSrc(mobile ? MOBILE_VIDEO : DESKTOP_VIDEO);
-  }, []);
+    const video = video1Ref.current;
+    if (!video) return;
+
+    // Ensure attributes are set at DOM level (React sometimes misses these on iOS)
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.muted = true;
+
+    // Load the video and attempt to play
+    const attemptPlay = () => {
+      video.load();
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay was blocked (iOS restriction) — wait for user interaction
+          const playOnTouch = () => {
+            video.play().catch(() => {});
+            document.removeEventListener('touchstart', playOnTouch);
+            document.removeEventListener('click', playOnTouch);
+          };
+          document.addEventListener('touchstart', playOnTouch, { once: true, passive: true });
+          document.addEventListener('click', playOnTouch, { once: true });
+        });
+      }
+    };
+
+    // Small delay to ensure the DOM is fully ready
+    const timer = setTimeout(attemptPlay, 100);
+    return () => clearTimeout(timer);
+  }, [videoSrc]);
 
   // Rotating words cycle with seamless vertical scrolling
   useGSAP(() => {
@@ -221,30 +253,28 @@ const Hero = () => {
           {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
           <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
           
+          {/* Video: src set directly (not via conditional <source>) to ensure iOS sees content on mount */}
           <video
             ref={video1Ref}
+            src={videoSrc}
             autoPlay
             muted
             playsInline
             loop
-            preload={isMobile ? 'auto' : 'metadata'}
+            preload="auto"
+            poster={POSTER_URL}
             className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%]"
             style={{
-              // Mobile: no filters — they force expensive per-frame GPU re-paint on the video surface
               filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
               opacity: 1,
               zIndex: 2,
-              willChange: 'transform',
             }}
-            poster={POSTER_URL}
             onCanPlay={() => {
               if (videoContainerRef.current) {
                 gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
               }
             }}
-          >
-            {videoSrc && <source src={videoSrc} type="video/mp4" />}
-          </video>
+          />
         </div>
       </div>
 
