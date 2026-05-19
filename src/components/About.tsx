@@ -160,16 +160,20 @@ const About = () => {
             <img 
               src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210623/quem_somos_robo_g4vzwl.jpg" 
               alt="TchovaDigital Engenharia de Elite" 
-              className="w-full h-full object-cover object-[center_30%] transition-transform duration-[2s] group-hover:scale-105" 
+              className="w-full h-full object-cover object-bottom md:object-[center_30%] transition-transform duration-[2s] group-hover:scale-105" 
             />
             {/* Gradients for text legibility and elite aesthetic */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
+            {/* Desktop: Dark left, transparent right */}
+            <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
+            {/* Mobile: Dark top, transparent bottom so the robot shines through */}
+            <div className="md:hidden absolute inset-0 bg-gradient-to-b from-black/95 via-black/60 to-transparent" />
+            
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
             <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
           </div>
 
           {/* Text Content */}
-          <div className="relative z-10 px-6 py-16 md:py-24 lg:py-32 lg:px-16 max-w-4xl text-center md:text-left mx-auto md:mx-0">
+          <div className="relative z-10 px-6 pt-16 pb-80 md:py-24 lg:py-32 lg:px-16 max-w-4xl text-center md:text-left mx-auto md:mx-0">
             <div className="manifesto-title inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
               <EliteMatrix className="w-4 h-4 text-primary" />
               <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto do Ecossistema</span>
