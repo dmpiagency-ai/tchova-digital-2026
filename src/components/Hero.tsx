@@ -7,10 +7,10 @@ import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 
 // Desktop: auto quality + auto codec
 const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,vc_auto/v1778250435/0508_xnt09o.mp4';
-// Mobile: simplified H264 baseline — removed bitrate cap that caused Cloudinary timeout on some devices
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:eco,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
+// Mobile: H264 baseline with good quality — preloaded during PageLoader so it plays instantly
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:good,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
 // Poster: fast JPEG thumbnail for initial load
-const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:low,w_720,so_0/v1778250435/0508_xnt09o.jpg';
+const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:good,w_720,so_0/v1778250435/0508_xnt09o.jpg';
 
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;

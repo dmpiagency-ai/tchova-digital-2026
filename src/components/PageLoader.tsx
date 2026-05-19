@@ -1,7 +1,16 @@
 import React from 'react';
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+// ── Video URLs (same as Hero — preloaded here so they're cached before Hero mounts) ──
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,vc_auto/v1778250435/0508_xnt09o.mp4';
+const MOBILE_VIDEO  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_mp4,q_auto:good,w_720,vc_h264:baseline/v1778250435/0508_xnt09o.mp4';
+
+const getVideoUrl = () => {
+  if (typeof window === 'undefined') return DESKTOP_VIDEO;
+  return window.innerWidth < 1024 ? MOBILE_VIDEO : DESKTOP_VIDEO;
+};
 
 interface PageLoaderProps {
   message?: string;
@@ -19,6 +28,8 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   const ring1Ref = useRef<HTMLDivElement>(null);
   const ring2Ref = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLSpanElement>(null);
+  const videoReadyRef = useRef(false);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
@@ -42,18 +53,87 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
     }, "-=0.15");
   });
 
+  // ── Preload the hero video during the loading animation ──
   useEffect(() => {
-    const timer = setTimeout(hideLoader, duration + 200);
-    
+    const videoUrl = getVideoUrl();
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let resolved = false;
+
+    const markReady = () => {
+      if (resolved) return;
+      resolved = true;
+      videoReadyRef.current = true;
+
+      // Update status text
+      if (statusRef.current) {
+        statusRef.current.textContent = 'Pronto';
+      }
+    };
+
+    // Strategy 1: Fetch the first chunk via fetch() to prime the browser cache
+    // This works even on iOS where <video> preload is unreliable
+    if ('fetch' in window) {
+      const controller = new AbortController();
+      fetch(videoUrl, {
+        signal: controller.signal,
+        headers: { Range: 'bytes=0-512000' }, // First ~500KB — enough to start playback
+      })
+        .then(() => markReady())
+        .catch(() => {}); // Network error — will be caught by timeout
+
+      // Cleanup
+      timeoutId = setTimeout(() => {
+        if (!resolved) {
+          controller.abort();
+          markReady(); // Don't block the page on slow networks
+        }
+      }, 4000); // Max 4s wait
+    } else {
+      // Old browser fallback — just wait the duration
+      timeoutId = setTimeout(markReady, duration);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [duration]);
+
+  // ── Loader exit: waits for BOTH minimum duration AND video ready ──
+  useEffect(() => {
+    let minDurationPassed = false;
+    let checkInterval: ReturnType<typeof setInterval>;
+
+    const minTimer = setTimeout(() => {
+      minDurationPassed = true;
+    }, duration + 200);
+
+    // Check every 100ms if both conditions are met
+    checkInterval = setInterval(() => {
+      if (minDurationPassed && videoReadyRef.current) {
+        clearInterval(checkInterval);
+        hideLoader();
+      }
+    }, 100);
+
+    // Hard max: 5 seconds — never block the user
+    const hardMax = setTimeout(() => {
+      clearInterval(checkInterval);
+      hideLoader();
+    }, 5000);
+
     const handleContentReady = () => {
-      clearTimeout(timer);
+      clearTimeout(minTimer);
+      clearTimeout(hardMax);
+      clearInterval(checkInterval);
       hideLoader();
     };
 
     window.addEventListener('content-ready', handleContentReady as EventListener);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(minTimer);
+      clearTimeout(hardMax);
+      clearInterval(checkInterval);
       window.removeEventListener('content-ready', handleContentReady as EventListener);
     };
   }, [duration, hideLoader]);
@@ -94,10 +174,10 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       ease: 'sine.inOut'
     });
 
-    // 3. Progress bar animation
+    // 3. Progress bar animation — synced to ~4s max preload time
     gsap.to(progressRef.current, {
       width: '100%',
-      duration: duration / 1000,
+      duration: Math.max(duration / 1000, 2.5),
       ease: 'power1.inOut'
     });
   }, { scope: containerRef, dependencies: [isVisible] });
@@ -151,7 +231,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
             TchovaDigital
           </h2>
           <div className="flex items-center gap-1">
-            <span className="text-[10px] font-black tracking-[0.3em] text-muted-foreground uppercase pb-1 opacity-70">
+            <span ref={statusRef} className="text-[10px] font-black tracking-[0.3em] text-muted-foreground uppercase pb-1 opacity-70">
               {message}
             </span>
           </div>
@@ -168,4 +248,3 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
     </div>
   );
 };
-
