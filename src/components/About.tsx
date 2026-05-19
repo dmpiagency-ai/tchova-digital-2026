@@ -160,16 +160,16 @@ const About = () => {
             <img 
               src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210623/quem_somos_robo_g4vzwl.jpg" 
               alt="TchovaDigital Engenharia de Elite" 
-              className="w-full h-full object-cover object-bottom md:object-[center_30%] transition-transform duration-[2s] group-hover:scale-105" 
+              className="w-full h-full object-cover object-bottom md:object-[center_15%] lg:object-[center_top] transition-transform duration-[2s] group-hover:scale-105" 
             />
             {/* Gradients for text legibility and elite aesthetic */}
-            {/* Desktop: Dark left, transparent right */}
-            <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
+            {/* Desktop: Dark left, transparent right (Opacidade reduzida para ver melhor o robô) */}
+            <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
             {/* Mobile: Dark top, transparent bottom so the robot shines through */}
             <div className="md:hidden absolute inset-0 bg-gradient-to-b from-black/95 via-black/60 to-transparent" />
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-            <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
+            <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
           </div>
 
           {/* Text Content */}
