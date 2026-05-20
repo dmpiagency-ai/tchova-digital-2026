@@ -289,6 +289,17 @@ const Pricing = () => {
                         {plan.buttonText}
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
+                      <button
+                        onClick={() => {
+                          const priceVal = parseInt(plan.price.replace(/\./g, ''));
+                          window.dispatchEvent(new CustomEvent('set-roi-investment', {
+                            detail: { investment: priceVal }
+                          }));
+                        }}
+                        className="w-full mt-2 flex items-center justify-center gap-1 font-bold h-8 rounded-lg text-[9px] uppercase tracking-widest text-primary/80 hover:text-primary transition-all border border-primary/20 hover:bg-primary/5 bg-transparent"
+                      >
+                        Simular ROI do Plano
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -416,6 +427,17 @@ const Pricing = () => {
                           {plan.buttonText}
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          const priceVal = parseInt(plan.price.replace(/\./g, ''));
+                          window.dispatchEvent(new CustomEvent('set-roi-investment', {
+                            detail: { investment: priceVal }
+                          }));
+                        }}
+                        className="w-full mt-3 flex items-center justify-center gap-1 font-bold h-10 rounded-xl text-xs uppercase tracking-widest text-primary/80 hover:text-primary transition-all border border-primary/20 hover:bg-primary/5 bg-transparent"
+                      >
+                        Simular Retorno (ROI) do Plano
                       </button>
                     </CardContent>
                   </Card>

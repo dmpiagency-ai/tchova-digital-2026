@@ -128,6 +128,30 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
     }
   }, [investment, expectedRevenue]);
 
+  // Handle external selection of pricing plans for simulation
+  React.useEffect(() => {
+    const handleSetInvestment = (event: Event) => {
+      const customEvent = event as CustomEvent<{ investment: number }>;
+      if (customEvent.detail && typeof customEvent.detail.investment === 'number') {
+        const newInvest = customEvent.detail.investment;
+        setInvestment(newInvest.toString());
+        // Auto-set expected revenue as a healthy 3.5x return of investment
+        setExpectedRevenue((newInvest * 3.5).toString());
+        
+        // Scroll the ROI section into view
+        const roiSection = document.getElementById('roi-calculator-section');
+        if (roiSection) {
+          roiSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    };
+
+    window.addEventListener('set-roi-investment', handleSetInvestment);
+    return () => {
+      window.removeEventListener('set-roi-investment', handleSetInvestment);
+    };
+  }, []);
+
   return (
     <div ref={containerRef} className="max-w-3xl mx-auto p-2 sm:p-6 space-y-4">
       {/* Immersive Header */}
