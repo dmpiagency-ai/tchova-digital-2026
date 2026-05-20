@@ -342,7 +342,7 @@ const Hero = () => {
             className="flex flex-col gap-2 md:gap-5 max-w-2xl text-center md:text-left"
           >
             <p className="text-lg md:text-xl text-white/50 italic border-l border-primary/30 pl-4 leading-relaxed">
-              Cancele o desperdício em agências tradicionais. Aceda a engenharia operacional pura.
+              Pare de fragmentar o seu orçamento em soluções vazias. Abandone o "tentar a sorte" de agências sem direção. Aceda a engenharia operacional planeada.
             </p>
 
             <div className="text-base md:text-lg lg:text-xl text-white font-medium leading-[1.3] text-center md:text-left">
