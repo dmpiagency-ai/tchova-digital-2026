@@ -230,9 +230,16 @@ const About = () => {
             alt="TchovaDigital Infraestrutura" 
             className="w-full h-full object-cover object-center opacity-90" 
           />
-          {/* Subtle edge gradients to blend the image ends smoothly with the black background */}
-          <div className="absolute top-0 left-0 w-full h-16 md:h-24 bg-gradient-to-b from-[#030303] to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-24 md:h-36 bg-gradient-to-t from-[#030303] to-transparent" />
+          {/* Comprehensive edge gradients to remove harsh cuts and blend perfectly */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-transparent to-[#030303]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-transparent to-[#030303]" />
+          
+          {/* Stronger fades at the exact edges to hide any image borders */}
+          <div className="absolute top-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-32 md:h-48 bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="absolute left-0 top-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#030303] to-transparent" />
+          <div className="absolute right-0 top-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#030303] to-transparent" />
+
           <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
         </div>
       </div>
