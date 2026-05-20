@@ -73,42 +73,42 @@ const Services = () => {
       id: 1,
       title: 'Autoridade Visual',
       category: 'Branding',
-      painPoint: 'Diferenciação que Vende',
+      painPoint: 'Impacto Crítico de Marca',
       icon: EliteMatrix
     },
     {
       id: 2,
-      title: 'Maquinas de Vendas',
+      title: 'Máquinas de Vendas',
       category: 'Web',
-      painPoint: 'Conversão 24/7',
+      painPoint: 'Sistemas Autónomos de Conversão',
       icon: EliteVector
     },
     {
       id: 3,
       title: 'Escala Exponencial',
       category: 'Performance',
-      painPoint: 'ROI Incontrolável',
+      painPoint: 'Multiplicação de Margens Comerciais',
       icon: ElitePulse
     },
     {
       id: 4,
       title: 'Impacto Cinema',
       category: 'Mídia',
-      painPoint: 'Desejo Instantâneo',
+      painPoint: 'Cinematografia e Captura de Atenção',
       icon: EliteRadar
     },
     {
       id: 5,
       title: 'Importação Elite',
       category: 'Logística',
-      painPoint: 'Zero Burocracia Global',
+      painPoint: 'Importação Tática e Blindagem Logística',
       icon: EliteNode
     },
     {
       id: 6,
       title: 'Painel Rental & GSM Mobile',
       category: 'Especializado',
-      painPoint: 'Soluções Técnicas de Elite',
+      painPoint: 'Controle Técnico de Ativos',
       icon: EliteCore
     }
   ], []);
