@@ -223,17 +223,17 @@ const About = () => {
       </div>
 
       {/* Visual Scene Separator (Full Width, No Card) */}
-      <div className="w-full relative h-[40vh] md:h-[60vh] overflow-hidden mt-12 md:mt-24 pointer-events-none">
+      <div className="w-full relative h-[35vh] md:h-[50vh] overflow-hidden mt-6 md:mt-12 pointer-events-none">
         <div className="absolute inset-0">
           <img 
             src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210902/servico_1_clkh5z.jpg" 
             alt="TchovaDigital Infraestrutura" 
-            className="w-full h-full object-cover object-center opacity-60" 
+            className="w-full h-full object-cover object-center opacity-90" 
           />
-          {/* Gradients to seamlessly blend the image with the black sections above and below */}
-          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-[#030303] via-[#030303]/80 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-48 md:h-80 bg-gradient-to-t from-[#030303] via-[#030303]/90 to-transparent" />
-          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+          {/* Subtle edge gradients to blend the image ends smoothly with the black background */}
+          <div className="absolute top-0 left-0 w-full h-16 md:h-24 bg-gradient-to-b from-[#030303] to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-24 md:h-36 bg-gradient-to-t from-[#030303] to-transparent" />
+          <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
         </div>
       </div>
 
@@ -285,6 +285,7 @@ const About = () => {
           </div>
         </div>
 
+      </div>
       </div>
     </section>
   );
