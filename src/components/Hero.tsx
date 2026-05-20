@@ -239,6 +239,13 @@ const Hero = () => {
     }
   }, []);
 
+  const scrollToNextSection = useCallback(() => {
+    const nextSection = document.getElementById('about') || document.getElementById('services');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
   return (
     <section
       ref={heroRef}
@@ -400,7 +407,7 @@ const Hero = () => {
         style={{ opacity: showScrollIndicator ? 1 : 0, pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
       >
         <button
-          onClick={scrollToServices}
+          onClick={scrollToNextSection}
           className="group flex flex-col items-center gap-3 p-4"
           aria-label="Explorar serviços"
         >
