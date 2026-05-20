@@ -155,17 +155,10 @@ const Pricing = () => {
   return (
     <section ref={containerRef} id="planos" className="py-12 md:py-24 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
 
-      {/* Cinematic Background Visual */}
+      {/* Background glows */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <img 
-          src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210902/servico_1_clkh5z.jpg" 
-          alt="TchovaDigital Planos Visual" 
-          className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity" 
-        />
-        {/* Deep dark gradients to ensure the cards and text remain readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(34,197,94,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.08),transparent_50%)]" />
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] mix-blend-screen" />
+        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen" />
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">

@@ -219,11 +219,27 @@ const About = () => {
             {differentials.map((_, i) => (
               <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />
             ))}
-          </div>
         </div>
+      </div>
 
+      {/* Visual Scene Separator (Full Width, No Card) */}
+      <div className="w-full relative h-[40vh] md:h-[60vh] overflow-hidden mt-12 md:mt-24 pointer-events-none">
+        <div className="absolute inset-0">
+          <img 
+            src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210902/servico_1_clkh5z.jpg" 
+            alt="TchovaDigital Infraestrutura" 
+            className="w-full h-full object-cover object-center opacity-60" 
+          />
+          {/* Gradients to seamlessly blend the image with the black sections above and below */}
+          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-[#030303] via-[#030303]/80 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-48 md:h-80 bg-gradient-to-t from-[#030303] via-[#030303]/90 to-transparent" />
+          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+        </div>
+      </div>
+
+      <div className="container relative z-10 mx-auto px-6 lg:px-12">
         {/* Value Proposition & Stats Terminal */}
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto -mt-16 md:-mt-32 relative z-20">
           <div className="relative bg-black/50 backdrop-blur-3xl rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-16 border border-white/10 overflow-hidden shadow-2xl">
             {/* Inner Glowing Core */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-gradient-to-r from-primary/10 to-brand-green/10 blur-[80px] rounded-full pointer-events-none" />
