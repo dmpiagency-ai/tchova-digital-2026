@@ -71,44 +71,44 @@ const Services = () => {
   const services = useMemo(() => [
     {
       id: 1,
-      title: 'Autoridade Visual',
+      title: 'Monopólio Visual',
       category: 'Branding',
-      painPoint: 'Impacto Crítico de Marca',
+      painPoint: 'Pare de ser invisível no mercado.',
       icon: EliteMatrix
     },
     {
       id: 2,
-      title: 'Máquinas de Vendas',
-      category: 'Web',
-      painPoint: 'Sistemas Autónomos de Conversão',
+      title: 'Funis de Conversão',
+      category: 'Sistemas Web',
+      painPoint: 'Websites lentos não faturam.',
       icon: EliteVector
     },
     {
       id: 3,
-      title: 'Escala Exponencial',
-      category: 'Performance',
-      painPoint: 'Multiplicação de Margens Comerciais',
+      title: 'Tráfego & Escala',
+      category: 'Tráfego Pago',
+      painPoint: 'Pague por leads, não por cliques.',
       icon: ElitePulse
     },
     {
       id: 4,
-      title: 'Impacto Cinema',
-      category: 'Mídia',
-      painPoint: 'Cinematografia e Captura de Atenção',
+      title: 'Retenção Brutal',
+      category: 'Produção de Mídia',
+      painPoint: 'Domine a atenção do seu cliente.',
       icon: EliteRadar
     },
     {
       id: 5,
-      title: 'Importação Elite',
+      title: 'Importação Direta',
       category: 'Logística',
-      painPoint: 'Importação Tática e Blindagem Logística',
+      painPoint: 'Corte taxas e atrasos na alfândega.',
       icon: EliteNode
     },
     {
       id: 6,
-      title: 'Painel Rental & GSM Mobile',
-      category: 'Especializado',
-      painPoint: 'Controle Técnico de Ativos',
+      title: 'Gestão de Ativos',
+      category: 'Softwares',
+      painPoint: 'Controle ativos em tempo real.',
       icon: EliteCore
     }
   ], []);
