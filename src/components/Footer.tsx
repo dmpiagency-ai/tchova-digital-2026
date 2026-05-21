@@ -69,10 +69,10 @@ const Footer = () => {
         
         {/* Call to Action Section */}
         <div className="text-center mb-8 md:mb-12 max-w-3xl">
-          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Dominar?</p>
+          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Crescer?</p>
           <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
-            Pare de jogar à defesa.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Escale o seu Império.</span>
+            O teu próximo cliente<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">está online.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}
@@ -80,7 +80,7 @@ const Footer = () => {
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              Accionar Protocolo <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
+              Começar Agora <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
             </span>
           </button>
         </div>
@@ -89,7 +89,7 @@ const Footer = () => {
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 border-t border-white/10 pt-8 md:pt-12 mb-8 md:mb-12">
           
           <div className="flex flex-col items-center md:items-start">
-            <h4 className="text-white font-semibold mb-6 text-lg">Ecossistema</h4>
+            <h4 className="text-white font-semibold mb-6 text-lg">Navegação</h4>
             <div className="flex flex-col gap-4">
               {links.map((link) => (
                 <button
@@ -108,7 +108,7 @@ const Footer = () => {
             <div className="flex flex-col gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Termos de Serviço</a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Política de Privacidade</a>
-              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Central de Comando</button>
+              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Fale Connosco</button>
             </div>
           </div>
 
@@ -142,7 +142,7 @@ const Footer = () => {
 
         <div className="w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground/50 pt-8 border-t border-white/5">
           <p>© {new Date().getFullYear()} TchovaDigital. Maputo, MZ.</p>
-          <p>Engineered for Growth.</p>
+          <p>Feito em Moçambique para o mundo.</p>
         </div>
 
       </div>

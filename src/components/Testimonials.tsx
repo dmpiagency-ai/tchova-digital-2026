@@ -15,7 +15,7 @@ const TESTIMONIALS = [
     name: 'João Macamo',
     company: 'Macamo Importações',
     role: 'CEO',
-    content: 'Parámos de perder leads e automatizámos o funil. O volume de importação escalou 43% em 90 dias. A engenharia deles funciona.',
+    content: 'Eu recebia pedidos no WhatsApp e perdia metade porque não conseguia responder a tempo. Eles montaram um sistema simples, e em 3 meses as minhas encomendas subiram 43%. Sem complicação nenhuma.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=150&h=150&q=80',
   },
@@ -24,7 +24,7 @@ const TESTIMONIALS = [
     name: 'Ana Bela',
     company: 'Bela Boutique',
     role: 'Fundadora',
-    content: 'Estávamos invisíveis no mercado de luxo. Com a nova marca, a nossa conversão de clientes premium subiu 65% em semanas.',
+    content: 'Tinha a loja bonita no Polana Shopping mas ninguém me encontrava no Google. Fizeram-me o site e o Instagram direitinho... em 3 semanas já tinha clientes novas a mandar mensagem do nada. 65% mais vendas, só online.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=150&h=150&q=80',
   },
@@ -33,7 +33,7 @@ const TESTIMONIALS = [
     name: 'Carlos Sitoe',
     company: 'Sitoe Telecomunicações',
     role: 'Diretor Geral',
-    content: 'Reduzimos o tempo de atendimento ao cliente em 35% e eliminámos erros manuais. ROI imediato e infraestrutura impecável.',
+    content: 'Os meus técnicos perdiam horas a preencher fichas à mão. A Tchova digitalizou tudo. Agora o atendimento é 35% mais rápido e já não temos aqueles erros que nos faziam perder clientes. Valeu cada metical.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=150&h=150&q=80',
   }
@@ -104,13 +104,13 @@ export const Testimonials = () => {
         <div className="text-center mb-10 md:mb-20 max-w-3xl mx-auto">
           <div className="test-header inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
             <EliteMatrix className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Prova Social</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Clientes Reais</span>
           </div>
           <h2 className="test-header text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
             O que dizem <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">sobre nós</span>
           </h2>
           <p className="test-header text-base md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Não acredites apenas na nossa palavra. Vê como estamos a ajudar negócios autênticos em Moçambique a escalar no digital.
+            Não acredites só em nós. Ouve quem já trabalhou connosco e viu o negócio mudar.
           </p>
         </div>
 

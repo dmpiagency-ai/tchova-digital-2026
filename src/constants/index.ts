@@ -18,11 +18,11 @@ export const COMPANY_INFO = {
   phone: '+258 87 909 7249',
   whatsapp: '+258879097249',
   address: {
-    street: 'Bairro de Muhalaze',
-    city: 'Matola',
-    province: 'Maputo Cidade',
-    country: 'Moçambique',
-    postalCode: '1114'
+    street: 'HQ Digital & Global Remoto',
+    city: 'Operação 100% Distribuída',
+    province: 'Suporte Global',
+    country: 'Global',
+    postalCode: '3600'
   },
   socialMedia: {
     facebook: 'https://facebook.com/tchovadigital',
@@ -189,7 +189,7 @@ export const IMPORT_SERVICES = [
     features: [
       'Compra em nome do cliente',
       'Consolidação de encomendas',
-      'Envio para Moçambique',
+      'Entrega Nacional & Internacional Otimizada',
       'Tracking em tempo real'
     ]
   },

@@ -73,28 +73,28 @@ const Services = () => {
       id: 1,
       title: 'Monopólio Visual',
       category: 'Branding',
-      painPoint: 'Pare de ser invisível no mercado.',
+      painPoint: 'O cliente passa pela tua página e não para.',
       icon: EliteMatrix
     },
     {
       id: 2,
       title: 'Funis de Conversão',
       category: 'Sistemas Web',
-      painPoint: 'Websites lentos não faturam.',
+      painPoint: 'O teu site demora a abrir e o cliente desiste.',
       icon: EliteVector
     },
     {
       id: 3,
       title: 'Tráfego & Escala',
       category: 'Tráfego Pago',
-      painPoint: 'Pague por leads, não por cliques.',
+      painPoint: 'Gastas dinheiro em anúncios e não sabes quem comprou.',
       icon: ElitePulse
     },
     {
       id: 4,
       title: 'Retenção Brutal',
       category: 'Produção de Mídia',
-      painPoint: 'Domine a atenção do seu cliente.',
+      painPoint: 'Postas todos os dias mas ninguém liga nem comenta.',
       icon: EliteRadar
     },
     {
@@ -108,7 +108,7 @@ const Services = () => {
       id: 6,
       title: 'Gestão de Ativos',
       category: 'Softwares',
-      painPoint: 'Controle ativos em tempo real.',
+      painPoint: 'Não sabes onde estão as tuas máquinas nem quanto rendem.',
       icon: EliteCore
     }
   ], []);
@@ -164,11 +164,11 @@ const Services = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-16 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Ecossistema 360°</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Os Nossos Serviços</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            O Ecossistema que <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Constrói Impérios.</span>
+            Tudo o que precisas para <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">vender mais.</span>
           </h2>
         </div>
 
@@ -277,12 +277,12 @@ const Services = () => {
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
               <ElitePulse className="w-5 h-5 text-black group-hover:text-white transition-colors" />
-              Acionar Especialista
+              Falar com a Equipa
               <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
             </span>
           </button>
           <p className="mt-6 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-            Sem burocracia. Resposta em até 30 minutos.
+            Respondemos no WhatsApp em menos de 30 minutos. Sem enrolação.
           </p>
         </div>
       </div>
@@ -291,7 +291,7 @@ const Services = () => {
       <InteractiveContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        serviceName="os Serviços do Ecossistema"
+        serviceName="os Nossos Serviços"
       />
     </section>
   );

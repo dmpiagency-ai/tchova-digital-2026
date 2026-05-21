@@ -16,12 +16,12 @@ const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_au
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
-  'Design de Alto Impacto',
-  'Marketing que Converte',
-  'Sites & Apps Premium',
-  'Audiovisual & Conteúdos',
-  'Importação Assistida',
-  'Painel Rental & GSM Mobile',
+  'Clientes Todos os Dias',
+  'Marca que Impõe Respeito',
+  'Vendas no Automático',
+  'Presença que Domina',
+  'Importação sem Dor de Cabeça',
+  'Controlo Total do Negócio',
 ];
 
 const Hero = () => {
@@ -317,7 +317,7 @@ const Hero = () => {
             <div ref={labelRef} className="flex items-center gap-3">
               <div className="w-8 h-[1px] bg-primary/50" />
               <span className="text-[10px] md:text-xs font-black tracking-[0.4em] text-primary uppercase">
-                Ecossistema 360° Digital & Técnico
+                Tudo o que o teu negócio precisa
               </span>
             </div>
           </div>
@@ -328,11 +328,11 @@ const Hero = () => {
               ref={headlineRef}
               className="text-[10vw] sm:text-[8vw] md:text-[5.5vw] lg:text-[4.5vw] xl:text-[4vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
             >
-              A máquina de<br />
+              O teu negócio<br />
               <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[1.15em]">
-                resultados
+                merece
               </span><br />
-              <span className="text-white/90">que não dorme.</span>
+              <span className="text-white/90">ser encontrado.</span>
             </h1>
           </div>
 
@@ -342,13 +342,12 @@ const Hero = () => {
             className="flex flex-col gap-2 md:gap-5 max-w-2xl text-center md:text-left"
           >
             <p className="text-lg md:text-xl text-white/50 italic border-l border-primary/30 pl-4 leading-relaxed">
-              Pare de fragmentar orçamento com agências que tentam a sorte. Aceda a engenharia operacional planeada.
+              Já pagaste por sites que ninguém visita. Já confiaste em quem não entregou. Aqui, ou funciona ou não pagas.
             </p>
 
             <div className="text-base md:text-lg lg:text-xl text-white font-medium leading-[1.3] text-center md:text-left">
-              O único ecossistema 360º{' '}
+              Montamos tudo para teres{' '}
               <br />
-              que funde{' '}
               <div className="inline-flex flex-col h-[1.3em] overflow-hidden align-middle translate-y-[-0.1em] text-[0.9em]">
                 <div ref={wordRef} className="flex flex-col">
                   {[...ROTATING_WORDS, ROTATING_WORDS[0]].map((word, i) => (
@@ -363,9 +362,9 @@ const Hero = () => {
               </div>
               <br className="hidden md:block" />
               <span className="whitespace-nowrap text-lg md:text-xl lg:text-2xl">
-                {' '}num fluxo{' '}
+                {' '}— do site ao cliente,{' '}
                 <span className="inline-block text-primary font-black tracking-tighter bg-primary/10 border border-primary/20 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.4),0_0_25px_rgba(34,197,94,0.2)] px-3 py-1 rounded-sm text-[1em] leading-none translate-y-[-0.05em] ring-1 ring-primary/10 border-l-2">
-                  Hyper-Velocity 20x
+                  sem complicação
                 </span>.
               </span>
             </div>
@@ -383,7 +382,7 @@ const Hero = () => {
             >
               <span className="flex items-center gap-3 whitespace-nowrap">
                 <ElitePulse className="w-5 h-5" />
-                QUERO RESULTADOS
+                FALA CONNOSCO AGORA
               </span>
             </MagneticButton>
 
@@ -391,7 +390,7 @@ const Hero = () => {
               onClick={scrollToServices}
               className="group flex items-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
             >
-              <span>VER SERVIÇOS</span>
+              <span>O QUE FAZEMOS</span>
               <div className="w-10 h-px bg-white/15 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
               <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500 text-white/30 group-hover:text-primary" />
             </button>

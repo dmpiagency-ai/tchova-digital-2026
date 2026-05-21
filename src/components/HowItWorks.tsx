@@ -32,8 +32,8 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'Diagnóstico Letal',
-      description: 'Ouvimos as tuas dores, analisamos o mercado e traçamos o plano de ataque sem falhas. Sem suposições — só dados.',
+      label: 'Ouvimos o Teu Negócio',
+      description: 'Sentamos contigo, entendemos como vendes hoje e onde estás a perder clientes. Sem jargão — só perguntas certas.',
       number: '01',
       phase: 'Fase 1',
       keyword: 'Entender',
@@ -41,8 +41,8 @@ const HowItWorks = () => {
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'Arquitetura de Elite',
-      description: 'Construímos o teu motor de vendas com engenharia de ponta — site, marca, sistema ou ferramenta. Cada peça encaixa.',
+      label: 'Montamos Tudo Para Ti',
+      description: 'Criamos o teu site, a tua marca e o sistema de vendas online. Tudo pronto para os clientes te encontrarem.',
       number: '02',
       phase: 'Fase 2',
       keyword: 'Construir',
@@ -50,11 +50,11 @@ const HowItWorks = () => {
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'Domínio de Mercado',
-      description: 'Lançamos, optimizamos e escalamos até ao topo do teu setor. O sistema trabalha 24/7, mesmo quando dormes.',
+      label: 'Começas a Vender Mais',
+      description: 'Lançamos, ajustamos e tu começas a ver resultados. O teu negócio a funcionar online, mesmo quando dormes.',
       number: '03',
       phase: 'Fase 3',
-      keyword: 'Dominar',
+      keyword: 'Crescer',
     },
   ];
 
@@ -149,13 +149,13 @@ const HowItWorks = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-12 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Pipeline de Execução</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Protocolo <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Operacional</span>
+            Do Zero ao <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Resultado</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Mapeamos vulnerabilidades e activamos o lucro através de uma <span className="text-white font-semibold">operação cirúrgica em 3 fases</span>.
+            Simples, directo e sem complicações. <span className="text-white font-semibold">3 passos. Resultados reais.</span>
           </p>
         </div>
 
@@ -236,7 +236,7 @@ const HowItWorks = () => {
                         </>
                       ) : (
                         <>
-                          <span className="text-[8px] uppercase tracking-[0.25em] text-primary font-black">missão completa</span>
+                          <span className="text-[8px] uppercase tracking-[0.25em] text-primary font-black">pronto para vender</span>
                           <div className="w-2 h-2 rounded-full bg-primary" />
                         </>
                       )}
@@ -337,7 +337,7 @@ const HowItWorks = () => {
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
-              Accionar Protocolo 360°
+              Quero Começar Agora
               <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
             </span>
           </button>

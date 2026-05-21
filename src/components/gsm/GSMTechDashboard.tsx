@@ -858,7 +858,7 @@ const ProfileView = ({ darkMode }: any) => {
       <div className="grid gap-4">
         {[
           { icon: Smartphone, label: 'TELEFONE', value: '+258 84 123 4567' },
-          { icon: MapPin, label: 'LOCALIZAÇÃO', value: 'MAPUTO, MOÇAMBIQUE' },
+          { icon: MapPin, label: 'LOCALIZAÇÃO', value: 'GLOBAL / REMOTO' },
           { icon: ShieldCheck, label: 'SEGURANÇA', value: '2FA ATIVO' },
         ].map((item, i) => (
           <div key={i} className={`gs-profile-item p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 ${darkMode ? 'bg-zinc-900 border-white/5' : 'bg-white border-slate-100'} border shadow-xl group hover:border-primary/50 transition-all`}>
