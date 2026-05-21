@@ -172,6 +172,26 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
           <div className="flex-1 p-4 sm:p-8 space-y-6 md:border-r border-slate-200 dark:border-white/10">
             <h3 className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-2">Painel de Controlo</h3>
             
+            {/* Plan Selector Block */}
+            <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group hover:border-primary/30 transition-all">
+              <Label className="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Pacote Estratégico (Opcional)</Label>
+              <select 
+                className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm font-bold text-slate-900 dark:text-white outline-none focus:border-primary/50 transition-all cursor-pointer [&>option]:bg-white dark:[&>option]:bg-zinc-900"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val) {
+                    setInvestment(val);
+                    setExpectedRevenue((parseFloat(val) * 3.5).toString());
+                  }
+                }}
+              >
+                <option value="">Personalizado (Inserir Manualmente)</option>
+                <option value="5000">Unidade Alpha - 5.000 MZN</option>
+                <option value="15000">Unidade Business - 15.000 MZN</option>
+                <option value="35000">Unidade Eco 360 - 35.000 MZN</option>
+              </select>
+            </div>
+
             {/* Investment Block */}
             <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group hover:border-primary/30 transition-all">
               <div className="flex justify-between items-center mb-4">
