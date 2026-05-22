@@ -12,8 +12,8 @@
 
 export const COMPANY_INFO = {
   name: 'Tchova Digital',
-  slogan: 'criatividade quem vende, tecnologia que resolve',
-  description: 'Agência 360  especializada em desenvolvimento designer, web, marketing digital, produção audiovisual, importacao e serviços GSM mobile tech.',
+  slogan: 'O ecossistema completo para o teu negócio crescer',
+  description: 'Ecossistema 360 pioneiro em Moçambique: design gráfico, produção audiovisual, marketing digital, importação assistida e serviços GSM mobile tech.',
   email: 'info@tchovadigital.co.mz',
   phone: '+258 87 909 7249',
   whatsapp: '+258879097249',

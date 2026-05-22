@@ -16,11 +16,11 @@ const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_au
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
-  'Clientes Todos os Dias',
   'Marca que Impõe Respeito',
-  'Vendas no Automático',
-  'Presença que Domina',
+  'Vídeos que Vendem Sozinhos',
+  'Tráfego que Converte',
   'Importação sem Dor de Cabeça',
+  'Ferramentas GSM Acessíveis',
   'Controlo Total do Negócio',
 ];
 
@@ -317,7 +317,7 @@ const Hero = () => {
             <div ref={labelRef} className="flex items-center gap-3">
               <div className="w-8 h-[1px] bg-primary/50" />
               <span className="text-[10px] md:text-xs font-black tracking-[0.4em] text-primary uppercase">
-                Tudo o que o teu negócio precisa
+                Ecossistema 360 — Pioneiro em Moçambique
               </span>
             </div>
           </div>
@@ -330,9 +330,9 @@ const Hero = () => {
             >
               O teu negócio<br />
               <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[1.15em]">
-                merece
+                inteiro
               </span><br />
-              <span className="text-white/90">ser encontrado.</span>
+              <span className="text-white/90">num só lugar.</span>
             </h1>
           </div>
 
@@ -342,7 +342,7 @@ const Hero = () => {
             className="flex flex-col gap-2 md:gap-5 max-w-2xl text-center md:text-left"
           >
             <p className="text-lg md:text-xl text-white/50 italic border-l border-primary/30 pl-4 leading-relaxed">
-              Já pagaste por sites que ninguém visita. Já confiaste em quem não entregou. Aqui, ou funciona ou não pagas.
+              Design. Vídeo. Marketing. Importação. Tech GSM. Tudo numa só equipa que entrega rápido, com estratégia e sem falsas promessas.
             </p>
 
             <div className="text-base md:text-lg lg:text-xl text-white font-medium leading-[1.3] text-center md:text-left">
@@ -362,9 +362,9 @@ const Hero = () => {
               </div>
               <br className="hidden md:block" />
               <span className="whitespace-nowrap text-lg md:text-xl lg:text-2xl">
-                {' '}— do site ao cliente,{' '}
+                {' '}— pouco investimento,{' '}
                 <span className="inline-block text-primary font-black tracking-tighter bg-primary/10 border border-primary/20 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.4),0_0_25px_rgba(34,197,94,0.2)] px-3 py-1 rounded-sm text-[1em] leading-none translate-y-[-0.05em] ring-1 ring-primary/10 border-l-2">
-                  sem complicação
+                  resultado escalável
                 </span>.
               </span>
             </div>

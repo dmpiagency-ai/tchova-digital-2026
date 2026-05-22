@@ -105,21 +105,21 @@ const About = () => {
             <div className="relative z-10 flex flex-col justify-center h-full">
               <div className="manifesto-title inline-flex self-start items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
                 <EliteMatrix className="w-4 h-4 text-primary" />
-                <span className="text-xs tracking-widest font-bold text-primary uppercase">Quem Somos</span>
+                <span className="text-xs tracking-widest font-bold text-primary uppercase">Ecossistema 360</span>
               </div>
               {/* Mobile version */}
               <h2 className="manifesto-title text-[30px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] md:hidden">
                 O seu<br />negócio<br />nosso<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">legado</span>
               </h2>
               <p className="manifesto-title text-[15px] text-white/90 font-light leading-relaxed md:hidden">
-                Ajudamos negócios moçambicanos<br />a vender online com<br />sites, marcas e sistemas<br />que realmente funcionam.
+                De design a importação,<br />de filmagem a tech GSM.<br />Um ecossistema completo<br />para o teu negócio crescer.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[40px] lg:text-[48px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1]">
                 O seu negócio,<br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">nosso legado</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/90 font-light leading-relaxed">
-                Ajudamos negócios moçambicanos a vender online com <br /> sites, marcas e sistemas que realmente funcionam.
+                De design a importação, de filmagem a tech GSM. <br /> Um ecossistema completo para o teu negócio crescer.
               </p>
             </div>
           </div>
@@ -131,25 +131,25 @@ const About = () => {
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
                 <div className="text-left">
                   <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Projectos Entregues</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Sites, lojas e sistemas a funcionar</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Design, vídeos, sites e sistemas activos</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">100<span className="text-primary">+</span></div>
               </div>
 
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Clientes Satisfeitos</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Empresários que voltaram a confiar no digital</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Clientes Activos</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Empresários que crescem connosco todos os meses</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">50<span className="text-primary">+</span></div>
               </div>
 
               <div className="flex items-center justify-between last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Anos de Experiência</div>
-                  <div className="text-[10px] md:text-xs text-white/40">A construir negócios digitais em Moçambique</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas do Ecossistema</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Design, Vídeo, Marketing, Importação e Tech GSM</div>
                 </div>
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">3<span className="text-primary">+</span></div>
+                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">5<span className="text-primary">+</span></div>
               </div>
 
             </div>
@@ -166,7 +166,7 @@ const About = () => {
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
               <EliteNode className="w-5 h-5" />
-              Quero Levar o Meu Negócio ao Digital
+              Quero Activar o Ecossistema
               <ArrowRight className="w-5 h-5 ml-1 -rotate-45 group-hover:rotate-0 transition-transform" />
             </span>
           </button>
