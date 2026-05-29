@@ -108,11 +108,11 @@ const About = () => {
                 <span className="text-xs tracking-widest font-bold text-primary uppercase">Sobre Nós</span>
               </div>
               {/* Mobile version */}
-              <h2 className="manifesto-title text-[30px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden">
-                O teu negócio<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">merece ser visto.</span>
+              <h2 className="manifesto-title text-[28px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[65%]">
+                O teu<br />negócio<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">merece<br />ser visto.</span>
               </h2>
-              <p className="manifesto-title text-[15px] text-white/80 font-light leading-relaxed md:hidden">
-                Do primeiro logo ao sistema completo — estamos contigo em cada passo.
+              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[70%]">
+                Do primeiro logo ao<br />sistema completo —<br />estamos contigo em<br />cada passo.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[40px] lg:text-[48px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1]">
