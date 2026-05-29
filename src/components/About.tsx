@@ -105,21 +105,21 @@ const About = () => {
             <div className="relative z-10 flex flex-col justify-center h-full">
               <div className="manifesto-title inline-flex self-start items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
                 <EliteMatrix className="w-4 h-4 text-primary" />
-                <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto · Sobre Nós</span>
+                <span className="text-xs tracking-widest font-bold text-primary uppercase">Sobre Nós</span>
               </div>
               {/* Mobile version */}
               <h2 className="manifesto-title text-[30px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden">
-                A confiança<br />é o teu maior<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">activo.</span>
+                O teu negócio<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">merece ser visto.</span>
               </h2>
               <p className="manifesto-title text-[15px] text-white/80 font-light leading-relaxed md:hidden">
-                Num mercado saturado de promessas vazias, construímos ecossistemas digitais de elite que geram autoridade instantânea, desejo e justificam o valor real do teu negócio.<br /><br /><span className="text-white/50 text-[13px]">Antes de veres os números, compreende a nossa filosofia — o teu sucesso depende de reputação e poder de marca.</span>
+                Do primeiro logo ao sistema completo — estamos contigo em cada passo.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[40px] lg:text-[48px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1]">
-                Num mercado saturado,<br />a confiança é a moeda<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">mais valiosa.</span>
+                O teu negócio<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">merece ser visto.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
-                Não entregamos apenas design ou linhas de código — desenhamos ecossistemas digitais de elite que constroem autoridade instantânea, geram desejo incontrolável e justificam o valor real do teu negócio.<br /><br /><span className="text-white/50 text-[15px]">Antes de veres os números, compreende a nossa filosofia: o teu sucesso não depende de cliques, mas sim de reputação e poder de marca.</span>
+                Do primeiro logo ao sistema completo — estamos contigo em cada passo.
               </p>
             </div>
           </div>
