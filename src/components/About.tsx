@@ -112,14 +112,14 @@ const About = () => {
                 O teu <br />negócio<br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-10 pb-2">merece ser&nbsp;<br />visto.&nbsp;</span>
               </h2>
               <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[80%]">
-                Do primeiro logo ao <br />sistema completo <br />— estamos contigo<br /> em cada passo.
+                Elevamos o teu <br />posicionamento digital <br />— para cobrares o preço<br /> que o teu negócio vale.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[36px] lg:text-[42px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[520px]">
                 O teu negócio<br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-10 pb-2">merece ser visto.&nbsp;</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
-                Do primeiro logo ao sistema completo<br />— estamos contigo em cada passo.
+                Elevamos o teu posicionamento digital<br />— para cobrares o preço que o teu negócio realmente vale.
               </p>
             </div>
           </div>
