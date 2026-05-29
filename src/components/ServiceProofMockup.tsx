@@ -24,7 +24,7 @@ import { gsap } from '@/lib/gsapConfig';
 import { useGSAP } from '@/lib/gsapConfig';
 
 interface ServiceProofMockupProps {
-  type: 'marketing' | 'design' | 'websites' | 'audiovisual' | 'importacao' | string;
+  type: 'marketing' | 'design' | 'websites' | 'audiovisual' | 'gsm' | string;
 }
 
 // ==========================================

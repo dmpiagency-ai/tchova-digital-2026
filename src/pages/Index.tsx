@@ -1,18 +1,20 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, lazy, Suspense } from 'react';
+import { env } from '@/config/env';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import HowItWorks from '@/components/HowItWorks';
-import About from '@/components/About';
-import Pricing from '@/components/Pricing';
-import Testimonials from '@/components/Testimonials';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import LoginModal from '@/components/LoginModal';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 
-import { ROICalculator } from '@/components/ROICalculator';
+// Lazy loaded components below the fold to improve Initial Page Load & Time-to-Interactive (TTI)
+const About = lazy(() => import('@/components/About'));
+const Services = lazy(() => import('@/components/Services'));
+const HowItWorks = lazy(() => import('@/components/HowItWorks'));
+const Pricing = lazy(() => import('@/components/Pricing'));
+const ROICalculator = lazy(() => import('@/components/ROICalculator').then(m => ({ default: m.ROICalculator })));
+const Testimonials = lazy(() => import('@/components/Testimonials'));
+const Contact = lazy(() => import('@/components/Contact'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 // Extend window for service routing
 declare global {
@@ -28,17 +30,17 @@ const Index = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactModalService, setContactModalService] = useState('');
 
-  // Service routing logic — directs all services to WhatsApp/Contact modal (friction zero)
-  const handleServiceAccess = useCallback((serviceType: string, serviceData: { title: string; type: string; requiresLogin: boolean } | null = null) => {
+  const handleServiceAccess = useCallback((serviceType: string, serviceData: { title: string; type: string; requiresLogin?: boolean } | null = null) => {
     // GSM-specific services redirect to GSM dashboard route
     if (serviceType === 'gsm-rental' || serviceType === 'gsm-support') {
       window.location.href = '/gsm';
       return;
     }
 
-    // All other services open the contact modal (WhatsApp-first)
-    setContactModalService(serviceData?.title || 'Ecossistema Tchova');
-    setIsContactModalOpen(true);
+    // Direct WhatsApp without modal friction
+    const serviceName = serviceData?.title || 'Ecossistema Tchova';
+    const message = encodeURIComponent(`Olá! Gostaria de saber mais sobre ${serviceName}.`);
+    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
   }, []);
 
   // Listen for login and contact modal events from other components
@@ -125,22 +127,38 @@ const Index = () => {
 
       <main id="main-content" role="main" tabIndex={-1} className="relative z-[1]">
         <Hero />
-        <About />
-        <Services />
-        <HowItWorks />
-        <Pricing />
-        <section id="roi-calculator-section" className="py-12 md:py-24 bg-white/5 backdrop-blur-sm border-y border-white/10">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-white/50 dark:bg-black/40 backdrop-blur-xl border border-primary/20 shadow-2xl">
-              <ROICalculator />
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<div className="min-h-[600px]" />}>
+          <Services />
+        </Suspense>
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <HowItWorks />
+        </Suspense>
+        <Suspense fallback={<div className="min-h-[500px]" />}>
+          <Pricing />
+        </Suspense>
+        <section id="roi-calculator-section" className="py-12 md:py-24 bg-[#030303] border-t border-white/[0.04]">
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-[#0b0b0b] border border-white/[0.07] shadow-2xl">
+              <Suspense fallback={<div className="min-h-[300px]" />}>
+                <ROICalculator />
+              </Suspense>
             </div>
           </div>
         </section>
-        <Testimonials />
-        <Contact />
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <Testimonials />
+        </Suspense>
+        <Suspense fallback={<div className="min-h-[500px]" />}>
+          <Contact />
+        </Suspense>
       </main>
 
-      <Footer />
+      <Suspense fallback={<div className="min-h-[200px]" />}>
+        <Footer />
+      </Suspense>
       <FloatingWhatsApp />
 
       {/* Login Modal — only shown when explicitly triggered by components */}

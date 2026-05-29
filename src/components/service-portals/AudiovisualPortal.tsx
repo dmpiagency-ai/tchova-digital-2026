@@ -16,6 +16,7 @@ import { MobileTopNav } from './MobileTopNav';
 import {
   audiovisualPackages as AUDIO_PACKAGES
 } from '@/constants/servicesData';
+import { env } from '@/config/env';
 
 const AudiovisualPortal = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const AudiovisualPortal = () => {
     const msg = pkgName 
       ? `Olá! Quero solicitar o pacote "${pkgName}" (${pkgPrice?.toLocaleString('pt-MZ')} MZN) de Produção Audiovisual.`
       : 'Olá! Quero solicitar um serviço de Produção Audiovisual. Podem ajudar?';
-    window.open(`https://wa.me/258849071180?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
@@ -222,7 +223,7 @@ const AudiovisualPortal = () => {
               </div>
 
               <a
-                href={`https://wa.me/258849071180?text=${encodeURIComponent('Olá! Quero solicitar um serviço de Produção Audiovisual. Podem ajudar?')}`}
+                href={`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero solicitar um serviço de Produção Audiovisual. Podem ajudar?')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative overflow-hidden block w-full py-5 bg-gradient-to-r from-primary to-brand-green text-white rounded-[1.5rem] text-center font-black uppercase tracking-[0.2em] text-sm shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:scale-[1.02] active:scale-95 transition-all duration-500 group"

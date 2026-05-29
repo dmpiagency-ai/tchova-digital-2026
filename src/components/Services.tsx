@@ -26,30 +26,33 @@ const Services = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 1. Entrance Animation for Header
-    gsap.from(headerRef.current, {
-      y: 40,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: headerRef.current,
-        start: 'top 85%',
-      }
+    const mm = gsap.matchMedia();
+
+    // DESKTOP: 3D Entrance
+    mm.add('(min-width: 1024px)', () => {
+      gsap.from(headerRef.current, {
+        y: 60, opacity: 0, rotateX: -15, transformPerspective: 800, duration: 1.2, ease: 'power3.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
+      });
+
+      gsap.from(carouselRef.current, {
+        y: 80, opacity: 0, rotateX: 10, transformPerspective: 1000, duration: 1.5, ease: 'power3.out',
+        scrollTrigger: { trigger: carouselRef.current, start: 'top 80%' }
+      });
     });
 
-    // 2. Entrance Animation for Carousel
-    gsap.from(carouselRef.current, {
-      y: 60,
-      opacity: 0,
-      duration: 1.5,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: carouselRef.current,
-        start: 'top 80%',
-      }
-    });
+    // MOBILE & TABLET: 2D Entrance (Performance)
+    mm.add('(max-width: 1023px)', () => {
+      gsap.from(headerRef.current, {
+        y: 40, opacity: 0, duration: 1.0, ease: 'power3.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
+      });
 
+      gsap.from(carouselRef.current, {
+        y: 40, opacity: 0, duration: 1.2, ease: 'power3.out',
+        scrollTrigger: { trigger: carouselRef.current, start: 'top 85%' }
+      });
+    });
   }, { scope: sectionRef });
 
   const getServiceImage = useCallback((item: { id: number; }) => {
@@ -61,56 +64,59 @@ const Services = () => {
       2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755411/Gemini_Generated_Image_3a9xn93a9xn93a9x_dhydbm.png'),
       3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762747013/1762701812733_p93nsd.png'),
       4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755464/1762703721009_w7posw.png'),
-      5: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png'),
-      6: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg'),
+      5: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg'),
+      6: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png'),
     };
     return images[item.id] || optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762746750/1762703395544_lhphsq.png');
   }, []);
 
-  // Services with elite vectors
+  // Services with elite vectors — 5 distinct service areas
   const services = useMemo(() => [
     {
       id: 1,
-      title: 'Monopólio Visual',
-      category: 'Branding',
-      painPoint: 'O cliente passa pela tua página e não para.',
+      number: '01',
+      title: 'Design Gráfico',
+      category: 'Área Criativa',
+      audience: 'Para quem precisa de uma marca profissional',
+      painPoint: 'A tua imagem não transmite confiança e os clientes passam ao lado.',
       icon: EliteMatrix
     },
     {
       id: 2,
-      title: 'Funis de Conversão',
-      category: 'Sistemas Web',
-      painPoint: 'O teu site demora a abrir e o cliente desiste.',
+      number: '02',
+      title: 'Websites & Apps',
+      category: 'Presença Digital',
+      audience: 'Para quem quer vender e converter online',
+      painPoint: 'Não tens site, ou tens um que ninguém encontra nem contacta.',
       icon: EliteVector
     },
     {
       id: 3,
-      title: 'Tráfego & Escala',
-      category: 'Tráfego Pago',
-      painPoint: 'Gastas dinheiro em anúncios e não sabes quem comprou.',
+      number: '03',
+      title: 'Tráfego & Marketing',
+      category: 'Vendas & Escala',
+      audience: 'Para quem quer mais clientes todos os meses',
+      painPoint: 'Gastas dinheiro em anúncios sem saber o que funciona.',
       icon: ElitePulse
     },
     {
       id: 4,
-      title: 'Retenção Brutal',
-      category: 'Produção de Mídia',
-      painPoint: 'Postas todos os dias mas ninguém liga nem comenta.',
+      number: '04',
+      title: 'Audiovisual',
+      category: 'Conteúdo & Mídia',
+      audience: 'Para quem precisa de vídeo, motion e publicidade',
+      painPoint: 'Postas conteúdo todos os dias mas ninguém para para ver.',
       icon: EliteRadar
     },
     {
       id: 5,
-      title: 'Importação Direta',
-      category: 'Logística',
-      painPoint: 'Corte taxas e atrasos na alfândega.',
+      number: '05',
+      title: 'GSM Tech Rental',
+      category: 'Painel de Aluguer GSM',
+      audience: 'Para técnicos mobile que dependiam de boxes caras e cartões de crédito',
+      painPoint: 'Antigamente precisavas de comprar boxes físicas, pagar licenças anuais e ter cartões internacionais. Hoje, alugas as melhores tools GSM de forma avulsa e pagas por M-Pesa.',
       icon: EliteNode
     },
-    {
-      id: 6,
-      title: 'Gestão de Ativos',
-      category: 'Softwares',
-      painPoint: 'Não sabes onde estão as tuas máquinas nem quanto rendem.',
-      icon: EliteCore
-    }
   ], []);
 
   useEffect(() => {
@@ -121,7 +127,7 @@ const Services = () => {
   }, []);
 
   const handleServiceClick = useCallback((service: { id: number; title: string; category: string; }) => {
-    navigate(`/service-details?id=${service.id}&title=${encodeURIComponent(service.title)}&category=${encodeURIComponent(service.category)}`);
+    navigate(`/servicos/${service.id}`);
   }, [navigate]);
 
   const handleCardKeyDown = useCallback((e: React.KeyboardEvent, service: { id: number; title: string; category: string; }) => {
@@ -140,7 +146,7 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-background/95 border-t border-white/5 perspective-1000"
+      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-[#030303] border-t border-white/[0.04]"
     >
       {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -154,22 +160,25 @@ const Services = () => {
         />
         
         {/* 2. Dynamic Soft Glows */}
-        <div className="absolute top-1/4 right-1/4 w-[700px] h-[700px] bg-brand-green/10 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '12s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-[800px] h-[800px] bg-primary/8 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '18s' }} />
+        <div className="absolute top-1/4 right-1/4 w-[300px] md:w-[700px] h-[300px] md:h-[700px] bg-brand-green/[0.04] md:bg-brand-green/10 rounded-full blur-[120px] md:blur-[180px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-primary/[0.03] md:bg-primary/8 rounded-full blur-[120px] md:blur-[180px]" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-4 w-full">
+      <div className="container relative z-10 mx-auto px-6 lg:px-12 w-full">
         
         {/* Elite Header */}
-        <div ref={headerRef} className="text-center mb-10 md:mb-16 relative flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
+        <div ref={headerRef} className="text-center mb-6 lg:mb-8 relative flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-fluid-sm backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Os Nossos Serviços</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
           </div>
-          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Tudo o que precisas para <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">vender mais.</span>
+          <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
+            Do criativo ao técnico. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Encontra o teu serviço.</span>
           </h2>
+          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
+            Design, web, tráfego, vídeo e aluguer de tools GSM. Tudo com equipa dedicada.
+          </p>
         </div>
 
         {/* Liquid Glass Monolith Carousel */}
@@ -188,7 +197,7 @@ const Services = () => {
                   role="button"
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                  className="relative h-[420px] md:h-[480px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
+                  className="relative h-[380px] lg:h-[420px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
                   onClick={() => handleServiceClick(item)}
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
@@ -238,14 +247,24 @@ const Services = () => {
                   {/* Text Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex flex-col justify-end h-full z-40">
                     <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
-                      <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-primary mb-3">
-                        {item.category}
-                      </span>
-                      <h3 className="text-2xl md:text-3xl font-black text-white leading-tight mb-2 tracking-tight drop-shadow-md">
+                      {/* Number + Category */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-[28px] font-black text-white/10 tracking-tighter leading-none">
+                          {item.number}
+                        </span>
+                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary">
+                          {item.category}
+                        </span>
+                      </div>
+                      <h3 className="text-fluid-h3 font-black text-white leading-tight mb-1 tracking-tight drop-shadow-md">
                         {item.title}
                       </h3>
+                      {/* Audience label — always visible */}
+                      <p className="text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-1">
+                        {item.audience}
+                      </p>
                       <div className="h-0 opacity-0 group-hover:opacity-100 group-hover:h-auto group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden">
-                        <p className="text-lg font-bold text-white/70 italic">
+                        <p className="text-fluid-p font-bold text-white/70 italic">
                           {item.painPoint}
                         </p>
                       </div>
@@ -269,7 +288,7 @@ const Services = () => {
         </div>
 
         {/* Magnetic Fluid CTA */}
-        <div className="mt-20 text-center relative z-10 hidden md:block">
+        <div className="mt-10 lg:mt-12 text-center relative z-10 hidden md:block">
           <button
             onClick={handleWhatsAppClick}
             className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)]"

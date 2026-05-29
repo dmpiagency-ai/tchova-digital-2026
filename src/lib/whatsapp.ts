@@ -26,7 +26,6 @@ export const WHATSAPP_MESSAGES = {
     'Desenvolvimento Web': 'Olá! Preciso de um website profissional. Podemos conversar sobre desenvolvimento web e as opções disponíveis?',
     'Marketing Digital': 'Olá! Quero melhorar minha presença online. Podemos conversar sobre estratégias de marketing digital?',
     'Produção Audiovisual': 'Olá! Estou interessado em produção de vídeos. Podemos conversar sobre motion graphics e vídeos institucionais?',
-    'Importação': 'Olá! Tenho interesse em serviços de importação. Podemos conversar sobre fornecedores e logística?',
     'Assistência GSM': 'Olá! Preciso de assistência técnica GSM. Podemos conversar sobre reparos e suporte?'
   },
 
@@ -133,7 +132,6 @@ export const getServiceMessage = (serviceName: string): string => {
     'Web & Mobile': 'Desenvolvimento Web',
     'Marketing Digital': 'Marketing Digital',
     'Audiovisual': 'Produção Audiovisual',
-    'Importação': 'Importação',
     'Assistência Técnica GSM': 'Assistência GSM'
   };
 

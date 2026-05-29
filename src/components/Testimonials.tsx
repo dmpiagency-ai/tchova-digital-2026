@@ -90,12 +90,12 @@ export const Testimonials = () => {
   }, { scope: containerRef });
 
   return (
-    <section id="testimonials" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
+    <section id="testimonials" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/[0.04]">
 
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-green/10 rounded-full blur-[120px] mix-blend-screen translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen -translate-x-1/3 translate-y-1/3" />
+        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-brand-green/[0.04] md:bg-brand-green/10 rounded-full blur-[100px] md:blur-[120px] translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/[0.04] md:bg-primary/10 rounded-full blur-[100px] md:blur-[120px] -translate-x-1/3 translate-y-1/3" />
       </div>
 
       <div className="container px-6 lg:px-12 mx-auto relative z-10">
@@ -149,8 +149,8 @@ export const Testimonials = () => {
                   <div
                     className={`relative border rounded-2xl overflow-hidden p-6 flex flex-col transition-all duration-400 ${
                       index === selectedIndex
-                        ? 'bg-black/60 border-primary/25 shadow-[0_0_30px_-10px_rgba(34,197,94,0.3)]'
-                        : 'bg-black/40 border-white/[0.07]'
+                        ? 'bg-[#0d0d0d] border-primary/25 shadow-[0_0_30px_-10px_rgba(34,197,94,0.3)]'
+                        : 'bg-[#0b0b0b] border-white/[0.07]'
                     }`}
                     onMouseEnter={() => trackEvent({ action: 'hover', category: 'testimonials', label: testimonial.name })}
                   >
@@ -234,7 +234,7 @@ export const Testimonials = () => {
             {TESTIMONIALS.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-black/40 backdrop-blur-2xl border border-white/10 p-10 rounded-3xl relative group hover:border-primary/40 transition-colors duration-500 shadow-2xl flex flex-col"
+                className="bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 p-10 rounded-3xl relative group hover:border-primary/40 transition-colors duration-500 shadow-2xl flex flex-col"
                 onMouseEnter={() => trackEvent({ action: 'hover', category: 'testimonials', label: testimonial.name })}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl pointer-events-none" />

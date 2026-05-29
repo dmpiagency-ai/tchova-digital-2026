@@ -1,8 +1,8 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import { GSMServicePage } from '@/components/gsm';
-import { DesignPortal, MarketingPortal, WebsitesPortal, AudiovisualPortal, ImportacaoPortal } from '@/components/service-portals';
+import { DesignPortal, MarketingPortal, WebsitesPortal, AudiovisualPortal } from '@/components/service-portals';
 import { INDIVIDUAL_SERVICES } from '@/config/pricing';
 
 // ============================================
@@ -14,8 +14,13 @@ import { INDIVIDUAL_SERVICES } from '@/config/pricing';
 const ServiceDetails = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const params = useParams();
 
-  const serviceId = searchParams.get('id');
+  // Route can be /servicos/:id or /service-details?id=...
+  const serviceId = params.id || searchParams.get('id');
+  
+  // If no numeric ID is matched, you might also want to match by a string slug in the future,
+  // but currently the system maps via numeric ID from INDIVIDUAL_SERVICES.
   const service = INDIVIDUAL_SERVICES.find(s => s.id.toString() === serviceId) || null;
 
   const isGSM = service?.category === 'Assistência GSM';
@@ -23,7 +28,7 @@ const ServiceDetails = () => {
   const isWebsites = service?.category === 'Desenvolvimento Web';
   const isMarketing = service?.category === 'Marketing Digital';
   const isAudiovisual = service?.category === 'Produção Audiovisual';
-  const isImportacao = service?.category === 'Importação';
+
 
   // Service not found
   if (!service) {
@@ -46,7 +51,7 @@ const ServiceDetails = () => {
   if (isMarketing) return <MarketingPortal />;
   if (isWebsites) return <WebsitesPortal />;
   if (isAudiovisual) return <AudiovisualPortal />;
-  if (isImportacao) return <ImportacaoPortal />;
+
 
   // Fallback for any unmapped service
   return (

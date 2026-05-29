@@ -60,13 +60,13 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
   }, { scope: containerRef, dependencies: [shouldRender, isOpen] });
 
   const handleWhatsApp = useCallback(() => {
-    const message = `Solicito accionamento imediato da unidade de ${serviceName}. Objectivo: Diagnóstico de Ecossistema 360°.`;
+    const message = `Olá! Gostaria de saber mais sobre ${serviceName}. Podem ajudar-me?`;
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
     handleClose();
   }, [serviceName, handleClose]);
 
   const handleCalendar = useCallback(() => {
-    const message = `Solicito agendamento de Conselho Tático para discutir a unidade de ${serviceName}.`;
+    const message = `Olá! Gostaria de agendar uma reunião para discutir ${serviceName}.`;
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
     handleClose();
   }, [serviceName, handleClose]);
@@ -105,15 +105,15 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
             </div>
             
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 leading-[1.1] tracking-tighter uppercase">
-              Protocolo 360° <br/>
+              Fala Connosco <br/>
               <span className="bg-gradient-to-r from-brand-green via-brand-bright to-brand-yellow bg-clip-text text-transparent">
-                Activo.
+                Agora.
               </span>
             </h2>
             
             <p className="text-muted-foreground text-sm sm:text-base mb-10 font-medium">
-              Selecione o canal de ataque para a unidade de <strong className="text-white uppercase tracking-tight">{serviceName}</strong>. 
-              Velocidade de resposta: &lt; 20 min.
+              Escolhe como queres falar sobre <strong className="text-white uppercase tracking-tight">{serviceName}</strong>. 
+              Respondemos em menos de 20 min.
             </p>
 
             <div className="space-y-4">
@@ -129,8 +129,8 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="text-white font-black text-base sm:text-lg uppercase tracking-tight">Célula Expresso</h3>
-                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">WhatsApp Direct</p>
+                  <h3 className="text-white font-black text-base sm:text-lg uppercase tracking-tight">WhatsApp Directo</h3>
+                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Resposta imediata</p>
                 </div>
 
                 <ChevronRight className="w-5 h-5 text-white/20 group-hover:text-brand-green group-hover:translate-x-2 transition-all duration-300" />
@@ -148,8 +148,8 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="text-white font-black text-base sm:text-lg uppercase tracking-tight">Conselho Tático</h3>
-                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Agendar Reunião</p>
+                  <h3 className="text-white font-black text-base sm:text-lg uppercase tracking-tight">Agendar Reunião</h3>
+                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Marcar horário</p>
                 </div>
 
                 <ChevronRight className="w-5 h-5 text-white/20 group-hover:text-primary group-hover:translate-x-2 transition-all duration-300" />

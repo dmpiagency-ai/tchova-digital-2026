@@ -58,7 +58,7 @@ const Footer = () => {
   }, { scope: containerRef });
 
   return (
-    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/5 pt-12 pb-8 md:pt-16 md:pb-12">
+    <footer ref={containerRef} className="relative bg-[#030303] overflow-hidden border-t border-white/[0.04] pt-12 pb-8 md:pt-16 md:pb-12">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
         <div className="absolute -top-[20%] left-[20%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
@@ -69,10 +69,10 @@ const Footer = () => {
         
         {/* Call to Action Section */}
         <div className="text-center mb-8 md:mb-12 max-w-3xl">
-          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Crescer?</p>
+          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Arrancar?</p>
           <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
             O teu próximo cliente<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">está online.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">já te procura online.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}
@@ -140,7 +140,7 @@ const Footer = () => {
           </h1>
         </div>
 
-        <div className="w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground/50 pt-8 border-t border-white/5">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground/50 pt-8 border-t border-white/[0.04]">
           <p>© {new Date().getFullYear()} TchovaDigital. Maputo, MZ.</p>
           <p>Feito em Moçambique para o mundo.</p>
         </div>

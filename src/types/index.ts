@@ -13,7 +13,6 @@
 export type ServiceCategory = 
   | 'audiovisual' 
   | 'gsm' 
-  | 'importacao' 
   | 'marketing' 
   | 'design' 
   | 'desenvolvimento';

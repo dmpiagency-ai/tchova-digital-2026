@@ -14,6 +14,7 @@ import {
   Shield, Clock, CheckCircle2, ArrowUpRight
 } from 'lucide-react';
 import { MobileTopNav } from './MobileTopNav';
+import { env } from '@/config/env';
 
 const WebsitesPortal = () => {
   const navigate = useNavigate();
@@ -218,7 +219,7 @@ const WebsitesPortal = () => {
               </div>
 
               <a
-                href={`https://wa.me/258849071180?text=${encodeURIComponent('Olá! Quero construir um site/loja online profissional. Podem ajudar?')}`}
+                href={`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero construir um site/loja online profissional. Podem ajudar?')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative overflow-hidden block w-full py-5 bg-gradient-to-r from-primary to-brand-green text-white rounded-[1.5rem] text-center font-black uppercase tracking-[0.2em] text-sm shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:scale-[1.02] active:scale-95 transition-all duration-500 group"

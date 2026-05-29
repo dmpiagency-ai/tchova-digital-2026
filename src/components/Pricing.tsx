@@ -21,10 +21,10 @@ const PLANS = [
     savings: "2.000",
     period: "único",
     popular: false,
-    description: "Design de autoridade para lançamentos rápidos. Saia do anonimato.",
+    description: "Design de autoridade para lançamentos rápidos. Sai do anonimato.",
     delivery: "3 a 5 dias úteis",
     ideal: "Operações em fase inicial e testes de mercado.",
-    buttonText: "Accionar Unidade Alpha",
+    buttonText: "Começar com o Start",
     features: [
       "Criação de logotipo ou redesign da marca",
       "2 cartazes/posts para redes sociais",
@@ -32,7 +32,7 @@ const PLANS = [
       "Capa para Facebook",
       "Foto de perfil (página ou conta)",
       "Capa para WhatsApp Business",
-      "Papel de parede (celular ou desktop)",
+      "Papel de parede (telemóvel ou desktop)",
       "Cartão de visita digital com QR Code",
       "Link Bio (cartão digital para redes sociais)",
       "Bônus: Tráfego pago básico por 4 dias",
@@ -48,15 +48,15 @@ const PLANS = [
     savings: "5.000",
     period: "único",
     popular: true,
-    description: "Máquina de conversão. Transforme tráfego em receita rastreável.",
+    description: "Máquina de conversão. Transforma tráfego em receita rastreável.",
     delivery: "7 a 10 dias úteis",
     ideal: "Negócios focados em ROI e escala de vendas.",
-    buttonText: "Accionar Unidade Business",
+    buttonText: "Escolher Business",
     features: [
       "Tudo do Plano Start +",
       "Identidade visual completa",
       "Landing page profissional (site simples)",
-      "Botão direto para WhatsApp",
+      "Botão directo para WhatsApp",
       "Página otimizada para conversão",
       "Integração com redes sociais",
       "Configuração de pixel Meta",
@@ -67,7 +67,7 @@ const PLANS = [
   },
   {
     id: 'eco360',
-    name: "Unidade Eco 360",
+    name: "Projecto Completo",
     subtitle: "Total",
     icon: EliteRadar,
     price: "35.000",
@@ -75,10 +75,10 @@ const PLANS = [
     savings: "10.000",
     period: "ajustável",
     popular: false,
-    description: "Infraestrutura pesada para dominação total e expansão tecnológica.",
+    description: "Site completo, pagamentos, app e estratégia de crescimento num só projecto.",
     delivery: "Sob cronograma",
     ideal: "Operações de alto volume, instituições e scale-ups.",
-    buttonText: "Accionar Ecossistema Total",
+    buttonText: "Começar Projecto Completo",
     features: [
       "Tudo do Plano Business +",
       "Site profissional completo",
@@ -155,10 +155,10 @@ const Pricing = () => {
   return (
     <section ref={containerRef} id="planos" className="py-12 md:py-24 relative overflow-hidden bg-background/95 border-t border-white/5 perspective-1000">
 
-      {/* Background glows */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen" />
+      {/* Background glows — contained & dimmed on mobile to prevent card bleed */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-green/[0.04] md:bg-brand-green/10 rounded-full blur-[100px] md:blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-primary/[0.04] md:bg-primary/10 rounded-full blur-[100px] md:blur-[120px]" />
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
@@ -167,7 +167,7 @@ const Pricing = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Pricing Model</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Os Nossos Planos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
             Investimento <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Consciente</span>
@@ -207,7 +207,7 @@ const Pricing = () => {
           </div>
 
           {/* Embla */}
-          <div ref={emblaRef} className="overflow-hidden">
+          <div ref={emblaRef} className="overflow-hidden isolate">
             <div className="flex">
               {PLANS.map((plan, index) => (
                 <div key={plan.id} className="flex-[0_0_100%] min-w-0">
@@ -215,8 +215,8 @@ const Pricing = () => {
                     plan.popular
                       ? 'bg-[#0a1a0a] border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.4)]'
                       : index === selectedIndex
-                        ? 'bg-black/60 border-white/15'
-                        : 'bg-black/40 border-white/[0.07]'
+                        ? 'bg-[#0d0d0d] border-white/15'
+                        : 'bg-[#0b0b0b] border-white/[0.07]'
                   }`}>
 
                     {/* Popular top line */}

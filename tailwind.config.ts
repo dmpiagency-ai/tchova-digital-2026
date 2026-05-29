@@ -3,6 +3,9 @@ import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
@@ -18,6 +21,19 @@ export default {
         'sans': ['Nunito Sans', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
         'nunito': ['Nunito Sans', 'sans-serif'],
+      },
+      fontSize: {
+        'fluid-h1': 'var(--text-fluid-h1)',
+        'fluid-h2': 'var(--text-fluid-h2)',
+        'fluid-h3': 'var(--text-fluid-h3)',
+        'fluid-p': 'var(--text-fluid-p)',
+        'fluid-sm': 'var(--text-fluid-sm)',
+      },
+      spacing: {
+        'fluid-sm': 'var(--space-fluid-sm)',
+        'fluid-md': 'var(--space-fluid-md)',
+        'fluid-lg': 'var(--space-fluid-lg)',
+        'fluid-xl': 'var(--space-fluid-xl)',
       },
       colors: {
         border: "hsl(var(--border))",

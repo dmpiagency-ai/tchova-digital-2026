@@ -239,12 +239,7 @@ export const servicesData: Record<string, ServiceData> = {
         color: 'from-brand-green/20 to-primary/20 border-brand-green/30'
       }
     ],
-    process: commonProcess,
-    nextStep: {
-      id: 'importacao',
-      title: 'Importação & Logística',
-      logic: 'Com as vendas a escalar, o seu stock precisa de acompanhar. Vamos importar tecnologia e produtos sem burocracia.'
-    }
+    process: commonProcess
   },
   audiovisual: {
     id: 'audiovisual',
@@ -303,35 +298,5 @@ export const servicesData: Record<string, ServiceData> = {
     ],
     includes: [], // Handled by packages
     process: commonProcess
-  },
-  importacao: {
-    id: 'importacao',
-    title: 'Importação & Logística (Zero Stress)',
-    heroDescription: 'Expansão global sem burocracia. Do fornecedor à sua porta com risco zero e total segurança.',
-    heroCards: [
-      {
-        title: 'Escudo de Risco',
-        subtitle: '100% Seguro',
-        icon: React.createElement(ShieldCheck, { className: "w-7 h-7 lg:w-8 lg:h-8 text-white" }),
-        gradient: 'from-primary to-primary-darker',
-        borderColor: 'border-primary/50',
-        animationDelay: '0.1s'
-      },
-      {
-        title: 'Sourcing Global',
-        subtitle: 'China & EUA',
-        icon: React.createElement(Globe, { className: "w-7 h-7 lg:w-8 lg:h-8 text-white" }),
-        gradient: 'from-brand-yellow to-accent-light',
-        borderColor: 'border-brand-yellow/50',
-        animationDelay: '0.2s'
-      }
-    ],
-    includes: [],
-    process: commonProcess,
-    nextStep: {
-      id: 'design',
-      title: 'Design de Autoridade',
-      logic: 'Nova escala exige novo visual. Vamos elevar o patamar da sua marca para dominar o setor a longo prazo.'
-    }
   },
 };

@@ -18,7 +18,7 @@ interface PageLoaderProps {
 }
 
 export const PageLoader: React.FC<PageLoaderProps> = ({
-  message = "A carregar ecossistema...",
+  message = "A preparar tudo...",
   duration = 400
 }) => {
   const [isVisible, setIsVisible] = useState(true);

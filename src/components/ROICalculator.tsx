@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { TrendingUp, DollarSign, Target } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { env } from '@/config/env';
+import { SERVICE_PLANS } from '@/config/pricing';
 
 interface ROICalculatorProps {
   onClose?: () => void;
@@ -165,7 +167,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
         </p>
       </div>
 
-      <Card className="border-primary/20 bg-white/50 dark:bg-white/5 backdrop-blur-2xl shadow-2xl shadow-primary/5 rounded-[32px] overflow-hidden">
+      <Card className="border-none bg-transparent shadow-none backdrop-blur-none rounded-none overflow-visible">
         <CardContent className="p-0 sm:p-0 flex flex-col md:flex-row">
           
           {/* Left Side: Control Panel (Sliders) */}
@@ -186,9 +188,11 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
                 }}
               >
                 <option value="">Personalizado (Inserir Manualmente)</option>
-                <option value="5000">Unidade Alpha - 5.000 MZN</option>
-                <option value="15000">Unidade Business - 15.000 MZN</option>
-                <option value="35000">Unidade Eco 360 - 35.000 MZN</option>
+                {SERVICE_PLANS.map(plan => (
+                  <option key={plan.name} value={plan.price}>
+                    {plan.name} - {plan.price.toLocaleString('pt-MZ')} MZN
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -269,7 +273,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
                   <div className="pt-2">
                     <Button
                       className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
-                      onClick={() => window.open('https://wa.me/258879097249?text=Ol%C3%A1%2C+fiz+um+c%C3%A1lculo+de+ROI+e+gostaria+de+conversar+sobre+minha+campanha', '_blank')}
+                      onClick={() => window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=Ol%C3%A1%2C+fiz+um+c%C3%A1lculo+de+ROI+e+gostaria+de+conversar+sobre+minha+campanha`, '_blank')}
                     >
                       Consultar Especialista
                     </Button>

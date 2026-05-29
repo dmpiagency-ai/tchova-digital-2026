@@ -22,7 +22,6 @@ const ServiceHero = ({
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const isAudiovisual = service.category === 'Produção Audiovisual';
-  const isImportacao = service.category === 'Importação';
   const isGSM = service.category === 'Assistência GSM';
 
   const getHeroTitle = () => {
@@ -31,9 +30,6 @@ const ServiceHero = ({
     }
     if (isAudiovisual) {
       return 'Produção Audiovisual Profissional';
-    }
-    if (isImportacao) {
-      return 'Importação Internacional Assistida';
     }
     if (service.category === 'Marketing Digital') {
       return 'Marketing que atrai clientes todos os dias';
@@ -47,9 +43,6 @@ const ServiceHero = ({
     }
     if (isAudiovisual) {
       return 'Cobertura completa de eventos com filmagem, fotografia e edição premium.';
-    }
-    if (isImportacao) {
-      return 'Serviço humano especializado em importação internacional com acompanhamento privado até a chegada do produto.';
     }
     if (service.category === 'Marketing Digital') {
       return 'Estratégias que fazem seu negócio crescer de verdade';
@@ -104,28 +97,7 @@ const ServiceHero = ({
       );
     }
 
-    if (isImportacao) {
-      return (
-        <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-          <Button
-            onClick={onContact}
-            className="rounded-[24px] py-2 px-6 font-bold transition-all duration-400 bg-gradient-to-r from-[#22C55E] to-emerald-600 hover:from-[#16A34A] hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-[1.01] h-14 text-lg relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
-            <ClipboardCheck className="w-5 h-5 mr-2 relative z-10" />
-            <span className="relative z-10">Solicitar Consulta</span>
-          </Button>
-          <Button
-            onClick={onContact}
-            className="rounded-[24px] py-2 px-6 font-bold transition-all duration-400 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-[1.01] h-14 text-lg relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
-            <MessageCircle className="w-5 h-5 mr-2 relative z-10" />
-            <span className="relative z-10">Falar no WhatsApp</span>
-          </Button>
-        </div>
-      );
-    }
+
 
     return (
       <Button

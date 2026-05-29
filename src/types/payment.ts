@@ -5,8 +5,7 @@ export enum PaymentType {
   DEPOSIT = 'deposit',           // 50% start, 50% end (custom projects)
   SINGLE = 'single',             // One-time payment (fixed scope services)
   SUBSCRIPTION = 'subscription', // Monthly plans
-  ACCESS = 'access',             // Tool rental/access
-  CONSULTATION = 'consultation'  // Consultation-based (importation)
+  ACCESS = 'access'              // Tool rental/access
 }
 
 export enum PaymentStage {
@@ -225,22 +224,9 @@ export const SERVICE_PAYMENT_CONFIGS: Record<number, ServicePaymentConfig> = {
     paymentExplanation: 'Este pagamento confirma a execução do serviço de produção audiovisual para o seu evento.'
   },
   
-  // Importação - Consultation based
+  // GSM - Access rental
   5: {
     serviceId: 5,
-    serviceName: 'IMPORTAÇÃO ASSISTIDA TCHOVADIGITAL',
-    category: 'Importação',
-    paymentType: PaymentType.CONSULTATION,
-    stages: [],
-    requiresProposal: true,
-    detailsCTA: 'Solicitar consulta gratuita',
-    paymentCTA: 'Confirmar início da importação',
-    paymentExplanation: 'Este pagamento ativa o início do processo de importação assistida conforme acordado.'
-  },
-  
-  // GSM - Access rental
-  6: {
-    serviceId: 6,
     serviceName: 'Ferramentas GSM Profissionais',
     category: 'Assistência GSM',
     paymentType: PaymentType.ACCESS,
@@ -329,14 +315,6 @@ export const CATEGORY_PAYMENT_BEHAVIORS: CategoryPaymentBehavior[] = [
     showPriceInDetails: true,
     detailsPageCTA: 'Ver pacotes',
     requiresContactFirst: false
-  },
-  {
-    category: 'Importação',
-    defaultPaymentType: PaymentType.CONSULTATION,
-    requiresProposal: true,
-    showPriceInDetails: false,
-    detailsPageCTA: 'Solicitar consulta',
-    requiresContactFirst: true
   },
   {
     category: 'Assistência GSM',
@@ -507,14 +485,7 @@ export function getPaymentUIContext(paymentType: PaymentType, paymentStage: Paym
         cta: 'Ativar acesso',
         explanation: 'Este pagamento ativa o acesso às ferramentas pelo período selecionado.'
       };
-      
-    case PaymentType.CONSULTATION:
-      return {
-        title: 'Iniciar Consulta',
-        description: 'Processo de importação',
-        cta: 'Confirmar início',
-        explanation: 'Este pagamento ativa o início do processo conforme acordado.'
-      };
+
   }
   
   // Default fallback

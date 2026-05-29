@@ -6,7 +6,7 @@ import {
 } from './ui/EliteIcons';
 
 interface ServiceVisualProps {
-  type: 'design' | 'websites' | 'marketing' | 'audiovisual' | 'importacao' | string;
+  type: 'design' | 'websites' | 'marketing' | 'audiovisual' | 'gsm' | string;
   className?: string;
 }
 
@@ -111,7 +111,7 @@ export const ServiceVisual: React.FC<ServiceVisualProps> = ({ type, className })
             <div className="visual-particle absolute bottom-1/3 left-1/4 w-3 h-3 bg-primary rounded-full shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
           </div>
         );
-      case 'importacao':
+      case 'gsm':
         return (
           <div ref={visualRef} className="relative w-64 h-64 lg:w-96 lg:h-96 flex items-center justify-center">
             <EliteSphere className="absolute w-40 h-40 lg:w-64 lg:h-64 text-primary/20 animate-spin-slow" />

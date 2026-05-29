@@ -456,15 +456,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const handleServiceAccess = useCallback((serviceType: string, serviceData?: ServiceData) => {
     const authenticated = !!user;
 
-    if (serviceData?.requiresLogin && !authenticated) {
-      // Service requires login - show login modal
-      window.dispatchEvent(new CustomEvent('show-login-modal', {
-        detail: {
-          service: serviceType,
-          title: serviceData.title
-        }
-      }));
-    } else if (serviceType === 'technical-tools') {
+    if (serviceType === 'technical-tools') {
       // GSM Tools - redirect to GSM panel
       if (authenticated) {
         window.open(env.GSM_SITE_URL, '_blank');

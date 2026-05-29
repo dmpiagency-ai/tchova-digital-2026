@@ -54,7 +54,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/5 perspective-1000">
+    <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/[0.04]">
       {/* Elite Background Architecture */}
       <div className="absolute inset-0 pointer-events-none">
         {/* 1. Cyber Grid Overlay (Softened) */}
@@ -68,8 +68,8 @@ const About = () => {
         
         {/* 2. Liquid Energy Blobs (Softened and Diffused) */}
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-[-15%] left-[-15%] w-[70%] h-[70%] bg-primary/10 rounded-full blur-[180px] animate-pulse" style={{ animationDuration: '10s' }} />
-          <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-brand-green/8 rounded-full blur-[160px] animate-pulse" style={{ animationDuration: '15s' }} />
+          <div className="absolute top-[-15%] left-[-15%] w-[70%] h-[70%] bg-primary/[0.04] md:bg-primary/10 rounded-full blur-[180px]" />
+          <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-brand-green/[0.03] md:bg-brand-green/8 rounded-full blur-[160px]" />
         </div>
 
         {/* 3. Ambient Technical Lines (Subtle) */}
@@ -109,23 +109,23 @@ const About = () => {
               </div>
               {/* Mobile version */}
               <h2 className="manifesto-title text-[30px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] md:hidden">
-                O seu<br />negócio<br />nosso<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">legado</span>
+                Lançamos.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">Tu vendes.</span>
               </h2>
               <p className="manifesto-title text-[15px] text-white/90 font-light leading-relaxed md:hidden">
-                De design a importação,<br />de filmagem a tech GSM.<br />Um ecossistema completo<br />para o teu negócio crescer.
+                Design de impacto, websites,<br />marketing, vídeo e tools GSM —<br />tudo para o teu negócio<br />destacar-se e vender.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[40px] lg:text-[48px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1]">
-                O seu negócio,<br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">nosso legado</span>
+                Lançamos.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">Tu vendes.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/90 font-light leading-relaxed">
-                De design a importação, de filmagem a tech GSM. <br /> Um ecossistema completo para o teu negócio crescer.
+                Design de impacto, websites de venda, marketing & tráfego pago, vídeo e tools GSM mobile rental — tudo <br /> para o teu negócio destacar-se e vender todos os dias.
               </p>
             </div>
           </div>
 
           {/* Card 2: Stats Card (Right - Frosted Glass Panel next to Video Card) */}
-          <div className="lg:col-span-4 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-2xl flex flex-col justify-center">
+          <div className="lg:col-span-4 bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-2xl flex flex-col justify-center">
             <div ref={statsRef} className="flex flex-col gap-6 w-full justify-center">
               
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
@@ -146,8 +146,8 @@ const About = () => {
 
               <div className="flex items-center justify-between last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas do Ecossistema</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Design, Vídeo, Marketing, Importação e Tech GSM</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas de Serviço</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Design, Web, Marketing, Vídeo e GSM</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">5<span className="text-primary">+</span></div>
               </div>

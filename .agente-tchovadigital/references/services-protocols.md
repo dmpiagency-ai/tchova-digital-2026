@@ -1,6 +1,6 @@
 # Protocolos de Execução: Ecossistema 360° Tchova Digital
 
-Este documento define os procedimentos operacionais para os 6 serviços principais da Tchova Digital, garantindo que cada sub-agente opere com precisão e foco em conversão.
+Este documento define os procedimentos operacionais para os 5 serviços principais da Tchova Digital, garantindo que cada sub-agente opere com precisão e foco em conversão.
 
 ## 1. BRANDING (Marcas Premium)
 - **Objetivo**: Criar "Respeito Instantâneo" através de design de alto luxo.
@@ -38,16 +38,7 @@ Este documento define os procedimentos operacionais para os 6 serviços principa
     3. Edição dinâmica com Sound Design impactante.
     4. Exportação otimizada para redes sociais e web.
 
-## 5. LOGÍSTICA (Importação)
-- **Objetivo**: "Zero Burocracia" no sourcing global.
-- **Entregas**: Sourcing (China/EUA), Desalfandegamento, Entrega Porta-a-Porta.
-- **Protocolo**:
-    1. Identificação de fornecedores confiáveis e inspeção de qualidade.
-    2. Cálculo de custos totais (MZN) incluindo taxas e frete.
-    3. Gestão documental e trâmites alfandegários em Moçambique.
-    4. Rastreamento em tempo real e entrega final ao cliente.
-
-## 6. ASSISTÊNCIA (Técnico GSM)
+## 5. ASSISTÊNCIA (Técnico GSM)
 - **Objetivo**: "Operação Inabalável" para técnicos e usuários.
 - **Entregas**: Aluguer de Ferramentas (UnlockTool, Chimera), Consultas IMEI, Painel de Gestão.
 - **Protocolo**:

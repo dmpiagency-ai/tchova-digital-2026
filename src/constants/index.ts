@@ -13,7 +13,7 @@
 export const COMPANY_INFO = {
   name: 'Tchova Digital',
   slogan: 'O ecossistema completo para o teu negócio crescer',
-  description: 'Ecossistema 360 pioneiro em Moçambique: design gráfico, produção audiovisual, marketing digital, importação assistida e serviços GSM mobile tech.',
+  description: 'Ecossistema 360 pioneiro em Moçambique: design gráfico, produção audiovisual, marketing digital e serviços GSM mobile tech.',
   email: 'info@tchovadigital.co.mz',
   phone: '+258 87 909 7249',
   whatsapp: '+258879097249',
@@ -163,47 +163,6 @@ export const GSM_SERVICES = [
 export const GSM_BRANDS = [
   'Samsung', 'Apple', 'Xiaomi', 'Huawei', 'Oppo', 
   'Vivo', 'Realme', 'Motorola', 'LG', 'Nokia', 'Outros'
-] as const;
-
-// ============================================
-// SERVIÇOS DE IMPORTAÇÃO
-// ============================================
-
-export const IMPORT_SERVICES = [
-  {
-    id: 'china',
-    name: 'Importação da China',
-    description: 'Importação de produtos diretamente da China',
-    features: [
-      'Pesquisa de fornecedores',
-      'Negociação de preços',
-      'Verificação de qualidade',
-      'Logística completa',
-      'Desembaraço aduaneiro'
-    ]
-  },
-  {
-    id: 'usa',
-    name: 'Importação dos EUA',
-    description: 'Importação de produtos dos Estados Unidos',
-    features: [
-      'Compra em nome do cliente',
-      'Consolidação de encomendas',
-      'Entrega Nacional & Internacional Otimizada',
-      'Tracking em tempo real'
-    ]
-  },
-  {
-    id: 'europa',
-    name: 'Importação da Europa',
-    description: 'Importação de produtos da Europa',
-    features: [
-      'Sourcing de produtos',
-      'Verificação de conformidade',
-      'Transporte internacional',
-      'Entrega door-to-door'
-    ]
-  }
 ] as const;
 
 // ============================================

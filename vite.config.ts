@@ -23,12 +23,10 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           // Core React — cached aggressively
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          // Heavy 3D libs — only loaded when Scene3D is visible
-          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
           // Firebase — only loaded for auth flows
           'firebase-vendor': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
           // Animation stack — cached independently from app logic
-          'animation-vendor': ['gsap', 'framer-motion', 'lenis'],
+          'animation-vendor': ['gsap', 'lenis'],
           // UI utilities
           'ui-vendor': ['embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
         }

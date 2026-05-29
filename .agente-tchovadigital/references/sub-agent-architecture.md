@@ -10,7 +10,6 @@ Para operar com "Hyper-Velocity" e garantir a entrega de soluções de elite, o 
 | **Agente Web** | Sites Velozes | Landing Pages, E-commerce, SEO pt-MZ. | `agente-tchovadigital` | Lighthouse > 90, Conversão. |
 | **Agente Performance** | Tráfego Pago | Meta Ads, Google Ads, ROI 24/7. | `agente-tchovadigital` | ROI, Custo por Lead. |
 | **Agente de Mídia** | Audiovisual Pro | Foto/Vídeo 4K, Edição High-End. | `agente-tchovadigital` | Desejo Visual, Engajamento. |
-| **Agente Logística** | Importação | Sourcing Global, Zero Burocracia. | `agente-tchovadigital` | Prazo, Custo-Benefício. |
 | **Agente Assistência** | Técnico GSM | Ferramentas GSM, Consultas IMEI. | `agente-tchovadigital` | Estabilidade, Suporte Técnico. |
 
 ## 🚀 Princípios de Orquestração do Agente Master

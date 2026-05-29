@@ -241,7 +241,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <span className="relative z-10">
-                  {currentStep < welcomeSteps.length - 1 ? 'Seguir Viagem' : 'Lançar Ecossistema'}
+                  {currentStep < welcomeSteps.length - 1 ? 'Seguir Viagem' : 'Começar Agora'}
                 </span>
                 <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 ml-3 relative z-10 group-hover:translate-x-2 transition-transform" />
               </Button>

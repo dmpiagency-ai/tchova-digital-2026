@@ -291,8 +291,7 @@ const getServiceCategory = (serviceName: string): string => {
     'Web': 'web',
     'Marketing': 'marketing',
     'GSM': 'gsm',
-    'Audiovisual': 'audiovisual',
-    'Importação': 'import'
+    'Audiovisual': 'audiovisual'
   };
 
   return categories[serviceName] || 'general';

@@ -83,6 +83,7 @@ const App = () => (
                       <Route path="/admin" element={<AdminPanel />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/service-details" element={<ServiceDetails />} />
+                      <Route path="/servicos/:id" element={<ServiceDetails />} />
                       <Route path="/gsm" element={<GSMTechDashboard />} />
                       <Route path="/gsm/tech" element={<GSMTechDashboard />} />
                       <Route path="/gsm/rental" element={<GSMTechDashboard />} />

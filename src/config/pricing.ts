@@ -75,42 +75,12 @@ export const STANDALONE_SERVICES: Service[] = [
   },
   {
     id: 5,
-    title: 'Importação Assistida',
-    category: 'Importação',
-    description: 'Serviço de importação internacional com acompanhamento completo.',
-    shortDescription: 'Importação com acompanhamento completo.',
-    price: 0,
-    priceNote: 'Serviço por consulta - sem custos iniciais',
-    features: [
-      'Consulta inicial gratuita',
-      'Análise do produto e fornecedor',
-      'Orçamento transparente em metical',
-      'Acompanhamento do processo',
-      'Atualizações regulares',
-      'Entrega garantida'
-    ],
-    benefits: [
-      'Consulta sem compromisso',
-      'Análise completa',
-      'Orçamento transparente',
-      'Acompanhamento exclusivo',
-      'Segurança total'
-    ],
-    deliveryTime: '7-14 dias úteis',
-    revisions: 'Suporte contínuo incluído',
-    tags: ['Importação', 'China', 'Compras Internacionais', 'Seguro'],
-    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png',
-    isIndividuallyAvailable: true,
-    isStandaloneService: true
-  },
-  {
-    id: 6,
     title: 'Ferramentas GSM',
     category: 'Assistência GSM',
-    description: 'Acesso ao painel de ferramentas GSM para desbloqueio, reparação e manutenção.',
-    shortDescription: 'Ferramentas GSM para técnicos profissionais.',
+    description: 'Painel de aluguer de ferramentas GSM para desbloqueio, reparação e manutenção de telemóveis.',
+    shortDescription: 'Aluga tools GSM profissionais por dia ou semana.',
     price: 1500,
-    priceNote: 'Acesso mensal - primeiro mês grátis',
+    priceNote: 'Aluguer por dia - paga com M-Pesa',
     features: [
       'Ferramentas GSM completas',
       'Desbloqueio remoto',
@@ -118,17 +88,17 @@ export const STANDALONE_SERVICES: Service[] = [
       'Flashing e firmware',
       'Diagnóstico avançado',
       'Suporte técnico',
-      'Atualizações constantes'
+      'Actualizações constantes'
     ],
     benefits: [
-      'Ferramentas profissionais',
+      'Ferramentas profissionais sem comprar',
       'Suporte especializado',
-      'Atualizações automáticas',
+      'Actualizações automáticas',
       'Acesso remoto seguro'
     ],
     deliveryTime: 'Acesso imediato',
     revisions: 'Suporte técnico contínuo',
-    tags: ['GSM', 'Ferramentas', 'Desbloqueio', 'Reparação'],
+    tags: ['GSM', 'Ferramentas', 'Desbloqueio', 'Reparação', 'Aluguer'],
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg',
     isIndividuallyAvailable: true,
     isStandaloneService: true
@@ -299,7 +269,7 @@ export const SERVICE_PLANS: Plan[] = [
       'Sistema de Pagamentos Integrado (M-Pesa/Bank)',
       'Integração de IA para Atendimento',
       'Gestão Ativa de Tráfego Pago (1º Mês)',
-      'Suporte para Importação & Escala',
+      'Suporte para Escala & Crescimento',
       'Consultoria de Expansão de Negócio'
     ],
     highlighted: false,
@@ -323,7 +293,6 @@ export const SERVICE_CATEGORIES = [
   'Desenvolvimento Web',
   'Marketing Digital',
   'Produção Audiovisual',
-  'Importação',
   'Assistência GSM'
 ];
 
@@ -334,8 +303,7 @@ export const WHATSAPP_MESSAGES = {
     'Sites Profissionais': 'Olá! Interessado em site profissional para meu negócio.',
     'Marketing Digital': 'Olá! Interessado em marketing digital para meu negócio.',
     'Produção Audiovisual': 'Olá! Gostaria de orçamento para produção audiovisual.',
-    'Importação Assistida': 'Olá! Gostaria de saber mais sobre importação assistida.',
-    'Ferramentas GSM': 'Olá! Interessado em ferramentas GSM.'
+    'Ferramentas GSM': 'Olá! Interessado no painel de aluguer de ferramentas GSM.'
   },
   plan: {
     'START ONLINE': 'Olá! Vi o plano START ONLINE (3.500 MZN) e quero colocar meu negócio online. Podem ajudar?',

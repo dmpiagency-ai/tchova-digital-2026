@@ -12,7 +12,6 @@ O Tchova Digital é um acelerador de autoridade e lucro focado em eliminar o ama
 
 ## 🛠️ 3. Ecossistema de Serviços
 - **Agência Criativa**: Identidade Visual (DNA Visual), Landing Pages (Império Digital), Tráfego Pago (Meta/Google Ads).
-- **Importação & Logística**: Sourcing global (China/EUA) com risco zero.
 - **GSM Tech Hub**: Aluguer de ferramentas virtuais, consultas IMEI, gestão de créditos MZN (Metical Moçambicano).
 
 ## 📦 4. Planos Estratégicos

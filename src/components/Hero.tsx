@@ -1,27 +1,21 @@
 import { ArrowRight } from 'lucide-react';
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 
-// Desktop: max quality + auto codec
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
-// Mobile: unified max quality (Cloudinary vc_auto serves optimized HEVC/VP9 which is smaller and smoother)
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
-// Poster: high quality JPEG thumbnail for initial load
-const POSTER_URL = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_jpg,q_auto:best,w_1080,so_0/v1778250435/0508_xnt09o.jpg';
-
+// Background URL (can be video or image)
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
-  'Marca que Impõe Respeito',
-  'Vídeos que Vendem Sozinhos',
-  'Tráfego que Converte',
-  'Importação sem Dor de Cabeça',
-  'Ferramentas GSM Acessíveis',
-  'Controlo Total do Negócio',
+  'DESIGN DE IMPACTO',
+  'WEB SITES E APPS',
+  'MARKETING',
+  'EDICÃO DE VÍDEO',
+  'TOOLS GSM MOBILE RENTAL',
 ];
 
 const Hero = () => {
@@ -35,6 +29,7 @@ const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
+  const video2Ref = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const labelClipRef = useRef<HTMLDivElement>(null);
@@ -44,6 +39,51 @@ const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
+
+  // Reference to keep track of fading state to avoid overlapping triggers
+  const isFadingRef = useRef(false);
+
+  // Seamless looping mechanism for video backgrounds
+  useEffect(() => {
+    const v1 = video1Ref.current;
+    const v2 = video2Ref.current;
+    if (!v1 || !v2 || isMobile || !videoSrc.includes('video/')) return;
+
+    const FADE_DURATION = 0.5; // crossfade duration in seconds
+
+    const handleTimeUpdate = (e: Event) => {
+      const active = e.target as HTMLVideoElement;
+      const inactive = active === v1 ? v2 : v1;
+
+      // Start crossfade before the active video ends
+      if (active.duration && active.currentTime >= active.duration - FADE_DURATION && !isFadingRef.current) {
+        isFadingRef.current = true;
+        
+        // Prepare and play the inactive video
+        inactive.currentTime = 0;
+        const playPromise = inactive.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+
+        // Crossfade using GSAP
+        gsap.to(active, { opacity: 0, duration: FADE_DURATION });
+        gsap.to(inactive, { opacity: 1, duration: FADE_DURATION, onComplete: () => {
+          active.pause();
+          active.currentTime = 0;
+          isFadingRef.current = false;
+        }});
+      }
+    };
+
+    v1.addEventListener('timeupdate', handleTimeUpdate);
+    v2.addEventListener('timeupdate', handleTimeUpdate);
+
+    return () => {
+      v1.removeEventListener('timeupdate', handleTimeUpdate);
+      v2.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, [videoSrc]);
 
   // iOS Safari autoplay fix: explicitly load + play after mount
   useEffect(() => {
@@ -113,8 +153,8 @@ const Hero = () => {
 
     const mm = gsap.matchMedia();
 
-    // ─── DESKTOP / HIGH-END: Full cinematic experience ───────────────────────
-    mm.add('(min-width: 768px)', () => {
+    // ─── DESKTOP / HIGH-END: Full cinematic 3D experience ────────────────────
+    mm.add('(min-width: 1024px)', () => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 2 } });
 
       tl.fromTo(videoContainerRef.current,
@@ -132,8 +172,8 @@ const Hero = () => {
         '-=1.8'
       )
       .fromTo(headlineRef.current,
-        { y: 120, skewY: 5, filter: 'blur(10px)', opacity: 0 },
-        { y: 0, skewY: 0, filter: 'blur(0px)', opacity: 1, duration: 2.2 },
+        { y: 120, skewY: 5, rotateX: -20, transformPerspective: 1000, filter: 'blur(10px)', opacity: 0 },
+        { y: 0, skewY: 0, rotateX: 0, filter: 'blur(0px)', opacity: 1, duration: 2.2 },
         '<'
       )
       .fromTo(subheadlineRef.current,
@@ -160,17 +200,49 @@ const Hero = () => {
         );
       }
 
-      // Parallax scroll effect (disabled on low-end desktop)
+      // Parallax smooth scroll effect (No stretching, uniform scaling)
       if (!isLowEnd) {
+        // Uniform zoom & fade out of background video on scroll
         gsap.fromTo(videoContainerRef.current,
-          { scaleY: 1, scaleX: 1, opacity: 1 },
-          { scaleY: 1.05, scaleX: 1.02, opacity: 0.8, ease: 'none',
-            scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: 2 } }
+          { scale: 1.0, yPercent: 0, opacity: 1 },
+          { scale: 1.08, yPercent: 8, opacity: 0.6, ease: 'none',
+            scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: true } }
         );
 
+        // Crisp, elegant vertical translation & fade of hero content (No 3D distortion/stretching of text)
         gsap.to(contentRef.current, {
-          y: -100, scale: 0.95, opacity: 0, ease: 'none',
-          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '70% top', scrub: 2 }
+          y: -100, opacity: 0, ease: 'none',
+          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: true }
+        });
+      }
+    });
+
+    // ─── TABLET: Moderate animations, reduced 3D ─────────────────────────────
+    mm.add('(min-width: 768px) and (max-width: 1023px)', () => {
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.5 } });
+
+      tl.fromTo(videoContainerRef.current,
+        { scale: 1.02, opacity: 0 },
+        { scale: 1.0, opacity: 1, duration: 2, ease: 'power2.out' }
+      )
+      .fromTo(labelRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, '-=1.5')
+      .fromTo(headlineRef.current,
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.5 },
+        '<'
+      )
+      .fromTo(subheadlineRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, '-=1.0')
+      .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.1, duration: 1.0 },
+        '-=0.8'
+      );
+
+      // Light 2D Parallax
+      if (!isLowEnd) {
+        gsap.to(contentRef.current, {
+          y: -80, opacity: 0, ease: 'none',
+          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: true }
         });
       }
     });
@@ -202,14 +274,22 @@ const Hero = () => {
         '-=0.3'
       );
 
-      // Smooth, GPU-accelerated panning animation for mobile (replaces expensive objectPosition)
-      gsap.to(videoContainerRef.current, {
-        xPercent: 3, // Move 3% of the 110% width
-        duration: 15,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
+      // Cinematic camera breathing/panning effect for mobile (mimics hand-held gimbal)
+      const videoEl = video1Ref.current;
+      if (videoEl) {
+        gsap.fromTo(videoEl, 
+          { scale: 1.15, xPercent: -3, yPercent: -1.5 },
+          {
+            scale: 1.25,
+            xPercent: 3,
+            yPercent: 1.5,
+            duration: 12,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          }
+        );
+      }
 
       // No parallax on mobile — too expensive
     });
@@ -250,145 +330,271 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="tech-hero relative overflow-hidden min-h-[85vh] md:min-h-[90vh] w-full flex items-center justify-center bg-black py-12 md:py-20"
+      className="tech-hero relative overflow-hidden w-full min-h-[100svh] flex items-center justify-center bg-[#030303] md:bg-black"
     >
       {/* Layer 0 — Video Background Full Screen */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#030303] md:bg-black">
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
+        {/* ═══ Mobile Antigravity Effects ═══ floating orbs, sparks & breathing nebula */}
+        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.6) 70%, black 85%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.6) 70%, black 85%)',
+          }}
+        >
+          {/* Breathing nebula base */}
+          <div
+            className="absolute w-[140%] h-[60%] bottom-0 left-[-20%]"
+            style={{
+              background: `
+                radial-gradient(ellipse at 30% 90%, rgba(34,197,94,0.10) 0%, rgba(34,197,94,0.02) 50%, transparent 70%),
+                radial-gradient(ellipse at 70% 85%, rgba(74,222,128,0.07) 0%, rgba(74,222,128,0.01) 45%, transparent 65%),
+                radial-gradient(ellipse at 50% 100%, rgba(34,197,94,0.08) 0%, transparent 55%)
+              `,
+              animation: 'nebulaBreath 12s ease-in-out infinite',
+            }}
+          />
+
+          {/* Antigravity orbs — float upward from bottom */}
+          {/* Orb 1: Large, slow, left side */}
+          <div
+            className="antigravity-orb"
+            style={{
+              bottom: '-5%',
+              left: '12%',
+              width: '8px',
+              height: '8px',
+              background: 'radial-gradient(circle, rgba(34,197,94,0.6) 0%, rgba(34,197,94,0.1) 60%, transparent 80%)',
+              boxShadow: '0 0 12px 4px rgba(34,197,94,0.15)',
+              animation: 'antigravityRise 14s ease-in-out infinite',
+            }}
+          />
+          {/* Orb 2: Medium, medium speed, right side */}
+          <div
+            className="antigravity-orb"
+            style={{
+              bottom: '-8%',
+              right: '20%',
+              width: '6px',
+              height: '6px',
+              background: 'radial-gradient(circle, rgba(74,222,128,0.7) 0%, rgba(74,222,128,0.1) 60%, transparent 80%)',
+              boxShadow: '0 0 10px 3px rgba(74,222,128,0.12)',
+              animation: 'antigravityRiseDrift 11s ease-in-out 2s infinite',
+            }}
+          />
+          {/* Orb 3: Small, faster, center-left */}
+          <div
+            className="antigravity-orb"
+            style={{
+              bottom: '-3%',
+              left: '45%',
+              width: '5px',
+              height: '5px',
+              background: 'radial-gradient(circle, rgba(34,197,94,0.5) 0%, transparent 70%)',
+              boxShadow: '0 0 8px 2px rgba(34,197,94,0.1)',
+              animation: 'antigravityRise 9s ease-in-out 4s infinite',
+            }}
+          />
+          {/* Orb 4: Tiny, slowest, far right */}
+          <div
+            className="antigravity-orb"
+            style={{
+              bottom: '-10%',
+              right: '8%',
+              width: '4px',
+              height: '4px',
+              background: 'radial-gradient(circle, rgba(74,222,128,0.6) 0%, transparent 70%)',
+              boxShadow: '0 0 6px 2px rgba(74,222,128,0.08)',
+              animation: 'antigravityRiseDrift 16s ease-in-out 1s infinite',
+            }}
+          />
+
+          {/* Tiny sparks — very small, fast floaters */}
+          {[
+            { left: '25%', delay: '0s', dur: '8s', size: '2px' },
+            { left: '60%', delay: '3s', dur: '10s', size: '2.5px' },
+            { left: '80%', delay: '5s', dur: '7s', size: '1.5px' },
+            { left: '10%', delay: '7s', dur: '12s', size: '2px' },
+            { left: '50%', delay: '2s', dur: '9s', size: '1.5px' },
+            { left: '35%', delay: '6s', dur: '11s', size: '2px' },
+          ].map((spark, i) => (
+            <div
+              key={i}
+              className="antigravity-spark"
+              style={{
+                bottom: '5%',
+                left: spark.left,
+                width: spark.size,
+                height: spark.size,
+                background: 'rgba(34,197,94,0.8)',
+                boxShadow: `0 0 4px 1px rgba(34,197,94,0.3)`,
+                animation: `sparkFloat ${spark.dur} ease-in-out ${spark.delay} infinite`,
+              }}
+            />
+          ))}
+        </div>
+        
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 h-full w-[110%] -left-[5%] will-change-transform bg-[#050505]"
+          className="absolute top-0 left-0 w-full h-[clamp(40%,48%,52%)] md:h-full overflow-hidden will-change-transform bg-transparent md:bg-[#050505]"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
           {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
           <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
           
-          {/* Video: src set directly (not via conditional <source>) to ensure iOS sees content on mount */}
-          <video
-            ref={video1Ref}
-            src={videoSrc}
-            autoPlay
-            muted
-            playsInline
-            loop
-            preload="auto"
-            poster={POSTER_URL}
-            className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
+          {/* Background Media: support both video and image */}
+          {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
+            <>
+              <video
+                ref={video1Ref}
+                src={videoSrc}
+                autoPlay
+                muted
+                playsInline
+                loop={isMobile}
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
+                style={{
+                  filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
+                  opacity: 1,
+                  zIndex: 2,
+                }}
+                onCanPlay={() => {
+                  if (videoContainerRef.current) {
+                    gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
+                  }
+                }}
+              />
+              {!isMobile && (
+                <video
+                  ref={video2Ref}
+                  src={videoSrc}
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
+                  style={{
+                    filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
+                    opacity: 0,
+                    zIndex: 3,
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <img
+              ref={video1Ref as any}
+              src={videoSrc}
+              className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
+              style={{
+                filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
+                opacity: 1,
+                zIndex: 2,
+              }}
+              onLoad={() => {
+                if (videoContainerRef.current) {
+                  gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
+                }
+              }}
+              alt="Tchova Digital Hero Background"
+            />
+          )}
+          
+          {/* Bottom Gradient Fade — blends the video seamlessly into #030303 background */}
+          {/* Mobile: very tall ultra-smooth fade — eliminates any visible edge */}
+          <div 
+            className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
-              filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
-              opacity: 1,
-              zIndex: 2,
-            }}
-            onCanPlay={() => {
-              if (videoContainerRef.current) {
-                gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
-              }
+              height: '55%',
+              background: 'linear-gradient(to top, #030303 0%, #030303 10%, rgba(3,3,3,0.95) 25%, rgba(3,3,3,0.8) 40%, rgba(3,3,3,0.5) 55%, rgba(3,3,3,0.2) 70%, rgba(3,3,3,0.05) 85%, transparent 100%)',
             }}
           />
+          {/* Desktop: original subtle fade */}
+          <div className="hidden md:block absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent z-[5] pointer-events-none" />
         </div>
       </div>
 
       {/* Localized Readability Gradient — Organic Diagonal Shadow Mask */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {/* Desktop: Organic Diagonal Wedge (105deg) */}
+        {/* Desktop: Subtle Readability Gradient — Strictly focused on the left text area */}
         <div 
-          className="hidden md:block absolute inset-0 w-full h-full bg-[linear-gradient(105deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.8)_40%,rgba(0,0,0,0.3)_60%,transparent_80%)] opacity-100" 
-          style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)' }}
-        />
-        
-        {/* Mobile: Vertical Readability Gradient — Focused on text area, clearer at the top */}
-        <div 
-          className="md:hidden absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0.8)_60%,transparent_95%)]" 
+          className="hidden md:block absolute inset-0 w-full h-full bg-[linear-gradient(90deg,rgba(0,0,0,0.9)_0%,rgba(0,0,0,0.7)_35%,transparent_50%)]" 
         />
       </div>
 
-      {/* Layer 2 — Content */}
       <div 
         ref={contentRef} 
-        className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center text-center md:items-start md:text-left gap-3 md:gap-8 pt-24 md:pt-28 translate-y-0 md:-translate-y-10"
+        className="relative z-20 w-full max-w-7xl mx-auto px-fluid-md flex flex-col items-center md:items-start justify-center md:justify-start gap-fluid-md pt-[clamp(185px,24svh,240px)] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] translate-y-0 md:-translate-y-6"
       >
-        <div className="w-full md:max-w-[45%] flex flex-col items-center md:items-start text-center md:text-left gap-3 md:gap-8">
+        <div className="w-fit max-w-[94%] xs:max-w-[90%] sm:max-w-[80%] md:w-full md:max-w-[70%] lg:max-w-[55%] flex flex-col items-start text-left gap-6 md:gap-8 mx-auto md:mx-0">
 
 
-          {/* Futuristic Label Reveal */}
-          <div ref={labelClipRef} className="overflow-hidden">
-            <div ref={labelRef} className="flex items-center gap-3">
+          {/* Badge with rotating — Gravyx pattern */}
+          <div ref={labelClipRef} className="overflow-hidden w-full flex justify-start">
+            <div ref={labelRef} className="flex items-center justify-start gap-3">
               <div className="w-8 h-[1px] bg-primary/50" />
-              <span className="text-[10px] md:text-xs font-black tracking-[0.4em] text-primary uppercase">
-                Ecossistema 360 — Pioneiro em Moçambique
+              <span className="text-[10px] md:text-[11px] font-black tracking-[0.2em] text-primary uppercase flex flex-wrap items-center gap-y-1 gap-x-2 justify-start">
+                SOLUÇÕES EM
+                <span className="inline-flex h-[1.2em] overflow-hidden relative align-bottom w-[155px] sm:w-[220px] md:w-[280px] tracking-normal justify-start">
+                  <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full text-left">
+                    {ROTATING_WORDS.map((word, i) => (
+                      <span key={i} className="h-[1.2em] text-white font-black whitespace-nowrap text-left">{word}</span>
+                    ))}
+                    <span className="h-[1.2em] text-white font-black whitespace-nowrap text-left">{ROTATING_WORDS[0]}</span>
+                  </span>
+                </span>
               </span>
             </div>
           </div>
 
-          {/* Headline — Monumental Typography */}
-          <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4">
+          {/* Headline — Value Proposition */}
+          <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4 w-full flex justify-start">
             <h1
               ref={headlineRef}
-              className="text-[10vw] sm:text-[8vw] md:text-[5.5vw] lg:text-[4.5vw] xl:text-[4vw] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words"
+              className="text-[clamp(2.35rem,11.5vw,3.4rem)] md:text-fluid-h1 font-black tracking-tighter leading-[0.92] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words text-left w-full"
             >
-              O teu negócio<br />
-              <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-2 px-2 pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[1.15em]">
-                inteiro
-              </span><br />
-              <span className="text-white/90">num só lugar.</span>
+              A EVOLUÇÃO<br />
+              <span className="inline-block whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-0.5 px-0 pr-3 sm:pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[0.85em] text-left">
+                DO TEU NEGÓCIO.
+              </span>
             </h1>
           </div>
 
-          {/* Sub-headline / Hierarchy refinement */}
+          {/* Sub-headline — Explainer */}
           <div
             ref={subheadlineRef}
-            className="flex flex-col gap-2 md:gap-5 max-w-2xl text-center md:text-left"
+            className="flex flex-col gap-3 md:gap-5 max-w-2xl text-left items-start w-full"
           >
-            <p className="text-lg md:text-xl text-white/50 italic border-l border-primary/30 pl-4 leading-relaxed">
-              Design. Vídeo. Marketing. Importação. Tech GSM. Tudo numa só equipa que entrega rápido, com estratégia e sem falsas promessas.
-            </p>
-
-            <div className="text-base md:text-lg lg:text-xl text-white font-medium leading-[1.3] text-center md:text-left">
-              Montamos tudo para teres{' '}
-              <br />
-              <div className="inline-flex flex-col h-[1.3em] overflow-hidden align-middle translate-y-[-0.1em] text-[0.9em]">
-                <div ref={wordRef} className="flex flex-col">
-                  {[...ROTATING_WORDS, ROTATING_WORDS[0]].map((word, i) => (
-                    <span 
-                      key={i}
-                      className="text-primary font-black uppercase tracking-tight whitespace-nowrap h-[1.3em] flex items-center justify-center md:justify-start"
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <br className="hidden md:block" />
-              <span className="whitespace-nowrap text-lg md:text-xl lg:text-2xl">
-                {' '}— pouco investimento,{' '}
-                <span className="inline-block text-primary font-black tracking-tighter bg-primary/10 border border-primary/20 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.4),0_0_25px_rgba(34,197,94,0.2)] px-3 py-1 rounded-sm text-[1em] leading-none translate-y-[-0.05em] ring-1 ring-primary/10 border-l-2">
-                  resultado escalável
-                </span>.
-              </span>
+            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.4] md:leading-[1.3] w-full max-w-xl text-left tracking-tight md:tracking-normal">
+              A <span className="text-white font-semibold">Tchova Digital</span> é o <span className="text-primary font-bold">ecossistema completo</span> <br />
+              para <span className="text-white font-semibold">PMEs</span> que desejam <span className="text-white font-semibold">destacar-se no mercado</span>. <br />
+              Unimos <span className="text-primary font-semibold">serviços criativos</span> a <span className="text-accent font-semibold">soluções técnicas GSM</span>, <br />
+              tudo <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">num só lugar</span>.
             </div>
           </div>
 
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center md:items-start gap-5 pt-4"
+            className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start"
           >
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
-              className="group h-16 px-10 md:px-14 text-sm font-black tracking-[0.15em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 rounded-2xl uppercase whitespace-nowrap"
+              className="group h-[54px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[clamp(12px,3.4vw,13.5px)] md:text-sm font-black tracking-[0.15em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 rounded-xl md:rounded-2xl uppercase whitespace-nowrap"
             >
-              <span className="flex items-center gap-3 whitespace-nowrap">
-                <ElitePulse className="w-5 h-5" />
+              <span className="flex items-center gap-2 md:gap-3 whitespace-nowrap">
+                <ElitePulse className="w-4 h-4 md:w-5 md:h-5" />
                 FALA CONNOSCO AGORA
               </span>
             </MagneticButton>
 
+            {/* Desktop: Original minimalist text+arrow style */}
             <button
               onClick={scrollToServices}
-              className="group flex items-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
+              className="hidden md:flex group items-center justify-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
             >
               <span>O QUE FAZEMOS</span>
               <div className="w-10 h-px bg-white/15 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
@@ -399,10 +605,10 @@ const Hero = () => {
 
       </div>
 
-      {/* Layer 3 — Scroll Indicator */}
+      {/* Layer 3 — Scroll Indicator (Visible on mobile & desktop) */}
       <div
         ref={scrollIndicatorRef}
-        className="hidden min-h-[700px]:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-700"
+        className="flex absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-700"
         style={{ opacity: showScrollIndicator ? 1 : 0, pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
       >
         <button
