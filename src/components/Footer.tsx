@@ -133,10 +133,10 @@ const Footer = () => {
         <div className="w-full flex justify-center items-center overflow-hidden py-10">
           <h1 
             ref={textRef}
-            className="flex flex-col items-center text-[13vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/0 leading-[0.85] select-none tracking-tighter"
+            className="flex flex-col items-center text-[13vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/0 leading-[0.95] select-none tracking-tighter py-4"
           >
-            <span>TCHOVA</span>
-            <span>DIGITAL</span>
+            <span className="inline-block px-6 py-2">TCHOVA</span>
+            <span className="inline-block px-6 py-2">DIGITAL</span>
           </h1>
         </div>
 
