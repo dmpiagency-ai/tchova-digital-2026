@@ -5,6 +5,15 @@ import { useGSAP } from "@gsap/react";
 // Register once globally
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+  // Elite Mobile Performance Tuning
+  ScrollTrigger.config({
+    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load", // Reduce recalculations during mobile scroll
+    ignoreMobileResize: true, // Prevents layout recalculations when mobile address bar toggles
+  });
+
+  // Lag smoothing adjusts the playhead dynamically if frame rate drops, ensuring smooth animations
+  gsap.ticker.lagSmoothing(1000, 16);
 }
 
 // Set global defaults for premium feel

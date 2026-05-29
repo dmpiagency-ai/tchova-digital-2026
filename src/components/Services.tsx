@@ -11,10 +11,7 @@ import { EliteRadar, ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector 
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Hyper-Performance Tuning
-if (typeof window !== 'undefined') {
-  gsap.ticker.fps(60); // Stabilize FPS for smooth elite animations
-}
+
 
 const Services = () => {
   const navigate = useNavigate();

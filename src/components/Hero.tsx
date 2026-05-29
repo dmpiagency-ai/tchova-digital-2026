@@ -114,10 +114,11 @@ const Hero = () => {
       }
     };
 
-    // Small delay to ensure the DOM is fully ready
-    const timer = setTimeout(attemptPlay, 100);
+    // Small delay to ensure the DOM is fully ready — longer on mobile to let entry animations paint first without blocking
+    const delay = isMobile ? 800 : 150;
+    const timer = setTimeout(attemptPlay, delay);
     return () => clearTimeout(timer);
-  }, [videoSrc]);
+  }, [videoSrc, isMobile]);
 
   // Rotating words cycle with seamless vertical scrolling
   useGSAP(() => {
@@ -450,11 +451,10 @@ const Hero = () => {
               <video
                 ref={video1Ref}
                 src={videoSrc}
-                autoPlay
                 muted
                 playsInline
                 loop={isMobile}
-                preload="auto"
+                preload="none"
                 className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
                 style={{
                   filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
@@ -473,7 +473,7 @@ const Hero = () => {
                   src={videoSrc}
                   muted
                   playsInline
-                  preload="auto"
+                  preload="none"
                   className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
                   style={{
                     filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',

@@ -93,6 +93,7 @@ const About = () => {
                 loop 
                 muted 
                 playsInline
+                preload="none"
                 className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
               />
               {/* Soft dark overlays for immersive contrast and premium aesthetic */}
