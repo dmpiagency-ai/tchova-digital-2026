@@ -18,13 +18,14 @@ const firebaseConfig = {
 // 🔌 PLUG-IN: Initialize Firebase (Singleton)
 let app: FirebaseApp;
 
-const isConfigValid = !!firebaseConfig.apiKey && firebaseConfig.apiKey !== 'undefined';
+// Force disable Firebase for now
+const isConfigValid = false; // !!firebaseConfig.apiKey && firebaseConfig.apiKey !== 'undefined';
 
 if (!getApps().length) {
   if (isConfigValid) {
     app = initializeApp(firebaseConfig);
   } else {
-    console.warn('Firebase configuration is missing or invalid. Authentication features will be disabled.');
+    console.warn('Firebase configuration is disabled. Authentication features will be disabled.');
     // Initialize with an empty app to avoid total bundle crash
     app = initializeApp({ apiKey: "mock-key", projectId: "mock-id", appId: "mock-app" });
   }
@@ -39,27 +40,26 @@ export const functions = getFunctions(app);
 
 // Analytics Loader (Safe)
 export const analytics = typeof window !== 'undefined' ? (async () => {
-  if (await isSupported()) return getAnalytics(app);
-  return null;
+  return null; // Disabled
 })() : null;
 
 // 🔌 PLUG-IN: Feature Flags
 export const firebaseFeatures = {
-  auth: true,
-  firestore: true,
-  analytics: import.meta.env.PROD,
+  auth: false,
+  firestore: false,
+  analytics: false,
   storage: false,
-  functions: true,
+  functions: false,
 };
 
 // 🔌 PLUG-IN: Service Status
 export const getFirebaseStatus = () => ({
   app: !!app,
-  auth: !!auth,
-  db: !!db,
-  analytics: !!analytics,
+  auth: false,
+  db: false,
+  analytics: false,
   environment: import.meta.env.MODE,
-  configured: !!import.meta.env.VITE_FIREBASE_API_KEY
+  configured: false
 });
 
 /**

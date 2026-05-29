@@ -130,13 +130,13 @@ const Footer = () => {
         </div>
 
         {/* Massive Typography */}
-        <div className="w-full flex justify-center items-center overflow-hidden py-10">
+        <div className="w-full flex justify-center items-center py-10 px-4">
           <h1 
             ref={textRef}
-            className="flex flex-col items-center text-[13vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/0 leading-[0.95] select-none tracking-tighter py-4"
+            className="flex flex-col items-center text-[13vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/0 leading-[0.95] select-none tracking-tight py-4"
           >
-            <span className="inline-block px-12 py-2">TCHOVA&nbsp;</span>
-            <span className="inline-block px-12 py-2">DIGITAL&nbsp;</span>
+            <span className="inline-block px-4 md:px-12 py-2">TCHOVA</span>
+            <span className="inline-block px-4 md:px-12 py-2">DIGITAL</span>
           </h1>
         </div>
 

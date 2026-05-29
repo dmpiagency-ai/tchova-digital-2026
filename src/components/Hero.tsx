@@ -275,16 +275,14 @@ const Hero = () => {
         '-=0.3'
       );
 
-      // Cinematic camera breathing/panning effect for mobile (mimics hand-held gimbal)
+      // Simple cinematic breathing for mobile, low cost
       const videoEl = video1Ref.current;
-      if (videoEl) {
+      if (videoEl && !isLowEnd) {
         gsap.fromTo(videoEl, 
-          { scale: 1.15, xPercent: -3, yPercent: -1.5 },
+          { scale: 1.05 },
           {
-            scale: 1.25,
-            xPercent: 3,
-            yPercent: 1.5,
-            duration: 12,
+            scale: 1.1,
+            duration: 15,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut"
@@ -339,99 +337,34 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
         {/* ═══ Mobile Antigravity Effects ═══ floating orbs, sparks & breathing nebula */}
-        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.6) 70%, black 85%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.6) 70%, black 85%)',
-          }}
-        >
-          {/* Breathing nebula base */}
+        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none">
+          {/* Breathing nebula base - optimized for mobile (no maskImage) */}
           <div
-            className="absolute w-[140%] h-[60%] bottom-0 left-[-20%]"
+            className="absolute w-[140%] h-[60%] bottom-0 left-[-20%] opacity-50"
             style={{
               background: `
-                radial-gradient(ellipse at 30% 90%, rgba(34,197,94,0.10) 0%, rgba(34,197,94,0.02) 50%, transparent 70%),
-                radial-gradient(ellipse at 70% 85%, rgba(74,222,128,0.07) 0%, rgba(74,222,128,0.01) 45%, transparent 65%),
-                radial-gradient(ellipse at 50% 100%, rgba(34,197,94,0.08) 0%, transparent 55%)
+                radial-gradient(ellipse at 30% 90%, rgba(34,197,94,0.10) 0%, transparent 70%),
+                radial-gradient(ellipse at 70% 85%, rgba(74,222,128,0.07) 0%, transparent 65%)
               `,
               animation: 'nebulaBreath 12s ease-in-out infinite',
             }}
           />
 
-          {/* Antigravity orbs — float upward from bottom */}
-          {/* Orb 1: Large, slow, left side */}
-          <div
-            className="antigravity-orb"
-            style={{
-              bottom: '-5%',
-              left: '12%',
-              width: '8px',
-              height: '8px',
-              background: 'radial-gradient(circle, rgba(34,197,94,0.6) 0%, rgba(34,197,94,0.1) 60%, transparent 80%)',
-              boxShadow: '0 0 12px 4px rgba(34,197,94,0.15)',
-              animation: 'antigravityRise 14s ease-in-out infinite',
-            }}
-          />
-          {/* Orb 2: Medium, medium speed, right side */}
-          <div
-            className="antigravity-orb"
-            style={{
-              bottom: '-8%',
-              right: '20%',
-              width: '6px',
-              height: '6px',
-              background: 'radial-gradient(circle, rgba(74,222,128,0.7) 0%, rgba(74,222,128,0.1) 60%, transparent 80%)',
-              boxShadow: '0 0 10px 3px rgba(74,222,128,0.12)',
-              animation: 'antigravityRiseDrift 11s ease-in-out 2s infinite',
-            }}
-          />
-          {/* Orb 3: Small, faster, center-left */}
-          <div
-            className="antigravity-orb"
-            style={{
-              bottom: '-3%',
-              left: '45%',
-              width: '5px',
-              height: '5px',
-              background: 'radial-gradient(circle, rgba(34,197,94,0.5) 0%, transparent 70%)',
-              boxShadow: '0 0 8px 2px rgba(34,197,94,0.1)',
-              animation: 'antigravityRise 9s ease-in-out 4s infinite',
-            }}
-          />
-          {/* Orb 4: Tiny, slowest, far right */}
-          <div
-            className="antigravity-orb"
-            style={{
-              bottom: '-10%',
-              right: '8%',
-              width: '4px',
-              height: '4px',
-              background: 'radial-gradient(circle, rgba(74,222,128,0.6) 0%, transparent 70%)',
-              boxShadow: '0 0 6px 2px rgba(74,222,128,0.08)',
-              animation: 'antigravityRiseDrift 16s ease-in-out 1s infinite',
-            }}
-          />
-
-          {/* Tiny sparks — very small, fast floaters */}
+          {/* Simple floating orbs - no heavy box-shadow */}
           {[
-            { left: '25%', delay: '0s', dur: '8s', size: '2px' },
-            { left: '60%', delay: '3s', dur: '10s', size: '2.5px' },
-            { left: '80%', delay: '5s', dur: '7s', size: '1.5px' },
-            { left: '10%', delay: '7s', dur: '12s', size: '2px' },
-            { left: '50%', delay: '2s', dur: '9s', size: '1.5px' },
-            { left: '35%', delay: '6s', dur: '11s', size: '2px' },
-          ].map((spark, i) => (
+            { left: '12%', size: '8px', delay: '0s', dur: '14s' },
+            { left: '80%', size: '6px', delay: '2s', dur: '11s' },
+            { left: '45%', size: '5px', delay: '4s', dur: '9s' },
+          ].map((orb, i) => (
             <div
               key={i}
-              className="antigravity-spark"
+              className="absolute rounded-full bg-primary/40"
               style={{
-                bottom: '5%',
-                left: spark.left,
-                width: spark.size,
-                height: spark.size,
-                background: 'rgba(34,197,94,0.8)',
-                boxShadow: `0 0 4px 1px rgba(34,197,94,0.3)`,
-                animation: `sparkFloat ${spark.dur} ease-in-out ${spark.delay} infinite`,
+                bottom: '-10%',
+                left: orb.left,
+                width: orb.size,
+                height: orb.size,
+                animation: `antigravityRise ${orb.dur} ease-in-out ${orb.delay} infinite`,
               }}
             />
           ))}
@@ -532,7 +465,7 @@ const Hero = () => {
 
 
           {/* Badge with rotating — Gravyx pattern */}
-          <div ref={labelClipRef} className="overflow-hidden w-full flex justify-start">
+          <div ref={labelClipRef} className="w-full flex justify-start pl-2 -ml-2">
             <div ref={labelRef} className="flex items-center justify-start gap-3">
               <div className="w-8 h-[1px] bg-primary/50" />
               <span className="text-[10px] md:text-[11px] font-black tracking-[0.2em] text-primary uppercase flex flex-wrap items-center gap-y-1 gap-x-2 justify-start">
@@ -550,7 +483,7 @@ const Hero = () => {
           </div>
 
           {/* Headline — Value Proposition */}
-          <div ref={headlineClipRef} className="overflow-hidden py-4 -my-4 px-4 -mx-4 w-full flex justify-start">
+          <div ref={headlineClipRef} className="py-4 -my-4 px-4 -mx-4 w-full flex justify-start">
             <h1
               ref={headlineRef}
               className="text-[clamp(2.35rem,11.5vw,3.4rem)] md:text-fluid-h1 font-black tracking-tighter leading-[0.92] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words text-left w-full"

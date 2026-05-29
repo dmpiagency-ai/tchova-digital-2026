@@ -109,18 +109,18 @@ const About = () => {
                 <span className="text-xs tracking-widest font-bold text-primary uppercase">Sobre Nós</span>
               </div>
               {/* Mobile version */}
-              <h2 className="manifesto-title text-[28px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[80%]">
-                O teu <br />negócio<br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-10 pb-2">merece ser&nbsp;<br />visto.&nbsp;</span>
+              <h2 className="manifesto-title text-[28px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[95%]">
+                O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 pb-2">NÃO PODE ESPERAR.</span>
               </h2>
-              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[80%]">
-                Elevamos o teu <br />posicionamento digital <br />— para cobrares o preço<br /> que o teu negócio vale.
+              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[90%]">
+                Do branding impecável a um sistema de vendas que nunca dorme — nós construímos a infraestrutura de elite para dominares o mercado.
               </p>
               {/* Desktop version */}
-              <h2 className="manifesto-title hidden md:block text-[36px] lg:text-[42px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[520px]">
-                O teu negócio<br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-10 pb-2">merece ser visto.&nbsp;</span>
+              <h2 className="manifesto-title hidden md:block text-[36px] lg:text-[42px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
+                O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2">NÃO PODE ESPERAR.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
-                Elevamos o teu posicionamento digital<br />— para cobrares o preço que o teu negócio realmente vale.
+                Do branding impecável a um sistema de vendas automático que nunca dorme — nós construímos a infraestrutura de elite para dominares o mercado.
               </p>
             </div>
           </div>

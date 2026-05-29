@@ -21,8 +21,8 @@ const isProduction = import.meta.env.PROD;
 const isDevelopment = import.meta.env.DEV;
 const useEmulator = import.meta.env.VITE_USE_FIREBASE_EMULATOR === 'true';
 
-// Initialize Firebase App (Singleton)
-export const app: FirebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+// 🔌 PLUG-IN: Initialize Firebase (Singleton)
+export const app: FirebaseApp = getApps().length === 0 ? initializeApp({ apiKey: "mock-key", projectId: "mock-id", appId: "mock-app" }) : getApps()[0];
 
 // 🔌 PLUG-IN: Authentication Service
 export const auth = getAuth(app);
@@ -33,51 +33,21 @@ export const db = getFirestore(app);
 // 🔌 PLUG-IN: Analytics (only in production and when supported)
 export let analytics: Analytics | null = null;
 
-if (isProduction) {
-  isSupported().then(supported => {
-    if (supported) {
-      try {
-        analytics = getAnalytics(app);
-      } catch (error) {
-        console.error('Failed to initialize analytics:', error);
-        analytics = null;
-      }
-    }
-  }).catch(() => {
-    analytics = null;
-  });
-}
-
-// 🔌 PLUG-IN: Emulator Setup (Development Only)
-if (isDevelopment && useEmulator) {
-  try {
-    // Auth Emulator
-    connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-
-    // Firestore Emulator
-    connectFirestoreEmulator(db, 'localhost', 8080);
-
-    console.log('🔥 Firebase Emulators Connected');
-  } catch (error) {
-    console.warn('Firebase Emulators not available:', error);
-  }
-}
-
 // 🔌 PLUG-IN: Feature Flags
 export const firebaseFeatures = {
-  auth: true,           // Enable/Disable Authentication
-  firestore: true,      // Enable/Disable Database
-  analytics: isProduction, // Analytics only in production
+  auth: false,           // Enable/Disable Authentication
+  firestore: false,      // Enable/Disable Database
+  analytics: false, // Analytics only in production
   storage: false,       // File storage (not used yet)
   functions: false,     // Cloud Functions (not used yet)
 };
 
 // 🔌 PLUG-IN: Service Status
 export const getFirebaseStatus = () => ({
-  app: app ? 'connected' : 'disconnected',
-  auth: auth ? 'ready' : 'unavailable',
-  db: db ? 'ready' : 'unavailable',
-  analytics: analytics ? 'active' : 'inactive',
+  app: 'disconnected',
+  auth: 'unavailable',
+  db: 'unavailable',
+  analytics: 'inactive',
   environment: isProduction ? 'production' : 'development',
-  emulator: useEmulator ? 'active' : 'inactive'
+  emulator: 'inactive'
 });
