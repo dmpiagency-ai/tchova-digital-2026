@@ -105,21 +105,21 @@ const About = () => {
             <div className="relative z-10 flex flex-col justify-center h-full">
               <div className="manifesto-title inline-flex self-start items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
                 <EliteMatrix className="w-4 h-4 text-primary" />
-                <span className="text-xs tracking-widest font-bold text-primary uppercase">Ecossistema 360</span>
+                <span className="text-xs tracking-widest font-bold text-primary uppercase">Manifesto · Sobre Nós</span>
               </div>
               {/* Mobile version */}
-              <h2 className="manifesto-title text-[30px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] md:hidden">
-                Lançamos.<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">Tu vendes.</span>
+              <h2 className="manifesto-title text-[30px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden">
+                A confiança<br />é o teu maior<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">activo.</span>
               </h2>
-              <p className="manifesto-title text-[15px] text-white/90 font-light leading-relaxed md:hidden">
-                Design de impacto, websites,<br />marketing, vídeo e tools GSM —<br />tudo para o teu negócio<br />destacar-se e vender.
+              <p className="manifesto-title text-[15px] text-white/80 font-light leading-relaxed md:hidden">
+                Num mercado saturado de promessas vazias, construímos ecossistemas digitais de elite que geram autoridade instantânea, desejo e justificam o valor real do teu negócio.<br /><br /><span className="text-white/50 text-[13px]">Antes de veres os números, compreende a nossa filosofia — o teu sucesso depende de reputação e poder de marca.</span>
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[40px] lg:text-[48px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1]">
-                Lançamos.<br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">Tu vendes.</span>
+                Num mercado saturado,<br />a confiança é a moeda<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-2">mais valiosa.</span>
               </h2>
-              <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/90 font-light leading-relaxed">
-                Design de impacto, websites de venda, marketing & tráfego pago, vídeo e tools GSM mobile rental — tudo <br /> para o teu negócio destacar-se e vender todos os dias.
+              <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
+                Não entregamos apenas design ou linhas de código — desenhamos ecossistemas digitais de elite que constroem autoridade instantânea, geram desejo incontrolável e justificam o valor real do teu negócio.<br /><br /><span className="text-white/50 text-[15px]">Antes de veres os números, compreende a nossa filosofia: o teu sucesso não depende de cliques, mas sim de reputação e poder de marca.</span>
               </p>
             </div>
           </div>
@@ -166,7 +166,7 @@ const About = () => {
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
               <EliteNode className="w-5 h-5" />
-              Quero Activar o Ecossistema
+              Conhecer a Nossa Filosofia
               <ArrowRight className="w-5 h-5 ml-1 -rotate-45 group-hover:rotate-0 transition-transform" />
             </span>
           </button>
