@@ -96,7 +96,8 @@ const About = () => {
                 loop 
                 muted 
                 playsInline
-                preload="none"
+                preload="auto"
+                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.jpg"
                 className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
               />
               {/* Soft dark overlays for immersive contrast and premium aesthetic */}

@@ -55,6 +55,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
   // ── Preload the hero video during the loading animation ──
   useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const videoUrl = getVideoUrl();
     let timeoutId: ReturnType<typeof setTimeout>;
     let resolved = false;
@@ -70,8 +71,12 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       }
     };
 
+    if (isMobile) {
+      markReady();
+      return;
+    }
+
     // Strategy 1: Fetch the first chunk via fetch() to prime the browser cache
-    // This works even on iOS where <video> preload is unreliable
     if ('fetch' in window) {
       const controller = new AbortController();
       fetch(videoUrl, {

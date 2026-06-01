@@ -374,9 +374,10 @@ const Hero = () => {
                 src={videoSrc}
                 muted
                 playsInline
-                loop={isMobile}
+                loop={true}
                 preload="auto"
                 autoPlay={true}
+                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
                 className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
                 style={{
                   filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
