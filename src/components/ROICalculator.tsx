@@ -32,15 +32,18 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
 
   // Cinematic entrance
   useGSAP(() => {
-    gsap.from(containerRef.current, {
-      y: 50,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 85%',
-      }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      gsap.from(containerRef.current, {
+        y: 50,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 85%',
+        }
+      });
     });
   }, { scope: containerRef });
 

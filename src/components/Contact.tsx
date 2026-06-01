@@ -21,38 +21,41 @@ const Contact = () => {
   const rightColumnRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 75%",
-        toggleActions: "play none none reverse"
-      }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      // Staggered reveal of header
+      tl.from('.contact-header-text', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+
+      // Animate the left column (Info & Trust)
+      tl.from(leftColumnRef.current, {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+      }, "-=0.4");
+
+      // Animate the right column (Form)
+      tl.from(rightColumnRef.current, {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+      }, "-=0.8");
     });
-
-    // Staggered reveal of header
-    tl.from('.contact-header-text', {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: 'power3.out'
-    });
-
-    // Animate the left column (Info & Trust)
-    tl.from(leftColumnRef.current, {
-      x: -50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    }, "-=0.4");
-
-    // Animate the right column (Form)
-    tl.from(rightColumnRef.current, {
-      x: 50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    }, "-=0.8");
   }, { scope: containerRef });
 
   const handleQuickMessage = (e: React.FormEvent) => {
