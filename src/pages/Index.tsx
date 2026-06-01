@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef, lazy, Suspense } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { env } from '@/config/env';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -6,15 +6,14 @@ import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import LoginModal from '@/components/LoginModal';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 
-// Lazy loaded components below the fold to improve Initial Page Load & Time-to-Interactive (TTI)
-const About = lazy(() => import('@/components/About'));
-const Services = lazy(() => import('@/components/Services'));
-const HowItWorks = lazy(() => import('@/components/HowItWorks'));
-const Pricing = lazy(() => import('@/components/Pricing'));
-const ROICalculator = lazy(() => import('@/components/ROICalculator').then(m => ({ default: m.ROICalculator })));
-const Testimonials = lazy(() => import('@/components/Testimonials'));
-const Contact = lazy(() => import('@/components/Contact'));
-const Footer = lazy(() => import('@/components/Footer'));
+import About from '@/components/About';
+import Services from '@/components/Services';
+import HowItWorks from '@/components/HowItWorks';
+import Pricing from '@/components/Pricing';
+import { ROICalculator } from '@/components/ROICalculator';
+import Testimonials from '@/components/Testimonials';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
 
 // Extend window for service routing
 declare global {
@@ -127,38 +126,22 @@ const Index = () => {
 
       <main id="main-content" role="main" tabIndex={-1} className="relative z-[1]">
         <Hero />
-        <Suspense fallback={<div className="min-h-[400px]" />}>
-          <About />
-        </Suspense>
-        <Suspense fallback={<div className="min-h-[600px]" />}>
-          <Services />
-        </Suspense>
-        <Suspense fallback={<div className="min-h-[400px]" />}>
-          <HowItWorks />
-        </Suspense>
-        <Suspense fallback={<div className="min-h-[500px]" />}>
-          <Pricing />
-        </Suspense>
+        <About />
+        <Services />
+        <HowItWorks />
+        <Pricing />
         <section id="roi-calculator-section" className="py-12 md:py-24 bg-[#030303] border-t border-white/[0.04]">
           <div className="container mx-auto px-6 lg:px-12">
             <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-[#0b0b0b] border border-white/[0.07] shadow-2xl">
-              <Suspense fallback={<div className="min-h-[300px]" />}>
-                <ROICalculator />
-              </Suspense>
+              <ROICalculator />
             </div>
           </div>
         </section>
-        <Suspense fallback={<div className="min-h-[400px]" />}>
-          <Testimonials />
-        </Suspense>
-        <Suspense fallback={<div className="min-h-[500px]" />}>
-          <Contact />
-        </Suspense>
+        <Testimonials />
+        <Contact />
       </main>
 
-      <Suspense fallback={<div className="min-h-[200px]" />}>
-        <Footer />
-      </Suspense>
+      <Footer />
       <FloatingWhatsApp />
 
       {/* Login Modal — only shown when explicitly triggered by components */}
