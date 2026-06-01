@@ -6,7 +6,7 @@ import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 
 // Background URL (can be video or image)
 const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 

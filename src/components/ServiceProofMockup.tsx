@@ -394,17 +394,20 @@ export const ServiceProofMockup: React.FC<ServiceProofMockupProps> = ({ type }) 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.from(containerRef.current, {
-      y: 40,
-      opacity: 0,
-      scale: 0.95,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none"
-      }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      gsap.from(containerRef.current, {
+        y: 40,
+        opacity: 0,
+        scale: 0.95,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      });
     });
   }, { scope: containerRef });
 

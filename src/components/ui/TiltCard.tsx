@@ -21,6 +21,7 @@ export const TiltCard = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
@@ -31,16 +32,24 @@ export const TiltCard = ({
   const glareYTo = useRef<any>();
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     // Initialize high-performance setters
     xRotateTo.current = gsap.quickTo(cardRef.current, 'rotateX', { duration: 0.5, ease: 'power2.out' });
     yRotateTo.current = gsap.quickTo(cardRef.current, 'rotateY', { duration: 0.5, ease: 'power2.out' });
     
     glareXTo.current = gsap.quickTo(glareRef.current, 'xPercent', { duration: 0.5, ease: 'power2.out' });
     glareYTo.current = gsap.quickTo(glareRef.current, 'yPercent', { duration: 0.5, ease: 'power2.out' });
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const onMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (isMobile || !cardRef.current) return;
     
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -62,11 +71,13 @@ export const TiltCard = ({
   });
 
   const onMouseEnter = contextSafe(() => {
+    if (isMobile) return;
     gsap.to(glareRef.current, { opacity: glowOpacity, duration: 0.3 });
     gsap.to(cardRef.current, { scale: 1.02, duration: 0.3, ease: 'power2.out' });
   });
 
   const onMouseLeave = contextSafe(() => {
+    if (isMobile) return;
     // Reset positions with elastic snap
     xRotateTo.current(0);
     yRotateTo.current(0);
@@ -80,7 +91,7 @@ export const TiltCard = ({
   return (
     <div 
       ref={containerRef}
-      className={cn("relative perspective-1000", className)}
+      className={cn("relative", !isMobile && "perspective-1000", className)}
       onMouseMove={onMouseMove}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -89,22 +100,24 @@ export const TiltCard = ({
       <div
         ref={cardRef}
         className="relative w-full h-full rounded-[2rem] transition-all overflow-hidden border border-white/5 dark:border-white/10 bg-background/50 backdrop-blur-md will-change-transform transform-gpu shadow-2xl"
-        style={{ transformStyle: 'preserve-3d' }}
+        style={isMobile ? undefined : { transformStyle: 'preserve-3d' }}
       >
         {/* Cinematic Glare layer */}
-        <div 
-          ref={glareRef}
-          className="absolute inset-0 pointer-events-none opacity-0 mix-blend-overlay"
-          style={{ 
-            background: `radial-gradient(circle at center, ${glowColor}, transparent 80%)`,
-            transform: 'translateZ(1px) scale(2)'
-          }}
-        />
+        {!isMobile && (
+          <div 
+            ref={glareRef}
+            className="absolute inset-0 pointer-events-none opacity-0 mix-blend-overlay"
+            style={{ 
+              background: `radial-gradient(circle at center, ${glowColor}, transparent 80%)`,
+              transform: 'translateZ(1px) scale(2)'
+            }}
+          />
+        )}
         
         {/* Content Wrapper (lifted in Z-space) */}
         <div 
           className="relative z-10 w-full h-full"
-          style={{ transform: 'translateZ(40px)' }}
+          style={isMobile ? undefined : { transform: 'translateZ(40px)' }}
         >
           {children}
         </div>
