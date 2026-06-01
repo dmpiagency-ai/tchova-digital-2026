@@ -375,7 +375,8 @@ const Hero = () => {
                 muted
                 playsInline
                 loop={isMobile}
-                preload="none"
+                preload="auto"
+                autoPlay={true}
                 className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
                 style={{
                   filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
@@ -394,7 +395,8 @@ const Hero = () => {
                   src={videoSrc}
                   muted
                   playsInline
-                  preload="none"
+                  preload="auto"
+                  autoPlay={true}
                   className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
                   style={{
                     filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',

@@ -130,17 +130,20 @@ const Pricing = () => {
   const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
   useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: 40, opacity: 0, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
-    });
-
-    if (gridRef.current) {
-      gsap.from(gridRef.current.children, {
-        y: 80, scale: 0.9, opacity: 0, stagger: 0.2, duration: 1.2, ease: 'power4.out',
-        scrollTrigger: { trigger: gridRef.current, start: 'top 75%' }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      gsap.from(headerRef.current, {
+        y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
       });
-    }
+
+      if (gridRef.current) {
+        gsap.from(gridRef.current.children, {
+          y: 80, scale: 0.9, opacity: 0, stagger: 0.2, duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: gridRef.current, start: 'top 75%' }
+        });
+      }
+    });
   }, { scope: containerRef });
 
   const handleContact = (plan: typeof PLANS[number]) => {

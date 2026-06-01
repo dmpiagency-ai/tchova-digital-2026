@@ -75,18 +75,21 @@ export const Testimonials = () => {
   const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
   useGSAP(() => {
-    gsap.from('.test-header', {
-      y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
-      scrollTrigger: { trigger: containerRef.current, start: 'top 80%' }
-    });
-
-    if (cardsRef.current) {
-      gsap.from(cardsRef.current.children, {
-        y: 60, opacity: 0, rotationX: -10, scale: 0.95, duration: 0.8,
-        stagger: 0.2, ease: 'back.out(1.2)',
-        scrollTrigger: { trigger: cardsRef.current, start: 'top 75%' }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      gsap.from('.test-header', {
+        y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: containerRef.current, start: 'top 80%' }
       });
-    }
+
+      if (cardsRef.current) {
+        gsap.from(cardsRef.current.children, {
+          y: 60, opacity: 0, rotationX: -10, scale: 0.95, duration: 0.8,
+          stagger: 0.2, ease: 'back.out(1.2)',
+          scrollTrigger: { trigger: cardsRef.current, start: 'top 75%' }
+        });
+      }
+    });
   }, { scope: containerRef });
 
   return (

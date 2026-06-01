@@ -8,8 +8,7 @@ if (typeof window !== "undefined") {
 
   // Elite Mobile Performance Tuning
   ScrollTrigger.config({
-    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load", // Reduce recalculations during mobile scroll
-    ignoreMobileResize: true, // Prevents layout recalculations when mobile address bar toggles
+    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize", // Refresh on resize to fix disappearing elements
   });
 
   // Lag smoothing adjusts the playhead dynamically if frame rate drops, ensuring smooth animations

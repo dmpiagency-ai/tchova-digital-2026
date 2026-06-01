@@ -39,16 +39,9 @@ const Services = () => {
     });
 
     // MOBILE & TABLET: 2D Entrance (Performance)
+    // Disabled to prevent iOS Safari layout thrashing and disappearing elements
     mm.add('(max-width: 1023px)', () => {
-      gsap.from(headerRef.current, {
-        y: 40, opacity: 0, duration: 1.0, ease: 'power3.out',
-        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
-      });
-
-      gsap.from(carouselRef.current, {
-        y: 40, opacity: 0, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: carouselRef.current, start: 'top 85%' }
-      });
+      // Elements are fully visible immediately
     });
   }, { scope: sectionRef });
 

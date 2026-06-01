@@ -92,22 +92,24 @@ const HowItWorks = () => {
   }, []);
 
   useGSAP(() => {
-    gsap.from(headerRef.current, {
-      y: 40, opacity: 0, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      gsap.from(headerRef.current, {
+        y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
+      });
+
+      if (pipelineRef.current) {
+        gsap.fromTo(pipelineRef.current,
+          { scaleY: 0, transformOrigin: 'top center' },
+          {
+            scaleY: 1, duration: 1.5, ease: 'power3.inOut',
+            scrollTrigger: { trigger: stepsRef.current, start: 'top 60%', end: 'bottom 80%', scrub: 1 }
+          }
+        );
+      }
     });
 
-    if (pipelineRef.current) {
-      gsap.fromTo(pipelineRef.current,
-        { scaleY: 0, transformOrigin: 'top center' },
-        {
-          scaleY: 1, duration: 1.5, ease: 'power3.inOut',
-          scrollTrigger: { trigger: stepsRef.current, start: 'top 60%', end: 'bottom 80%', scrub: 1 }
-        }
-      );
-    }
-
-    const mm = gsap.matchMedia();
     mm.add('(min-width: 1024px)', () => {
       if (stepsRef.current) {
         gsap.from(stepsRef.current.children, {

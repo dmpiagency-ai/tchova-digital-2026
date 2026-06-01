@@ -15,33 +15,36 @@ const About = () => {
   const statsRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Reveal Header
-    gsap.from('.manifesto-title', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 80%',
-      }
-    });
-
-    // Impactful Stats reveal
-    if (statsRef.current) {
-      gsap.from(statsRef.current.children, {
-        scale: 0.5,
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      // Reveal Header
+      gsap.from('.manifesto-title', {
+        y: 50,
         opacity: 0,
         duration: 1,
-        stagger: 0.2,
-        ease: 'elastic.out(1, 0.5)',
+        stagger: 0.15,
+        ease: 'power3.out',
         scrollTrigger: {
-          trigger: statsRef.current,
-          start: 'top 85%',
+          trigger: containerRef.current,
+          start: 'top 80%',
         }
       });
-    }
+
+      // Impactful Stats reveal
+      if (statsRef.current) {
+        gsap.from(statsRef.current.children, {
+          scale: 0.5,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'elastic.out(1, 0.5)',
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: 'top 85%',
+          }
+        });
+      }
+    });
   }, { scope: containerRef });
 
   const handleCTA = useCallback(() => {
