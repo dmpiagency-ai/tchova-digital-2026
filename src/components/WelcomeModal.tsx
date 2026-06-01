@@ -273,6 +273,3 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default WelcomeModal;
-
-
-export default WelcomeModal;

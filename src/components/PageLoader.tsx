@@ -4,8 +4,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 // ── Video URLs (same as Hero — preloaded here so they're cached before Hero mounts) ──
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
-const MOBILE_VIDEO  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:best,vc_auto/v1778250435/0508_xnt09o.mp4';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
 
 const getVideoUrl = () => {
   if (typeof window === 'undefined') return DESKTOP_VIDEO;
@@ -100,40 +100,42 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
   // ── Loader exit: waits for BOTH minimum duration AND video ready ──
   useEffect(() => {
-    let minDurationPassed = false;
-    let checkInterval: ReturnType<typeof setInterval>;
+    let cancelled = false;
 
+    const tryHide = () => {
+      if (!cancelled) hideLoader();
+    };
+
+    // Fire hideLoader once the minimum duration has elapsed AND video is ready
     const minTimer = setTimeout(() => {
-      minDurationPassed = true;
+      if (videoReadyRef.current) {
+        tryHide();
+      } else {
+        // Video not ready yet — check once more after a short grace period
+        const grace = setTimeout(() => tryHide(), 800);
+        // Store for cleanup
+        (minTimer as any).__grace = grace;
+      }
     }, duration + 200);
 
-    // Check every 100ms if both conditions are met
-    checkInterval = setInterval(() => {
-      if (minDurationPassed && videoReadyRef.current) {
-        clearInterval(checkInterval);
-        hideLoader();
-      }
-    }, 100);
-
     // Hard max: 5 seconds — never block the user
-    const hardMax = setTimeout(() => {
-      clearInterval(checkInterval);
-      hideLoader();
-    }, 5000);
+    const hardMax = setTimeout(() => tryHide(), 5000);
 
     const handleContentReady = () => {
+      cancelled = true;
       clearTimeout(minTimer);
       clearTimeout(hardMax);
-      clearInterval(checkInterval);
+      if ((minTimer as any).__grace) clearTimeout((minTimer as any).__grace);
       hideLoader();
     };
 
     window.addEventListener('content-ready', handleContentReady as EventListener);
 
     return () => {
+      cancelled = true;
       clearTimeout(minTimer);
       clearTimeout(hardMax);
-      clearInterval(checkInterval);
+      if ((minTimer as any).__grace) clearTimeout((minTimer as any).__grace);
       window.removeEventListener('content-ready', handleContentReady as EventListener);
     };
   }, [duration, hideLoader]);
@@ -187,7 +189,7 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/60 backdrop-blur-xl md:backdrop-blur-3xl overflow-hidden pointer-events-auto"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/60 backdrop-blur-md md:backdrop-blur-xl overflow-hidden pointer-events-auto"
     >
       {/* Subtle Ambient Light Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />

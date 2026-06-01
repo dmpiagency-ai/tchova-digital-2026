@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { useAdmin } from './AdminContext';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, firebaseFeatures } from '@/lib/firebase';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
 import { sanitizeLocalStorageData } from '@/lib/sanitize';
@@ -179,17 +179,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           return;
         }
 
-        // Check for Firebase auth state
-        unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-          if (firebaseUser) {
-            // User is signed in with Firebase
-            await handleFirebaseAuth(firebaseUser);
-          } else {
-            // Check for client token session
-            await checkClientSession();
-          }
-          setIsLoading(false);
-        });
+        // Only subscribe to Firebase auth if it's actually enabled
+        if (firebaseFeatures.auth) {
+          unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+            if (firebaseUser) {
+              await handleFirebaseAuth(firebaseUser);
+            } else {
+              await checkClientSession();
+            }
+            setIsLoading(false);
+          });
+        }
 
         // Also check localStorage for persisted user
         const savedUser = localStorage.getItem(USER_STORAGE_KEY);

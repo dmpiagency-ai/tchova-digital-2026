@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { auth } from '@/lib/firebase';
+import { auth, firebaseFeatures } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 
 export interface UserSession {
@@ -134,6 +134,8 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
 
   // Verificar automaticamente se o usuário é admin quando o auth muda
   useEffect(() => {
+    // Skip Firebase listener when Firebase auth is disabled
+    if (!firebaseFeatures.auth) return;
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user && ADMIN_EMAILS.includes(user.email || '')) {
         setIsAdmin(true);
