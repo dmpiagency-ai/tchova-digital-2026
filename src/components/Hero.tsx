@@ -275,20 +275,8 @@ const Hero = () => {
         '-=0.3'
       );
 
-      // Simple cinematic breathing for mobile, low cost
+      // Video scale animation disabled on mobile to prevent composite lag and save battery
       const videoEl = video1Ref.current;
-      if (videoEl && !isLowEnd) {
-        gsap.fromTo(videoEl, 
-          { scale: 1.05 },
-          {
-            scale: 1.1,
-            duration: 15,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-          }
-        );
-      }
 
       // No parallax on mobile — too expensive
     });

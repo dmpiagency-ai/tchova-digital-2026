@@ -46,6 +46,10 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
+    // Detect mobile device to disable heavy JS animations
+    const isMobile = window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // Get all cards
     const cards = Array.from(
       useWindowScroll
@@ -55,13 +59,27 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     cardsRef.current = cards;
 
+    if (isMobile || prefersReducedMotion) {
+      // Mobile fallback: simple sticky positioning without JS loop
+      cards.forEach((card, i) => {
+        if (i < cards.length - 1) {
+          card.style.marginBottom = `${itemDistance}px`;
+        }
+        card.style.position = 'sticky';
+        card.style.top = `${100 + (i * 10)}px`;
+        card.style.zIndex = i.toString();
+      });
+      return;
+    }
+
     // Initialize cards with base styles
     cards.forEach((card, i) => {
       if (i < cards.length - 1) {
         card.style.marginBottom = `${itemDistance}px`;
       }
       card.style.transformOrigin = 'top center';
-      card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease';
+      // Remove transition for transform to prevent layout thrashing with JS updates
+      card.style.transition = 'filter 0.3s ease';
       card.dataset.stackIndex = i.toString();
     });
 
@@ -80,14 +98,16 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     lenisRef.current = lenis;
 
+    // Cache tops to avoid getBoundingClientRect layout thrashing
+    const cachedTops = cards.map(card => useWindowScroll ? card.getBoundingClientRect().top + window.scrollY : card.offsetTop);
+
     // Animation loop
     const animate = () => {
       const scrollTop = useWindowScroll ? window.scrollY : scroller.scrollTop;
       const viewportHeight = useWindowScroll ? window.innerHeight : scroller.clientHeight;
 
       cards.forEach((card, i) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardTop = useWindowScroll ? cardRect.top + scrollTop : card.offsetTop;
+        const cardTop = cachedTops[i];
         const progress = Math.max(0, Math.min(1, (scrollTop - cardTop + viewportHeight * 0.3) / (viewportHeight * 0.6)));
 
         // Calculate transforms

@@ -31,29 +31,34 @@ const Footer = () => {
   ];
 
   useGSAP(() => {
-    // Massive Typography Parallax Reveal
-    gsap.from(textRef.current, {
-      y: 150,
-      opacity: 0,
-      scale: 0.8,
-      duration: 1.5,
-      ease: 'power4.out',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 80%',
-        end: 'bottom bottom',
-        scrub: 1,
-      }
-    });
+    const mm = gsap.matchMedia();
 
-    // Floating animation for social icons
-    gsap.to('.social-icon', {
-      y: -10,
-      duration: 2,
-      stagger: 0.2,
-      yoyo: true,
-      repeat: -1,
-      ease: 'sine.inOut'
+    // Only run these expensive animations on desktop
+    mm.add('(min-width: 768px)', () => {
+      // Massive Typography Parallax Reveal
+      gsap.from(textRef.current, {
+        y: 150,
+        opacity: 0,
+        scale: 0.8,
+        duration: 1.5,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 80%',
+          end: 'bottom bottom',
+          scrub: 1,
+        }
+      });
+
+      // Floating animation for social icons
+      gsap.to('.social-icon', {
+        y: -10,
+        duration: 2,
+        stagger: 0.2,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+      });
     });
   }, { scope: containerRef });
 
