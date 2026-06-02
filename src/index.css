@@ -313,11 +313,8 @@
   }
 
   /* ─── UNIVERSAL PERFORMANCE UTILITIES ─────────────────────────────────── */
-  /* Apply to sections that are off-screen to skip rendering */
-  .content-section {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-  }
+  /* content-visibility removed — causes delayed rendering and disappearing 
+     sections on iOS Safari during fast scroll */
 
   /* Large Simple Icons */
   .icon-large {
@@ -1878,6 +1875,200 @@ section {
   will-change: transform, opacity;
   backface-visibility: hidden;
   transform-style: preserve-3d;
+}
+
+/* ═══ MOBILE NUCLEAR FIX: Strip ALL 3D from reveals and animations ═══
+   iOS Safari has a hard GPU depth limit — nested preserve-3d + perspective
+   inside scroll containers causes blank blocks and page blackouts. */
+@media (max-width: 767px) {
+  /* Kill 3D context on every element */
+  *, ::before, ::after {
+    transform-style: flat !important;
+    perspective: none !important;
+    backface-visibility: visible !important;
+  }
+
+  /* Ensure data-reveal elements just fade in simply */
+  [data-reveal] {
+    will-change: auto !important;
+    transform-style: flat !important;
+  }
+
+  /* Simplify ALL reveal animations to basic opacity + translateY */
+  .reveal-slide-left,
+  .reveal-slide-right {
+    opacity: 0;
+    transform: translateY(30px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .reveal-slide-left.visible,
+  .reveal-slide-right.visible {
+    opacity: 1;
+    transform: translateY(0) !important;
+  }
+
+  .reveal-fade-scale {
+    opacity: 0;
+    transform: translateY(20px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .reveal-fade-scale.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .reveal-rotate-in {
+    opacity: 0;
+    transform: translateY(20px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .reveal-rotate-in.visible {
+    opacity: 1;
+    transform: translateY(0) !important;
+  }
+
+  .reveal-slide-up {
+    opacity: 0;
+    transform: translateY(30px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .reveal-slide-up.visible {
+    opacity: 1;
+    transform: translateY(0) !important;
+  }
+
+  /* Kill all 3D card effects */
+  .card-3d,
+  .card-3d-tilt,
+  .card-3d-tilt.reset {
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  .card-3d:hover {
+    transform: none !important;
+  }
+
+  /* Kill floating 3D card animation */
+  .card-float-3d {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Kill flip cards */
+  .flip-card-3d:hover .flip-card-inner {
+    transform: none !important;
+  }
+
+  /* Kill text shimmer animation (runs infinite, wastes GPU) */
+  .text-shimmer {
+    animation: none !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: none !important;
+  }
+
+  /* Kill parallax layers */
+  .parallax-slow,
+  .parallax-medium,
+  .parallax-fast,
+  .parallax-element {
+    will-change: auto !important;
+    transform: none !important;
+  }
+
+  /* Kill section-glow pseudo-element (radial gradient repaints) */
+  .section-glow::before {
+    display: none !important;
+  }
+
+  /* Kill cursor glow (fixed element, continuous GPU updates) */
+  .cursor-glow {
+    display: none !important;
+  }
+
+  /* Kill all will-change on mobile — the browser handles layer promotion itself */
+  .will-change-transform,
+  .will-change-opacity,
+  .optimized-animation {
+    will-change: auto !important;
+  }
+
+  /* Simplify GPU acceleration selectors */
+  .gpu-accelerated,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-glow,
+  .hover-lift,
+  .glass,
+  .glass-card,
+  .neo,
+  .neo-inset,
+  .liquid-blur-border,
+  .modern-navbar,
+  .animate-on-scroll,
+  .animate-scale-in,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .hover-scale,
+  .hover-lift-enhanced {
+    transform: none !important;
+    perspective: none !important;
+  }
+
+  /* Ensure animate-on-scroll still works with simple fade */
+  .animate-on-scroll {
+    opacity: 0 !important;
+    transform: translateY(20px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .animate-scale-in {
+    opacity: 0 !important;
+    transform: scale(0.95) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .animate-scale-in.visible {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    opacity: 0 !important;
+    transform: translateY(20px) !important;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+  }
+
+  .animate-slide-in-left.visible,
+  .animate-slide-in-right.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Kill hover effects that cause repaint on touch */
+  .hover-scale:hover,
+  .hover-lift-enhanced:hover,
+  .tech-hover-lift:hover,
+  .card-hover:hover {
+    transform: none !important;
+  }
+
+  /* Kill antigravity orb animations on really weak devices */
+  .antigravity-orb,
+  .antigravity-spark {
+    will-change: auto !important;
+  }
 }
 
 /* Slide from left with 3D perspective */

@@ -117,8 +117,8 @@ const MarketingMockup = () => {
             </div>
             
             <div className="h-32 bg-white/5 border border-white/5 rounded-2xl p-5 flex items-center justify-center">
-               <div className="w-24 h-24 relative rounded-full border-4 border-white/10 border-t-primary border-r-primary animate-[spin_10s_linear_infinite]">
-                 <div className="absolute inset-2 rounded-full border-4 border-white/5 border-l-brand-green animate-[spin_5s_linear_infinite_reverse]" />
+               <div className="w-24 h-24 relative rounded-full border-4 border-white/10 border-t-primary border-r-primary md:animate-[spin_10s_linear_infinite]">
+                 <div className="absolute inset-2 rounded-full border-4 border-white/5 border-l-brand-green md:animate-[spin_5s_linear_infinite_reverse]" />
                  <div className="absolute inset-0 flex items-center justify-center font-black text-sm text-white">68%</div>
                </div>
             </div>

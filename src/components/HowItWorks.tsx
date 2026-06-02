@@ -89,6 +89,10 @@ const HowItWorks = () => {
       .to(swipeHintRef.current, { x: -14, duration: 0.35, ease: 'power2.out' })
       .to(swipeHintRef.current, { x: 0, duration: 0.3, ease: 'power2.inOut' })
       .to(swipeHintRef.current, { opacity: 0, duration: 0.5, delay: 0.4 });
+
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   useGSAP(() => {

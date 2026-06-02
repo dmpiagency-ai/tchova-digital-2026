@@ -248,36 +248,18 @@ const Hero = () => {
       }
     });
 
-    // ─── MOBILE: Lightweight version (no blur, no skew, no clipPath, no objectPosition animation) ─────────
+    // ─── MOBILE: Ultra-lightweight version ─────────
     mm.add('(max-width: 767px)', () => {
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.4 } });
 
-      // Video visible immediately — no filter animation
-      gsap.set(videoContainerRef.current, { opacity: 1 });
+      // Ensure immediate visibility
+      gsap.set([videoContainerRef.current, labelRef.current, headlineRef.current, subheadlineRef.current, ctaRef.current?.children ? Array.from(ctaRef.current.children) : []], { opacity: 1, y: 0 });
 
-      tl.fromTo(labelRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 }
-      )
-      .fromTo(headlineRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        '-=0.3'
-      )
-      .fromTo(subheadlineRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 },
-        '-=0.4'
-      )
-      .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, duration: 0.5 },
-        '-=0.3'
-      );
+      // Ultra-fast entrance to avoid "missing content" lag
+      tl.from(headlineRef.current, { y: 20, opacity: 0, duration: 0.4 })
+        .from(subheadlineRef.current, { y: 10, opacity: 0, duration: 0.3 }, '-=0.2');
 
-      // Video scale animation disabled on mobile to prevent composite lag and save battery
-      const videoEl = video1Ref.current;
-
+      // Video scale animation disabled on mobile
       // No parallax on mobile — too expensive
     });
 
@@ -324,39 +306,9 @@ const Hero = () => {
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
-        {/* ═══ Mobile Antigravity Effects ═══ floating orbs, sparks & breathing nebula */}
-        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none">
-          {/* Breathing nebula base - optimized for mobile (no maskImage) */}
-          <div
-            className="absolute w-[140%] h-[60%] bottom-0 left-[-20%] opacity-50"
-            style={{
-              background: `
-                radial-gradient(ellipse at 30% 90%, rgba(34,197,94,0.10) 0%, transparent 70%),
-                radial-gradient(ellipse at 70% 85%, rgba(74,222,128,0.07) 0%, transparent 65%)
-              `,
-              animation: 'nebulaBreath 12s ease-in-out infinite',
-            }}
-          />
-
-          {/* Simple floating orbs - no heavy box-shadow */}
-          {[
-            { left: '12%', size: '8px', delay: '0s', dur: '14s' },
-            { left: '80%', size: '6px', delay: '2s', dur: '11s' },
-            { left: '45%', size: '5px', delay: '4s', dur: '9s' },
-          ].map((orb, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full bg-primary/40"
-              style={{
-                bottom: '-10%',
-                left: orb.left,
-                width: orb.size,
-                height: orb.size,
-                animation: `antigravityRise ${orb.dur} ease-in-out ${orb.delay} infinite`,
-              }}
-            />
-          ))}
-        </div>
+        {/* Mobile Background Effects - REMOVED FOR PERFORMANCE 
+            (Nebula and floating orbs were draining mobile GPU and causing freeze on scroll) */}
+        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none opacity-0" />
         
         <div 
           ref={videoContainerRef} 
@@ -375,7 +327,7 @@ const Hero = () => {
                 muted
                 playsInline
                 loop={true}
-                preload="auto"
+                preload={isMobile ? "none" : "auto"}
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
                 className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
