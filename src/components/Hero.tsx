@@ -384,7 +384,7 @@ const Hero = () => {
             className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
               height: '60%',
-              background: 'linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background)) 15%, hsl(var(--background) / 0.95) 30%, hsl(var(--background) / 0.8) 45%, hsl(var(--background) / 0.5) 60%, hsl(var(--background) / 0.2) 75%, hsl(var(--background) / 0.05) 90%, transparent 100%)',
+              background: 'linear-gradient(to top, rgba(var(--background-rgb), 1) 0%, rgba(var(--background-rgb), 1) 15%, rgba(var(--background-rgb), 0.95) 30%, rgba(var(--background-rgb), 0.8) 45%, rgba(var(--background-rgb), 0.5) 60%, rgba(var(--background-rgb), 0.2) 75%, rgba(var(--background-rgb), 0.05) 90%, transparent 100%)',
             }}
           />
           {/* Desktop: original subtle fade */}
