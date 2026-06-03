@@ -32,7 +32,7 @@ interface ServiceProofMockupProps {
 // ==========================================
 const MarketingMockup = () => {
   return (
-    <div className="w-full h-full rounded-[2rem] bg-[#0A0A0B] border border-white/10 overflow-hidden flex flex-col font-sans text-white shadow-2xl relative group cursor-default">
+    <div className="w-full h-full rounded-[2rem] bg-card border border-white/10 overflow-hidden flex flex-col font-sans text-white shadow-2xl relative group cursor-default">
       {/* Header */}
       <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-white/[0.02]">
         <div className="flex items-center gap-3">
@@ -137,7 +137,7 @@ const MarketingMockup = () => {
 // ==========================================
 const DesignMockup = () => {
   return (
-    <div className="w-full h-full rounded-[2rem] bg-[#0A0A0B] border border-white/10 overflow-hidden flex font-sans text-white shadow-2xl group">
+    <div className="w-full h-full rounded-[2rem] bg-card border border-white/10 overflow-hidden flex font-sans text-white shadow-2xl group">
       {/* Sidebar: Brand Guidelines */}
       <div className="w-1/3 border-r border-white/10 bg-white/[0.02] p-6 flex flex-col gap-8">
         <div>
@@ -223,7 +223,7 @@ const DesignMockup = () => {
 // ==========================================
 const WebsitesMockup = () => {
   return (
-    <div className="w-full h-full rounded-[2rem] bg-[#0A0A0B] border border-white/10 overflow-hidden flex font-sans text-white shadow-2xl relative">
+    <div className="w-full h-full rounded-[2rem] bg-card border border-white/10 overflow-hidden flex font-sans text-white shadow-2xl relative">
       {/* IDE Section */}
       <div className="w-1/2 border-r border-white/10 bg-[#1E1E1E] flex flex-col">
         <div className="h-10 bg-[#2D2D2D] flex items-center px-4 gap-2">
@@ -298,7 +298,7 @@ const WebsitesMockup = () => {
 // ==========================================
 const AudiovisualMockup = () => {
   return (
-    <div className="w-full h-full rounded-[2rem] bg-[#0F0F11] border border-white/10 overflow-hidden flex flex-col font-sans text-white shadow-2xl relative">
+    <div className="w-full h-full rounded-[2rem] bg-card border border-white/10 overflow-hidden flex flex-col font-sans text-white shadow-2xl relative">
       {/* Top Half: Preview & Scopes */}
       <div className="flex-1 flex border-b border-white/10">
         {/* Video Preview */}

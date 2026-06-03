@@ -85,56 +85,58 @@
   }
 
   .dark {
-    /* Dark mode colors - Enhanced for better contrast (Less dark) */
-    --background: 0 0% 12%; /* Lighter background for better aesthetics */
-    --foreground: 0 0% 98%; /* Almost white for better readability */
+    /* ── Premium Antigravity Dark Mode ──
+       Charcoal with subtle green undertone — never pure black.
+       Inspired by Apple Dark, Linear, Vercel. */
+    --background: 150 4% 11%;       /* #1a1d1b — warm charcoal with green hint */
+    --foreground: 0 0% 96%;         /* #f5f5f5 */
     
     /* RGB Values for inline styles - Dark mode */
-    --background-rgb: 30, 30, 30;
-    --foreground-rgb: 250, 250, 250;
-    --border-rgb: 51, 51, 51;
+    --background-rgb: 26, 29, 27;
+    --foreground-rgb: 245, 245, 245;
+    --border-rgb: 55, 60, 56;
     --primary-rgb: 34, 197, 94;
     
-    --card: 0 0% 15%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 15%;
-    --popover-foreground: 0 0% 98%;
+    --card: 150 4% 14%;             /* #222623 — cards slightly elevated */
+    --card-foreground: 0 0% 96%;
+    --popover: 150 4% 14%;
+    --popover-foreground: 0 0% 96%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 18%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 70%;
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
+    --secondary: 150 3% 17%;        /* #2a2d2b — subtle lift */
+    --secondary-foreground: 0 0% 96%;
+    --muted: 150 3% 17%;
+    --muted-foreground: 0 0% 65%;
+    --border: 150 4% 22%;           /* #343834 — visible but soft */
+    --input: 150 4% 20%;
     --input-radius: 1rem;
     --ring: var(--primary);
     --modal-radius: 3rem;
     --modal-backdrop-blur: 20px;
     --modal-bg-light: rgba(255, 255, 255, 0.9);
-    --modal-bg-dark: rgba(0, 0, 0, 0.9);
+    --modal-bg-dark: rgba(26, 29, 27, 0.95);
     --dropzone-radius: 2rem;
     --dropzone-border: 2px dashed rgba(34, 197, 94, 0.3);
     --badge-radius: 9999px;
     --badge-padding: 0.25rem 1rem;
-    --badge-bg: rgba(34, 197, 94, 0.1);
+    --badge-bg: rgba(34, 197, 94, 0.12);
     --badge-text: #22C55E;
     --tab-active-radius: 9999px;
     --bg-background: hsl(var(--background));
     --text-foreground: hsl(var(--foreground));
 
     /* Dark Glass Effects - Enhanced */
-    --glass-bg: 145 100% 39% / 0.2;
-    --glass-border: 145 100% 70% / 0.4;
+    --glass-bg: 145 100% 39% / 0.15;
+    --glass-border: 145 100% 70% / 0.3;
 
     /* Dark Neomorphism - Improved shadows */
-    --neo-light: 0 0% 15%;
-    --neo-dark: 0 0% 8%;
-    --neo-shadow-light: 0 0% 20%;
-    --neo-shadow-dark: 0 0% 5%;
+    --neo-light: 150 4% 16%;
+    --neo-dark: 150 4% 8%;
+    --neo-shadow-light: 150 4% 20%;
+    --neo-shadow-dark: 150 4% 5%;
 
     /* Enhanced gradients for dark mode */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-glass: linear-gradient(135deg, hsla(var(--glass-bg)), hsla(145 100% 70% / 0.1));
+    --gradient-glass: linear-gradient(135deg, hsla(var(--glass-bg)), hsla(145 100% 70% / 0.08));
   }
 
   /* Navbar logo text gradient - Dark mode only */

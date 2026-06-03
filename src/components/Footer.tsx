@@ -63,7 +63,7 @@ const Footer = () => {
   }, { scope: containerRef });
 
   return (
-    <footer ref={containerRef} className="relative bg-[#030303] overflow-hidden border-t border-white/[0.04] pt-12 pb-8 md:pt-16 md:pb-12">
+    <footer ref={containerRef} className="relative bg-background overflow-hidden border-t border-white/[0.04] pt-12 pb-8 md:pt-16 md:pb-12">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
         <div className="absolute -top-[20%] left-[20%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />

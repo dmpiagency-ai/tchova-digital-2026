@@ -135,7 +135,7 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="how-it-works" className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/[0.04]">
+    <section ref={containerRef} id="how-it-works" className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
 
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -208,8 +208,8 @@ const HowItWorks = () => {
                 <div key={step.id} className="flex-[0_0_100%] min-w-0">
                   <div className={`relative w-full border rounded-2xl overflow-hidden p-6 transition-all duration-400 ${
                     index === selectedIndex
-                      ? 'bg-[#0a1a0a] border-primary/35 shadow-[0_0_36px_-8px_rgba(34,197,94,0.4)]'
-                      : 'bg-[#0b0b0b] border-white/[0.07]'
+                      ? 'bg-primary/5 border-primary/35 shadow-[0_0_36px_-8px_rgba(34,197,94,0.4)]'
+                      : 'bg-card border-white/[0.07]'
                   }`}>
 
                     {/* Ghost number */}
@@ -317,7 +317,7 @@ const HowItWorks = () => {
                     <div className="absolute w-3 h-3 rounded-full bg-primary" />
                   </div>
                   <div className={`w-1/2 flex ${isEven ? 'justify-start' : 'justify-end'}`}>
-                    <div className="group relative w-full bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 p-10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
+                    <div className="group relative w-full bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 p-10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
                       <div className="absolute -bottom-10 -right-6 text-[180px] font-black text-white/5 tracking-tighter leading-none pointer-events-none transition-transform duration-700 group-hover:-translate-y-4">
                         {step.number}
                       </div>

@@ -79,7 +79,7 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={containerRef}
-      className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/[0.04]"
+      className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]"
     >
       {/* Dynamic Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[800px] pointer-events-none opacity-20 md:opacity-40">
@@ -109,7 +109,7 @@ const Contact = () => {
           <div ref={leftColumnRef} className="flex flex-col gap-6 md:gap-8">
             
             {/* Main Info Card */}
-            <div className="bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
+            <div className="bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <h3 className="text-2xl font-bold mb-10 flex items-center gap-4 text-white">
@@ -178,7 +178,7 @@ const Contact = () => {
           </div>
 
           {/* Right Column: Quick Message Form */}
-          <div ref={rightColumnRef} className="bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-12 shadow-2xl relative">
+          <div ref={rightColumnRef} className="bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-12 shadow-2xl relative">
             <h3 className="text-2xl font-bold mb-4 text-white">Envie a sua mensagem</h3>
             <p className="text-muted-foreground/80 mb-10 text-lg font-light">
               Conta-nos o que precisas. Nós lemos tudo e respondemos pessoalmente.

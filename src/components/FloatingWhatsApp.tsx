@@ -139,7 +139,7 @@ const FloatingWhatsApp = () => {
       {/* Sleek horizontal CapCut-style call-to-action pill */}
       <button
         onClick={handleWhatsAppClick}
-        className="group flex items-center gap-2.5 px-4 py-2.5 bg-[#090909]/90 hover:bg-[#121212]/95 border border-white/10 hover:border-green-500/30 text-white rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:scale-105 active:scale-95 transition-all duration-300 ring-1 ring-white/5"
+        className="group flex items-center gap-2.5 px-4 py-2.5 bg-card/90 hover:bg-secondary/95 border border-white/10 hover:border-green-500/30 text-white rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:scale-105 active:scale-95 transition-all duration-300 ring-1 ring-white/5"
       >
         {/* Pulsing online status indicator */}
         <div className="relative flex h-2 w-2">

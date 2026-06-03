@@ -57,7 +57,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-[#030303] border-t border-white/[0.04]">
+    <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
       {/* Elite Background Architecture */}
       <div className="absolute inset-0 pointer-events-none">
         {/* 1. Cyber Grid Overlay (Softened) */}
@@ -130,7 +130,7 @@ const About = () => {
           </div>
 
           {/* Card 2: Stats Card (Right - Frosted Glass Panel next to Video Card) */}
-          <div className="lg:col-span-4 bg-[#0b0b0b] md:bg-black/40 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-2xl flex flex-col justify-center">
+          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-2xl flex flex-col justify-center">
             <div ref={statsRef} className="flex flex-col gap-6 w-full justify-center">
               
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
@@ -177,27 +177,7 @@ const About = () => {
           </button>
         </div>
 
-      {/* Visual Scene Separator (Full Width, No Card) */}
-      <div className="w-full relative h-[35vh] md:h-[50vh] overflow-hidden mt-6 md:mt-4 pointer-events-none">
-        <div className="absolute inset-0">
-          <img 
-            src="https://res.cloudinary.com/dwlfwnbt0/image/upload/v1779210902/servico_1_clkh5z.jpg" 
-            alt="TchovaDigital Infraestrutura" 
-            className="w-full h-full object-cover object-center opacity-90" 
-          />
-          {/* Comprehensive edge gradients to remove harsh cuts and blend perfectly */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-transparent to-[#030303]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-transparent to-[#030303]" />
-          
-          {/* Stronger fades at the exact edges to hide any image borders */}
-          <div className="absolute top-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-[#030303] to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-32 md:h-48 bg-gradient-to-t from-[#030303] to-transparent" />
-          <div className="absolute left-0 top-0 w-16 md:w-32 h-full bg-gradient-to-r from-[#030303] to-transparent" />
-          <div className="absolute right-0 top-0 w-16 md:w-32 h-full bg-gradient-to-l from-[#030303] to-transparent" />
 
-          <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
-        </div>
-      </div>
 
 
       </div>
