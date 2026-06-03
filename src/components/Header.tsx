@@ -3,7 +3,6 @@ import React, { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import DarkModeToggle from '@/components/DarkModeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { StaggeredMenu } from '@/components/ui/StaggeredMenu';
