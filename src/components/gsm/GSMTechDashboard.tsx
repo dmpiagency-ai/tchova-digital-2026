@@ -881,7 +881,7 @@ const GSMTechDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.localStorage.getItem('theme') === 'dark';
+      return window.localStorage.getItem('gsm-theme') !== 'light';
     }
     return true; // Default to dark for elite dash
   });
@@ -918,13 +918,14 @@ const GSMTechDashboard: React.FC = () => {
   }, { scope: contentRef, dependencies: [activeView] });
 
   useEffect(() => {
-    if (darkMode) {
+    // Only save preference locally — do NOT touch document.documentElement
+    // The GSM panel uses its own local darkMode prop for all styling.
+    window.localStorage.setItem('gsm-theme', darkMode ? 'dark' : 'light');
+
+    // On unmount (leaving GSM), ensure the main site stays in dark mode
+    return () => {
       document.documentElement.classList.add('dark');
-      window.localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      window.localStorage.setItem('theme', 'light');
-    }
+    };
   }, [darkMode]);
 
   const handleRent = (tool: BoxTool) => {
