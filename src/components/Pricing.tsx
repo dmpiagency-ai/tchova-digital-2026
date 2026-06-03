@@ -216,10 +216,10 @@ const Pricing = () => {
                 <div key={plan.id} className="flex-[0_0_100%] min-w-0">
                   <div className={`relative border rounded-2xl overflow-hidden transition-all duration-400 ${
                     plan.popular
-                      ? 'bg-[#0a1a0a] border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.4)]'
+                      ? 'bg-primary/5 border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.4)]'
                       : index === selectedIndex
-                        ? 'bg-[#0d0d0d] border-white/15'
-                        : 'bg-[#0b0b0b] border-white/[0.07]'
+                        ? 'bg-card border-white/15'
+                        : 'bg-card border-white/[0.07]'
                   }`}>
 
                     {/* Popular top line */}
@@ -364,8 +364,8 @@ const Pricing = () => {
                 >
                   <Card className={`relative overflow-hidden h-full flex flex-col ${
                     plan.popular
-                      ? "border-primary/50 bg-black/80 backdrop-blur-3xl shadow-[0_0_50px_-15px_rgba(34,197,94,0.3)]"
-                      : "border-white/10 bg-black/40 backdrop-blur-2xl"
+                      ? "border-primary/50 bg-primary/5 backdrop-blur-3xl shadow-[0_0_50px_-15px_rgba(34,197,94,0.3)]"
+                      : "border-white/10 bg-card/60 backdrop-blur-2xl"
                   }`}>
                     {plan.popular && (
                       <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-brand-green to-primary" />

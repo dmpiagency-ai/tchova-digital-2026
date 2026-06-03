@@ -136,7 +136,7 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-[#030303] border-t border-white/[0.04]"
+      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-background border-t border-white/[0.04]"
     >
       {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -192,7 +192,7 @@ const Services = () => {
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
                   {/* Background Image Setup */}
-                  <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-[#0a0a0a]">
+                  <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-card">
                     {/* Base Color Fallback (Based on service ID for variety) */}
                     <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${
                       item.id % 3 === 0 ? 'from-primary/40 to-black' : 

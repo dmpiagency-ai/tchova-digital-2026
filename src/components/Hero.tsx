@@ -299,10 +299,10 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="tech-hero relative overflow-hidden w-full min-h-[100svh] flex items-center justify-center bg-[#030303] md:bg-black"
+      className="tech-hero relative overflow-hidden w-full min-h-[100svh] flex items-center justify-center bg-background"
     >
       {/* Layer 0 — Video Background Full Screen */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[#030303] md:bg-black">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-background">
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
@@ -312,11 +312,11 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[clamp(40%,48%,52%)] md:h-full overflow-hidden will-change-transform bg-transparent md:bg-[#050505]"
+          className="absolute top-0 left-0 w-full h-[clamp(40%,48%,52%)] md:h-full overflow-hidden will-change-transform bg-transparent md:bg-background/80"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
           {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-black via-primary/5 to-black z-[1]" />
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background z-[1]" />
           
           {/* Background Media: support both video and image */}
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
@@ -396,7 +396,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
         {/* Desktop: Subtle Readability Gradient — Strictly focused on the left text area */}
         <div 
-          className="hidden md:block absolute inset-0 w-full h-full bg-[linear-gradient(90deg,rgba(0,0,0,0.9)_0%,rgba(0,0,0,0.7)_35%,transparent_50%)]" 
+          className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-background via-background/70 to-transparent w-[50%]" 
         />
       </div>
 
@@ -454,8 +454,14 @@ const Hero = () => {
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start"
+            className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start relative"
           >
+            {/* Mobile Anti-gravity Effect near CTA */}
+            <div className="block md:hidden absolute -inset-6 z-[-1] pointer-events-none overflow-hidden">
+              <div className="absolute bottom-0 left-[20%] w-12 h-12 rounded-full bg-brand-green/20 blur-xl blur-[20px] animate-[antigravityRise_4s_ease-in-out_infinite]" />
+              <div className="absolute bottom-[-10px] left-[60%] w-8 h-8 rounded-full bg-primary/30 blur-lg animate-[antigravityRise_5s_ease-in-out_infinite_1s]" />
+              <div className="absolute bottom-[-20px] left-[40%] w-16 h-16 rounded-full bg-accent/10 blur-[25px] animate-[antigravityRise_6s_ease-in-out_infinite_2s]" />
+            </div>
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
