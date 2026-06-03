@@ -456,11 +456,14 @@ const Hero = () => {
             ref={ctaRef}
             className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start relative"
           >
-            {/* Mobile Anti-gravity Effect near CTA */}
-            <div className="block md:hidden absolute -inset-6 z-[-1] pointer-events-none overflow-hidden">
-              <div className="absolute bottom-0 left-[20%] w-12 h-12 rounded-full bg-brand-green/20 blur-xl blur-[20px] animate-[antigravityRise_4s_ease-in-out_infinite]" />
-              <div className="absolute bottom-[-10px] left-[60%] w-8 h-8 rounded-full bg-primary/30 blur-lg animate-[antigravityRise_5s_ease-in-out_infinite_1s]" />
-              <div className="absolute bottom-[-20px] left-[40%] w-16 h-16 rounded-full bg-accent/10 blur-[25px] animate-[antigravityRise_6s_ease-in-out_infinite_2s]" />
+            {/* Mobile Cinematic Lens Flare behind CTA */}
+            <div className="block md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[150%] z-[-1] pointer-events-none flex items-center justify-center">
+              {/* Wide ambient glow */}
+              <div className="absolute w-[100%] h-[60%] bg-brand-green/15 blur-[40px] rounded-[100%]" />
+              {/* Core intense flare */}
+              <div className="absolute w-[70%] h-[25%] bg-primary/30 blur-[20px] rounded-[100%] mix-blend-screen" />
+              {/* Bright horizontal strike (anamorphic style) */}
+              <div className="absolute w-[90%] h-[2px] bg-primary/60 blur-[2px] rounded-[100%] mix-blend-screen" />
             </div>
             <MagneticButton
               onClick={openContactModal}
