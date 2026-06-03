@@ -148,59 +148,6 @@
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   MOBILE PERFORMANCE LAYER
-   Strips heavy GPU effects (backdrop-blur, box-shadow, animations)
-   on small screens to prevent lag/freeze on weak phones.
-   ═══════════════════════════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  /* Kill all backdrop-blur on mobile — #1 cause of jank on iOS/Android */
-  .backdrop-blur-sm,
-  .backdrop-blur,
-  .backdrop-blur-md,
-  .backdrop-blur-lg,
-  .backdrop-blur-xl,
-  .backdrop-blur-2xl,
-  .backdrop-blur-3xl,
-  [class*="backdrop-blur"] {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-
-  /* Replace heavy box-shadows with simple borders */
-  .shadow-2xl,
-  .shadow-xl {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
-  }
-
-  /* Reduce blur() on decorative orbs/glows */
-  [class*="blur-xl"],
-  [class*="blur-2xl"],
-  [class*="blur-3xl"],
-  [class*="blur-[2"],
-  [class*="blur-[3"] {
-    filter: blur(8px) !important;
-  }
-
-  /* Reduce animation durations globally */
-  *,
-  *::before,
-  *::after {
-    animation-duration: 50% !important;
-    transition-duration: 0.15s !important;
-  }
-
-  /* Disable non-essential animations */
-  .animate-pulse,
-  .animate-bounce {
-    animation: none !important;
-  }
-
-  /* Prevent layout thrashing from scroll-linked transforms */
-  .will-change-transform {
-    will-change: auto !important;
-  }
-}
 
 @layer base {
   * {
