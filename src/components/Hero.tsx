@@ -378,13 +378,13 @@ const Hero = () => {
             />
           )}
           
-          {/* Bottom Gradient Fade — blends the video seamlessly into #030303 background */}
+          {/* Bottom Gradient Fade — blends the video seamlessly into the theme background */}
           {/* Mobile: very tall ultra-smooth fade — eliminates any visible edge */}
           <div 
             className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
-              height: '55%',
-              background: 'linear-gradient(to top, #030303 0%, #030303 10%, rgba(3,3,3,0.95) 25%, rgba(3,3,3,0.8) 40%, rgba(3,3,3,0.5) 55%, rgba(3,3,3,0.2) 70%, rgba(3,3,3,0.05) 85%, transparent 100%)',
+              height: '60%',
+              background: 'linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background)) 15%, hsl(var(--background) / 0.95) 30%, hsl(var(--background) / 0.8) 45%, hsl(var(--background) / 0.5) 60%, hsl(var(--background) / 0.2) 75%, hsl(var(--background) / 0.05) 90%, transparent 100%)',
             }}
           />
           {/* Desktop: original subtle fade */}
