@@ -312,7 +312,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[clamp(40%,48%,52%)] md:h-full overflow-hidden will-change-transform bg-transparent md:bg-background/80"
+          className="absolute top-0 left-0 w-full h-full overflow-hidden will-change-transform bg-transparent md:bg-background/80"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
           {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
@@ -383,8 +383,8 @@ const Hero = () => {
           <div 
             className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
-              height: '60%',
-              background: 'linear-gradient(to top, rgba(var(--background-rgb), 1) 0%, rgba(var(--background-rgb), 1) 15%, rgba(var(--background-rgb), 0.95) 30%, rgba(var(--background-rgb), 0.8) 45%, rgba(var(--background-rgb), 0.5) 60%, rgba(var(--background-rgb), 0.2) 75%, rgba(var(--background-rgb), 0.05) 90%, transparent 100%)',
+              height: '75%',
+              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 15%, rgba(26,29,27,0.95) 30%, rgba(26,29,27,0.8) 45%, rgba(26,29,27,0.5) 60%, rgba(26,29,27,0.2) 75%, rgba(26,29,27,0.05) 90%, transparent 100%)',
             }}
           />
           {/* Desktop: original subtle fade */}
