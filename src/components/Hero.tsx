@@ -383,8 +383,8 @@ const Hero = () => {
           <div 
             className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
-              height: '75%',
-              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 15%, rgba(26,29,27,0.95) 30%, rgba(26,29,27,0.8) 45%, rgba(26,29,27,0.5) 60%, rgba(26,29,27,0.2) 75%, rgba(26,29,27,0.05) 90%, transparent 100%)',
+              height: '50%',
+              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 5%, rgba(26,29,27,0.9) 20%, rgba(26,29,27,0.6) 40%, rgba(26,29,27,0.3) 60%, rgba(26,29,27,0.1) 80%, transparent 100%)',
             }}
           />
           {/* Desktop: original subtle fade */}
@@ -456,15 +456,8 @@ const Hero = () => {
             ref={ctaRef}
             className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start relative"
           >
-            {/* Mobile Cinematic Lens Flare behind CTA */}
-            <div className="block md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[150%] z-[-1] pointer-events-none flex items-center justify-center">
-              {/* Wide ambient glow */}
-              <div className="absolute w-[100%] h-[60%] bg-brand-green/15 blur-[40px] rounded-[100%]" />
-              {/* Core intense flare */}
-              <div className="absolute w-[70%] h-[25%] bg-primary/30 blur-[20px] rounded-[100%] mix-blend-screen" />
-              {/* Bright horizontal strike (anamorphic style) */}
-              <div className="absolute w-[90%] h-[2px] bg-primary/60 blur-[2px] rounded-[100%] mix-blend-screen" />
-            </div>
+            {/* Mobile subtle CTA glow — no blur, just a soft radial shadow */}
+            <div className="block md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
