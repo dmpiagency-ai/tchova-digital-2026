@@ -11,11 +11,11 @@ const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
-  'DESIGN DE IMPACTO',
-  'WEB SITES E APPS',
+  'DESIGN',
+  'WEB',
   'MARKETING',
-  'EDICÃO DE VÍDEO',
-  'TOOLS GSM MOBILE RENTAL',
+  'VÍDEO',
+  'GSM MOBILE TOOLS',
 ];
 
 const Hero = () => {
@@ -312,11 +312,10 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-full overflow-hidden will-change-transform bg-transparent md:bg-background/80"
+          className="absolute top-0 left-0 w-full h-[70%] md:h-full overflow-hidden will-change-transform bg-transparent"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
-          {/* Fallback Static Atmosphere (Visible while video loads) — Hidden on mobile to ensure zero overlays */}
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background z-[1]" />
+          {/* Fallback Static Atmosphere — removed dark overlay, kept only for mobile poster fallback */}
           
           {/* Background Media: support both video and image */}
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
@@ -383,8 +382,8 @@ const Hero = () => {
           <div 
             className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
             style={{
-              height: '50%',
-              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 5%, rgba(26,29,27,0.9) 20%, rgba(26,29,27,0.6) 40%, rgba(26,29,27,0.3) 60%, rgba(26,29,27,0.1) 80%, transparent 100%)',
+              height: '60%',
+              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 10%, rgba(26,29,27,0.95) 20%, rgba(26,29,27,0.7) 40%, rgba(26,29,27,0.3) 60%, rgba(26,29,27,0.08) 80%, transparent 100%)',
             }}
           />
           {/* Desktop: original subtle fade */}
@@ -392,17 +391,27 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Localized Readability Gradient — Organic Diagonal Shadow Mask */}
+      {/* Localized Readability Gradient — Shaped overlay behind text content only */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {/* Desktop: Subtle Readability Gradient — Strictly focused on the left text area */}
+        {/* Desktop Layer 1: Left-to-right gradient — covers headline & badge area */}
         <div 
-          className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-background via-background/70 to-transparent w-[50%]" 
+          className="hidden md:block absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to right, rgba(8,12,10,0.92) 0%, rgba(8,12,10,0.78) 25%, rgba(8,12,10,0.45) 42%, rgba(8,12,10,0.15) 55%, transparent 65%)',
+          }}
+        />
+        {/* Desktop Layer 2: Bottom-left radial — reinforces CTA & subheadline zone */}
+        <div 
+          className="hidden md:block absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 60% at 15% 85%, rgba(8,12,10,0.8) 0%, rgba(8,12,10,0.4) 40%, transparent 70%)',
+          }}
         />
       </div>
 
       <div 
         ref={contentRef} 
-        className="relative z-20 w-full max-w-7xl mx-auto px-fluid-md flex flex-col items-center md:items-start justify-center md:justify-start gap-fluid-md pt-[clamp(185px,24svh,240px)] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] translate-y-0 md:-translate-y-6"
+        className="relative z-20 w-full max-w-7xl mx-auto px-fluid-md flex flex-col items-center md:items-start justify-end md:justify-start gap-fluid-md pt-[clamp(52svh,54svh,56svh)] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-16 md:pb-0 translate-y-0 md:-translate-y-6"
       >
         <div className="w-fit max-w-[94%] xs:max-w-[90%] sm:max-w-[80%] md:w-full md:max-w-[70%] lg:max-w-[55%] flex flex-col items-start text-left gap-6 md:gap-8 mx-auto md:mx-0">
 
@@ -413,7 +422,7 @@ const Hero = () => {
               <div className="w-8 h-[1px] bg-primary/50" />
               <span className="text-[10px] md:text-[11px] font-black tracking-[0.2em] text-primary uppercase flex flex-wrap items-center gap-y-1 gap-x-2 justify-start">
                 SOLUÇÕES EM
-                <span className="inline-flex h-[1.2em] overflow-hidden relative align-bottom w-[155px] sm:w-[220px] md:w-[280px] tracking-normal justify-start">
+                <span className="inline-flex h-[1.2em] overflow-hidden relative align-bottom w-[140px] sm:w-[150px] md:w-[220px] tracking-normal justify-start">
                   <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full text-left">
                     {ROTATING_WORDS.map((word, i) => (
                       <span key={i} className="h-[1.2em] text-white font-black whitespace-nowrap text-left">{word}</span>
@@ -429,11 +438,13 @@ const Hero = () => {
           <div ref={headlineClipRef} className="py-4 -my-4 px-4 -mx-4 w-full flex justify-start">
             <h1
               ref={headlineRef}
-              className="text-[clamp(2.35rem,11.5vw,3.4rem)] md:text-fluid-h1 font-black tracking-tighter leading-[0.92] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] break-words text-left w-full"
+              className="text-[clamp(1.9rem,9.8vw,3.6rem)] md:text-[clamp(1.8rem,3.8vw,3.5rem)] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] text-left w-full whitespace-nowrap flex flex-col pr-2"
             >
-              A EVOLUÇÃO<br />
-              <span className="inline-block whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-0.5 px-0 pr-3 sm:pr-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-[0.85em] text-left">
-                DO TEU NEGÓCIO.
+              <span className="text-[0.57em] md:text-[0.62em] font-extrabold tracking-normal text-white/90 mb-[-0.1em]">
+                COLOCA O TEU NEGÓCIO
+              </span>
+              <span className="font-bebas font-bold inline-block whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-0 px-0 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-left leading-[1]">
+                EM MOVIMENTO.
               </span>
             </h1>
           </div>
@@ -443,11 +454,11 @@ const Hero = () => {
             ref={subheadlineRef}
             className="flex flex-col gap-3 md:gap-5 max-w-2xl text-left items-start w-full"
           >
-            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.4] md:leading-[1.3] w-full max-w-xl text-left tracking-tight md:tracking-normal">
-              A <span className="text-white font-semibold">Tchova Digital</span> é o <span className="text-primary font-bold">ecossistema completo</span> <br />
-              para <span className="text-white font-semibold">PMEs</span> que desejam <span className="text-white font-semibold">destacar-se no mercado</span>. <br />
-              Unimos <span className="text-primary font-semibold">serviços criativos</span> a <span className="text-accent font-semibold">soluções técnicas GSM</span>, <br />
-              tudo <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">num só lugar</span>.
+            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.5] md:leading-[1.4] w-full max-w-3xl text-left tracking-tight md:tracking-normal">
+              Do <span className="text-white font-semibold">visual</span> que apresenta a tua empresa às <span className="text-primary font-bold">ferramentas</span><br className="hidden md:block" /> que fazem o trabalho acontecer.
+            </div>
+            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.5] md:leading-[1.4] w-full max-w-3xl text-left tracking-tight md:tracking-normal mt-1">
+              <span className="text-white font-semibold">Design, Web, Marketing, Vídeo e GSM</span> num <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">único ecossistema</span>.
             </div>
           </div>
 
