@@ -87,7 +87,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch mb-16 relative z-10">
           
           {/* Card 1: Cinematic Video & Manifesto Card (Left - Width Reduced) */}
-          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[390px] flex flex-col justify-center p-6 pb-4 md:p-8 md:pb-6 lg:p-12 lg:pb-8">
+          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[360px] flex flex-col justify-center p-6 md:p-8 lg:p-12 lg:pb-6">
             {/* Immersive Background Video inside Card 1 */}
             <div className="absolute inset-0 bg-black pointer-events-none">
               <video 
@@ -113,48 +113,50 @@ const About = () => {
                 <span className="text-xs tracking-widest font-bold text-primary uppercase">Sobre Nós</span>
               </div>
               {/* Mobile version */}
-              <h2 className="manifesto-title text-[28px] font-black mb-5 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[95%]">
-                O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 pb-2">NÃO PODE ESPERAR.</span>
+              <h2 className="manifesto-title text-[24px] font-black mb-4 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[95%]">
+                UM <br />ECOSSISTEMA, <br /><span className="inline-block text-[20px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pb-2">VÁRIAS <br />ESPECIALIDADES.</span>
               </h2>
-              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[90%]">
-                Grandes negócios não avançam apenas com esforço. Precisam da imagem certa, presença certa e ferramentas certas para continuar.
+              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[65%]">
+                Cada serviço existe para resolver um desafio diferente. Juntos, fazem parte de uma estrutura pensada para negócios e profissionais em movimento.
               </p>
               {/* Desktop version */}
-              <h2 className="manifesto-title hidden md:block text-[36px] lg:text-[42px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
-                O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2">NÃO PODE ESPERAR.</span>
+              <h2 className="manifesto-title hidden md:block text-[32px] lg:text-[36px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
+                UM ECOSSISTEMA, <br /><span className="inline-block text-[26px] lg:text-[30px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2">VÁRIAS ESPECIALIDADES.</span>
               </h2>
-              <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
-                Grandes negócios não avançam apenas com esforço. Precisam da imagem certa, presença certa e ferramentas certas para continuar.
+              <p className="manifesto-title hidden md:block text-[16px] lg:text-[17px] text-white/80 font-light leading-relaxed max-w-[420px]">
+                Cada serviço existe para resolver um desafio diferente. Juntos, fazem parte de uma estrutura pensada para negócios e profissionais em movimento.
               </p>
             </div>
           </div>
 
-          {/* Card 2: Stats Card (Right - Frosted Glass Panel next to Video Card) */}
-          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:p-10 shadow-2xl flex flex-col justify-center">
-            <div ref={statsRef} className="flex flex-col gap-6 w-full justify-center">
+          {/* Card 2: Ecosystem Specialties (Right - Frosted Glass Panel next to Video Card) */}
+          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-6 shadow-2xl flex flex-col justify-center">
+
+            <div ref={statsRef} className="flex flex-col w-full">
               
-              <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Projectos em Funcionamento</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Projectos colocados em funcionamento</div>
-                </div>
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">100<span className="text-primary">+</span></div>
+              <div className="border-t border-white/5 py-4 first:border-0 first:pt-0">
+                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">IDENTIDADE VISUAL</div>
+                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Construção de marcas profissionais.</div>
               </div>
 
-              <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Negócios com Suporte Activo</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Negócios que continuam a avançar connosco</div>
-                </div>
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">50<span className="text-primary">+</span></div>
+              <div className="border-t border-white/5 py-4">
+                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">WEBSITES</div>
+                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Presença digital moderna e funcional.</div>
               </div>
 
-              <div className="flex items-center justify-between last:border-0 last:pb-0">
-                <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas de Solução</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Design, Web, Marketing, Vídeo e GSM</div>
-                </div>
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">5<span className="text-primary">+</span></div>
+              <div className="border-t border-white/5 py-4">
+                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">MARKETING</div>
+                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Mais alcance e comunicação estratégica.</div>
+              </div>
+
+              <div className="border-t border-white/5 py-4">
+                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">AUDIOVISUAL</div>
+                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Conteúdos que valorizam negócios.</div>
+              </div>
+
+              <div className="border-t border-white/5 py-4 pb-0">
+                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">GSM RENTAL</div>
+                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Ferramentas profissionais para técnicos.</div>
               </div>
 
             </div>
