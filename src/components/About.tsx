@@ -117,14 +117,14 @@ const About = () => {
                 O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 pb-2">NÃO PODE ESPERAR.</span>
               </h2>
               <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[90%]">
-                Do branding impecável a um sistema de vendas que nunca dorme — nós construímos a infraestrutura de elite para dominares o mercado.
+                Grandes negócios não avançam apenas com esforço. Precisam da imagem certa, presença certa e ferramentas certas para continuar.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[36px] lg:text-[42px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
                 O TEU NEGÓCIO <br /><span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2">NÃO PODE ESPERAR.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[17px] lg:text-[18px] text-white/80 font-light leading-relaxed max-w-[540px]">
-                Do branding impecável a um sistema de vendas automático que nunca dorme — nós construímos a infraestrutura de elite para dominares o mercado.
+                Grandes negócios não avançam apenas com esforço. Precisam da imagem certa, presença certa e ferramentas certas para continuar.
               </p>
             </div>
           </div>
@@ -135,23 +135,23 @@ const About = () => {
               
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Projectos Entregues</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Design, vídeos, sites e sistemas activos</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Projectos em Funcionamento</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Projectos colocados em funcionamento</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">100<span className="text-primary">+</span></div>
               </div>
 
               <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Clientes Activos</div>
-                  <div className="text-[10px] md:text-xs text-white/40">Empresários que crescem connosco todos os meses</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Negócios com Suporte Activo</div>
+                  <div className="text-[10px] md:text-xs text-white/40">Negócios que continuam a avançar connosco</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">50<span className="text-primary">+</span></div>
               </div>
 
               <div className="flex items-center justify-between last:border-0 last:pb-0">
                 <div className="text-left">
-                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas de Serviço</div>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-primary font-bold mb-1">Áreas de Solução</div>
                   <div className="text-[10px] md:text-xs text-white/40">Design, Web, Marketing, Vídeo e GSM</div>
                 </div>
                 <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">5<span className="text-primary">+</span></div>
@@ -171,7 +171,7 @@ const About = () => {
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
               <EliteNode className="w-5 h-5" />
-              Conhecer a Nossa Filosofia
+              Conhecer a Tchova
               <ArrowRight className="w-5 h-5 ml-1 -rotate-45 group-hover:rotate-0 transition-transform" />
             </span>
           </button>

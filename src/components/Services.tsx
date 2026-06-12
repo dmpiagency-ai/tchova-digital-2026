@@ -65,46 +65,51 @@ const Services = () => {
     {
       id: 1,
       number: '01',
-      title: 'Design Gráfico',
-      category: 'Área Criativa',
-      audience: 'Para quem precisa de uma marca profissional',
-      painPoint: 'A tua imagem não transmite confiança e os clientes passam ao lado.',
+      title: 'A tua empresa merece parecer profissional.',
+      category: 'Design & Identidade',
+      audience: 'Imagem profissional para o teu negócio',
+      painPoint: 'Mais confiança. Mais credibilidade. Clientes que levam o negócio a sério.',
+      cta: 'Ver como funciona',
       icon: EliteMatrix
     },
     {
       id: 2,
       number: '02',
-      title: 'Websites & Apps',
-      category: 'Presença Digital',
-      audience: 'Para quem quer vender e converter online',
-      painPoint: 'Não tens site, ou tens um que ninguém encontra nem contacta.',
+      title: 'Um espaço online que trabalha por ti 24 horas.',
+      category: 'Websites & Lojas',
+      audience: 'Sites e lojas para negócios em crescimento',
+      painPoint: 'Clientes encontram, confiam e contactam — mesmo quando estás ocupado.',
+      cta: 'Ver como funciona',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
-      title: 'Tráfego & Marketing',
-      category: 'Vendas & Escala',
-      audience: 'Para quem quer mais clientes todos os meses',
-      painPoint: 'Gastas dinheiro em anúncios sem saber o que funciona.',
+      title: 'Mais pessoas certas a descobrir o teu negócio.',
+      category: 'Campanhas & Redes',
+      audience: 'Anúncios e gestão de redes sociais',
+      painPoint: 'Mais pedidos. Mais mensagens. Mais oportunidades para o teu negócio.',
+      cta: 'Ver como funciona',
       icon: ElitePulse
     },
     {
       id: 4,
       number: '04',
-      title: 'Audiovisual',
-      category: 'Conteúdo & Mídia',
-      audience: 'Para quem precisa de vídeo, motion e publicidade',
-      painPoint: 'Postas conteúdo todos os dias mas ninguém para para ver.',
+      title: 'Conteúdo que faz as pessoas parar e prestar atenção.',
+      category: 'Vídeo & Fotografia',
+      audience: 'Produção audiovisual para marcas e empresas',
+      painPoint: 'Do produto ao ecrã com qualidade e impacto real.',
+      cta: 'Ver como funciona',
       icon: EliteRadar
     },
     {
       id: 5,
       number: '05',
-      title: 'GSM Tech Rental',
-      category: 'Painel de Aluguer GSM',
-      audience: 'Para técnicos mobile que dependiam de boxes caras e cartões de crédito',
-      painPoint: 'Antigamente precisavas de comprar boxes físicas, pagar licenças anuais e ter cartões internacionais. Hoje, alugas as melhores tools GSM de forma avulsa e pagas por M-Pesa.',
+      title: 'Ferramentas profissionais para técnicos mobile.',
+      category: 'Ferramentas GSM',
+      audience: 'Acesso a ferramentas GSM sem interrupções',
+      painPoint: 'Trabalha com as melhores ferramentas sem travar o serviço.',
+      cta: 'Entrar no painel',
       icon: EliteNode
     },
   ], []);
@@ -163,11 +168,11 @@ const Services = () => {
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            Do criativo ao técnico. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Encontra o teu serviço.</span>
+            O que o teu negócio <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">precisa para avançar.</span>
           </h2>
           <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
-            Design, web, tráfego, vídeo e aluguer de tools GSM. Tudo com equipa dedicada.
+            Cada área resolve um problema real. Encontra a tua.
           </p>
         </div>
 
@@ -217,7 +222,7 @@ const Services = () => {
                   </div>
                   
                   {/* Advanced Gradient Overlay (Liquid Glass base) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent group-hover:from-black/100 group-hover:via-black/70 transition-all duration-500 z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-all duration-500 z-10" />
                   
                   {/* Glowing Border on Hover */}
                   <div className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500 rounded-[2rem] pointer-events-none z-30" />
@@ -230,33 +235,39 @@ const Services = () => {
                   {/* Top Right "Ver Detalhes" Pill */}
                   <div className="absolute top-6 right-6 z-30 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
                     <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                      Aceder
-                    </div>
+                       {item.cta}
+                     </div>
                   </div>
 
                   {/* Text Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex flex-col justify-end h-full z-40">
-                    <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
-                      {/* Number + Category */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-[28px] font-black text-white/10 tracking-tighter leading-none">
-                          {item.number}
-                        </span>
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary">
+                  <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 flex flex-col justify-end z-40">
+                    <div className="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                      {/* Category & Number Badge */}
+                      <div className="flex items-center justify-between mb-2.5 border-b border-white/5 pb-2">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-primary">
                           {item.category}
                         </span>
+                        <span className="text-[10px] font-bold font-mono text-white/30">
+                          {item.number}
+                        </span>
                       </div>
-                      <h3 className="text-fluid-h3 font-black text-white leading-tight mb-1 tracking-tight drop-shadow-md">
+                      
+                      <h3 className="text-sm md:text-base font-black text-white leading-snug mb-1.5 tracking-tight uppercase">
                         {item.title}
                       </h3>
-                      {/* Audience label — always visible */}
-                      <p className="text-[11px] font-semibold text-white/40 uppercase tracking-wider mb-1">
-                        {item.audience}
-                      </p>
-                      <div className="h-0 opacity-0 group-hover:opacity-100 group-hover:h-auto group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden">
-                        <p className="text-fluid-p font-bold text-white/70 italic">
-                          {item.painPoint}
-                        </p>
+                      
+                      {/* Hidden details that appear on hover */}
+                      <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out opacity-0 group-hover:opacity-100">
+                        <div className="overflow-hidden">
+                          <div className="pt-2">
+                            <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest mb-1">
+                              {item.audience}
+                            </p>
+                            <p className="text-[11px] text-zinc-400 leading-relaxed font-medium">
+                              {item.painPoint}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -291,7 +302,7 @@ const Services = () => {
             </span>
           </button>
           <p className="mt-6 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-            Respondemos no WhatsApp em menos de 30 minutos. Sem enrolação.
+            Respondemos no WhatsApp em minutos. Sem complicação.
           </p>
         </div>
       </div>

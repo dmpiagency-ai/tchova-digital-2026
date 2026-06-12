@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { env } from '@/config/env';
 
-type SectionName = 'general' | 'about' | 'services' | 'how-it-works' | 'pricing' | 'roi' | 'testimonials' | 'contact';
+type SectionName = 'general' | 'about' | 'services' | 'how-it-works' | 'pricing' | 'testimonials' | 'contact';
 
 const FloatingWhatsApp = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,9 +23,7 @@ const FloatingWhatsApp = () => {
       case 'pricing':
         messageText = 'Olá! Gostaria de falar sobre os planos de preços e opções de contratação.';
         break;
-      case 'roi':
-        messageText = 'Olá! Vi a calculadora de ROI no vosso site e gostaria de fazer uma simulação personalizada de retorno.';
-        break;
+
       case 'testimonials':
         messageText = 'Olá! Vi os vossos casos de sucesso e gostava de obter resultados semelhantes para o meu negócio.';
         break;
@@ -57,7 +55,6 @@ const FloatingWhatsApp = () => {
       { id: 'services', name: 'services' },
       { id: 'how-it-works', name: 'how-it-works' },
       { id: 'planos', name: 'pricing' },
-      { id: 'roi-calculator-section', name: 'roi' },
       { id: 'testimonials', name: 'testimonials' },
       { id: 'contact', name: 'contact' },
     ];
@@ -101,8 +98,6 @@ const FloatingWhatsApp = () => {
         return 'Tirar Dúvidas';
       case 'pricing':
         return 'Ver Preços';
-      case 'roi':
-        return 'Calcular ROI';
       case 'testimonials':
         return 'Ver Casos';
       case 'contact':

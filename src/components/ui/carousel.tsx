@@ -130,10 +130,10 @@ export const useDotButton = (
 };
 
 export const DotButton: React.FC<PropTypeButton> = (props) => {
-  const { children, ...restProps } = props;
+  const { children, className, ...restProps } = props;
 
   return (
-    <button type="button" {...restProps}>
+    <button type="button" className={`${className || ''} no-min-size`} {...restProps}>
       {children}
     </button>
   );

@@ -32,8 +32,8 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'Ouvimos o Teu Negócio',
-      description: 'Sentamos contigo, entendemos como vendes hoje e onde estás a perder clientes. Sem jargão — só perguntas certas.',
+      label: 'ENTENDEMOS O MOMENTO',
+      description: 'Analisamos o teu negócio, o que já tens e onde estás a perder clientes ou tempo.',
       number: '01',
       phase: 'Fase 1',
       keyword: 'Entender',
@@ -41,8 +41,8 @@ const HowItWorks = () => {
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'Montamos Tudo Para Ti',
-      description: 'Criamos o teu site, a tua marca e o sistema de vendas online. Tudo pronto para os clientes te encontrarem.',
+      label: 'CONSTRUÍMOS A ESTRUTURA',
+      description: 'Criamos a imagem, presença e ferramentas certas para o teu negócio avançar.',
       number: '02',
       phase: 'Fase 2',
       keyword: 'Construir',
@@ -50,11 +50,11 @@ const HowItWorks = () => {
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'Começas a Vender Mais',
-      description: 'Lançamos, ajustamos e tu começas a ver resultados. O teu negócio a funcionar online, mesmo quando dormes.',
+      label: 'COLOCAMOS EM MOVIMENTO',
+      description: 'A tua operação começa a trabalhar com uma estrutura preparada para o mercado.',
       number: '03',
       phase: 'Fase 3',
-      keyword: 'Crescer',
+      keyword: 'Activar',
     },
   ];
 
@@ -158,10 +158,10 @@ const HowItWorks = () => {
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Do Zero ao <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Resultado</span>
+            Da Ideia à <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Operação</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Simples, directo e sem complicações. <span className="text-white font-semibold">3 passos. Resultados reais.</span>
+            Um processo simples para tirar o teu negócio do papel e <span className="text-white font-semibold">colocar tudo a funcionar.</span>
           </p>
         </div>
 
@@ -242,7 +242,7 @@ const HowItWorks = () => {
                         </>
                       ) : (
                         <>
-                          <span className="text-[8px] uppercase tracking-[0.25em] text-primary font-black">pronto para vender</span>
+                          <span className="text-[8px] uppercase tracking-[0.25em] text-primary font-black">pronto para funcionar</span>
                           <div className="w-2 h-2 rounded-full bg-primary" />
                         </>
                       )}
@@ -260,7 +260,7 @@ const HowItWorks = () => {
               onClick={scrollPrev}
               disabled={!canScrollPrev}
               aria-label="Fase anterior"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollPrev
                   ? 'border-primary/40 text-primary active:scale-95 active:bg-primary/20'
                   : 'border-white/8 text-white/15 cursor-not-allowed'
@@ -276,7 +276,7 @@ const HowItWorks = () => {
                   key={i}
                   onClick={() => scrollTo(i)}
                   aria-label={`Ir para fase ${i + 1}`}
-                  className={`rounded-full transition-all duration-300 ease-out ${
+                  className={`rounded-full transition-all duration-300 ease-out no-min-size ${
                     i === selectedIndex
                       ? 'w-7 h-2 bg-primary shadow-[0_0_10px_rgba(34,197,94,0.7)]'
                       : 'w-2 h-2 bg-white/20'
@@ -290,7 +290,7 @@ const HowItWorks = () => {
               onClick={scrollNext}
               disabled={!canScrollNext}
               aria-label="Próxima fase"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollNext
                   ? 'border-primary/40 text-primary active:scale-95 active:bg-primary/20'
                   : 'border-white/8 text-white/15 cursor-not-allowed'
@@ -343,7 +343,7 @@ const HowItWorks = () => {
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
-              Quero Começar Agora
+              Começar Agora
               <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
             </span>
           </button>

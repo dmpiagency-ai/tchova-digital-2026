@@ -10,7 +10,7 @@ import About from '@/components/About';
 import Services from '@/components/Services';
 import HowItWorks from '@/components/HowItWorks';
 import Pricing from '@/components/Pricing';
-import { ROICalculator } from '@/components/ROICalculator';
+
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -130,13 +130,7 @@ const Index = () => {
         <Services />
         <HowItWorks />
         <Pricing />
-        <section id="roi-calculator-section" className="py-12 md:py-24 bg-[#030303] border-t border-white/[0.04]">
-          <div className="container mx-auto px-6 lg:px-12">
-            <div className="max-w-4xl mx-auto rounded-[32px] overflow-hidden bg-[#0b0b0b] border border-white/[0.07] shadow-2xl">
-              <ROICalculator />
-            </div>
-          </div>
-        </section>
+
         <Testimonials />
         <Contact />
       </main>

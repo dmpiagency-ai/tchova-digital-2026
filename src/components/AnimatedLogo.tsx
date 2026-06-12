@@ -45,15 +45,7 @@ export const AnimatedLogo = ({ className, showText = false }: AnimatedLogoProps)
   useGSAP(() => {
     if (!containerRef.current) return;
 
-    // On mobile: show only the first logo statically — no loop, no CPU cost
-    const isMobile = window.innerWidth <= 768;
     const icons = [v1Ref.current, v2Ref.current, v3Ref.current];
-
-    if (isMobile) {
-      gsap.set(icons, { opacity: 0, zIndex: 1 });
-      gsap.set(icons[0], { opacity: 1, zIndex: 5 });
-      return;
-    }
 
     const tl = gsap.timeline({ repeat: -1 });
 
@@ -64,19 +56,20 @@ export const AnimatedLogo = ({ className, showText = false }: AnimatedLogoProps)
       const from = icons[fromIdx];
       const to = icons[toIdx];
 
-      // 8s pause (increased from 5s) — more stable, less CPU usage
+      // 8s pause — stable, lightweight cycle
       tl.to({}, { duration: 8 })
         .add(() => {
+          // Pre-set the incoming logo
           gsap.set(to, { zIndex: 10, opacity: 0, scale: 0.95 });
-        })
-        .add(() => {
+          // Update text colors instantly
           setColors(TEXT_COLORS[toIdx as keyof typeof TEXT_COLORS]);
         })
-        .to(to, { opacity: 1, scale: 1, duration: 2, ease: 'sine.inOut' })
-        .to(from, { opacity: 0, scale: 1.05, duration: 2, ease: 'sine.inOut' }, '<')
+        // Crossfade with GPU-accelerated opacity and a subtle organic scale on the incoming logo only
+        .to(to, { opacity: 1, scale: 1, duration: 1.5, ease: 'power2.inOut' })
+        .to(from, { opacity: 0, duration: 1.5, ease: 'power2.inOut' }, '<')
         .add(() => {
           gsap.set(to, { zIndex: 5 });
-          gsap.set(from, { zIndex: 1, opacity: 0 });
+          gsap.set(from, { zIndex: 1, opacity: 0, scale: 1 });
         });
     };
 
@@ -84,7 +77,7 @@ export const AnimatedLogo = ({ className, showText = false }: AnimatedLogoProps)
     smoothTransition(1, 2);
     smoothTransition(2, 0);
 
-    // Pause GSAP loop when tab is hidden — saves CPU/GPU/battery
+    // Pause GSAP loop when tab is hidden — crucial for mobile battery saving
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         tl.pause();
@@ -100,9 +93,9 @@ export const AnimatedLogo = ({ className, showText = false }: AnimatedLogoProps)
   return (
     <div ref={containerRef} className={cn("flex items-center gap-4 h-full", className)}>
       <div className="relative h-full aspect-square flex-shrink-0">
-        <img ref={v1Ref} src={logoV1} alt="V1" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
-        <img ref={v2Ref} src={logoV2} alt="V2" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
-        <img ref={v3Ref} src={logoV3} alt="V3" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
+        <img ref={v1Ref} src={logoV1} alt="V1" className="absolute inset-0 w-full h-full object-contain pointer-events-none will-change-[opacity,transform]" />
+        <img ref={v2Ref} src={logoV2} alt="V2" className="absolute inset-0 w-full h-full object-contain pointer-events-none will-change-[opacity,transform]" />
+        <img ref={v3Ref} src={logoV3} alt="V3" className="absolute inset-0 w-full h-full object-contain pointer-events-none will-change-[opacity,transform]" />
       </div>
       
       {showText && (

@@ -1,354 +1,229 @@
 // ============================================
 // DESIGN PORTAL - TCHOVA DIGITAL
-// Painel de Design Gráfico & Identidade Visual
+// Design & Identidade Visual - Interactive Onboard
 // ============================================
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { AnimatedLogo } from '@/components/AnimatedLogo';
-import {
-  Palette, FileImage, Instagram, Droplets, Grid3X3,
-  ChevronRight, Home, MessageCircle, Star, PenTool,
-  Sparkles, Layers, Eye, Heart, Megaphone
-} from 'lucide-react';
-import { MobileTopNav } from './MobileTopNav';
+import { ArrowLeft, MessageCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { env } from '@/config/env';
 
-// Portfolio item type
-interface PortfolioItem {
-  id: string;
-  title: string;
-  category: string;
-  image: string;
-  icon: any;
-}
-
-const portfolioItems: PortfolioItem[] = [
-  { id: '1', title: 'Identidade Visual Completa', category: 'Branding', image: '/thumbnails/design-portal/item1.png', icon: Palette },
-  { id: '2', title: 'Feed Instagram Premium', category: 'Social Media', image: '/thumbnails/design-portal/item2.png', icon: Instagram },
-  { id: '3', title: 'Cartão de Visita Elite', category: 'Print', image: '/thumbnails/design-portal/item3.png', icon: FileImage },
-  { id: '4', title: 'Banner Publicitário', category: 'Ads', image: '/thumbnails/design-portal/item4.png', icon: Megaphone },
-  { id: '5', title: 'Logo & Manual da Marca', category: 'Branding', image: '/thumbnails/design-portal/item5.png', icon: PenTool },
-  { id: '6', title: 'Embalagem de Produto', category: 'Packaging', image: '/thumbnails/design-portal/item6.png', icon: Layers },
+const problems = [
+  "A minha empresa parece amadora quando comparada com outras",
+  "Cada rede social tem uma aparência diferente e desorganizada",
+  "Os clientes não reconhecem a minha marca facilmente",
+  "A concorrência parece mais profissional e rouba clientes"
 ];
 
-const categories = ['Todos', 'Branding', 'Social Media', 'Print', 'Ads', 'Packaging'];
-
-// Brand Color Palette Component
-const BrandPalette = () => (
-  <div className="space-y-4">
-    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Paleta da Marca</p>
-    <div className="flex gap-3">
-      {[
-        { color: 'bg-primary', label: '#22C55E' },
-        { color: 'bg-black', label: '#0A0A0B' },
-        { color: 'bg-brand-yellow', label: '#FACC15' },
-        { color: 'bg-white', label: '#FFFFFF' },
-      ].map((c, i) => (
-        <div key={i} className="group cursor-pointer">
-          <div className={`w-12 h-12 rounded-2xl ${c.color} border border-white/10 shadow-lg group-hover:scale-110 transition-transform`} />
-          <p className="text-[8px] font-mono text-zinc-500 mt-2 text-center">{c.label}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-// Typography Specimen
-const TypographySpec = () => (
-  <div className="space-y-4">
-    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Tipografia</p>
-    <div className="space-y-2">
-      <p className="text-4xl font-black tracking-tighter">Aa Bb Cc</p>
-      <p className="text-sm font-bold text-zinc-500">Inter / Black 900</p>
-      <p className="text-xs text-zinc-600">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-      <p className="text-xs text-zinc-600">abcdefghijklmnopqrstuvwxyz</p>
-      <p className="text-xs text-zinc-600">0123456789 @#$%</p>
-    </div>
-  </div>
-);
+const packages = [
+  { title: "Identidade visual profissional", desc: "Um visual único para representar o teu negócio com seriedade." },
+  { title: "Comunicação visual consistente", desc: "A mesma qualidade em todos os canais de contacto." },
+  { title: "Apresentação de confiança", desc: "Mais credibilidade logo na primeira impressão do cliente." },
+  { title: "Manual de Marca", desc: "Regras claras para manter o visual sempre organizado." }
+];
 
 const DesignPortal = () => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState('Todos');
-  const [activeView, setActiveView] = useState<'portfolio' | 'brand' | 'request'>('portfolio');
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [darkMode] = useState(true);
+  const [step, setStep] = useState(1);
+  const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
 
-  const filteredItems = activeCategory === 'Todos' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === activeCategory);
+  const handleNext = () => setStep(s => Math.min(s + 1, 3));
+  const handlePrev = () => setStep(s => Math.max(s - 1, 1));
 
-  useGSAP(() => {
-    const cards = containerRef.current?.querySelectorAll('.design-card');
-    if (cards) {
-      gsap.fromTo(cards,
-        { opacity: 0, y: 30, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, stagger: 0.08, duration: 0.6, ease: 'power3.out' }
-      );
-    }
-  }, { scope: containerRef, dependencies: [activeCategory, activeView] });
-
-  const sidebarItems = [
-    { id: 'portfolio', icon: Grid3X3, label: 'Portfolio', description: 'Trabalhos' },
-    { id: 'brand', icon: Droplets, label: 'Brand Kit', description: 'Identidade' },
-    { id: 'request', icon: PenTool, label: 'Solicitar', description: 'Novo Projeto' },
-  ];
+  const getWhatsAppLink = () => {
+    const text = selectedProblem 
+      ? `Olá! Gostaria de conversar sobre Design. O meu maior desafio atualmente é: "${selectedProblem}". Podem ajudar a melhorar a imagem da minha empresa?`
+      : `Olá! Gostaria de conversar sobre o serviço de Design e Identidade Visual para a minha empresa. Podem ajudar?`;
+    return `https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  };
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden bg-background flex">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-[260px] border-r dark:border-white/5 border-slate-100 dark:bg-zinc-950/80 bg-white backdrop-blur-xl">
-        {/* Logo */}
-        <div className="h-20 flex items-center px-6 border-b dark:border-white/5 border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <AnimatedLogo className="h-8 w-auto" />
-            </div>
+    <div className="min-h-screen bg-[#030303] text-white select-none font-sans flex flex-col relative overflow-x-hidden">
+      {/* Sticky Header */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/80 backdrop-blur-md">
+        <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+          <button 
+            onClick={() => step === 1 ? navigate('/') : handlePrev()} 
+            className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors group text-sm font-semibold no-min-size"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>{step === 1 ? 'Voltar' : 'Anterior'}</span>
+          </button>
+          <div className="h-6 md:h-8">
+            <AnimatedLogo className="h-6 md:h-8 w-auto" />
           </div>
         </div>
-
-        {/* Nav */}
-        <nav className="p-4 space-y-2 flex-1 overflow-y-auto no-scrollbar">
-          {sidebarItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeView === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveView(item.id as any)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 transform active:scale-95 border ${
-                  isActive 
-                    ? 'bg-primary/10 border-primary/30 text-white shadow-[0_0_20px_rgba(34,197,94,0.1)] backdrop-blur-xl' 
-                    : 'dark:border-transparent dark:text-zinc-500 text-slate-500 dark:hover:bg-white/5 hover:bg-slate-50 dark:hover:text-white hover:text-slate-900'
-                }`}
-              >
-                <div className={`p-2 rounded-lg transition-colors duration-300 ${isActive ? 'bg-primary/20 shadow-[0_0_10px_rgba(34,197,94,0.3)]' : 'bg-transparent'}`}>
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]' : ''}`} />
-                </div>
-                <div className="text-left flex-1">
-                  <span className="font-black uppercase tracking-widest text-[10px] block">{item.label}</span>
-                  <span className={`text-[9px] font-bold ${isActive ? 'text-white/60' : 'text-zinc-600'}`}>{item.description}</span>
-                </div>
-                {isActive && <ChevronRight className="w-4 h-4 text-primary drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]" />}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Back Button */}
-        <div className="p-4 border-t dark:border-white/5 border-slate-100">
-          <button 
-            onClick={() => navigate('/')}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl dark:bg-zinc-900/50 bg-slate-50 border dark:border-white/5 border-slate-100 dark:text-zinc-400 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-all"
-          >
-            <Home className="w-4 h-4" />
-            <span className="font-black uppercase tracking-widest text-[9px]">Voltar</span>
-          </button>
+        
+        {/* Progress Bar */}
+        <div className="h-1 w-full bg-zinc-900">
+          <div 
+            className="h-full bg-primary transition-all duration-500 ease-out"
+            style={{ width: `${(step / 3) * 100}%` }}
+          />
         </div>
-      </aside>
+      </header>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Mobile Header */}
-        <div className="lg:hidden flex-none z-50 dark:bg-zinc-950 bg-white border-b dark:border-white/5 border-slate-100 px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex-1 flex justify-center">
-              <AnimatedLogo className="h-6 w-auto" />
+      <main className="flex-1 flex flex-col justify-center pt-20 pb-12 md:pt-28 md:pb-24 relative">
+        {/* Animated Background Orbs for Friendly/Interactive Vibe */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen" />
+        
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10">
+
+          {/* STEP 1: Diagnóstico */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 1 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
+            <div className="text-center mb-6 md:mb-12">
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 1 de 3 • Diagnóstico</span>
+              <h1 className="text-xl sm:text-2xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
+                Como está a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">imagem</span> da tua empresa?
+              </h1>
+              <p className="text-xs sm:text-sm md:text-lg text-zinc-400 font-medium">Selecione o problema que mais afeta a tua marca hoje.</p>
             </div>
-            <button onClick={() => navigate('/')} className="p-2 rounded-lg dark:bg-white/5 bg-slate-100">
-              <Home className="w-4 h-4" />
-            </button>
-          </div>
 
-          {/* Mobile Nav Tabs */}
-          <MobileTopNav items={sidebarItems} activeView={activeView} setActiveView={setActiveView} />
-        </div>
-
-        {/* Scrollable Workspace */}
-        <div ref={containerRef} className="flex-1 overflow-y-auto no-scrollbar pb-24 lg:pb-0">
-          
-          {/* PORTFOLIO VIEW */}
-          {activeView === 'portfolio' && (
-            <div className="p-4 lg:p-6 lg:max-w-6xl mx-auto w-full flex flex-col gap-3 h-full">
-              {/* Header & Filter Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 flex-none">
-                <div className="design-card">
-                  <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter leading-none mb-1">PORTFÓLIO <span className="text-primary tracking-normal">CRIATIVO</span></h2>
-                  <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-zinc-400">Design de alto impacto que vende</p>
-                </div>
-
-                {/* Category Filter */}
-                <div className="design-card flex gap-2 overflow-x-auto no-scrollbar">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest whitespace-nowrap transition-all duration-300 active:scale-95 border ${
-                        activeCategory === cat 
-                          ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(34,197,94,0.3)] backdrop-blur-md' 
-                          : 'dark:bg-white/5 bg-slate-100 dark:border-white/5 border-slate-200 dark:text-zinc-400 text-slate-500 hover:bg-white/10'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-            {/* Portfolio Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 flex-1 content-start min-h-0">
-              {filteredItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.id} className="design-card group rounded-2xl overflow-hidden dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col">
-                    <div className="h-24 sm:h-28 lg:h-32 relative flex items-center justify-center bg-zinc-900 overflow-hidden flex-none">
-                      {/* Background Image */}
-                      <div 
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
-                        style={{ backgroundImage: `url(${item.image})` }}
-                      />
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-colors duration-500" />
-                      
-                      {/* Antigravity Glass Icon Container */}
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 p-3 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/20 transition-all duration-500 group-hover:scale-110 shadow-2xl">
-                        <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white/70 group-hover:text-primary transition-all duration-500 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]" />
-                      </div>
-
-                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[7px] sm:text-[8px] font-black text-white uppercase tracking-widest z-10">
-                        {item.category}
-                      </div>
-                      {/* Hover overlay */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-20 pointer-events-none">
-                        <div className="p-2.5 bg-white/20 backdrop-blur-md rounded-full pointer-events-auto"><Eye className="w-4 h-4 text-white" /></div>
-                        <div className="p-2.5 bg-white/20 backdrop-blur-md rounded-full pointer-events-auto"><Heart className="w-4 h-4 text-white" /></div>
-                      </div>
-                    </div>
-                    <div className="p-3 sm:p-4 flex flex-col justify-between flex-1">
-                      <h3 className="text-xs sm:text-sm font-black uppercase tracking-tight mb-1 line-clamp-1">{item.title}</h3>
-                      <div className="flex items-center gap-1.5 mt-auto">
-                        <Star className="w-3 h-3 text-brand-yellow fill-current" />
-                        <span className="text-[9px] sm:text-[10px] font-bold text-zinc-500 uppercase">Premium Quality</span>
-                      </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto">
+              {problems.map((prob, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedProblem(prob)}
+                  className={`p-4 sm:p-8 rounded-[1.5rem] md:rounded-[2rem] border text-left transition-all duration-300 group
+                    ${selectedProblem === prob 
+                      ? 'bg-primary/10 border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] scale-[1.02]' 
+                      : 'bg-white/[0.02] backdrop-blur-xl border-white/10 hover:border-primary/30 hover:bg-white/[0.04] hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(34,197,94,0.05)]'}`}
+                >
+                  <div className="flex justify-between items-center gap-3 md:gap-4">
+                    <span className={`text-xs sm:text-sm md:text-base font-bold transition-colors ${selectedProblem === prob ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>
+                      {prob}
+                    </span>
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300
+                      ${selectedProblem === prob ? 'bg-primary text-black scale-110' : 'bg-white/5 text-zinc-500 group-hover:bg-primary/20 group-hover:text-primary'}`}>
+                      {selectedProblem === prob ? <CheckCircle2 className="w-3.5 h-3.5" /> : <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 group-hover:bg-primary" />}
                     </div>
                   </div>
-                );
-              })}
+                </button>
+              ))}
+            </div>
+
+            <div className={`mt-6 md:mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+              <button 
+                onClick={handleNext}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+              >
+                Continuar
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        )}
 
-        {/* BRAND KIT VIEW */}
-        {activeView === 'brand' && (
-          <div className="p-4 lg:p-6 lg:max-w-5xl mx-auto space-y-4">
-            <div className="design-card">
-              <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter leading-none mb-1">BRAND <span className="text-primary tracking-normal">KIT</span></h2>
-              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">O que entregamos na identidade visual</p>
+          {/* STEP 2: Solução */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 2 ? 'opacity-100 relative z-10 translate-x-0' : step < 2 ? 'opacity-0 pointer-events-none translate-x-full' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
+            <div className="text-center mb-12">
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                Como resolvemos isso na prática.
+              </h1>
+              <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
+                {selectedProblem === "A concorrência parece mais profissional e rouba clientes" 
+                  ? "Elevamos o padrão visual da tua empresa para ela não apenas competir, mas destacar-se no mercado."
+                  : selectedProblem === "Cada rede social tem uma aparência diferente e desorganizada"
+                  ? "Criamos um padrão visual forte e consistente para que todos reconheçam a tua marca num piscar de olhos."
+                  : "Criamos uma identidade visual que passa segurança e profissionalismo antes mesmo de falares com o cliente."}
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Logo Construction */}
-              <div className="design-card p-5 sm:p-6 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-4">Construção do Logótipo</p>
-                <div className="h-32 sm:h-40 rounded-2xl dark:bg-zinc-950 bg-slate-50 border dark:border-white/5 border-slate-100 relative overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)', backgroundSize: '15px 15px' }} />
-                  <div className="relative z-10 flex items-center gap-3">
-                    <div className="w-12 h-12 border-2 border-primary rounded-xl flex items-center justify-center">
-                      <Palette className="w-6 h-6 text-primary" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-xl font-black tracking-tighter leading-none">TCHOVA</p>
-                      <p className="text-[10px] font-bold text-primary">Digital</p>
-                    </div>
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex flex-col h-full group">
+                <div className="space-y-4">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Fundação Visual</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Identidade Visual Completa</h3>
+                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                    Logotipo profissional, paleta de cores, tipografia e um manual de regras para que a tua marca seja sempre reconhecida e respeitada.
+                  </p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                  <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Novos Negócios", "Rebranding", "Empresas"].map((tag, i) => (
+                      <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5">{tag}</span>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Colors & Type */}
-              <div className="space-y-4">
-                <div className="design-card p-5 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl">
-                  <BrandPalette />
+              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex flex-col h-full group">
+                <div className="space-y-4">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Aplicações Práticas</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Materiais e Redes Sociais</h3>
+                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                    Templates organizados para o teu Instagram, Facebook e materiais impressos (como cartões de visita e flyers) com o novo visual.
+                  </p>
                 </div>
-                <div className="design-card p-5 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl">
-                  <TypographySpec />
+                <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                  <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Clínicas", "Lojas", "Prestadores de Serviços"].map((tag, i) => (
+                      <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5">{tag}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Deliverables List */}
-            <div className="design-card p-5 sm:p-6 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-4">O que inclui</p>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  'Logótipo Principal',
-                  'Paleta de Cores',
-                  'Tipografia',
-                  'Elementos Gráficos',
-                  'Manual de Marca',
-                  'Ficheiros AI/PSD',
-                  'Mockups',
-                  'Posts Instagram',
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 p-3 rounded-xl dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-100">
-                    <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="w-3 h-3 text-primary" />
-                    </div>
-                    <span className="text-[10px] font-bold leading-tight">{item}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-12 text-center">
+              <button 
+                onClick={handleNext}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform"
+              >
+                Ver o Meu Pacote
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        )}
 
-        {/* REQUEST VIEW */}
-        {activeView === 'request' && (
-          <div className="p-4 lg:p-6 max-w-2xl mx-auto space-y-6 flex flex-col h-full justify-center">
-            <div className="design-card text-center space-y-1">
-              <h2 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter leading-none">SOLICITAR <span className="text-primary tracking-normal">PROJETO</span></h2>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Orçamento em 30 minutos</p>
+          {/* STEP 3: Entrega e CTA */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 3 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none translate-x-full'}`}>
+            <div className="text-center mb-12">
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 3 de 3 • O Teu Pacote</span>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                O que recebes no final.
+              </h1>
             </div>
 
-            <div className="design-card p-6 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl space-y-6">
-              {/* Quick Options */}
-              <div className="space-y-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">O que precisa?</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { label: 'Identidade Visual', icon: Palette },
-                    { label: 'Posts Instagram', icon: Instagram },
-                    { label: 'Material Impresso', icon: FileImage },
-                    { label: 'Anúncios', icon: Megaphone },
-                  ].map((opt, i) => (
-                    <button key={i} className="p-4 rounded-2xl dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-100 text-left hover:border-primary/30 hover:bg-primary/5 transition-all group">
-                      <opt.icon className="w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform" />
-                      <span className="text-[10px] font-black uppercase tracking-widest">{opt.label}</span>
-                    </button>
-                  ))}
+            <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-16">
+              {packages.map((item, i) => (
+                <div key={i} className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex items-center gap-4 sm:gap-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl sm:text-2xl font-black text-primary">✓</span>
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-black uppercase tracking-tighter mb-1 text-white">{item.title}</h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
-              </div>
+              ))}
+            </div>
 
-              {/* WhatsApp CTA */}
-              <a
-                href={`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero solicitar um serviço de Design Gráfico / Identidade Visual. Podem ajudar?')}`}
+            <div className="max-w-md mx-auto text-center bg-zinc-950/50 p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50" />
+              <h3 className="text-2xl font-black uppercase tracking-tight mb-3 relative z-10">Pronto para avançar?</h3>
+              <p className="text-sm text-zinc-400 font-medium mb-8 relative z-10">
+                Conta-nos o teu cenário no WhatsApp e iniciamos a transformação visual. Sem compromisso.
+              </p>
+              <a 
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative overflow-hidden block w-full py-5 bg-gradient-to-r from-primary to-brand-green text-white rounded-[1.5rem] text-center font-black uppercase tracking-[0.2em] text-sm shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:scale-[1.02] active:scale-95 transition-all duration-500 group"
+                className="relative z-10 inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-r from-primary to-brand-green text-white font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
               >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                <div className="relative z-10 flex items-center justify-center gap-2">
-                  <MessageCircle className="w-5 h-5 animate-pulse" />
-                  Falar com Especialista
-                </div>
+                <MessageCircle className="w-5 h-5 animate-pulse" />
+                Falar com a Equipa
               </a>
-              <p className="text-center text-[8px] font-black uppercase tracking-widest text-zinc-500">Sem compromisso</p>
             </div>
           </div>
-        )}
-      </div>
-      </div>
+
+        </div>
+      </main>
     </div>
   );
 };

@@ -74,10 +74,10 @@ const Footer = () => {
         
         {/* Call to Action Section */}
         <div className="text-center mb-8 md:mb-12 max-w-3xl">
-          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para Arrancar?</p>
+          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">O Futuro Chegou.</p>
           <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
-            O teu próximo cliente<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">já te procura online.</span>
+            Agora o teu negócio<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">precisa de movimento.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}

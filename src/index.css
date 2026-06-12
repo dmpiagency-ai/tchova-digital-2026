@@ -1425,11 +1425,16 @@ select:focus-visible {
 
 /* Enhanced Touch Targets for Mobile */
 @media (max-width: 768px) {
-  button,
-  [role="button"],
-  .clickable {
+  button:not(.no-min-size),
+  [role="button"]:not(.no-min-size),
+  .clickable:not(.no-min-size) {
     min-height: 44px;
     min-width: 44px;
+  }
+  
+  .no-min-size {
+    min-height: 0 !important;
+    min-width: 0 !important;
   }
   
   /* Ensure adequate spacing for touch */

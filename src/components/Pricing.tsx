@@ -12,84 +12,69 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PLANS = [
   {
-    id: 'start',
-    name: "Unidade Alpha",
-    subtitle: "Start",
+    id: 'marcar-presenca',
+    name: "MARCAR PRESENÇA",
+    subtitle: "Começa por aqui",
     icon: EliteCore,
     price: "5.000",
-    originalPrice: "7.000",
-    savings: "2.000",
-    period: "único",
+    originalPrice: null,
+    savings: null,
+    period: "pagamento único",
     popular: false,
-    description: "Design de autoridade para lançamentos rápidos. Sai do anonimato.",
+    description: "Para negócios que precisam parecer profissionais e começar a ser levados a sério.",
     delivery: "3 a 5 dias úteis",
-    ideal: "Operações em fase inicial e testes de mercado.",
-    buttonText: "Começar com o Start",
+    ideal: "Trabalhas bem — mas a tua imagem ainda não transmite isso. Isso muda aqui.",
+    buttonText: "Quero marcar presença",
     features: [
-      "Criação de logotipo ou redesign da marca",
-      "2 cartazes/posts para redes sociais",
-      "1 story para status (WhatsApp / Instagram)",
-      "Capa para Facebook",
-      "Foto de perfil (página ou conta)",
-      "Capa para WhatsApp Business",
-      "Papel de parede (telemóvel ou desktop)",
-      "Cartão de visita digital com QR Code",
-      "Link Bio (cartão digital para redes sociais)",
-      "Bônus: Tráfego pago básico por 4 dias",
+      "Imagem profissional da empresa",
+      "Presença consistente nas redes sociais",
+      "Apresentação clara dos produtos e serviços",
+      "Forma simples de os clientes entrarem em contacto",
+      "Estrutura pronta para crescer",
     ],
   },
   {
-    id: 'business',
-    name: "Unidade Business",
-    subtitle: "Escala",
+    id: 'captar-clientes',
+    name: "CAPTAR CLIENTES",
+    subtitle: "Para quem quer crescer",
     icon: ElitePulse,
     price: "15.000",
-    originalPrice: "20.000",
-    savings: "5.000",
-    period: "único",
+    originalPrice: null,
+    savings: null,
+    period: "pagamento único",
     popular: true,
-    description: "Máquina de conversão. Transforma tráfego em receita rastreável.",
+    description: "Para negócios que já existem e querem transformar interesse em contactos reais.",
     delivery: "7 a 10 dias úteis",
-    ideal: "Negócios focados em ROI e escala de vendas.",
-    buttonText: "Escolher Business",
+    ideal: "O negócio existe. Falta fazer mais pessoas descobri-lo e entrar em contacto.",
+    buttonText: "Quero captar mais clientes",
     features: [
-      "Tudo do Plano Start +",
-      "Identidade visual completa",
-      "Landing page profissional (site simples)",
-      "Botão directo para WhatsApp",
-      "Página otimizada para conversão",
+      "Página profissional para apresentar a empresa",
+      "Contacto directo por WhatsApp integrado",
+      "Estrutura orientada para receber pedidos de orçamento",
       "Integração com redes sociais",
-      "Configuração de pixel Meta",
-      "Tráfego pago estratégico (Meta Ads)",
-      "Campanha ativa em até 8 dias",
-      "Suporte inicial pós-entrega",
+      "Base preparada para campanhas futuras",
     ],
   },
   {
-    id: 'eco360',
-    name: "Projecto Completo",
-    subtitle: "Total",
+    id: 'fazer-andar',
+    name: "FAZER O NEGÓCIO ANDAR",
+    subtitle: "Sistema completo",
     icon: EliteRadar,
     price: "35.000",
-    originalPrice: "45.000",
-    savings: "10.000",
-    period: "ajustável",
+    originalPrice: null,
+    savings: null,
+    period: "sob consulta",
     popular: false,
-    description: "Site completo, pagamentos, app e estratégia de crescimento num só projecto.",
+    description: "Para empresas que querem centralizar tudo num único sistema digital.",
     delivery: "Sob cronograma",
-    ideal: "Operações de alto volume, instituições e scale-ups.",
-    buttonText: "Começar Projecto Completo",
+    ideal: "O negócio cresce. Está na hora de ter um sistema que aguente esse crescimento.",
+    buttonText: "Quero fazer o negócio andar",
     features: [
-      "Tudo do Plano Business +",
-      "Site profissional completo",
-      "Sistema de pagamentos online",
-      "Carrinho de compras",
-      "Painel de gestão (admin)",
-      "Integração com APIs",
-      "IA (chat, automação, formulários)",
-      "Desenvolvimento de apps mobile",
-      "Tráfego pago focado no site",
-      "Estratégia de crescimento digital",
+      "Website profissional completo",
+      "Recepção de pedidos e encomendas online",
+      "Integração de pagamentos sem complicações",
+      "Automatização de tarefas repetitivas",
+      "Estrutura preparada para expandir",
     ],
   },
 ];
@@ -170,13 +155,14 @@ const Pricing = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Os Nossos Planos</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos Contigo</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Investimento <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Consciente</span>
+            Cada negócio tem o seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">passo</span>
           </h2>
-          <p className="text-sm md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Escolha como queres fazer o teu negócio <span className="text-white font-semibold italic">bater</span> hoje. Estruturas escaláveis para qualquer estágio.
+          <p className="text-sm md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
+            Primeiro aparecer bem. Depois ser encontrado. Depois crescer com organização.
+            <span className="block mt-2 text-white/60 text-sm">Começa onde o teu negócio está hoje.</span>
           </p>
         </div>
 
@@ -192,7 +178,7 @@ const Pricing = () => {
               </span>
               {PLANS[selectedIndex].popular && (
                 <span className="text-[8px] font-black text-primary uppercase tracking-widest border border-primary/40 px-1.5 py-0.5 rounded-full">
-                  Recomendado
+                  Mais Escolhido
                 </span>
               )}
             </div>
@@ -246,8 +232,9 @@ const Pricing = () => {
                       <h3 className="text-lg font-black text-white uppercase tracking-tight leading-none mb-0.5">
                         {plan.name}
                       </h3>
-                      <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-3">{plan.subtitle}</p>
-                      <p className="text-xs text-white/50 leading-relaxed">{plan.description}</p>
+                      <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold mb-2">{plan.subtitle}</p>
+                      <p className="text-xs text-white/70 leading-relaxed font-medium mb-1">{plan.description}</p>
+                      <p className="text-[10px] text-white/40 leading-relaxed italic">{plan.ideal}</p>
                     </div>
 
                     {/* Features */}
@@ -292,17 +279,9 @@ const Pricing = () => {
                         {plan.buttonText}
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
-                      <button
-                        onClick={() => {
-                          const priceVal = parseInt(plan.price.replace(/\./g, ''));
-                          window.dispatchEvent(new CustomEvent('set-roi-investment', {
-                            detail: { investment: priceVal }
-                          }));
-                        }}
-                        className="w-full mt-2 flex items-center justify-center gap-1 font-bold h-8 rounded-lg text-[9px] uppercase tracking-widest text-primary/80 hover:text-primary transition-all border border-primary/20 hover:bg-primary/5 bg-transparent"
-                      >
-                        Simular ROI do Plano
-                      </button>
+                      <p className="w-full mt-3 text-center text-[9px] text-white/30 leading-relaxed">
+                        Tens dúvidas? Fala connosco. Explicamos tudo sem compromisso.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -316,7 +295,7 @@ const Pricing = () => {
               onClick={scrollPrev}
               disabled={!canScrollPrev}
               aria-label="Plano anterior"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollPrev ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
               }`}
             >
@@ -329,7 +308,7 @@ const Pricing = () => {
                   key={i}
                   onClick={() => scrollTo(i)}
                   aria-label={`Ir para plano ${i + 1}`}
-                  className={`rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-300 no-min-size ${
                     i === selectedIndex
                       ? 'w-7 h-2 bg-primary shadow-[0_0_10px_rgba(34,197,94,0.7)]'
                       : 'w-2 h-2 bg-white/20'
@@ -342,7 +321,7 @@ const Pricing = () => {
               onClick={scrollNext}
               disabled={!canScrollNext}
               aria-label="Próximo plano"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollNext ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
               }`}
             >
@@ -376,9 +355,10 @@ const Pricing = () => {
                           <plan.icon className="w-6 h-6 md:w-8 md:h-8" />
                         </div>
                         <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">{plan.name}</h3>
+                        <p className="text-xs text-white/40 uppercase tracking-widest font-bold">{plan.subtitle}</p>
                         {plan.popular && (
                           <span className="text-[11px] bg-primary/20 text-primary border border-primary/30 px-4 py-1.5 rounded-full font-black uppercase tracking-[0.2em] animate-pulse">
-                            Sinal Alpha Recomendado
+                            Mais Escolhido
                           </span>
                         )}
                       </div>
@@ -394,7 +374,8 @@ const Pricing = () => {
                           <span className="text-muted-foreground text-sm font-bold uppercase mt-2">MZN</span>
                         </div>
                       </div>
-                      <p className="text-muted-foreground mt-6 text-sm leading-relaxed px-4">{plan.description}</p>
+                      <p className="text-white/80 mt-4 text-sm leading-relaxed px-4 font-medium">{plan.description}</p>
+                      <p className="text-white/40 mt-2 text-xs leading-relaxed px-4 italic">{plan.ideal}</p>
                     </CardHeader>
                     <CardContent className="flex-grow flex flex-col p-6 md:p-10 pt-4 border-t border-white/5">
                       <ul className="space-y-4 mb-10 flex-grow">
@@ -431,17 +412,9 @@ const Pricing = () => {
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </span>
                       </button>
-                      <button
-                        onClick={() => {
-                          const priceVal = parseInt(plan.price.replace(/\./g, ''));
-                          window.dispatchEvent(new CustomEvent('set-roi-investment', {
-                            detail: { investment: priceVal }
-                          }));
-                        }}
-                        className="w-full mt-3 flex items-center justify-center gap-1 font-bold h-10 rounded-xl text-xs uppercase tracking-widest text-primary/80 hover:text-primary transition-all border border-primary/20 hover:bg-primary/5 bg-transparent"
-                      >
-                        Simular Retorno (ROI) do Plano
-                      </button>
+                      <p className="w-full mt-4 text-center text-xs text-white/30 leading-relaxed">
+                        Tens dúvidas? Fala connosco. Explicamos tudo sem compromisso.
+                      </p>
                     </CardContent>
                   </Card>
                 </TiltCard>

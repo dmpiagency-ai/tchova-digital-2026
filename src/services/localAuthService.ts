@@ -44,16 +44,11 @@ const createDemoUsers = (): LocalUser[] => {
     return [];
   }
   
-  // Generate random passwords for demo users each session
-  const adminPassword = generateDemoPassword();
-  const clientPassword = generateDemoPassword();
-  const testPassword = generateDemoPassword();
-  
   return [
     {
       id: 'admin-001',
       email: 'admin@tchova.digital',
-      password: adminPassword,
+      password: 'admin123',
       name: 'Tchova Admin',
       role: 'admin',
       phone: '+258 87 909 7249',
@@ -62,7 +57,7 @@ const createDemoUsers = (): LocalUser[] => {
     {
       id: 'user-001',
       email: 'cliente@tchova.digital',
-      password: clientPassword,
+      password: 'cliente123',
       name: 'Cliente Demo',
       role: 'user',
       phone: '+258 84 123 4567',
@@ -71,7 +66,7 @@ const createDemoUsers = (): LocalUser[] => {
     {
       id: 'user-002',
       email: 'teste@tchova.digital',
-      password: testPassword,
+      password: 'teste123',
       name: 'Usuário Teste',
       role: 'user',
       phone: '+258 82 987 6543',

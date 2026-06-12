@@ -11,11 +11,13 @@ const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
 const ROTATING_WORDS = [
-  'DESIGN',
-  'WEB',
-  'MARKETING',
-  'VÍDEO',
-  'GSM MOBILE TOOLS',
+  'SER ENCONTRADO',
+  'SER ESCOLHIDO',
+  'GANHAR CONFIANÇA',
+  'CHEGAR MAIS LONGE',
+  'FORTALECER A TUA MARCA',
+  'CONQUISTAR CLIENTES',
+  'TRABALHAR MELHOR',
 ];
 
 const Hero = () => {
@@ -248,19 +250,49 @@ const Hero = () => {
       }
     });
 
-    // ─── MOBILE: Ultra-lightweight version ─────────
+    // ─── MOBILE: Premium 3D & Organic Performance ─────────
     mm.add('(max-width: 767px)', () => {
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.4 } });
+      // Use expo.out for organic, premium decelleration
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
 
-      // Ensure immediate visibility
-      gsap.set([videoContainerRef.current, labelRef.current, headlineRef.current, subheadlineRef.current, ctaRef.current?.children ? Array.from(ctaRef.current.children) : []], { opacity: 1, y: 0 });
+      // Premium 3D Entrance: No CSS blur (to save battery), just pure GPU-accelerated transforms
+      tl.fromTo(videoContainerRef.current,
+        { scale: 1.05, opacity: 0 },
+        { scale: 1.0, opacity: 1, duration: 1.5, ease: 'power2.out' }
+      )
+      .fromTo(labelRef.current, 
+        { y: 20, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1.0 }, 
+        '-=1.2'
+      )
+      .fromTo(headlineClipRef.current,
+        { clipPath: 'inset(100% 0% 0% 0%)' },
+        { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'expo.inOut' },
+        '-=1.0'
+      )
+      .fromTo(headlineRef.current,
+        { y: 50, rotateX: -15, transformPerspective: 800, opacity: 0 },
+        { y: 0, rotateX: 0, opacity: 1, duration: 1.2 },
+        '<'
+      )
+      .fromTo(subheadlineRef.current, 
+        { y: 20, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1.0 }, 
+        '-=0.8'
+      )
+      .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.1, duration: 1.0 },
+        '-=0.6'
+      );
 
-      // Ultra-fast entrance to avoid "missing content" lag
-      tl.from(headlineRef.current, { y: 20, opacity: 0, duration: 0.4 })
-        .from(subheadlineRef.current, { y: 10, opacity: 0, duration: 0.3 }, '-=0.2');
-
-      // Video scale animation disabled on mobile
-      // No parallax on mobile — too expensive
+      // Organic lightweight scroll parallax (opacity + subtle translation via GPU)
+      if (!isLowEnd) {
+        gsap.to(contentRef.current, {
+          y: -50, opacity: 0, ease: 'none',
+          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '75% top', scrub: true }
+        });
+      }
     });
 
     // Scroll indicator hide/show (both mobile and desktop)
@@ -312,7 +344,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[70%] md:h-full overflow-hidden will-change-transform bg-transparent"
+          className="absolute top-0 left-0 w-full h-[60%] md:h-full overflow-hidden will-change-transform bg-transparent"
         >
           {/* Fallback Static Atmosphere (Visible while video loads) */}
           {/* Fallback Static Atmosphere — removed dark overlay, kept only for mobile poster fallback */}
@@ -321,7 +353,7 @@ const Hero = () => {
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
             <>
               <video
-                ref={video1Ref}
+                ref={video1Ref as any}
                 src={videoSrc}
                 muted
                 playsInline
@@ -329,7 +361,7 @@ const Hero = () => {
                 preload={isMobile ? "none" : "auto"}
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute inset-0 w-full h-full object-cover object-[43%] md:object-[58%_50%] pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
                 style={{
                   filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
                   opacity: 1,
@@ -349,7 +381,7 @@ const Hero = () => {
                   playsInline
                   preload="auto"
                   autoPlay={true}
-                  className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
+                  className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
                   style={{
                     filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
                     opacity: 0,
@@ -362,7 +394,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src={videoSrc}
-              className="absolute inset-0 w-full h-full object-cover object-[68%] md:object-[58%_50%] pointer-events-none"
+              className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
               style={{
                 filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
                 opacity: 1,
@@ -393,58 +425,50 @@ const Hero = () => {
 
       {/* Localized Readability Gradient — Shaped overlay behind text content only */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {/* Desktop Layer 1: Left-to-right gradient — covers headline & badge area */}
+        {/* Desktop Layer: Smooth dark gradient reading zone on the left (No CSS Blur since video is naturally blurred) */}
         <div 
           className="hidden md:block absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to right, rgba(8,12,10,0.92) 0%, rgba(8,12,10,0.78) 25%, rgba(8,12,10,0.45) 42%, rgba(8,12,10,0.15) 55%, transparent 65%)',
-          }}
-        />
-        {/* Desktop Layer 2: Bottom-left radial — reinforces CTA & subheadline zone */}
-        <div 
-          className="hidden md:block absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 70% 60% at 15% 85%, rgba(8,12,10,0.8) 0%, rgba(8,12,10,0.4) 40%, transparent 70%)',
+            background: 'linear-gradient(to right, rgba(8,12,10,0.95) 0%, rgba(8,12,10,0.85) 30%, rgba(8,12,10,0.4) 48%, rgba(8,12,10,0.05) 60%, transparent 70%)',
           }}
         />
       </div>
 
-      <div 
-        ref={contentRef} 
-        className="relative z-20 w-full max-w-7xl mx-auto px-fluid-md flex flex-col items-center md:items-start justify-end md:justify-start gap-fluid-md pt-[clamp(52svh,54svh,56svh)] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-16 md:pb-0 translate-y-0 md:-translate-y-6"
+      <div
+        ref={contentRef}
+        className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-6 md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[38svh] sm:pt-[30svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[60px] xs:pb-[70px] md:pb-0 translate-y-0 md:-translate-y-6"
       >
-        <div className="w-fit max-w-[94%] xs:max-w-[90%] sm:max-w-[80%] md:w-full md:max-w-[70%] lg:max-w-[55%] flex flex-col items-start text-left gap-6 md:gap-8 mx-auto md:mx-0">
-
+        <div className="w-full flex flex-col items-start text-left gap-3 xs:gap-4 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
 
           {/* Badge with rotating — Gravyx pattern */}
-          <div ref={labelClipRef} className="w-full flex justify-start pl-2 -ml-2">
-            <div ref={labelRef} className="flex items-center justify-start gap-3">
-              <div className="w-8 h-[1px] bg-primary/50" />
-              <span className="text-[10px] md:text-[11px] font-black tracking-[0.2em] text-primary uppercase flex flex-wrap items-center gap-y-1 gap-x-2 justify-start">
-                SOLUÇÕES EM
-                <span className="inline-flex h-[1.2em] overflow-hidden relative align-bottom w-[140px] sm:w-[150px] md:w-[220px] tracking-normal justify-start">
-                  <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full text-left">
-                    {ROTATING_WORDS.map((word, i) => (
-                      <span key={i} className="h-[1.2em] text-white font-black whitespace-nowrap text-left">{word}</span>
-                    ))}
-                    <span className="h-[1.2em] text-white font-black whitespace-nowrap text-left">{ROTATING_WORDS[0]}</span>
-                  </span>
+          <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
+            <div ref={labelRef} className="flex flex-col md:flex-row items-center md:items-center w-full md:w-auto text-center md:text-left">
+              <span className="text-[#4ade80] font-black text-[clamp(10px,3.5vw,15px)] md:text-[11px] tracking-normal sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
+                TUDO O QUE PRECISAS PARA
+              </span>
+              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[17.5em] sm:w-[220px] md:w-[260px] tracking-normal mt-1 md:mt-0 ml-0 md:ml-2 text-[clamp(10px,3.5vw,15px)] md:text-[11px] justify-center md:justify-start">
+                <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full items-center md:items-start">
+                  {ROTATING_WORDS.map((word, i) => (
+                    <span key={i} className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
+                  ))}
+                  <span className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{ROTATING_WORDS[0]}</span>
                 </span>
               </span>
             </div>
           </div>
 
           {/* Headline — Value Proposition */}
-          <div ref={headlineClipRef} className="py-4 -my-4 px-4 -mx-4 w-full flex justify-start">
+          <div ref={headlineClipRef} className="py-4 -my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-start">
             <h1
               ref={headlineRef}
-              className="text-[clamp(1.9rem,9.8vw,3.6rem)] md:text-[clamp(1.8rem,3.8vw,3.5rem)] font-black tracking-tighter leading-[1] text-white uppercase drop-shadow-none md:drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] text-left w-full whitespace-nowrap flex flex-col pr-2"
+              className="tracking-tighter leading-[1.08] text-left w-full flex flex-col items-start font-medium text-[clamp(2.2rem,16.5vw,4rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase"
             >
-              <span className="text-[0.57em] md:text-[0.62em] font-extrabold tracking-normal text-white/90 mb-[-0.1em]">
-                COLOCA O TEU NEGÓCIO
+              <span className="italic">A FORÇA</span>
+              <span className="italic">
+                QUE <span className="text-[#4ade80]">MOVE</span>
               </span>
-              <span className="font-bebas font-bold inline-block whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#4ade80] to-primary bg-[length:200%_auto] animate-gradient-x italic py-0 px-0 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] text-left leading-[1]">
-                EM MOVIMENTO.
+              <span className="mt-0.5 md:mt-2 text-[clamp(1.6rem,11.8vw,3rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
+                O TEU <span className="text-[#4ade80]">NEGÓCIO</span>
               </span>
             </h1>
           </div>
@@ -452,32 +476,27 @@ const Hero = () => {
           {/* Sub-headline — Explainer */}
           <div
             ref={subheadlineRef}
-            className="flex flex-col gap-3 md:gap-5 max-w-2xl text-left items-start w-full"
+            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-start w-full mt-2 md:mt-4"
           >
-            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.5] md:leading-[1.4] w-full max-w-3xl text-left tracking-tight md:tracking-normal">
-              Do <span className="text-white font-semibold">visual</span> que apresenta a tua empresa às <span className="text-primary font-bold">ferramentas</span><br className="hidden md:block" /> que fazem o trabalho acontecer.
-            </div>
-            <div className="text-[clamp(12px,3.8vw,16px)] md:text-fluid-p text-white/70 font-medium leading-[1.5] md:leading-[1.4] w-full max-w-3xl text-left tracking-tight md:tracking-normal mt-1">
-              <span className="text-white font-semibold">Design, Web, Marketing, Vídeo e GSM</span> num <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">único ecossistema</span>.
+            <div className="text-[clamp(14px,3.8vw,16px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.6] md:leading-[1.5] w-full max-w-3xl text-left tracking-tight md:tracking-normal">
+              Um ecossistema composto por <span className="text-[#eff3c5] font-semibold">diferentes áreas especializadas</span>, reunidas num só <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">lugar</span>.
             </div>
           </div>
 
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-start gap-5 pt-4 w-full sm:w-auto justify-start relative"
+            className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 pt-1 md:pt-4 w-full justify-start relative"
           >
             {/* Mobile subtle CTA glow — no blur, just a soft radial shadow */}
-            <div className="block md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
+            <div className="block md:hidden absolute top-1/2 left-0 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at left, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
-              className="group h-[54px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[clamp(12px,3.4vw,13.5px)] md:text-sm font-black tracking-[0.15em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 rounded-xl md:rounded-2xl uppercase whitespace-nowrap"
+              className="group w-full sm:w-max shrink-0 h-[56px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[12px] xs:text-[13px] md:text-sm font-black tracking-[0.15em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 rounded-xl md:rounded-2xl uppercase"
             >
-              <span className="flex items-center gap-2 md:gap-3 whitespace-nowrap">
-                <ElitePulse className="w-4 h-4 md:w-5 md:h-5" />
-                FALA CONNOSCO AGORA
-              </span>
+              <ElitePulse className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
+              <span className="whitespace-nowrap">FALA CONNOSCO AGORA</span>
             </MagneticButton>
 
             {/* Desktop: Original minimalist text+arrow style */}
@@ -497,18 +516,18 @@ const Hero = () => {
       {/* Layer 3 — Scroll Indicator (Visible on mobile & desktop) */}
       <div
         ref={scrollIndicatorRef}
-        className="flex absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-700"
+        className="flex absolute bottom-3 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-700"
         style={{ opacity: showScrollIndicator ? 1 : 0, pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
       >
         <button
           onClick={scrollToNextSection}
-          className="group flex flex-col items-center gap-3 p-4"
+          className="group flex flex-col items-center gap-2 md:gap-3 p-2 md:p-4"
           aria-label="Explorar serviços"
         >
-          <span className="text-[9px] font-black text-white/15 uppercase tracking-[0.5em] group-hover:text-primary/40 transition-colors duration-500">
+          <span className="text-[8px] md:text-[9px] font-black text-white/15 uppercase tracking-[0.4em] md:tracking-[0.5em] group-hover:text-primary/40 transition-colors duration-500">
             Explore
           </span>
-          <div className="relative w-px h-12 bg-white/10 overflow-hidden rounded-full">
+          <div className="relative w-px h-6 md:h-12 bg-white/10 overflow-hidden rounded-full">
             <div
               ref={scrollLineRef}
               className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary to-transparent origin-top"

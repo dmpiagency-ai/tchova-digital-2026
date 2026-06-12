@@ -1,241 +1,229 @@
 // ============================================
 // WEBSITES PORTAL - TCHOVA DIGITAL
-// Painel de Desenvolvimento Web
+// Sites & Lojas Online - Interactive Onboard
 // ============================================
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { AnimatedLogo } from '@/components/AnimatedLogo';
-import {
-  Code2, Globe, Zap, Monitor, Smartphone, Layers,
-  ChevronRight, Home, MessageCircle, Star,
-  LayoutDashboard, ShoppingCart, Rocket, Search,
-  Shield, Clock, CheckCircle2, ArrowUpRight
-} from 'lucide-react';
-import { MobileTopNav } from './MobileTopNav';
+import { ArrowLeft, MessageCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { env } from '@/config/env';
+
+const problems = [
+  "Ninguém me encontra no Google quando pesquisa",
+  "Vendo pelo WhatsApp mas é tudo muito desorganizado",
+  "A minha empresa parece amadora na internet",
+  "Os clientes perdem muito tempo a pedir a mesma informação"
+];
+
+const packages = [
+  { title: "Presença online profissional", desc: "A tua empresa disponível 24 horas por dia." },
+  { title: "Canal directo de contacto", desc: "Facilita pedidos, chamadas e consultas diretas." },
+  { title: "Informação organizada", desc: "Os clientes encontram rapidamente o que procuram sem perguntar." },
+  { title: "Base preparada para crescimento", desc: "Pronta para futuras integrações (ex: pagamentos)." }
+];
 
 const WebsitesPortal = () => {
   const navigate = useNavigate();
-  const [activeView, setActiveView] = useState<'showcase' | 'stack' | 'request'>('showcase');
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(1);
+  const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
 
-  useGSAP(() => {
-    const modules = containerRef.current?.querySelectorAll('.web-module');
-    if (modules) {
-      gsap.fromTo(modules, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out' });
-    }
-  }, { scope: containerRef, dependencies: [activeView] });
+  const handleNext = () => setStep(s => Math.min(s + 1, 3));
+  const handlePrev = () => setStep(s => Math.max(s - 1, 1));
 
-  const sidebarItems = [
-    { id: 'showcase', icon: Monitor, label: 'Showcase', description: 'Projectos' },
-    { id: 'stack', icon: Code2, label: 'Stack', description: 'Tecnologia' },
-    { id: 'request', icon: Rocket, label: 'Solicitar', description: 'Novo Site' },
-  ];
+  const getWhatsAppLink = () => {
+    const text = selectedProblem 
+      ? `Olá! Gostaria de conversar sobre um website profissional. O meu maior desafio atualmente é: "${selectedProblem}". Podem ajudar?`
+      : `Olá! Gostaria de conversar sobre um website profissional para a minha empresa. Podem ajudar?`;
+    return `https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  };
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden bg-background flex">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-[260px] border-r dark:border-white/5 border-slate-100 dark:bg-zinc-950/80 bg-white backdrop-blur-xl">
-        <div className="h-20 flex items-center px-6 border-b dark:border-white/5 border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <AnimatedLogo className="h-8 w-auto" showText={true} />
-            </div>
+    <div className="min-h-screen bg-[#030303] text-white select-none font-sans flex flex-col relative overflow-x-hidden">
+      {/* Sticky Header */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#030303]/80 backdrop-blur-md">
+        <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+          <button 
+            onClick={() => step === 1 ? navigate('/') : handlePrev()} 
+            className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors group text-sm font-semibold no-min-size"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>{step === 1 ? 'Voltar' : 'Anterior'}</span>
+          </button>
+          <div className="h-6 md:h-8">
+            <AnimatedLogo className="h-6 md:h-8 w-auto" />
           </div>
         </div>
-
-        <nav className="p-4 space-y-2 flex-1 overflow-y-auto no-scrollbar">
-          {sidebarItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeView === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveView(item.id as any)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 transform active:scale-95 border ${
-                  isActive 
-                    ? 'bg-primary/10 border-primary/30 text-white shadow-[0_0_20px_rgba(34,197,94,0.1)] backdrop-blur-xl' 
-                    : 'dark:border-transparent dark:text-zinc-500 text-slate-500 dark:hover:bg-white/5 hover:bg-slate-50 dark:hover:text-white hover:text-slate-900'
-                }`}
-              >
-                <div className={`p-2 rounded-lg transition-colors duration-300 ${isActive ? 'bg-primary/20 shadow-[0_0_10px_rgba(34,197,94,0.3)]' : 'bg-transparent'}`}>
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]' : ''}`} />
-                </div>
-                <div className="text-left flex-1">
-                  <span className="font-black uppercase tracking-widest text-[10px] block">{item.label}</span>
-                  <span className={`text-[9px] font-bold ${isActive ? 'text-white/60' : 'text-zinc-600'}`}>{item.description}</span>
-                </div>
-                {isActive && <ChevronRight className="w-4 h-4 text-primary drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]" />}
-              </button>
-            );
-          })}
-        </nav>
-
-        <div className="p-4 border-t dark:border-white/5 border-slate-100">
-          <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl dark:bg-zinc-900/50 bg-slate-50 border dark:border-white/5 border-slate-100 dark:text-zinc-400 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-all">
-            <Home className="w-4 h-4" />
-            <span className="font-black uppercase tracking-widest text-[9px]">Voltar</span>
-          </button>
+        
+        {/* Progress Bar */}
+        <div className="h-1 w-full bg-zinc-900">
+          <div 
+            className="h-full bg-primary transition-all duration-500 ease-out"
+            style={{ width: `${(step / 3) * 100}%` }}
+          />
         </div>
-      </aside>
+      </header>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Mobile Header */}
-        <div className="lg:hidden flex-none z-50 dark:bg-zinc-950 bg-white border-b dark:border-white/5 border-slate-100 px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex-1 flex justify-center">
-            <AnimatedLogo className="h-6 w-auto" showText={true} />
-          </div>
-            <button onClick={() => navigate('/')} className="p-2 rounded-lg dark:bg-white/5 bg-slate-100"><Home className="w-4 h-4" /></button>
-          </div>
-          <MobileTopNav items={sidebarItems} activeView={activeView} setActiveView={setActiveView} />
-        </div>
+      <main className="flex-1 flex flex-col justify-center pt-20 pb-12 md:pt-28 md:pb-24 relative">
+        {/* Animated Background Orbs for Friendly/Interactive Vibe */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen" />
+        
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10">
 
-        {/* Scrollable Workspace */}
-        <div ref={containerRef} className="flex-1 overflow-y-auto no-scrollbar pb-24 lg:pb-0">
-
-        {/* SHOWCASE VIEW */}
-        {activeView === 'showcase' && (
-          <div className="p-4 lg:p-6 lg:max-w-6xl mx-auto w-full flex flex-col gap-3 h-full">
-            {/* Hero + Stats Row */}
-            <div className="flex flex-col lg:flex-row gap-3 flex-none">
-              <div className="web-module relative overflow-hidden rounded-2xl p-5 sm:p-6 dark:bg-zinc-900 bg-primary text-white shadow-xl border dark:border-white/10 border-transparent flex-1 min-w-0">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2" />
-                <div className="relative z-10">
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tighter leading-none mb-1">SITES QUE<br />VENDEM <span className="text-white/40">24/7</span></h2>
-                  <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-white/60">Ecossistemas web de alta conversão</p>
-                </div>
-              </div>
-
-              {/* Performance Scores - Inline */}
-              <div className="grid grid-cols-4 lg:grid-cols-2 lg:grid-rows-2 gap-2 flex-none lg:w-[260px]">
-                {[
-                  { label: 'Performance', value: '100' },
-                  { label: 'SEO', value: '100' },
-                  { label: 'Acessibilidade', value: '98' },
-                  { label: 'Best Practices', value: '100' },
-                ].map((score, i) => (
-                  <div key={i} className="web-module p-3 rounded-xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-md text-center flex flex-col items-center justify-center gap-1">
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-primary flex items-center justify-center">
-                      <span className="text-xs sm:text-sm font-black text-primary">{score.value}</span>
-                    </div>
-                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-zinc-400 leading-tight">{score.label}</span>
-                  </div>
-                ))}
-              </div>
+          {/* STEP 1: Diagnóstico */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 1 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
+            <div className="text-center mb-6 md:mb-12">
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 1 de 3 • Diagnóstico</span>
+              <h1 className="text-xl sm:text-2xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
+                Qual é o teu <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">maior desafio</span> digital?
+              </h1>
+              <p className="text-xs sm:text-sm md:text-lg text-zinc-400 font-medium">Selecione a opção que melhor descreve o teu negócio hoje.</p>
             </div>
 
-            {/* Project Types - Horizontal */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1 content-start">
-              {[
-                { title: 'Landing Pages', desc: 'Alta conversão', icon: LayoutDashboard, features: ['Formulários Inteligentes', 'WhatsApp Integrado', 'SEO Optimizado'] },
-                { title: 'E-Commerce', desc: 'Lojas online', icon: ShoppingCart, features: ['Catálogo de Produtos', 'Pagamento M-Pesa', 'Gestão de Stock'] },
-                { title: 'Portais Pro', desc: 'Institucionais', icon: Globe, features: ['Multi-Idioma', 'Painel Admin', 'Analytics Avançado'] },
-              ].map((project, i) => (
-                <div key={i} className="web-module p-4 sm:p-5 rounded-2xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-lg hover:shadow-xl transition-all group flex flex-col">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all border border-transparent group-hover:border-primary/20 shadow-[0_0_15px_rgba(34,197,94,0)] group-hover:shadow-[0_0_15px_rgba(34,197,94,0.2)]">
-                      <project.icon className="w-5 h-5 text-primary group-hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-black uppercase tracking-tight">{project.title}</h3>
-                      <p className="text-[10px] text-zinc-500 font-bold">{project.desc}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto">
+              {problems.map((prob, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedProblem(prob)}
+                  className={`p-4 sm:p-8 rounded-[1.5rem] md:rounded-[2rem] border text-left transition-all duration-300 group
+                    ${selectedProblem === prob 
+                      ? 'bg-primary/10 border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] scale-[1.02]' 
+                      : 'bg-white/[0.02] backdrop-blur-xl border-white/10 hover:border-primary/30 hover:bg-white/[0.04] hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(34,197,94,0.05)]'}`}
+                >
+                  <div className="flex justify-between items-center gap-3 md:gap-4">
+                    <span className={`text-xs sm:text-sm md:text-base font-bold transition-colors ${selectedProblem === prob ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>
+                      {prob}
+                    </span>
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300
+                      ${selectedProblem === prob ? 'bg-primary text-black scale-110' : 'bg-white/5 text-zinc-500 group-hover:bg-primary/20 group-hover:text-primary'}`}>
+                      {selectedProblem === prob ? <CheckCircle2 className="w-3.5 h-3.5" /> : <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 group-hover:bg-primary" />}
                     </div>
                   </div>
-                  <ul className="space-y-2 mt-auto">
-                    {project.features.map((f, fi) => (
-                      <li key={fi} className="flex items-center gap-2 text-[11px] sm:text-xs">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
-                        <span className="font-bold">{f}</span>
-                      </li>
+                </button>
+              ))}
+            </div>
+
+            <div className={`mt-6 md:mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+              <button 
+                onClick={handleNext}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+              >
+                Continuar
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* STEP 2: Solução */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 2 ? 'opacity-100 relative z-10 translate-x-0' : step < 2 ? 'opacity-0 pointer-events-none translate-x-full' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
+            <div className="text-center mb-12">
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                Como resolvemos isso na prática.
+              </h1>
+              <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
+                {selectedProblem === "Vendo pelo WhatsApp mas é tudo muito desorganizado" 
+                  ? "Criamos uma loja online ou catálogo digital onde os clientes compram de forma automática sem depender de ti."
+                  : selectedProblem === "Ninguém me encontra no Google quando pesquisa"
+                  ? "Desenhamos um site otimizado que aparece quando as pessoas procuram pelos teus serviços na tua cidade."
+                  : "Desenvolvemos um espaço online profissional que transmite confiança imediata e centraliza a tua informação."}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex flex-col h-full group">
+                <div className="space-y-4">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Apresentação</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Página de Apresentação</h3>
+                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                    Página focada em mostrar quem és, os teus serviços, localização e um botão direto para os clientes agendarem via WhatsApp.
+                  </p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                  <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Clínicas", "Escritórios", "Construtoras"].map((tag, i) => (
+                      <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5">{tag}</span>
                     ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* STACK VIEW */}
-        {activeView === 'stack' && (
-          <div className="p-4 lg:p-6 lg:max-w-5xl mx-auto space-y-4">
-            <div className="web-module">
-              <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter leading-none mb-1">STACK <span className="text-primary tracking-normal">TECNOLÓGICA</span></h2>
-              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ferramentas de alta performance</p>
-            </div>
-
-            <div className="space-y-3">
-              {[
-                { category: 'Frontend', tools: ['React 18', 'Next.js 15', 'TypeScript'], icon: Code2 },
-                { category: 'Estilo', tools: ['Tailwind v4', 'GSAP', 'Glassmorphism'], icon: Layers },
-                { category: 'Performance', tools: ['LCP < 2.5s', 'CDN Global'], icon: Zap },
-                { category: 'Integrações', tools: ['WhatsApp API', 'M-Pesa'], icon: Globe },
-              ].map((stack, i) => (
-                <div key={i} className="web-module p-4 sm:p-5 rounded-2xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-lg flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0 border border-primary/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]">
-                    <stack.icon className="w-5 h-5 text-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
                   </div>
-                  <div className="flex-1">
-                    <h4 className="text-xs font-black uppercase tracking-tight mb-2">{stack.category}</h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      {stack.tools.map((tool, ti) => (
-                        <span key={ti} className="px-2.5 py-1 dark:bg-zinc-800 bg-slate-100 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest dark:text-zinc-400 text-slate-600">{tool}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* REQUEST VIEW */}
-        {activeView === 'request' && (
-          <div className="p-4 lg:p-6 max-w-2xl mx-auto space-y-6 flex flex-col h-full justify-center">
-            <div className="web-module text-center space-y-1">
-              <h2 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter leading-none">CONSTRUIR <span className="text-primary tracking-normal">SITE</span></h2>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Orçamento em 30 minutos</p>
-            </div>
-
-            <div className="web-module p-6 rounded-3xl dark:bg-zinc-900/50 bg-white border dark:border-white/5 border-slate-100 shadow-xl space-y-6">
-              <div className="space-y-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">O que precisa?</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { label: 'Landing Page', icon: LayoutDashboard },
-                    { label: 'Loja Online', icon: ShoppingCart },
-                    { label: 'Institucional', icon: Globe },
-                    { label: 'Web App', icon: Smartphone },
-                  ].map((opt, i) => (
-                    <button key={i} className="p-4 rounded-2xl dark:bg-white/5 bg-slate-50 border dark:border-white/5 border-slate-100 text-left hover:border-primary/30 hover:bg-primary/5 transition-all group">
-                      <opt.icon className="w-5 h-5 text-primary mb-2 group-hover:scale-110 transition-transform" />
-                      <span className="text-[10px] font-black uppercase tracking-widest">{opt.label}</span>
-                    </button>
-                  ))}
                 </div>
               </div>
 
-              <a
-                href={`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero construir um site/loja online profissional. Podem ajudar?')}`}
+              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex flex-col h-full group">
+                <div className="space-y-4">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Vendas</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Loja Online / Catálogo</h3>
+                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                    Ideal para apresentar produtos, aceitar encomendas diretamente e receber pagamentos por M-Pesa.
+                  </p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                  <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Lojas de Roupa", "Tecnologia", "Retalho"].map((tag, i) => (
+                      <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <button 
+                onClick={handleNext}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform"
+              >
+                Ver o Meu Pacote
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* STEP 3: Entrega e CTA */}
+          <div className={`transition-all duration-700 absolute inset-0 ${step === 3 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none translate-x-full'}`}>
+            <div className="text-center mb-12">
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 3 de 3 • O Teu Pacote</span>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                O que recebes no final.
+              </h1>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-16">
+              {packages.map((item, i) => (
+                <div key={i} className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex items-center gap-4 sm:gap-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl sm:text-2xl font-black text-primary">✓</span>
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-black uppercase tracking-tighter mb-1 text-white">{item.title}</h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="max-w-md mx-auto text-center bg-zinc-950/50 p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50" />
+              <h3 className="text-2xl font-black uppercase tracking-tight mb-3 relative z-10">Pronto para avançar?</h3>
+              <p className="text-sm text-zinc-400 font-medium mb-8 relative z-10">
+                Conta-nos o teu cenário no WhatsApp e iniciamos o planeamento. Sem compromisso.
+              </p>
+              <a 
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative overflow-hidden block w-full py-5 bg-gradient-to-r from-primary to-brand-green text-white rounded-[1.5rem] text-center font-black uppercase tracking-[0.2em] text-sm shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:scale-[1.02] active:scale-95 transition-all duration-500 group"
+                className="relative z-10 inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-r from-primary to-brand-green text-white font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
               >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                <div className="relative z-10 flex items-center justify-center gap-2">
-                  <MessageCircle className="w-5 h-5 animate-pulse" />
-                  Falar com Especialista
-                </div>
+                <MessageCircle className="w-5 h-5 animate-pulse" />
+                Falar com a Equipa
               </a>
-              <p className="text-center text-[8px] font-black uppercase tracking-widest text-zinc-500">Sem compromisso</p>
             </div>
           </div>
-        )}
+
         </div>
-      </div>
+      </main>
     </div>
   );
 };

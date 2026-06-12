@@ -12,30 +12,30 @@ gsap.registerPlugin(ScrollTrigger);
 const TESTIMONIALS = [
   {
     id: 1,
-    name: 'João Macamo',
-    company: 'Macamo Importações',
-    role: 'CEO',
-    content: 'Eu importava da China sozinho e perdia dinheiro com fornecedores errados. A Tchova negociou por mim, encontrou preços 30% mais baratos e tratou da logística toda. Em 3 meses, as minhas encomendas subiram 43%.',
+    name: 'Mário Cossa',
+    company: 'Cossa Investimentos',
+    role: 'Diretor Geral',
+    content: 'A Tchova transformou completamente a nossa presença digital. Criaram uma identidade visual forte e um website de alta performance que nos posicionou como líderes no nosso setor. O profissionalismo e a entrega superaram todas as expectativas.',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=150&h=150&q=80',
+    avatar: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=150&h=150&q=80',
   },
   {
     id: 2,
     name: 'Ana Bela',
-    company: 'Bela Boutique',
+    company: 'Bela Estética & Spa',
     role: 'Fundadora',
-    content: 'Precisava de marca, site e vídeos para o Instagram, tudo ao mesmo tempo. Noutra agência ia pagar 3x mais e esperar meses. A Tchova fez tudo em 2 semanas. Em 3 semanas já tinha clientes novas a mandar mensagem. 65% mais vendas.',
+    content: 'Precisava de uma marca premium, um site elegante e vídeos para as redes sociais. A Tchova entregou tudo com uma qualidade de topo num tempo recorde. Numa questão de semanas, as nossas marcações aumentaram 65%.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=150&h=150&q=80',
   },
   {
     id: 3,
-    name: 'Carlos Sitoe',
-    company: 'Sitoe Telecomunicações',
-    role: 'Diretor Geral',
-    content: 'Trabalho com desbloqueio e reparação de celulares. Antes pagava caro por ferramentas GSM lá fora. Com o painel da Tchova, alugo as tools que preciso por dia, pago com M-Pesa e o atendimento é 35% mais rápido. Valeu cada metical.',
+    name: 'Hélio Sitoe',
+    company: 'Sitoe Logistics',
+    role: 'CEO',
+    content: 'O desenvolvimento da nossa aplicação e sistema web foi feito com uma excelência técnica impressionante. A equipa da Tchova otimizou toda a jornada do utilizador, resultando num sistema robusto, orgânico e com máxima performance.',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=150&h=150&q=80',
+    avatar: 'https://images.unsplash.com/photo-1506803682981-6e718a9dd3ee?auto=format&fit=crop&w=150&h=150&q=80',
   }
 ];
 
@@ -196,7 +196,7 @@ export const Testimonials = () => {
               onClick={scrollPrev}
               disabled={!canScrollPrev}
               aria-label="Depoimento anterior"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollPrev ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
               }`}
             >
@@ -209,7 +209,7 @@ export const Testimonials = () => {
                   key={i}
                   onClick={() => scrollTo(i)}
                   aria-label={`Ver depoimento ${i + 1}`}
-                  className={`rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-300 no-min-size ${
                     i === selectedIndex
                       ? 'w-7 h-2 bg-primary shadow-[0_0_10px_rgba(34,197,94,0.7)]'
                       : 'w-2 h-2 bg-white/20'
@@ -222,7 +222,7 @@ export const Testimonials = () => {
               onClick={scrollNext}
               disabled={!canScrollNext}
               aria-label="Próximo depoimento"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
                 canScrollNext ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
               }`}
             >

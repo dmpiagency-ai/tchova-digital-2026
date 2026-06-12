@@ -163,8 +163,8 @@ export const MOCK_CLIENT_PROJECTS: ClientProject[] = [
     paymentStatus: 'entry-50',
     paymentAmount: 5000,
     projectStatus: 'in_development',
-    createdAt: new Date('2024-01-15'),
-    expiresAt: new Date('2024-04-15'),
+    createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 dias atrás
+    expiresAt: new Date(Date.now() + 75 * 24 * 60 * 60 * 1000), // 75 dias no futuro
     notes: 'Cliente prefere cores vibrantes'
   },
   {
@@ -179,8 +179,8 @@ export const MOCK_CLIENT_PROJECTS: ClientProject[] = [
     paymentStatus: 'full',
     paymentAmount: 25000,
     projectStatus: 'in_review',
-    createdAt: new Date('2024-01-10'),
-    expiresAt: new Date('2024-04-10'),
+    createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000), // 20 dias atrás
+    expiresAt: new Date(Date.now() + 70 * 24 * 60 * 60 * 1000), // 70 dias no futuro
     notes: 'Site para restaurante'
   },
   {
@@ -195,8 +195,8 @@ export const MOCK_CLIENT_PROJECTS: ClientProject[] = [
     paymentStatus: 'final',
     paymentAmount: 35000,
     projectStatus: 'completed',
-    createdAt: new Date('2024-01-05'),
-    expiresAt: new Date('2024-04-05'),
+    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 dias atrás
+    expiresAt: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 60 dias no futuro
     notes: 'Casamento dia 15 de Fevereiro'
   }
 ];

@@ -5,42 +5,42 @@ export const PartnersCarousel: React.FC = () => {
   const partners = [
     {
       name: 'Vodacom',
-      logo: 'https://via.placeholder.com/120x60/4F46E5/FFFFFF?text=VODACOM',
+      color: '#E60000',
       category: 'Telecomunicações'
     },
     {
       name: 'Movitel',
-      logo: 'https://via.placeholder.com/120x60/10B981/FFFFFF?text=MOVITEL',
+      color: '#F97316',
       category: 'Telecomunicações'
     },
     {
       name: 'Tmcel',
-      logo: 'https://via.placeholder.com/120x60/F59E0B/FFFFFF?text=TMCEL',
+      color: '#EAB308',
       category: 'Telecomunicações'
     },
     {
       name: 'Samsung',
-      logo: 'https://via.placeholder.com/120x60/1F2937/FFFFFF?text=SAMSUNG',
+      color: '#1D4ED8',
       category: 'Tecnologia'
     },
     {
       name: 'Apple',
-      logo: 'https://via.placeholder.com/120x60/000000/FFFFFF?text=APPLE',
+      color: '#FFFFFF',
       category: 'Tecnologia'
     },
     {
       name: 'Huawei',
-      logo: 'https://via.placeholder.com/120x60/DF1B3F/FFFFFF?text=HUAWEI',
+      color: '#EF4444',
       category: 'Tecnologia'
     },
     {
       name: 'M-Pesa',
-      logo: 'https://via.placeholder.com/120x60/4F46E5/FFFFFF?text=M-PESA',
+      color: '#22C55E',
       category: 'Pagamentos'
     },
     {
       name: 'EcoBank',
-      logo: 'https://via.placeholder.com/120x60/DC2626/FFFFFF?text=ECOBANK',
+      color: '#0284C7',
       category: 'Bancário'
     }
   ];
@@ -86,13 +86,14 @@ export const PartnersCarousel: React.FC = () => {
                 key={index} 
                 className="flex-shrink-0 w-48 h-28 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl flex flex-col items-center justify-center p-6 group hover:border-primary/50 hover:bg-white/10 transition-all duration-500 shadow-2xl"
               >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="w-24 h-12 object-contain filter grayscale brightness-150 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 mb-3"
-                />
-                <p className="text-[10px] font-black text-white/40 uppercase tracking-widest group-hover:text-primary transition-colors">
-                  {partner.name}
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: partner.color }} />
+                  <span className="text-lg font-black tracking-tight text-white uppercase group-hover:text-primary transition-colors">
+                    {partner.name}
+                  </span>
+                </div>
+                <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                  {partner.category}
                 </p>
               </div>
             ))}
