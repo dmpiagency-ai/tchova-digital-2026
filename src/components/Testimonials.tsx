@@ -12,30 +12,30 @@ gsap.registerPlugin(ScrollTrigger);
 const TESTIMONIALS = [
   {
     id: 1,
-    name: 'Mário Cossa',
-    company: 'Cossa Investimentos',
-    role: 'Diretor Geral',
-    content: 'A Tchova transformou completamente a nossa presença digital. Criaram uma identidade visual forte e um website de alta performance que nos posicionou como líderes no nosso setor. O profissionalismo e a entrega superaram todas as expectativas.',
+    name: 'João Paulo',
+    company: 'TechVanguard',
+    role: 'CEO',
+    content: 'O nível de engenharia e precisão visual que a equipa aplicou na nossa plataforma excedeu as expectativas. Escalabilidade real, design premium e um impacto imediato nas nossas métricas de conversão.',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=150&h=150&q=80',
+    avatar: 'https://ui-avatars.com/api/?name=João+Paulo&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
   },
   {
     id: 2,
-    name: 'Ana Bela',
-    company: 'Bela Estética & Spa',
-    role: 'Fundadora',
-    content: 'Precisava de uma marca premium, um site elegante e vídeos para as redes sociais. A Tchova entregou tudo com uma qualidade de topo num tempo recorde. Numa questão de semanas, as nossas marcações aumentaram 65%.',
+    name: 'Marina Silva',
+    company: 'Nexus Creative',
+    role: 'Diretora de Marketing',
+    content: 'Não é apenas design bonito; é estratégia digital pura. A reconstrução da nossa identidade e do ecossistema mobile resultou numa experiência de utilizador ultra-fluida que os nossos clientes adoram.',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=150&h=150&q=80',
+    avatar: 'https://ui-avatars.com/api/?name=Marina+Silva&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
   },
   {
     id: 3,
-    name: 'Hélio Sitoe',
-    company: 'Sitoe Logistics',
-    role: 'CEO',
-    content: 'O desenvolvimento da nossa aplicação e sistema web foi feito com uma excelência técnica impressionante. A equipa da Tchova otimizou toda a jornada do utilizador, resultando num sistema robusto, orgânico e com máxima performance.',
+    name: 'Carlos M.',
+    company: 'Global Logistics',
+    role: 'Operations Head',
+    content: 'A integração de sistemas complexos e a interface desenvolvida garantiram uma performance que nunca tínhamos alcançado. Uma verdadeira abordagem "Performance First" ao longo de todo o projeto.',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1506803682981-6e718a9dd3ee?auto=format&fit=crop&w=150&h=150&q=80',
+    avatar: 'https://ui-avatars.com/api/?name=Carlos+M&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
   }
 ];
 
@@ -176,6 +176,8 @@ export const Testimonials = () => {
                         <img
                           src={testimonial.avatar}
                           alt={testimonial.name}
+                          loading="lazy"
+                          decoding="async"
                           className="relative w-10 h-10 rounded-full border border-white/20 object-cover"
                         />
                       </div>
@@ -255,6 +257,8 @@ export const Testimonials = () => {
                     <img
                       src={testimonial.avatar}
                       alt={testimonial.name}
+                      loading="lazy"
+                      decoding="async"
                       className="relative w-14 h-14 rounded-full border border-white/20 object-cover"
                     />
                   </div>

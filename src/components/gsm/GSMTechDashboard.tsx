@@ -504,7 +504,7 @@ const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: any)
               className={`gs-module group rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl hover:shadow-2xl transition-all duration-500`}
             >
               <div className="h-48 overflow-hidden relative">
-                <img src={tool.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={tool.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute top-6 right-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest">
                   {tool.price} MT/H
                 </div>
@@ -527,7 +527,7 @@ const ToolCard = ({ tool, onRent, darkMode }: any) => {
     <div className={`gs-tool-card group rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-8 ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl hover:shadow-3xl transition-all duration-500 opacity-0 transform translate-y-10`}>
       <div className="flex flex-col lg:flex-row gap-5 sm:gap-10">
         <div className="w-full lg:w-48 h-40 sm:h-48 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-2xl">
-          <img src={tool.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+          <img src={tool.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
         </div>
         <div className="flex-1 space-y-4 sm:space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-0">

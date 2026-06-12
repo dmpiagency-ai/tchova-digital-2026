@@ -145,9 +145,8 @@ const Footer = () => {
           </h1>
         </div>
 
-        <div className="w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground/50 pt-8 border-t border-white/[0.04]">
-          <p>© {new Date().getFullYear()} TchovaDigital. Maputo, MZ.</p>
-          <p>Feito em Moçambique para o mundo.</p>
+        <div className="w-full flex justify-center items-center text-sm text-muted-foreground/50 pt-8 border-t border-white/[0.04]">
+          <p>© {new Date().getFullYear()} Tchova Digital. Todos os direitos reservados. Ecossistema 360 graus.</p>
         </div>
 
       </div>

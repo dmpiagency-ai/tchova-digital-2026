@@ -119,7 +119,25 @@ const Hero = () => {
     // Small delay to ensure the DOM is fully ready — longer on mobile to let entry animations paint first without blocking
     const delay = isMobile ? 800 : 150;
     const timer = setTimeout(attemptPlay, delay);
-    return () => clearTimeout(timer);
+    
+    // Dev Pro Performance: Pause video when completely off-screen (Massive CPU/GPU savings)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          video.pause();
+        } else {
+          // Only attempt to play if we're not waiting on the initial timer
+          video.play().catch(() => {});
+        }
+      });
+    }, { threshold: 0 }); // Trigger as soon as 1px is visible/hidden
+    
+    observer.observe(video);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, [videoSrc, isMobile]);
 
   // Rotating words cycle with seamless vertical scrolling
@@ -292,6 +310,14 @@ const Hero = () => {
           y: -50, opacity: 0, ease: 'none',
           scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '75% top', scrub: true }
         });
+        
+        // Dev Pro: Cinematic organic pan to show both robot and cart on mobile
+        if (video1Ref.current) {
+          gsap.fromTo(video1Ref.current,
+            { objectPosition: '30% 15%' },
+            { objectPosition: '70% 15%', duration: 15, repeat: -1, yoyo: true, ease: 'sine.inOut' }
+          );
+        }
       }
     });
 
@@ -331,7 +357,7 @@ const Hero = () => {
     <section
       ref={heroRef}
       id="home"
-      className="tech-hero relative overflow-hidden w-full min-h-[100svh] flex items-center justify-center bg-background"
+      className="relative min-h-[100svh] md:min-h-screen md:h-screen w-full flex items-end md:items-center justify-center overflow-hidden bg-[#1a1d1b]"
     >
       {/* Layer 0 — Video Background Full Screen */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-background">
@@ -346,9 +372,6 @@ const Hero = () => {
           ref={videoContainerRef} 
           className="absolute top-0 left-0 w-full h-[60%] md:h-full overflow-hidden will-change-transform bg-transparent"
         >
-          {/* Fallback Static Atmosphere (Visible while video loads) */}
-          {/* Fallback Static Atmosphere — removed dark overlay, kept only for mobile poster fallback */}
-          
           {/* Background Media: support both video and image */}
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
             <>
@@ -358,14 +381,31 @@ const Hero = () => {
                 muted
                 playsInline
                 loop={true}
+                disablePictureInPicture
+                disableRemotePlayback
                 preload={isMobile ? "none" : "auto"}
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover object-[50%_15%] md:object-[58%_50%] pointer-events-none"
                 style={{
-                  filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
                   opacity: 1,
                   zIndex: 2,
+                  willChange: 'transform, opacity', // Added opacity for seamless fade loop
+                  transform: 'translateZ(0)', // Force dedicated GPU layer
+                }}
+                onTimeUpdate={(e) => {
+                  // Dev Pro: Seamless Fade Loop Masking
+                  const v = e.currentTarget;
+                  if (v.duration) {
+                    const timeRemaining = v.duration - v.currentTime;
+                    // Fade out just before the hard cut
+                    if (timeRemaining < 0.5 && timeRemaining > 0) {
+                      if (v.style.opacity !== '0') gsap.to(v, { opacity: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+                    } else if (v.currentTime > 0.1 && v.currentTime < 1.0) {
+                      // Fade back in smoothly after the jump
+                      if (v.style.opacity !== '1') gsap.to(v, { opacity: 1, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
+                    }
+                  }
                 }}
                 onCanPlay={() => {
                   if (videoContainerRef.current) {
@@ -373,32 +413,20 @@ const Hero = () => {
                   }
                 }}
               />
+              {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}
               {!isMobile && (
-                <video
-                  ref={video2Ref}
-                  src={videoSrc}
-                  muted
-                  playsInline
-                  preload="auto"
-                  autoPlay={true}
-                  className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
-                  style={{
-                    filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
-                    opacity: 0,
-                    zIndex: 3,
-                  }}
-                />
+                <div className="absolute inset-0 z-[3] pointer-events-none mix-blend-overlay bg-white/5" />
               )}
             </>
           ) : (
             <img
               ref={video1Ref as any}
               src={videoSrc}
-              className="absolute inset-0 w-full h-full object-cover object-[68%_15%] md:object-[58%_50%] pointer-events-none"
+              className="absolute inset-0 w-full h-full object-cover object-[50%_15%] md:object-[58%_50%] pointer-events-none"
               style={{
-                filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.1)',
                 opacity: 1,
                 zIndex: 2,
+                transform: 'translateZ(0)'
               }}
               onLoad={() => {
                 if (videoContainerRef.current) {
@@ -436,17 +464,17 @@ const Hero = () => {
 
       <div
         ref={contentRef}
-        className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-6 md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[38svh] sm:pt-[30svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[60px] xs:pb-[70px] md:pb-0 translate-y-0 md:-translate-y-6"
+        className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[10svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
       >
-        <div className="w-full flex flex-col items-start text-left gap-3 xs:gap-4 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
+        <div className="w-full flex flex-col items-start text-left gap-2 xs:gap-3 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
             <div ref={labelRef} className="flex flex-col md:flex-row items-center md:items-center w-full md:w-auto text-center md:text-left">
-              <span className="text-[#4ade80] font-black text-[clamp(10px,3.5vw,15px)] md:text-[11px] tracking-normal sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
+              <span className="text-[#4ade80] font-black text-[clamp(10px,3.5vw,20px)] md:text-[11px] tracking-normal sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
                 TUDO O QUE PRECISAS PARA
               </span>
-              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[17.5em] sm:w-[220px] md:w-[260px] tracking-normal mt-1 md:mt-0 ml-0 md:ml-2 text-[clamp(10px,3.5vw,15px)] md:text-[11px] justify-center md:justify-start">
+              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[17.5em] sm:w-[220px] md:w-[260px] tracking-normal mt-1 md:mt-0 ml-0 md:ml-2 text-[clamp(10px,3.5vw,20px)] md:text-[11px] justify-center md:justify-start">
                 <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full items-center md:items-start">
                   {ROTATING_WORDS.map((word, i) => (
                     <span key={i} className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
@@ -458,16 +486,16 @@ const Hero = () => {
           </div>
 
           {/* Headline — Value Proposition */}
-          <div ref={headlineClipRef} className="py-4 -my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-start">
+          <div ref={headlineClipRef} className="py-2 md:py-4 -my-2 md:-my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-start">
             <h1
               ref={headlineRef}
-              className="tracking-tighter leading-[1.08] text-left w-full flex flex-col items-start font-medium text-[clamp(2.2rem,16.5vw,4rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase"
+              className="tracking-tighter leading-[1.05] text-left w-full flex flex-col items-start font-medium text-[clamp(2.2rem,16.5vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
             >
               <span className="italic">A FORÇA</span>
               <span className="italic">
                 QUE <span className="text-[#4ade80]">MOVE</span>
               </span>
-              <span className="mt-0.5 md:mt-2 text-[clamp(1.6rem,11.8vw,3rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
+              <span className="mt-0.5 md:mt-2 text-[clamp(1.6rem,12.5vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
                 O TEU <span className="text-[#4ade80]">NEGÓCIO</span>
               </span>
             </h1>
@@ -476,9 +504,9 @@ const Hero = () => {
           {/* Sub-headline — Explainer */}
           <div
             ref={subheadlineRef}
-            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-start w-full mt-2 md:mt-4"
+            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-start w-full mt-1 md:mt-4 px-1 md:px-0"
           >
-            <div className="text-[clamp(14px,3.8vw,16px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.6] md:leading-[1.5] w-full max-w-3xl text-left tracking-tight md:tracking-normal">
+            <div className="text-[clamp(14px,3.8vw,20px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] md:leading-[1.5] w-full max-w-3xl text-left tracking-tight md:tracking-normal">
               Um ecossistema composto por <span className="text-[#eff3c5] font-semibold">diferentes áreas especializadas</span>, reunidas num só <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">lugar</span>.
             </div>
           </div>
