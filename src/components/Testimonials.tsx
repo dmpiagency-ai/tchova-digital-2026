@@ -7,35 +7,39 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EliteMatrix } from '@/components/ui/EliteIcons';
 import useEmblaCarousel from 'embla-carousel-react';
 
+import miguelImg from '@/assets/testimonials/miguel.png';
+import sofiaImg from '@/assets/testimonials/sofia.png';
+import helderImg from '@/assets/testimonials/helder.png';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const TESTIMONIALS = [
   {
     id: 1,
-    name: 'João Paulo',
-    company: 'TechVanguard',
-    role: 'CEO',
-    content: 'O nível de engenharia e precisão visual que a equipa aplicou na nossa plataforma excedeu as expectativas. Escalabilidade real, design premium e um impacto imediato nas nossas métricas de conversão.',
+    name: 'Miguel Fernando',
+    company: 'Loja de Retalho',
+    role: 'Proprietário',
+    content: 'O nosso negócio passou a parecer muito mais profissional. Agora os clientes percebem logo os nossos serviços e ficou muito mais fácil apresentar a empresa.',
     rating: 5,
-    avatar: 'https://ui-avatars.com/api/?name=João+Paulo&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
+    avatar: miguelImg,
   },
   {
     id: 2,
-    name: 'Marina Silva',
-    company: 'Nexus Creative',
-    role: 'Diretora de Marketing',
-    content: 'Não é apenas design bonito; é estratégia digital pura. A reconstrução da nossa identidade e do ecossistema mobile resultou numa experiência de utilizador ultra-fluida que os nossos clientes adoram.',
+    name: 'Sofia Costa',
+    company: 'Prestação de Serviços',
+    role: 'Empreendedora',
+    content: 'A comunicação ficou muito mais organizada. Ter tudo num só lugar tornou o trabalho mais prático e ajudou-me a transmitir mais confiança aos meus clientes.',
     rating: 5,
-    avatar: 'https://ui-avatars.com/api/?name=Marina+Silva&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
+    avatar: sofiaImg,
   },
   {
     id: 3,
-    name: 'Carlos M.',
-    company: 'Global Logistics',
-    role: 'Operations Head',
-    content: 'A integração de sistemas complexos e a interface desenvolvida garantiram uma performance que nunca tínhamos alcançado. Uma verdadeira abordagem "Performance First" ao longo de todo o projeto.',
+    name: 'Hélder S.',
+    company: 'Assistência Técnica',
+    role: 'Técnico GSM',
+    content: 'O acesso às ferramentas tornou-se muito mais confiável. O meu trabalho do dia a dia ficou mais rápido e os processos ficaram bem mais simples de gerir.',
     rating: 5,
-    avatar: 'https://ui-avatars.com/api/?name=Carlos+M&background=0a0a0a&color=4ade80&font-size=0.33&bold=true',
+    avatar: helderImg,
   }
 ];
 
@@ -107,13 +111,13 @@ export const Testimonials = () => {
         <div className="text-center mb-10 md:mb-20 max-w-3xl mx-auto">
           <div className="test-header inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
             <EliteMatrix className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Clientes Reais</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Experiências Reais</span>
           </div>
           <h2 className="test-header text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            O que dizem <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">sobre nós</span>
+            Resultados que <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">falam por si</span>
           </h2>
           <p className="test-header text-base md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Não acredites só em nós. Ouve quem já trabalhou connosco e viu o negócio mudar.
+            Conhece a experiência de clientes que encontraram na Tchova a solução certa para o que precisavam.
           </p>
         </div>
 
@@ -139,7 +143,7 @@ export const Testimonials = () => {
           {/* Progress bar */}
           <div className="h-[2px] bg-white/[0.06] rounded-full mb-5 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-primary to-brand-green rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-white/50 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${((selectedIndex + 1) / TESTIMONIALS.length) * 100}%` }}
             />
           </div>
@@ -152,7 +156,7 @@ export const Testimonials = () => {
                   <div
                     className={`relative border rounded-2xl overflow-hidden p-6 flex flex-col transition-all duration-400 ${
                       index === selectedIndex
-                        ? 'bg-card border-primary/25 shadow-[0_0_30px_-10px_rgba(34,197,94,0.3)]'
+                        ? 'bg-card border-white/20 shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]'
                         : 'bg-card border-white/[0.07]'
                     }`}
                     onMouseEnter={() => trackEvent({ action: 'hover', category: 'testimonials', label: testimonial.name })}
@@ -172,7 +176,7 @@ export const Testimonials = () => {
                     {/* Profile */}
                     <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
                       <div className="relative flex-shrink-0">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-brand-green rounded-full blur-sm opacity-40" />
+                        <div className="absolute -inset-0.5 bg-white/20 rounded-full blur-sm opacity-40" />
                         <img
                           src={testimonial.avatar}
                           alt={testimonial.name}
@@ -183,7 +187,7 @@ export const Testimonials = () => {
                       </div>
                       <div>
                         <h4 className="font-bold text-white text-sm tracking-tight leading-none mb-0.5">{testimonial.name}</h4>
-                        <p className="text-[10px] font-mono text-primary/80 uppercase tracking-wider">{testimonial.role}, {testimonial.company}</p>
+                        <p className="text-[10px] font-mono text-white/60 uppercase tracking-wider">{testimonial.role}, {testimonial.company}</p>
                       </div>
                     </div>
                   </div>
@@ -199,7 +203,7 @@ export const Testimonials = () => {
               disabled={!canScrollPrev}
               aria-label="Depoimento anterior"
               className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
-                canScrollPrev ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
+                canScrollPrev ? 'border-white/30 text-white active:scale-95' : 'border-white/10 text-white/20 cursor-not-allowed'
               }`}
             >
               <ChevronLeft className="w-5 h-5" />
@@ -213,7 +217,7 @@ export const Testimonials = () => {
                   aria-label={`Ver depoimento ${i + 1}`}
                   className={`rounded-full transition-all duration-300 no-min-size ${
                     i === selectedIndex
-                      ? 'w-7 h-2 bg-primary shadow-[0_0_10px_rgba(34,197,94,0.7)]'
+                      ? 'w-7 h-2 bg-white/80 shadow-[0_0_10px_rgba(255,255,255,0.3)]'
                       : 'w-2 h-2 bg-white/20'
                   }`}
                 />
@@ -225,7 +229,7 @@ export const Testimonials = () => {
               disabled={!canScrollNext}
               aria-label="Próximo depoimento"
               className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
-                canScrollNext ? 'border-primary/40 text-primary active:scale-95' : 'border-white/8 text-white/15 cursor-not-allowed'
+                canScrollNext ? 'border-white/30 text-white active:scale-95' : 'border-white/10 text-white/20 cursor-not-allowed'
               }`}
             >
               <ChevronRight className="w-5 h-5" />

@@ -117,14 +117,14 @@ const About = () => {
                 UM <br />ECOSSISTEMA, <br /><span className="inline-block text-[20px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pb-2">VÁRIAS <br />ESPECIALIDADES.</span>
               </h2>
               <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[65%]">
-                Cada serviço existe para resolver um desafio diferente. Juntos, fazem parte de uma estrutura pensada para negócios e profissionais em movimento.
+                Cada serviço existe para responder a uma necessidade diferente. Juntos, formam um ecossistema para negócios e profissionais.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[32px] lg:text-[36px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
                 UM ECOSSISTEMA, <br /><span className="inline-block text-[26px] lg:text-[30px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2">VÁRIAS ESPECIALIDADES.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[16px] lg:text-[17px] text-white/80 font-light leading-relaxed max-w-[420px]">
-                Cada serviço existe para resolver um desafio diferente. Juntos, fazem parte de uma estrutura pensada para negócios e profissionais em movimento.
+                Cada serviço existe para responder a uma necessidade diferente. Juntos, formam um ecossistema para negócios e profissionais.
               </p>
             </div>
           </div>

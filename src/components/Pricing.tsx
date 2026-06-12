@@ -14,23 +14,23 @@ const PLANS = [
   {
     id: 'marcar-presenca',
     name: "MARCAR PRESENÇA",
-    subtitle: "Começa por aqui",
+    subtitle: "Para quem está a começar",
     icon: EliteCore,
     price: "5.000",
     originalPrice: null,
     savings: null,
-    period: "pagamento único",
+    period: "Pagamento único",
     popular: false,
-    description: "Para negócios que precisam parecer profissionais e começar a ser levados a sério.",
+    description: "Para negócios que precisam de começar a transmitir profissionalismo e credibilidade.",
     delivery: "3 a 5 dias úteis",
-    ideal: "Trabalhas bem — mas a tua imagem ainda não transmite isso. Isso muda aqui.",
+    ideal: "Estabelecer uma base sólida que transmita confiança aos clientes.",
     buttonText: "Quero marcar presença",
     features: [
-      "Imagem profissional da empresa",
-      "Presença consistente nas redes sociais",
-      "Apresentação clara dos produtos e serviços",
-      "Forma simples de os clientes entrarem em contacto",
-      "Estrutura pronta para crescer",
+      "Inspirar mais confiança",
+      "Apresentar-se melhor",
+      "Tornar-se mais profissional",
+      "Facilitar o contacto com clientes",
+      "Criar bases para crescer",
     ],
   },
   {
@@ -41,40 +41,40 @@ const PLANS = [
     price: "15.000",
     originalPrice: null,
     savings: null,
-    period: "pagamento único",
+    period: "Pagamento único",
     popular: true,
-    description: "Para negócios que já existem e querem transformar interesse em contactos reais.",
+    description: "Para negócios que já existem e precisam de gerar mais procura no mercado.",
     delivery: "7 a 10 dias úteis",
-    ideal: "O negócio existe. Falta fazer mais pessoas descobri-lo e entrar em contacto.",
+    ideal: "O negócio já existe, mas precisa de atrair interessados e expandir alcance.",
     buttonText: "Quero captar mais clientes",
     features: [
-      "Página profissional para apresentar a empresa",
-      "Contacto directo por WhatsApp integrado",
-      "Estrutura orientada para receber pedidos de orçamento",
-      "Integração com redes sociais",
-      "Base preparada para campanhas futuras",
+      "Ser encontrado facilmente",
+      "Receber mais contactos",
+      "Transformar interesse em oportunidades",
+      "Aumentar visibilidade",
+      "Criar base para futuras campanhas",
     ],
   },
   {
-    id: 'fazer-andar',
-    name: "FAZER O NEGÓCIO ANDAR",
-    subtitle: "Sistema completo",
+    id: 'estruturar-negocio',
+    name: "ESTRUTURAR O NEGÓCIO",
+    subtitle: "Para mais organização",
     icon: EliteRadar,
     price: "35.000",
     originalPrice: null,
     savings: null,
-    period: "sob consulta",
+    period: "Orçamento personalizado",
     popular: false,
-    description: "Para empresas que querem centralizar tudo num único sistema digital.",
-    delivery: "Sob cronograma",
-    ideal: "O negócio cresce. Está na hora de ter um sistema que aguente esse crescimento.",
-    buttonText: "Quero fazer o negócio andar",
+    description: "Para negócios que precisam de mais organização, automação e capacidade operacional.",
+    delivery: "Definido conforme o projecto",
+    ideal: "A procura aumentou e é necessário criar processos e sistemas.",
+    buttonText: "Quero estruturar o negócio",
     features: [
-      "Website profissional completo",
-      "Recepção de pedidos e encomendas online",
-      "Integração de pagamentos sem complicações",
-      "Automatização de tarefas repetitivas",
-      "Estrutura preparada para expandir",
+      "Centralizar processos",
+      "Automatizar tarefas",
+      "Reduzir trabalho manual",
+      "Organizar operações",
+      "Preparar o negócio para crescer",
     ],
   },
 ];
@@ -155,14 +155,14 @@ const Pricing = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos Contigo</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Evolução do Negócio</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Cada negócio tem o seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">passo</span>
+            Cada negócio tem o seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">momento</span>
           </h2>
           <p className="text-sm md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Primeiro aparecer bem. Depois ser encontrado. Depois crescer com organização.
-            <span className="block mt-2 text-white/60 text-sm">Começa onde o teu negócio está hoje.</span>
+            Nem todos precisam da mesma coisa. Existe um próximo passo adequado para a realidade atual do teu negócio.
+            <span className="block mt-2 text-white/60 text-sm font-bold">Começa onde estás hoje.</span>
           </p>
         </div>
 
@@ -260,12 +260,12 @@ const Pricing = () => {
                     <div className="px-6 pb-6 pt-4 border-t border-white/[0.06]">
                       <div className="flex gap-2 mb-4">
                         <div className="flex-1 text-center p-2 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                          <div className="text-[8px] uppercase tracking-widest text-white/30 font-bold mb-0.5">Prazo</div>
+                          <div className="text-[8px] uppercase tracking-widest text-white/30 font-bold mb-0.5">Tempo Estimado</div>
                           <div className="text-[10px] text-white/70 font-mono">{plan.delivery}</div>
                         </div>
                         <div className="flex-1 text-center p-2 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                          <div className="text-[8px] uppercase tracking-widest text-white/30 font-bold mb-0.5">Pagamento</div>
-                          <div className="text-[10px] text-white/70 font-mono capitalize">{plan.period}</div>
+                          <div className="text-[8px] uppercase tracking-widest text-white/30 font-bold mb-0.5">Investimento</div>
+                          <div className="text-[10px] text-white/70 font-mono">{plan.period}</div>
                         </div>
                       </div>
                       <button
@@ -390,12 +390,12 @@ const Pricing = () => {
                       </ul>
                       <div className="grid grid-cols-2 gap-4 mb-8 pt-6 border-t border-white/5">
                         <div className="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/5">
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Prazo</span>
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Tempo Estimado</span>
                           <span className="text-xs text-white text-center font-mono">{plan.delivery}</span>
                         </div>
                         <div className="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/5">
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Pagamento</span>
-                          <span className="text-xs text-white text-center font-mono capitalize">{plan.period}</span>
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Investimento</span>
+                          <span className="text-xs text-white text-center font-mono">{plan.period}</span>
                         </div>
                       </div>
                       <button

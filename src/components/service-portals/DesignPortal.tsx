@@ -208,7 +208,7 @@ const DesignPortal = () => {
               <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50" />
               <h3 className="text-2xl font-black uppercase tracking-tight mb-3 relative z-10">Pronto para avançar?</h3>
               <p className="text-sm text-zinc-400 font-medium mb-8 relative z-10">
-                Conta-nos o teu cenário no WhatsApp e iniciamos a transformação visual. Sem compromisso.
+                Conta-nos o teu cenário no WhatsApp e começamos a estruturar a tua nova imagem. Sem compromisso.
               </p>
               <a 
                 href={getWhatsAppLink()}

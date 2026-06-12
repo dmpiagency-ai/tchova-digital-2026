@@ -168,8 +168,8 @@ const Services = () => {
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            O que o teu negócio <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">precisa para avançar.</span>
+            Diferentes especialidades <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para diferentes necessidades.</span>
           </h2>
           <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
             Cada área resolve um problema real. Encontra a tua.
@@ -252,7 +252,7 @@ const Services = () => {
                         </span>
                       </div>
                       
-                      <h3 className="text-sm md:text-base font-black text-white leading-snug mb-1.5 tracking-tight uppercase">
+                      <h3 className="text-sm md:text-base font-black text-white leading-snug mb-1.5 tracking-tight">
                         {item.title}
                       </h3>
                       
@@ -301,9 +301,6 @@ const Services = () => {
               <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
             </span>
           </button>
-          <p className="mt-6 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-            Respondemos no WhatsApp em minutos. Sem complicação.
-          </p>
         </div>
       </div>
 

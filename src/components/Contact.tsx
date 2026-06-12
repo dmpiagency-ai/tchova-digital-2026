@@ -99,7 +99,7 @@ const Contact = () => {
             Fala <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Connosco</span>
           </h2>
           <p className="contact-header-text text-muted-foreground/80 text-base md:text-xl max-w-2xl mx-auto font-light tracking-wide px-4 md:px-0">
-            Fale diretamente com a equipa. Resposta garantida em menos de 5 minutos.
+            Cada negócio tem necessidades diferentes. Conta-nos a tua e vamos indicar o melhor caminho.
           </p>
         </div>
 
@@ -163,7 +163,7 @@ const Contact = () => {
               </div>
               <h3 className="text-2xl font-bold mb-3 text-white">Precisas de ajuda já?</h3>
               <p className="text-white/70 mb-8 max-w-sm text-lg">
-                Fala directamente com alguém da equipa agora mesmo. Sem espera, sem burocracia.
+                Inicia uma conversa diretamente pelo WhatsApp. Sem espera, sem burocracia.
               </p>
               <Button 
                 variant="default" 

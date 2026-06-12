@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, lazy, Suspense } from 'react';
 import { env } from '@/config/env';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -6,14 +6,14 @@ import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import LoginModal from '@/components/LoginModal';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 
-import About from '@/components/About';
-import Services from '@/components/Services';
-import HowItWorks from '@/components/HowItWorks';
-import Pricing from '@/components/Pricing';
+const About = lazy(() => import('@/components/About'));
+const Services = lazy(() => import('@/components/Services'));
+const HowItWorks = lazy(() => import('@/components/HowItWorks'));
+const Pricing = lazy(() => import('@/components/Pricing'));
 
-import Testimonials from '@/components/Testimonials';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+const Testimonials = lazy(() => import('@/components/Testimonials'));
+const Contact = lazy(() => import('@/components/Contact'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 // Extend window for service routing
 declare global {
@@ -126,16 +126,19 @@ const Index = () => {
 
       <main id="main-content" role="main" tabIndex={-1} className="relative z-[1]">
         <Hero />
-        <About />
-        <Services />
-        <HowItWorks />
-        <Pricing />
-
-        <Testimonials />
-        <Contact />
+        <Suspense fallback={<div className="h-32 w-full animate-pulse bg-[#0A0A0A]" />}>
+          <About />
+          <Services />
+          <HowItWorks />
+          <Pricing />
+          <Testimonials />
+          <Contact />
+        </Suspense>
       </main>
 
-      <Footer />
+      <Suspense fallback={<div className="h-32 w-full" />}>
+        <Footer />
+      </Suspense>
       <FloatingWhatsApp />
 
       {/* Login Modal — only shown when explicitly triggered by components */}

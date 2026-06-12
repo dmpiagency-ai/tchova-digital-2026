@@ -32,8 +32,8 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'ENTENDEMOS O MOMENTO',
-      description: 'Analisamos o teu negócio, o que já tens e onde estás a perder clientes ou tempo.',
+      label: 'IDENTIFICA A TUA NECESSIDADE',
+      description: 'Cada negócio enfrenta desafios diferentes. Alguns precisam de uma marca, outros de um website, conteúdos, marketing ou recursos profissionais.',
       number: '01',
       phase: 'Fase 1',
       keyword: 'Entender',
@@ -41,8 +41,8 @@ const HowItWorks = () => {
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'CONSTRUÍMOS A ESTRUTURA',
-      description: 'Criamos a imagem, presença e ferramentas certas para o teu negócio avançar.',
+      label: 'ESCOLHE A ÁREA CERTA',
+      description: 'Explora os serviços e encontra a especialidade que melhor responde ao que precisas neste momento.',
       number: '02',
       phase: 'Fase 2',
       keyword: 'Construir',
@@ -50,8 +50,8 @@ const HowItWorks = () => {
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'COLOCAMOS EM MOVIMENTO',
-      description: 'A tua operação começa a trabalhar com uma estrutura preparada para o mercado.',
+      label: 'COLOCA TUDO A FUNCIONAR',
+      description: 'Com a estrutura certa, ganhas mais presença, organização e capacidade para continuar a crescer.',
       number: '03',
       phase: 'Fase 3',
       keyword: 'Activar',
@@ -158,10 +158,10 @@ const HowItWorks = () => {
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Da Ideia à <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Operação</span>
+            COMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FUNCIONA</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Um processo simples para tirar o teu negócio do papel e <span className="text-white font-semibold">colocar tudo a funcionar.</span>
+            Encontrar a solução certa para o teu negócio deve ser <span className="text-white font-semibold">simples.</span>
           </p>
         </div>
 
