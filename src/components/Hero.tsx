@@ -442,13 +442,13 @@ const Hero = () => {
           <div ref={headlineClipRef} className="py-2 md:py-4 -my-2 md:-my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-center md:justify-start">
             <h1
               ref={headlineRef}
-              className="tracking-tighter leading-[1.05] text-left w-auto flex flex-col items-start font-medium text-[clamp(1.8rem,14vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
+              className="tracking-tighter leading-[1.05] text-left w-auto flex flex-col items-start font-medium text-[clamp(1.5rem,12.5vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
             >
               <span className="italic">A FORÇA</span>
               <span className="italic">
                 QUE <span className="text-[#4ade80]">MOVE</span>
               </span>
-              <span className="mt-0.5 md:mt-2 text-[clamp(1.3rem,10.6vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
+              <span className="mt-0.5 md:mt-2 text-[clamp(1.1rem,9.5vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
                 O TEU <span className="text-[#4ade80]">NEGÓCIO</span>
               </span>
             </h1>
