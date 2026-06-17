@@ -70,142 +70,161 @@ const AudiovisualPortal = () => {
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen" />
         
-        <div className="container mx-auto px-6 max-w-4xl relative z-10">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10 overflow-hidden">
+          <div 
+            className="flex items-start transition-transform duration-500 ease-out w-full"
+            style={{ transform: `translateX(-${(step - 1) * 100}%)` }}
+          >
+            {/* STEP 1: Diagnóstico */}
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 1 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+              <div className="text-center mb-6 md:mb-12">
+                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 1 de 3 • Diagnóstico</span>
+                <h1 className="text-xl sm:text-2xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
+                  Como os clientes <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">vêem</span> o teu negócio?
+                </h1>
+                <p className="text-xs sm:text-sm md:text-lg text-zinc-400 font-medium">O que te impede de ter um visual de topo hoje?</p>
+              </div>
 
-          {/* STEP 1: Diagnóstico */}
-          <div className={`transition-all duration-700 absolute inset-0 ${step === 1 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 1 de 3 • Diagnóstico</span>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
-                Como os clientes <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">vêem</span> o teu negócio?
-              </h1>
-              <p className="text-sm md:text-lg text-zinc-400 font-medium">O que te impede de ter um visual de topo hoje?</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto">
+                {problems.map((prob, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedProblem(prob)}
+                    className={`p-4 sm:p-8 rounded-[1.5rem] md:rounded-[2rem] border text-left transition-all duration-300 group
+                      ${selectedProblem === prob 
+                        ? 'bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] scale-[1.01]' 
+                        : 'bg-white/[0.02] backdrop-blur-xl border-white/10 hover:border-primary/30 hover:bg-white/[0.04] hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)]'}`}
+                  >
+                    <div className="flex justify-between items-center gap-3 md:gap-4">
+                      <span className={`text-xs sm:text-sm md:text-base font-bold transition-colors ${selectedProblem === prob ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>
+                        {prob}
+                      </span>
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300
+                        ${selectedProblem === prob ? 'bg-primary text-black scale-110' : 'bg-white/5 text-zinc-500 group-hover:bg-primary/20 group-hover:text-primary'}`}>
+                        {selectedProblem === prob ? <CheckCircle2 className="w-3.5 h-3.5" /> : <div className="w-1.5 h-1.5 rounded-full bg-zinc-600 group-hover:bg-primary" />}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className={`mt-6 md:mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                <button 
+                  onClick={handleNext}
+                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+                >
+                  Continuar
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto">
-              {problems.map((prob, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedProblem(prob)}
-                  className={`p-4 md:p-6 sm:p-8 rounded-[1.5rem] md:rounded-[2rem] border text-left transition-all duration-300 group
-                    ${selectedProblem === prob 
-                      ? 'bg-primary/10 border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] scale-[1.02]' 
-                      : 'bg-white/[0.02] backdrop-blur-xl border-white/10 hover:border-primary/30 hover:bg-white/[0.04] hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(34,197,94,0.05)]'}`}
-                >
-                  <div className="flex justify-between items-center gap-4">
-                    <span className={`text-sm md:text-base font-bold transition-colors ${selectedProblem === prob ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>
-                      {prob}
-                    </span>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300
-                      ${selectedProblem === prob ? 'bg-primary text-black scale-110' : 'bg-white/5 text-zinc-500 group-hover:bg-primary/20 group-hover:text-primary'}`}>
-                      {selectedProblem === prob ? <CheckCircle2 className="w-4 h-4" /> : <div className="w-2 h-2 rounded-full bg-zinc-600 group-hover:bg-primary" />}
+            {/* STEP 2: Solução */}
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 2 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+              <div className="text-center mb-12">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
+                <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                  Conteúdo que prende a atenção.
+                </h1>
+                <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
+                  {selectedProblem === "Não consigo explicar bem o que faço apenas com texto" 
+                    ? "Transformamos a tua mensagem num vídeo curto e claro que as pessoas têm gosto em assistir até ao fim."
+                    : selectedProblem === "As fotos que tiro no telemóvel não valorizam o meu produto"
+                    ? "Captamos os detalhes do teu produto com qualidade profissional, despertando o desejo imediato de compra."
+                    : "Produzimos visuais que marcam. Seja um evento, um espaço ou uma campanha, garantimos que a imagem reflete a excelência do serviço."}
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
+                  <div className="space-y-4">
+                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Vídeo</span>
+                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Vídeo Profissional</h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                      Vídeos curtos e dinâmicos para apresentar produtos, serviços ou equipas, gerando uma forte ligação com o teu cliente.
+                    </p>
+                  </div>
+                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                    <div className="flex flex-wrap gap-2">
+                      {["Lançamentos", "Redes Sociais", "Reels/TikTok", "YouTube"].map((tag, i) => (
+                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
+                      ))}
                     </div>
                   </div>
+                </div>
+
+                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
+                  <div className="space-y-4">
+                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Fotografia</span>
+                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Fotografia de Alta Qualidade</h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                      Os clientes compram primeiro com os olhos. Imagens limpas para catálogos, redes sociais ou menus.
+                    </p>
+                  </div>
+                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
+                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
+                    <div className="flex flex-wrap gap-2">
+                      {["Cardápios", "E-commerce", "Catálogos", "Retratos"].map((tag, i) => (
+                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-12 text-center">
+                <button 
+                  onClick={handleNext}
+                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform shadow-lg"
+                >
+                  Ver o Meu Pacote
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              ))}
-            </div>
-
-            <div className={`mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-              <button 
-                onClick={handleNext}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
-              >
-                Continuar
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* STEP 2: Solução */}
-          <div className={`transition-all duration-700 absolute inset-0 ${step === 2 ? 'opacity-100 relative z-10 translate-x-0' : step < 2 ? 'opacity-0 pointer-events-none translate-x-full' : 'opacity-0 pointer-events-none -translate-x-full'}`}>
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
-                Conteúdo que prende a atenção.
-              </h1>
-              <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
-                {selectedProblem === "Não consigo explicar bem o que faço apenas com texto" 
-                  ? "Transformamos a tua mensagem num vídeo curto e claro que as pessoas têm gosto em assistir até ao fim."
-                  : selectedProblem === "As fotos que tiro no telemóvel não valorizam o meu produto"
-                  ? "Captamos os detalhes do teu produto com qualidade profissional, despertando o desejo imediato de compra."
-                  : "Produzimos visuais que marcam. Seja um evento, um espaço ou uma campanha, garantimos que a imagem reflete a excelência do serviço."}
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex flex-col h-full group">
-                <div className="space-y-4">
-                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Vídeo</span>
-                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Vídeo Profissional</h3>
-                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                    Vídeos curtos e dinâmicos para apresentar produtos, serviços ou equipas, gerando uma forte ligação com o teu cliente.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-zinc-900/50 border border-white/5 shadow-xl flex flex-col h-full group">
-                <div className="space-y-4">
-                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5">Fotografia</span>
-                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Fotografia de Alta Qualidade</h3>
-                  <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                    Os clientes compram primeiro com os olhos. Imagens limpas para catálogos, redes sociais ou menus.
-                  </p>
-                </div>
               </div>
             </div>
 
-            <div className="mt-12 text-center">
-              <button 
-                onClick={handleNext}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform"
-              >
-                Ver o Meu Pacote
-                <ArrowRight className="w-4 h-4" />
-              </button>
+            {/* STEP 3: Entrega e CTA */}
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 3 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+              <div className="text-center mb-12">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 3 de 3 • O Teu Pacote</span>
+                <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
+                  O que recebes no final.
+                </h1>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-16">
+                {packages.map((item, i) => (
+                  <div key={i} className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex items-center gap-4 sm:gap-6">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <span className="text-xl sm:text-2xl font-black text-primary">✓</span>
+                    </div>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-black uppercase tracking-tighter mb-1 text-white">{item.title}</h3>
+                      <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="max-w-md mx-auto text-center bg-zinc-950/50 p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50 pointer-events-none" />
+                <h3 className="text-2xl font-black uppercase tracking-tight mb-3 relative z-10">Pronto para avançar?</h3>
+                <p className="text-sm text-zinc-400 font-medium mb-8 relative z-10">
+                  Conta-nos a tua ideia no WhatsApp e começamos a planear a produção. Sem compromisso.
+                </p>
+                <a 
+                  href={getWhatsAppLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-r from-primary to-brand-green text-white font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] font-sans"
+                >
+                  <MessageCircle className="w-5 h-5 animate-pulse" />
+                  Falar com a Equipa
+                </a>
+              </div>
             </div>
           </div>
-
-          {/* STEP 3: Entrega e CTA */}
-          <div className={`transition-all duration-700 absolute inset-0 ${step === 3 ? 'opacity-100 relative z-10 translate-x-0' : 'opacity-0 pointer-events-none translate-x-full'}`}>
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 3 de 3 • O Teu Pacote</span>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
-                O que recebes no final.
-              </h1>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-16">
-              {packages.map((item, i) => (
-                <div key={i} className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:bg-white/[0.04] transition-colors shadow-xl flex items-center gap-4 sm:gap-6">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl sm:text-2xl font-black text-primary">✓</span>
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-black uppercase tracking-tighter mb-1 text-white">{item.title}</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="max-w-md mx-auto text-center bg-zinc-950/50 p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50" />
-              <h3 className="text-2xl font-black uppercase tracking-tight mb-3 relative z-10">Pronto para avançar?</h3>
-              <p className="text-sm text-zinc-400 font-medium mb-8 relative z-10">
-                Conta-nos a tua ideia no WhatsApp e começamos a planear a produção. Sem compromisso.
-              </p>
-              <a 
-                href={getWhatsAppLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-r from-primary to-brand-green text-white font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
-              >
-                <MessageCircle className="w-5 h-5 animate-pulse" />
-                Falar com a Equipa
-              </a>
-            </div>
-          </div>
-
         </div>
       </main>
     </div>
