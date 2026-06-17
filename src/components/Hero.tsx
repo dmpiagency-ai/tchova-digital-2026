@@ -419,7 +419,7 @@ const Hero = () => {
         ref={contentRef}
         className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[10svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
       >
-        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-2 xs:gap-3 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
+        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-4 xs:gap-5 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
@@ -457,7 +457,7 @@ const Hero = () => {
           {/* Sub-headline — Explainer */}
           <div
             ref={subheadlineRef}
-            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-1 md:mt-4 px-1 md:px-0"
+            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-3 xs:mt-4 md:mt-4 px-1 md:px-0"
           >
             <div className="text-[clamp(13px,3.8vw,18px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
               Um ecossistema composto por <span className="text-[#eff3c5] font-semibold">diferentes áreas especializadas</span>, reunidas num só <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">lugar</span>.
@@ -467,7 +467,7 @@ const Hero = () => {
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-2 md:pt-4 w-full relative"
+            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-4 xs:pt-5 md:pt-4 w-full relative"
           >
             {/* Mobile subtle CTA glow — no blur, just a soft radial shadow */}
             <div className="block md:hidden absolute top-1/2 left-0 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
