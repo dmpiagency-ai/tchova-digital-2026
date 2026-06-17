@@ -448,7 +448,7 @@ const Hero = () => {
               <span className="italic">
                 QUE <span className="text-[#4ade80]">MOVE</span>
               </span>
-              <span className="mt-1 md:mt-2 text-[clamp(1.2rem,9.8vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
+              <span className="mt-1 md:mt-2 text-[clamp(1.3rem,11vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
                 O TEU <span className="text-[#4ade80]">NEGÓCIO</span>
               </span>
             </h1>
