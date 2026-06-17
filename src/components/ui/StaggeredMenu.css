@@ -7,6 +7,9 @@
   --sm-text-muted: rgba(255, 255, 255, 0.6);
   position: relative;
   z-index: 1000;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .staggered-menu-wrapper.fixed-wrapper {
@@ -15,6 +18,9 @@
   left: 0;
   right: 0;
   z-index: 1100;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .staggered-menu-wrapper[data-position='left'] .sm-prelayers,
@@ -54,16 +60,18 @@
   justify-content: space-between;
   padding: 1rem 1.25rem;
   padding-top: calc(1rem + env(safe-area-inset-top, 0px));
-  background: transparent;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   transition: background-color 0.3s ease, -webkit-backdrop-filter 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
   border-bottom: 1px solid transparent;
 }
 
 .staggered-menu-header.scrolled {
-  background: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  border-bottom-color: transparent;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border-bottom-color: transparent !important;
 }
 
 .sm-logo {
