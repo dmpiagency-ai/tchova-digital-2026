@@ -474,9 +474,10 @@ const Hero = () => {
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
-              className="group w-full sm:w-max shrink-0 h-[56px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[12px] xs:text-[13px] md:text-sm font-black tracking-[0.15em] !bg-[#22C55E] !text-black !border-none shadow-[0_0_25px_rgba(34,197,94,0.4)] hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] hover:scale-[1.02] transition-all duration-500 rounded-xl md:rounded-2xl uppercase"
+              className="group w-full sm:w-max shrink-0 h-[56px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[12px] xs:text-[13px] md:text-sm font-black tracking-[0.15em] bg-gradient-to-r from-white to-white text-black hover:from-primary hover:to-primary hover:text-white transition-all duration-500 rounded-xl md:rounded-2xl uppercase border border-white/10"
+              style={{ WebkitTextFillColor: 'black' }}
             >
-              <ElitePulse className="w-4 h-4 md:w-5 md:h-5 shrink-0 text-black" />
+              <ElitePulse className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ stroke: 'black' }} />
               <span className="whitespace-nowrap">FALA CONNOSCO AGORA</span>
             </MagneticButton>
 
