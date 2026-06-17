@@ -423,11 +423,11 @@ const Hero = () => {
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
-            <div ref={labelRef} className="flex flex-row items-center justify-center gap-1.5 md:gap-2 w-full md:w-auto text-center md:text-left">
+            <div ref={labelRef} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 w-full md:w-auto text-center md:text-left">
               <span className="text-[#4ade80] font-black text-[clamp(9px,2.8vw,13px)] md:text-[11px] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
                 TUDO O QUE PRECISAS PARA
               </span>
-              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[13.5em] sm:w-[220px] md:w-[260px] tracking-normal text-[clamp(9px,2.8vw,13px)] md:text-[11px] justify-center md:justify-start">
+              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-full md:w-[180px] tracking-normal text-[clamp(9px,2.8vw,13px)] md:text-[11px] justify-center md:justify-start mt-1 md:mt-0">
                 <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full items-center md:items-start">
                   {ROTATING_WORDS.map((word, i) => (
                     <span key={i} className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
