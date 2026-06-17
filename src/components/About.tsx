@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -13,6 +13,28 @@ gsap.registerPlugin(ScrollTrigger);
 const About = () => {
   const containerRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const aboutVideoRef = useRef<HTMLVideoElement>(null);
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  // Pause video when not visible — saves CPU/battery on mobile
+  useEffect(() => {
+    const video = aboutVideoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -91,12 +113,13 @@ const About = () => {
             {/* Immersive Background Video inside Card 1 */}
             <div className="absolute inset-0 bg-black pointer-events-none">
               <video 
+                ref={aboutVideoRef}
                 src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.mp4" 
                 autoPlay 
                 loop 
                 muted 
                 playsInline
-                preload="auto"
+                preload={isMobile ? "none" : "auto"}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.jpg"
                 className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
               />

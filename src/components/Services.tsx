@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from '@/components/ui/carousel';
 import { InteractiveContactModal } from './InteractiveContactModal';
@@ -15,7 +15,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
   const sectionRef = useRef<HTMLElement>(null);
@@ -113,13 +112,6 @@ const Services = () => {
       icon: EliteNode
     },
   ], []);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleServiceClick = useCallback((service: { id: number; title: string; category: string; }) => {
     navigate(`/servicos/${service.id}`);
@@ -279,7 +271,7 @@ const Services = () => {
               loop: true,
               align: 'center',
               containScroll: 'trimSnaps',
-              slidesToScroll: isMobile ? 1 : 2,
+              slidesToScroll: 1,
               breakpoints: {
                 '(min-width: 768px)': { slidesToScroll: 2, align: 'center' },
                 '(min-width: 1024px)': { slidesToScroll: 3, align: 'center' }

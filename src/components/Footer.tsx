@@ -50,15 +50,18 @@ const Footer = () => {
         }
       });
 
-      // Floating animation for social icons
-      gsap.to('.social-icon', {
-        y: -10,
-        duration: 2,
-        stagger: 0.2,
-        yoyo: true,
-        repeat: -1,
-        ease: 'sine.inOut'
-      });
+      // Floating animation for social icons — scoped to footer container
+      const socialIcons = containerRef.current?.querySelectorAll('.social-icon');
+      if (socialIcons?.length) {
+        gsap.to(socialIcons, {
+          y: -10,
+          duration: 2,
+          stagger: 0.2,
+          yoyo: true,
+          repeat: -1,
+          ease: 'sine.inOut'
+        });
+      }
     });
   }, { scope: containerRef });
 

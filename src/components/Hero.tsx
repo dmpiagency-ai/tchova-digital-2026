@@ -31,7 +31,6 @@ const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
-  const video2Ref = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const labelClipRef = useRef<HTMLDivElement>(null);
@@ -41,51 +40,6 @@ const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
-
-  // Reference to keep track of fading state to avoid overlapping triggers
-  const isFadingRef = useRef(false);
-
-  // Seamless looping mechanism for video backgrounds
-  useEffect(() => {
-    const v1 = video1Ref.current;
-    const v2 = video2Ref.current;
-    if (!v1 || !v2 || isMobile || !videoSrc.includes('video/')) return;
-
-    const FADE_DURATION = 0.5; // crossfade duration in seconds
-
-    const handleTimeUpdate = (e: Event) => {
-      const active = e.target as HTMLVideoElement;
-      const inactive = active === v1 ? v2 : v1;
-
-      // Start crossfade before the active video ends
-      if (active.duration && active.currentTime >= active.duration - FADE_DURATION && !isFadingRef.current) {
-        isFadingRef.current = true;
-        
-        // Prepare and play the inactive video
-        inactive.currentTime = 0;
-        const playPromise = inactive.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {});
-        }
-
-        // Crossfade using GSAP
-        gsap.to(active, { opacity: 0, duration: FADE_DURATION });
-        gsap.to(inactive, { opacity: 1, duration: FADE_DURATION, onComplete: () => {
-          active.pause();
-          active.currentTime = 0;
-          isFadingRef.current = false;
-        }});
-      }
-    };
-
-    v1.addEventListener('timeupdate', handleTimeUpdate);
-    v2.addEventListener('timeupdate', handleTimeUpdate);
-
-    return () => {
-      v1.removeEventListener('timeupdate', handleTimeUpdate);
-      v2.removeEventListener('timeupdate', handleTimeUpdate);
-    };
-  }, [videoSrc]);
 
   // iOS Safari autoplay fix: explicitly load + play after mount
   useEffect(() => {
@@ -390,8 +344,7 @@ const Hero = () => {
                 style={{
                   opacity: 1,
                   zIndex: 2,
-                  willChange: 'transform, opacity', // Added opacity for seamless fade loop
-                  transform: 'translateZ(0)', // Force dedicated GPU layer
+                  transform: 'translateZ(0)',
                 }}
                 onTimeUpdate={(e) => {
                   // Dev Pro: Seamless Fade Loop Masking

@@ -291,23 +291,25 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
-  /* ─── MOBILE PERFORMANCE: Reduce blur cost on all glass elements ──────── */
+  /* ─── MOBILE PERFORMANCE: Remove backdrop-filter from scrollable content ──── */
+  /* Only disable blur on scrollable section content — preserve it on modals/overlays */
   @media (max-width: 767px) {
-    /* Kill all backdrop-filters globally on mobile for 60fps scrolling */
-    *, ::before, ::after {
+    .glass,
+    .glass-card,
+    .liquid-card {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
-    }
-    
-    .glass {
       background: rgba(20, 20, 20, 0.9) !important;
     }
-    .glass-card {
-      background: rgba(20, 20, 20, 0.9) !important;
+
+    /* Keep backdrop-filter working on fixed/overlay UI that doesn't affect scroll */
+    [role="dialog"],
+    [data-radix-popper-content-wrapper],
+    .fixed {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-    .liquid-card {
-      background: rgba(20, 20, 20, 0.9) !important;
-    }
+
     /* Force hardware-accelerated compositing on animated elements */
     .tech-hero video {
       transform: translateZ(0);
@@ -1103,19 +1105,13 @@ html {
   box-sizing: border-box;
 }
 
-/* GPU acceleration for better performance */
+/* GPU acceleration for performance-critical elements */
 .gpu-accelerated,
 .animate-fade-up,
 .animate-fade-in,
 .animate-slide-up,
 .animate-glow,
 .hover-lift,
-.glass,
-.glass-card,
-.neo,
-.neo-inset,
-.liquid-blur-border,
-.modern-navbar,
 .animate-on-scroll,
 .animate-scale-in,
 .animate-slide-in-left,
@@ -1124,8 +1120,6 @@ html {
 .hover-lift-enhanced,
 .parallax-element {
   transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 /* Optimize animations */
