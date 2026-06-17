@@ -324,7 +324,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[60%] md:h-full overflow-hidden will-change-transform bg-transparent"
+          className="absolute top-0 left-0 w-full h-[45%] xs:h-[50%] md:h-full overflow-hidden will-change-transform bg-transparent"
         >
           {/* Background Media: support both video and image */}
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
