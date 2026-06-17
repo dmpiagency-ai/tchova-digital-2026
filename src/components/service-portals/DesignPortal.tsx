@@ -68,7 +68,8 @@ const DesignPortal = () => {
       <main className="flex-1 flex flex-col justify-center pt-20 pb-12 md:pt-28 md:pb-24 relative">
         {/* Animated Background Orbs for Friendly/Interactive Vibe */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-scree        <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10 overflow-hidden">
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen animate-pulse" />
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10 overflow-hidden">
           <div 
             className="flex items-start transition-transform duration-500 ease-out w-full"
             style={{ transform: `translateX(-${(step - 1) * 100}%)` }}
