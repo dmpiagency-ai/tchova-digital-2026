@@ -229,8 +229,8 @@ const Hero = () => {
 
       // Premium 3D Entrance: No CSS blur (to save battery), just pure GPU-accelerated transforms
       tl.fromTo(videoContainerRef.current,
-        { scale: 1.05, opacity: 0 },
-        { scale: 1.0, opacity: 1, duration: 1.5, ease: 'power2.out' }
+        { scale: 1.05, opacity: 0, transformOrigin: 'top center' },
+        { scale: 1.0, opacity: 1, duration: 1.5, ease: 'power2.out', transformOrigin: 'top center' }
       )
       .fromTo(labelRef.current, 
         { y: 20, opacity: 0 }, 
@@ -324,7 +324,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[45%] xs:h-[50%] md:h-full overflow-hidden will-change-transform bg-transparent"
+          className="absolute -top-[2px] left-0 w-full h-[calc(45%+4px)] xs:h-[calc(50%+4px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
         >
           {/* Background Media: support both video and image */}
           {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
@@ -340,7 +340,7 @@ const Hero = () => {
                 preload={isMobile ? "none" : "auto"}
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute inset-0 w-full h-full object-cover object-[50%_15%] md:object-[58%_50%] pointer-events-none"
+                className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
                 style={{
                   opacity: 1,
                   zIndex: 2,
@@ -375,7 +375,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src={videoSrc}
-              className="absolute inset-0 w-full h-full object-cover object-[50%_15%] md:object-[58%_50%] pointer-events-none"
+              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
               style={{
                 opacity: 1,
                 zIndex: 2,
@@ -423,11 +423,11 @@ const Hero = () => {
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
-            <div ref={labelRef} className="flex flex-col md:flex-row items-center md:items-center w-full md:w-auto text-center md:text-left">
-              <span className="text-[#4ade80] font-black text-[clamp(10px,3.5vw,20px)] md:text-[11px] tracking-normal sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
+            <div ref={labelRef} className="flex flex-row items-center justify-center gap-1.5 md:gap-2 w-full md:w-auto text-center md:text-left">
+              <span className="text-[#4ade80] font-black text-[clamp(9px,2.8vw,13px)] md:text-[11px] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
                 TUDO O QUE PRECISAS PARA
               </span>
-              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[17.5em] sm:w-[220px] md:w-[260px] tracking-normal mt-1 md:mt-0 ml-0 md:ml-2 text-[clamp(10px,3.5vw,20px)] md:text-[11px] justify-center md:justify-start">
+              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-[13.5em] sm:w-[220px] md:w-[260px] tracking-normal text-[clamp(9px,2.8vw,13px)] md:text-[11px] justify-center md:justify-start">
                 <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full items-center md:items-start">
                   {ROTATING_WORDS.map((word, i) => (
                     <span key={i} className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
@@ -439,16 +439,16 @@ const Hero = () => {
           </div>
 
           {/* Headline — Value Proposition */}
-          <div ref={headlineClipRef} className="py-2 md:py-4 -my-2 md:-my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-center md:justify-start">
+          <div ref={headlineClipRef} className="py-1 md:py-4 -my-1 md:-my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-center md:justify-start">
             <h1
               ref={headlineRef}
-              className="tracking-tighter leading-[1.05] text-left w-auto flex flex-col items-start font-medium text-[clamp(1.5rem,12.5vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
+              className="tracking-tighter leading-[0.92] md:leading-[1.05] text-left w-auto flex flex-col items-start font-medium text-[clamp(1.8rem,14.5vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
             >
               <span className="italic">A FORÇA</span>
               <span className="italic">
                 QUE <span className="text-[#4ade80]">MOVE</span>
               </span>
-              <span className="mt-0.5 md:mt-2 text-[clamp(1.1rem,9.5vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
+              <span className="mt-1 md:mt-2 text-[clamp(1.3rem,11vw,5rem)] md:text-[clamp(2.5rem,3.5vw,3.2rem)] font-bold">
                 O TEU <span className="text-[#4ade80]">NEGÓCIO</span>
               </span>
             </h1>
@@ -459,7 +459,7 @@ const Hero = () => {
             ref={subheadlineRef}
             className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-1 md:mt-4 px-1 md:px-0"
           >
-            <div className="text-[clamp(14px,3.8vw,20px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] md:leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
+            <div className="text-[clamp(13px,3.8vw,18px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
               Um ecossistema composto por <span className="text-[#eff3c5] font-semibold">diferentes áreas especializadas</span>, reunidas num só <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">lugar</span>.
             </div>
           </div>
@@ -467,10 +467,10 @@ const Hero = () => {
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-1 md:pt-4 w-full relative"
+            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-2 md:pt-4 w-full relative"
           >
             {/* Mobile subtle CTA glow — no blur, just a soft radial shadow */}
-            <div className="block md:hidden absolute top-1/2 left-0 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at left, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
+            <div className="block md:hidden absolute top-1/2 left-0 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
