@@ -120,7 +120,7 @@ const PlanCustomizer = () => {
           name: 'Integração E-commerce',
           category: 'Web',
           basePrice: 2200,
-          description: 'Transforme seu site em loja online',
+          description: 'Transforme o seu projeto em loja online',
           features: ['Sistema de pagamentos', 'Gestão de produtos', 'Carrinho de compras', 'Área do cliente'],
           popular: true,
           savings: 18
@@ -311,8 +311,8 @@ const PlanCustomizer = () => {
               <span className="sm:hidden">Personalizar Plano</span>
             </h1>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              <span className="hidden sm:inline">Adicione funcionalidades extras para potencializar seu projeto</span>
-              <span className="sm:hidden">Adicione funcionalidades extras</span>
+              <span className="hidden sm:inline">Adiciona funcionalidades extras para potencializar o teu projeto</span>
+              <span className="sm:hidden">Adiciona funcionalidades extras</span>
             </p>
           </div>
         </div>

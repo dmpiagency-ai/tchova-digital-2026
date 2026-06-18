@@ -4,6 +4,7 @@ import { env } from '@/config/env';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ const Footer = () => {
   const textRef = useRef<HTMLHeadingElement>(null);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent('Olá! Vi o site e gostaria de saber mais.');
+    const message = encodeURIComponent('Olá! Gostaria de saber mais sobre as vossas soluções.');
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
 
@@ -31,6 +32,7 @@ const Footer = () => {
   ];
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
 
     // Only run these expensive animations on desktop

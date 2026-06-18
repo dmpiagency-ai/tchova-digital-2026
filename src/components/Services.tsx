@@ -8,6 +8,7 @@ import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
 import { EliteRadar, ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector } from '@/components/ui/EliteIcons';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +23,7 @@ const Services = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
 
     // DESKTOP: 3D Entrance
@@ -64,40 +66,40 @@ const Services = () => {
     {
       id: 1,
       number: '01',
-      title: 'A tua empresa merece parecer profissional.',
+      title: 'Posiciona a tua marca com impacto e autoridade.',
       category: 'Design & Identidade',
-      audience: 'Imagem profissional para o teu negócio',
-      painPoint: 'Mais confiança. Mais credibilidade. Clientes que levam o negócio a sério.',
+      audience: 'Design de marca e posicionamento de mercado',
+      painPoint: 'Logótipos e identidades completas que geram valor, credibilidade e atraem clientes de alto valor.',
       cta: 'Ver como funciona',
       icon: EliteMatrix
     },
     {
       id: 2,
       number: '02',
-      title: 'Um espaço online que trabalha por ti 24 horas.',
+      title: 'O teu website deve ser o teu melhor canal de vendas.',
       category: 'Websites & Lojas',
-      audience: 'Sites e lojas para negócios em crescimento',
-      painPoint: 'Clientes encontram, confiam e contactam — mesmo quando estás ocupado.',
+      audience: 'Websites institucionais e e-commerce',
+      painPoint: 'Plataformas rápidas, seguras e otimizadas para que a tua marca seja encontrada e contactada a qualquer momento.',
       cta: 'Ver como funciona',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
-      title: 'Mais pessoas certas a descobrir o teu negócio.',
+      title: 'Atrai o cliente ideal e escala as tuas vendas.',
       category: 'Campanhas & Redes',
-      audience: 'Anúncios e gestão de redes sociais',
-      painPoint: 'Mais pedidos. Mais mensagens. Mais oportunidades para o teu negócio.',
+      audience: 'Tráfego pago e gestão de redes sociais',
+      painPoint: 'Campanhas estratégicas que geram mensagens de compra e transformam cliques em receita recorrente.',
       cta: 'Ver como funciona',
       icon: ElitePulse
     },
     {
       id: 4,
       number: '04',
-      title: 'Conteúdo que faz as pessoas parar e prestar atenção.',
+      title: 'Vídeos que valorizam a percepção da tua marca.',
       category: 'Vídeo & Fotografia',
-      audience: 'Produção audiovisual para marcas e empresas',
-      painPoint: 'Do produto ao ecrã com qualidade e impacto real.',
+      audience: 'Produção audiovisual e storytelling',
+      painPoint: 'Captamos a essência do teu produto ou serviço com qualidade de cinema para reter a atenção do cliente.',
       cta: 'Ver como funciona',
       icon: EliteRadar
     },
@@ -107,7 +109,7 @@ const Services = () => {
       title: 'Ferramentas profissionais para técnicos mobile.',
       category: 'Ferramentas GSM',
       audience: 'Acesso a ferramentas GSM sem interrupções',
-      painPoint: 'Trabalha com as melhores ferramentas sem travar o serviço.',
+      painPoint: 'Acede às principais ferramentas e boxes do mercado com estabilidade absoluta para o teu laboratório.',
       cta: 'Entrar no painel',
       icon: EliteNode
     },
@@ -125,7 +127,7 @@ const Services = () => {
   }, [handleServiceClick]);
 
   const handleWhatsAppClick = useCallback(() => {
-    const message = encodeURIComponent('Olá! Vi o site e gostaria de saber mais sobre os serviços da TchovaDigital.');
+    const message = encodeURIComponent('Olá! Gostaria de saber mais sobre os serviços da TchovaDigital.');
     window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${message}`, '_blank');
   }, []);
 
@@ -160,11 +162,11 @@ const Services = () => {
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            Diferentes especialidades <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para diferentes necessidades.</span>
+            Especialidades integradas <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para acelerar o teu crescimento.</span>
           </h2>
           <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
-            Cada área resolve um problema real. Encontra a tua.
+            Soluções estratégicas desenhadas para ultrapassar os teus desafios operacionais e destacar a tua marca.
           </p>
         </div>
 

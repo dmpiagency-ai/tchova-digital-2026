@@ -70,7 +70,7 @@ const CustomizeServices = () => {
       name: 'Website Profissional',
       category: 'Desenvolvimento Web',
       basePrice: 4500,
-      description: 'Sites responsivos, otimizados e com painel administrativo',
+      description: 'Websites institucionais e plataformas e-commerce responsivas com painel administrativo',
       features: ['Design responsivo', 'Painel admin', 'SEO básico', 'Hosting 1 ano'],
       image: websitesServiceImage,
       popular: true
@@ -201,10 +201,10 @@ const CustomizeServices = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="text-center mb-6">
               <h1 className="text-2xl lg:text-3xl font-bold gradient-text mb-2">
-                Personalize seu Orçamento
+                Personaliza o teu Orçamento
               </h1>
               <p className="text-muted-foreground">
-                Misture e combine serviços para criar a solução perfeita para seu negócio
+                Mistura e combina serviços para criar a solução perfeita para o teu negócio
               </p>
             </div>
 

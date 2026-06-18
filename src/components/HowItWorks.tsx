@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EliteRadar, EliteNode, ElitePulse } from '@/components/ui/EliteIcons';
 import useEmblaCarousel from 'embla-carousel-react';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,8 +33,8 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'IDENTIFICA A TUA NECESSIDADE',
-      description: 'Cada negócio enfrenta desafios diferentes. Alguns precisam de uma marca, outros de um website, conteúdos, marketing ou recursos profissionais.',
+      label: 'DEFINE A TUA PRIORIDADE',
+      description: 'Analisamos o estado atual da tua marca. Identificamos se a prioridade é construir presença, escalar vendas ou estruturar operações.',
       number: '01',
       phase: 'Fase 1',
       keyword: 'Entender',
@@ -41,8 +42,8 @@ const HowItWorks = () => {
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'ESCOLHE A ÁREA CERTA',
-      description: 'Explora os serviços e encontra a especialidade que melhor responde ao que precisas neste momento.',
+      label: 'ATIVA A ÁREA ESTRATÉGICA',
+      description: 'Direcionamos a especialidade certa do nosso ecossistema para criar a solução sob medida para a tua empresa.',
       number: '02',
       phase: 'Fase 2',
       keyword: 'Construir',
@@ -50,8 +51,8 @@ const HowItWorks = () => {
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'COLOCA TUDO A FUNCIONAR',
-      description: 'Com a estrutura certa, ganhas mais presença, organização e capacidade para continuar a crescer.',
+      label: 'ESCALA A TUA OPERAÇÃO',
+      description: 'Com a nova engrenagem ativa, a tua marca ganha tração, processos otimizados e previsibilidade para crescer com solidez.',
       number: '03',
       phase: 'Fase 3',
       keyword: 'Activar',
@@ -79,7 +80,7 @@ const HowItWorks = () => {
 
   // One-time swipe hint GSAP animation on mobile
   useEffect(() => {
-    if (!swipeHintRef.current) return;
+    if (!swipeHintRef.current || isLowEnd) return;
     if (window.innerWidth >= 1024) return;
 
     const tl = gsap.timeline({ delay: 1.5 });
@@ -96,6 +97,7 @@ const HowItWorks = () => {
   }, []);
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
       gsap.from(headerRef.current, {

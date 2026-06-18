@@ -3,6 +3,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
+import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
 // Background URL (can be video or image)
 const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
@@ -94,15 +95,14 @@ const Hero = () => {
     };
   }, [videoSrc, isMobile]);
 
-  // Rotating words cycle with seamless vertical scrolling
+  // Rotating words cycle — only on capable devices
   useGSAP(() => {
-    if (!wordRef.current) return;
+    if (!wordRef.current || isLowEnd) return;
     
     const totalWords = ROTATING_WORDS.length;
-    const cloneCount = totalWords + 1; // Original + 1 clone
+    const cloneCount = totalWords + 1;
     const tl = gsap.timeline({ repeat: -1 });
     
-    // Explicitly set initial state
     gsap.set(wordRef.current, { yPercent: 0 });
     
     for (let i = 0; i < totalWords; i++) {
@@ -114,21 +114,27 @@ const Hero = () => {
       });
     }
     
-    // Instantly reset to the beginning for a seamless loop
     tl.set(wordRef.current, { yPercent: 0 });
   }, { scope: heroRef });
 
   useGSAP(() => {
     if (!heroRef.current) return;
 
-    // Detect low-end device: ≤2 CPU cores or ≤2GB RAM
-    const isLowEnd =
-      (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 2) ||
-      ((navigator as any).deviceMemory !== undefined && (navigator as any).deviceMemory <= 2);
+    // LOW-END: Zero GSAP. Content visible immediately.
+    if (isLowEnd) {
+      // Just make everything visible with no animation cost
+      [videoContainerRef, labelRef, headlineClipRef, headlineRef, subheadlineRef, scrollIndicatorRef].forEach(ref => {
+        if (ref.current) gsap.set(ref.current, { opacity: 1, y: 0, clearProps: 'clipPath,rotateX,transformPerspective,skewY,scale,filter' });
+      });
+      if (ctaRef.current?.children) {
+        gsap.set(Array.from(ctaRef.current.children), { opacity: 1, y: 0 });
+      }
+      return; // No ScrollTrigger, no timelines, no parallax
+    }
 
     const mm = gsap.matchMedia();
 
-    // ─── DESKTOP / HIGH-END: Full cinematic 3D experience ────────────────────
+    // ─── DESKTOP: Full cinematic experience ────────────────────
     mm.add('(min-width: 1024px)', () => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 2 } });
 
@@ -167,7 +173,6 @@ const Hero = () => {
         '-=0.5'
       );
 
-      // Scroll line animation
       if (scrollLineRef.current) {
         gsap.fromTo(scrollLineRef.current,
           { scaleY: 0 },
@@ -175,107 +180,49 @@ const Hero = () => {
         );
       }
 
-      // Parallax smooth scroll effect (No stretching, uniform scaling)
-      if (!isLowEnd) {
-        // Uniform zoom & fade out of background video on scroll
-        gsap.fromTo(videoContainerRef.current,
-          { scale: 1.0, yPercent: 0, opacity: 1 },
-          { scale: 1.08, yPercent: 8, opacity: 0.6, ease: 'none',
-            scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: true } }
-        );
-
-        // Crisp, elegant vertical translation & fade of hero content (No 3D distortion/stretching of text)
-        gsap.to(contentRef.current, {
-          y: -100, opacity: 0, ease: 'none',
-          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: true }
-        });
-      }
+      // Parallax — desktop only
+      gsap.fromTo(videoContainerRef.current,
+        { scale: 1.0, yPercent: 0, opacity: 1 },
+        { scale: 1.08, yPercent: 8, opacity: 0.6, ease: 'none',
+          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: true } }
+      );
+      gsap.to(contentRef.current, {
+        y: -100, opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: true }
+      });
     });
 
-    // ─── TABLET: Moderate animations, reduced 3D ─────────────────────────────
+    // ─── TABLET: Moderate ─────────────────────────────
     mm.add('(min-width: 768px) and (max-width: 1023px)', () => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.5 } });
-
-      tl.fromTo(videoContainerRef.current,
-        { scale: 1.02, opacity: 0 },
-        { scale: 1.0, opacity: 1, duration: 2, ease: 'power2.out' }
-      )
+      tl.fromTo(videoContainerRef.current, { scale: 1.02, opacity: 0 }, { scale: 1.0, opacity: 1, duration: 2, ease: 'power2.out' })
       .fromTo(labelRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, '-=1.5')
-      .fromTo(headlineRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.5 },
-        '<'
-      )
+      .fromTo(headlineRef.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5 }, '<')
       .fromTo(subheadlineRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, '-=1.0')
       .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, duration: 1.0 },
-        '-=0.8'
+        { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 1.0 }, '-=0.8'
       );
-
-      // Light 2D Parallax
-      if (!isLowEnd) {
-        gsap.to(contentRef.current, {
-          y: -80, opacity: 0, ease: 'none',
-          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '60% top', scrub: true }
-        });
-      }
     });
 
-    // ─── MOBILE: Premium 3D & Organic Performance ─────────
+    // ─── MOBILE (not low-end): Simple fade-in only, no 3D transforms ─────────
     mm.add('(max-width: 767px)', () => {
-      // Use expo.out for organic, premium decelleration
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
 
-      // Premium 3D Entrance: No CSS blur (to save battery), just pure GPU-accelerated transforms
+      // Simple opacity fade — no scale, no rotateX, no clipPath, no transformPerspective
       tl.fromTo(videoContainerRef.current,
-        { scale: 1.05, opacity: 0, transformOrigin: 'top center' },
-        { scale: 1.0, opacity: 1, duration: 1.5, ease: 'power2.out', transformOrigin: 'top center' }
+        { opacity: 0 },
+        { opacity: 1, duration: 1.0 }
       )
-      .fromTo(labelRef.current, 
-        { y: 20, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1.0 }, 
-        '-=1.2'
-      )
-      .fromTo(headlineClipRef.current,
-        { clipPath: 'inset(100% 0% 0% 0%)' },
-        { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'expo.inOut' },
-        '-=1.0'
-      )
-      .fromTo(headlineRef.current,
-        { y: 50, rotateX: -15, transformPerspective: 800, opacity: 0 },
-        { y: 0, rotateX: 0, opacity: 1, duration: 1.2 },
-        '<'
-      )
-      .fromTo(subheadlineRef.current, 
-        { y: 20, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1.0 }, 
-        '-=0.8'
-      )
+      .fromTo(labelRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.6')
+      .fromTo(headlineRef.current, { y: 25, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
+      .fromTo(subheadlineRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.3')
       .fromTo(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [],
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, duration: 1.0 },
-        '-=0.6'
+        { y: 10, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.08, duration: 0.5 }, '-=0.3'
       );
-
-      // Organic lightweight scroll parallax (opacity + subtle translation via GPU)
-      if (!isLowEnd) {
-        gsap.to(contentRef.current, {
-          y: -50, opacity: 0, ease: 'none',
-          scrollTrigger: { trigger: heroRef.current, start: 'top top', end: '75% top', scrub: true }
-        });
-        
-        // Dev Pro: Cinematic organic pan to show both robot and cart on mobile
-        if (video1Ref.current) {
-          gsap.fromTo(video1Ref.current,
-            { objectPosition: '30% 15%' },
-            { objectPosition: '70% 15%', duration: 15, repeat: -1, yoyo: true, ease: 'sine.inOut' }
-          );
-        }
-      }
+      // NO scroll parallax on mobile. NO video panning. Saves CPU.
     });
 
-    // Scroll indicator hide/show (both mobile and desktop)
+    // Scroll indicator hide/show
     gsap.to({}, {
       scrollTrigger: {
         trigger: heroRef.current,
@@ -327,7 +274,17 @@ const Hero = () => {
           className="absolute -top-[2px] left-0 w-full h-[calc(45%+4px)] xs:h-[calc(50%+4px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
         >
           {/* Background Media: support both video and image */}
-          {videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/') ? (
+          {/* LOW-END / SLOW NETWORK: Static poster image instead of video */}
+          {isSlowNetwork || isLowEnd ? (
+            <img
+              ref={video1Ref as any}
+              src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_800/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              style={{ opacity: 1, zIndex: 2, transform: 'translateZ(0)' }}
+              alt="Tchova Digital"
+              loading="eager"
+            />
+          ) : (videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/')) ? (
             <>
               <video
                 ref={video1Ref as any}

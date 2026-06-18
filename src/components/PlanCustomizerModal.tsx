@@ -147,7 +147,7 @@ const PlanCustomizerModal: React.FC<PlanCustomizerModalProps> = ({
                 Negociar Plano
               </h2>
               <p className="text-xs text-gray-500 dark:text-muted-foreground">
-                Personalize seu {basePlan.name}
+                Personaliza o teu {basePlan.name}
               </p>
             </div>
           </div>

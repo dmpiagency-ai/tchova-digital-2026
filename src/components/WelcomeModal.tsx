@@ -37,7 +37,7 @@ const welcomeSteps: WelcomeStep[] = [
   {
     icon: <Rocket className="w-8 h-8 text-blue-400" />,
     title: "Explore Nossos Serviços",
-    description: "Descubra soluções digitais para impulsionar seu negócio: sites, apps, marketing e muito mais!",
+    description: "Descubra soluções digitais para impulsionar o teu negócio: design, desenvolvimento web, marketing e muito mais!",
     highlight: "10+ serviços disponíveis"
   },
   {

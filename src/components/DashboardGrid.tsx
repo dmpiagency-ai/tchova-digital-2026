@@ -56,7 +56,7 @@ const DashboardGrid: React.FC = () => {
               <span className="text-[#22C55E] font-bold text-xl">🌐</span>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Web</h3>
-            <p className="text-sm text-gray-500">Sites e portais</p>
+            <p className="text-sm text-gray-500">Websites e portais</p>
           </div>
 
           {/* Card 7 */}

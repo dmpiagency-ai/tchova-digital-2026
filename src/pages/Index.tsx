@@ -3,8 +3,9 @@ import { env } from '@/config/env';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
-import LoginModal from '@/components/LoginModal';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
+
+const LoginModal = lazy(() => import('@/components/LoginModal'));
 
 const About = lazy(() => import('@/components/About'));
 const Services = lazy(() => import('@/components/Services'));
@@ -141,13 +142,17 @@ const Index = () => {
       </Suspense>
       <FloatingWhatsApp />
 
-      {/* Login Modal — only shown when explicitly triggered by components */}
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        title={loginModalConfig.title}
-        description={loginModalConfig.description}
-      />
+      {/* Login Modal — lazy loaded (pulls Firebase only when needed) */}
+      {showLoginModal && (
+        <Suspense fallback={null}>
+          <LoginModal
+            isOpen={showLoginModal}
+            onClose={() => setShowLoginModal(false)}
+            title={loginModalConfig.title}
+            description={loginModalConfig.description}
+          />
+        </Suspense>
+      )}
 
       {/* Contact Modal — WhatsApp-first conversion trigger */}
       <InteractiveContactModal

@@ -130,7 +130,7 @@ const WebsitesPortal = () => {
                   {selectedProblem === "Vendo pelo WhatsApp mas é tudo muito desorganizado" 
                     ? "Criamos uma loja online ou catálogo digital onde os clientes compram de forma automática sem depender de ti."
                     : selectedProblem === "Ninguém me encontra no Google quando pesquisa"
-                    ? "Desenhamos um site otimizado que aparece quando as pessoas procuram pelos teus serviços na tua cidade."
+                    ? "Desenvolvemos um website otimizado que aparece quando as pessoas procuram pelos teus serviços na tua cidade."
                     : "Desenvolvemos um espaço online profissional que transmite confiança imediata e centraliza a tua informação."}
                 </p>
               </div>

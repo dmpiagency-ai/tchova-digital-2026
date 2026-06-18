@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 // Import our premium custom vectors
 import { EliteMatrix, EliteNode } from '@/components/ui/EliteIcons';
@@ -37,6 +38,7 @@ const About = () => {
   }, []);
 
   useGSAP(() => {
+    if (isLowEnd) return; // Skip all animations on low-end
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
       // Reveal Header
@@ -137,17 +139,17 @@ const About = () => {
               </div>
               {/* Mobile version */}
               <h2 className="manifesto-title text-[24px] font-black mb-4 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[95%]">
-                UM <br />ECOSSISTEMA, <br /><span className="inline-block text-[20px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pb-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">VÁRIAS <br />ESPECIALIDADES.</span>
+                DO CONCEITO <br />À ESCALA <br /><span className="inline-block text-[20px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pb-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">OPERACIONAL.</span>
               </h2>
               <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[65%]">
-                Cada serviço existe para responder a uma necessidade diferente. Juntos, formam um ecossistema para negócios e profissionais.
+                Desenvolvemos a presença, a tecnologia e a tração que a tua marca precisa para crescer.
               </p>
               {/* Desktop version */}
               <h2 className="manifesto-title hidden md:block text-[32px] lg:text-[36px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
-                UM ECOSSISTEMA, <br /><span className="inline-block text-[26px] lg:text-[30px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2 drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">VÁRIAS ESPECIALIDADES.</span>
+                DO CONCEITO <br /><span className="inline-block text-[26px] lg:text-[30px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2 drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">À ESCALA OPERACIONAL.</span>
               </h2>
               <p className="manifesto-title hidden md:block text-[16px] lg:text-[17px] text-white/80 font-light leading-relaxed max-w-[420px]">
-                Cada serviço existe para responder a uma necessidade diferente. Juntos, formam um ecossistema para negócios e profissionais.
+                Desenvolvemos a presença, a tecnologia e a tração que a tua marca precisa para crescer.
               </p>
             </div>
           </div>

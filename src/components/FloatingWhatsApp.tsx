@@ -8,7 +8,7 @@ const FloatingWhatsApp = () => {
   const [activeSection, setActiveSection] = useState<SectionName>('general');
 
   const handleWhatsAppClick = useCallback(() => {
-    let messageText = 'Olá! Vi o vosso site e gostaria de saber mais sobre os vossos serviços. Podem ajudar-me?';
+    let messageText = 'Olá! Gostaria de saber mais sobre as vossas soluções. Podem ajudar-me?';
     
     switch (activeSection) {
       case 'about':

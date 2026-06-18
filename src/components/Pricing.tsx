@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowRight, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { EliteRadar, ElitePulse, EliteCore } from '@/components/ui/EliteIcons';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -115,6 +116,7 @@ const Pricing = () => {
   const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
       gsap.from(headerRef.current, {

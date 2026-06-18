@@ -10,6 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Import our premium custom vectors
 import { EliteRadar, EliteNode, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,7 @@ const Contact = () => {
   const rightColumnRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
       const tl = gsap.timeline({

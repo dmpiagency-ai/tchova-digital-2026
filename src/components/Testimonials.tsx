@@ -6,10 +6,11 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EliteMatrix } from '@/components/ui/EliteIcons';
 import useEmblaCarousel from 'embla-carousel-react';
+import { isLowEnd } from '@/hooks/useLowEnd';
 
-import miguelImg from '@/assets/testimonials/miguel.png';
-import sofiaImg from '@/assets/testimonials/sofia.png';
-import helderImg from '@/assets/testimonials/helder.png';
+import miguelImg from '@/assets/testimonials/miguel.webp';
+import sofiaImg from '@/assets/testimonials/sofia.webp';
+import helderImg from '@/assets/testimonials/helder.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,6 +80,7 @@ export const Testimonials = () => {
   const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
   useGSAP(() => {
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
       gsap.from('.test-header', {
