@@ -6,8 +6,8 @@ import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
 // Background URL (can be video or image)
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
@@ -299,9 +299,9 @@ const Hero = () => {
                 loop={true}
                 disablePictureInPicture
                 disableRemotePlayback
-                preload={isMobile ? "none" : "auto"}
+                preload="auto"
                 autoPlay={true}
-                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
                 className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
                 style={{
                   opacity: 1,
