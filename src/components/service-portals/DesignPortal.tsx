@@ -118,61 +118,68 @@ const DesignPortal = () => {
               </div>
             </div>
 
-            {/* STEP 2: Solução */}
+            {/* STEP 2: Solução (Showcase Visual de Mini Case) */}
             <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 2 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
-              <div className="text-center mb-12">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
-                <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
-                  Como resolvemos isso na prática.
+              <div className="text-center mb-10 md:mb-14">
+                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 2 de 3 • Estúdio Visual & Cases</span>
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
+                  A nossa abordagem na <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">prática</span>
                 </h1>
-                <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
-                  {selectedProblem === "A concorrência parece mais profissional e rouba clientes" 
-                    ? "Elevamos o padrão visual da tua empresa para ela não apenas competir, mas destacar-se no mercado."
-                    : selectedProblem === "Cada rede social tem uma aparência diferente e desorganizada"
-                    ? "Criamos um padrão visual forte e consistente para que todos reconheçam a tua marca num piscar de olhos."
-                    : "Criamos uma identidade visual que passa segurança e profissionalismo antes mesmo de falares com o cliente."}
+                <p className="text-xs sm:text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
+                  Vê como ajudámos a elevar marcas moçambicanas através de design intencional.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
-                  <div className="space-y-4">
-                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Fundação Visual</span>
-                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Identidade Visual Completa</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                      Logotipo profissional, paleta de cores, tipografia e um manual de regras para que a tua marca seja sempre reconhecida e respeitada.
-                    </p>
-                  </div>
-                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
-                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["Novos Negócios", "Rebranding", "Empresas"].map((tag, i) => (
-                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
-                      ))}
-                    </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto items-center">
+                {/* Visual Showcase (Mockup) - Left Column */}
+                <div className="lg:col-span-6 relative rounded-3xl overflow-hidden aspect-[4/3] lg:aspect-square border border-white/10 group shadow-2xl">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
+                    style={{ backgroundImage: `url('https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto,w_800/v1762755337/Gemini_Generated_Image_qjaurwqjaurwqjau_k1fqgr.png')` }} 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                  
+                  {/* Glowing Metric Badge */}
+                  <div className="absolute bottom-6 left-6 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-primary/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                    <span className="block text-[9px] font-black text-primary uppercase tracking-widest mb-0.5">Impacto do Caso</span>
+                    <span className="text-lg md:text-xl font-black text-white">+40% Percepção de Valor</span>
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
-                  <div className="space-y-4">
-                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Aplicações Práticas</span>
-                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Materiais e Redes Sociais</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                      Templates organizados para o teu Instagram, Facebook e materiais impressos (como cartões de visita e flyers) com o novo visual.
-                    </p>
+                {/* Case Info - Right Column */}
+                <div className="lg:col-span-6 flex flex-col gap-5 text-left">
+                  <div>
+                    <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 block">Estúdio Visual • Mini Case</span>
+                    <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-tight">Caso Karingana</h3>
+                    <p className="text-[10px] md:text-xs text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Branding & Identidade Premium</p>
                   </div>
-                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
-                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["Clínicas", "Lojas", "Prestadores de Serviços"].map((tag, i) => (
-                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
-                      ))}
+
+                  <div className="space-y-3.5">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">O Desafio</h4>
+                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                        A marca parecia amadora perto da concorrência e não conseguia justificar preços premium no mercado de tecidos e design.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">A Solução</h4>
+                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                        Desenvolvimento de um sistema de identidade completo, manual de marca refinado e aplicações para embalagens e redes sociais.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-[#4ade80]/70 uppercase tracking-widest mb-1">O Impacto</h4>
+                      <p className="text-xs sm:text-sm text-[#4ade80] leading-relaxed font-bold">
+                        Aumento imediato de credibilidade visual, permitindo um aumento de preço nos produtos de gama alta sem perda de clientes.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 text-center">
+              <div className="mt-10 text-center">
                 <button 
                   onClick={handleNext}
                   className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform shadow-lg"

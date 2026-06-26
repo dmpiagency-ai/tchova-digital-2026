@@ -10,9 +10,11 @@ const LoginModal = lazy(() => import('@/components/LoginModal'));
 const About = lazy(() => import('@/components/About'));
 const Services = lazy(() => import('@/components/Services'));
 const HowItWorks = lazy(() => import('@/components/HowItWorks'));
+const AudienceFilter = lazy(() => import('@/components/AudienceFilter'));
 const Pricing = lazy(() => import('@/components/Pricing'));
 
 const Testimonials = lazy(() => import('@/components/Testimonials'));
+const FAQ = lazy(() => import('@/components/FAQ'));
 const Contact = lazy(() => import('@/components/Contact'));
 const Footer = lazy(() => import('@/components/Footer'));
 
@@ -131,8 +133,10 @@ const Index = () => {
           <About />
           <Services />
           <HowItWorks />
+          <AudienceFilter />
           <Pricing />
           <Testimonials />
+          <FAQ />
           <Contact />
         </Suspense>
       </main>

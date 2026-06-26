@@ -119,61 +119,68 @@ const MarketingPortal = () => {
               </div>
             </div>
 
-            {/* STEP 2: Solução */}
+            {/* STEP 2: Solução (Showcase Visual de Mini Case) */}
             <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 2 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
-              <div className="text-center mb-12">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 2 de 3 • A Nossa Abordagem</span>
-                <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">
-                  Colocamos-te à frente das pessoas certas.
+              <div className="text-center mb-10 md:mb-14">
+                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 2 de 3 • Estúdio Visual & Cases</span>
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
+                  A nossa abordagem na <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">prática</span>
                 </h1>
-                <p className="text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
-                  {selectedProblem === "Gasto dinheiro a impulsionar posts mas não vejo retorno" 
-                    ? "Paramos de gastar no botão 'Impulsionar' e criamos campanhas reais direcionadas a quem tem probabilidade de comprar."
-                    : selectedProblem === "Faço publicações mas quase ninguém interage ou compra"
-                    ? "Criamos conteúdo intencional. Não apenas para encher feed, mas para gerar desejo e levar o cliente até ti."
-                    : "Não basta existir na internet. Usamos ferramentas que colocam a tua oferta no telemóvel de quem já procura pelo que vendes."}
+                <p className="text-xs sm:text-sm md:text-lg text-zinc-400 font-medium max-w-2xl mx-auto">
+                  Vê como criamos campanhas estratégicas de atração que enchem o teu WhatsApp de potenciais clientes.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
-                  <div className="space-y-4">
-                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Anúncios (Meta & Google)</span>
-                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Tráfego Pago</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                      O teu negócio aparece patrocinado no telemóvel de pessoas da tua cidade que têm interesse no teu serviço, gerando mensagens diretas para o WhatsApp.
-                    </p>
-                  </div>
-                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
-                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["Vendas Rápidas", "Lojas", "Instagram", "Google Ads"].map((tag, i) => (
-                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
-                      ))}
-                    </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto items-center">
+                {/* Visual Showcase (Mockup) - Left Column */}
+                <div className="lg:col-span-6 relative rounded-3xl overflow-hidden aspect-[4/3] lg:aspect-square border border-white/10 group shadow-2xl">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
+                    style={{ backgroundImage: `url('https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto,w_800/v1762747013/1762701812733_p93nsd.png')` }} 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                  
+                  {/* Glowing Metric Badge */}
+                  <div className="absolute bottom-6 left-6 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-primary/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                    <span className="block text-[9px] font-black text-primary uppercase tracking-widest mb-0.5">Impacto do Caso</span>
+                    <span className="text-lg md:text-xl font-black text-white">+120 Novos Pacientes no 1º Mês</span>
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-300 shadow-xl flex flex-col h-full group hover:-translate-y-0.5">
-                  <div className="space-y-4">
-                    <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-950 text-primary text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-white/5 group-hover:border-primary/20 transition-colors">Pesquisa Local</span>
-                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-white">Google Meu Negócio</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
-                      Aparece no topo do mapa quando procuram por empresas do teu setor na tua zona. Ideal para aumentar visitas físicas e chamadas telefónicas.
-                    </p>
+                {/* Case Info - Right Column */}
+                <div className="lg:col-span-6 flex flex-col gap-5 text-left">
+                  <div>
+                    <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 block">Estúdio de Marketing • Mini Case</span>
+                    <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-tight">Caso Clínica Sorriso</h3>
+                    <p className="text-[10px] md:text-xs text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Tráfego Pago & Captação Activa</p>
                   </div>
-                  <div className="mt-8 pt-6 border-t border-white/5 mt-auto">
-                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Ideal para</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["Negócios Locais", "Clínicas", "Restaurantes", "Serviços"].map((tag, i) => (
-                        <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-950 text-zinc-400 text-[9px] font-bold uppercase tracking-widest border border-white/5 group-hover:border-primary/10 group-hover:text-primary transition-colors">{tag}</span>
-                      ))}
+
+                  <div className="space-y-3.5">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">O Desafio</h4>
+                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                        Investimento contínuo em posts patrocinados simples (botão impulsionar) sem qualquer atração de leads ou agendamentos reais na clínica.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">A Solução</h4>
+                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                        Estruturação de campanhas de tráfego segmentadas para o público local de Maputo, com anúncios dinâmicos e funil otimizado para o WhatsApp.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                      <h4 className="text-[9px] font-black text-[#4ade80]/70 uppercase tracking-widest mb-1">O Impacto</h4>
+                      <p className="text-xs sm:text-sm text-[#4ade80] leading-relaxed font-bold">
+                        Redução do custo por contacto para metade e mais de 120 novos agendamentos mensais concretizados logo no primeiro mês.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 text-center">
+              <div className="mt-10 text-center">
                 <button 
                   onClick={handleNext}
                   className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-transform shadow-lg"

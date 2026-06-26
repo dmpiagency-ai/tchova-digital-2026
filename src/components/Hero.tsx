@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { gsap, useGSAP } from "@/lib/gsapConfig";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
@@ -20,6 +20,8 @@ const ROTATING_WORDS = [
   'CONQUISTAR CLIENTES',
   'TRABALHAR MELHOR',
 ];
+
+
 
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
@@ -41,6 +43,7 @@ const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
+
 
   // iOS Safari autoplay fix: explicitly load + play after mount
   useEffect(() => {
@@ -232,6 +235,8 @@ const Hero = () => {
       }
     });
 
+
+
   }, { scope: heroRef });
 
   const openContactModal = useCallback(() => {
@@ -308,6 +313,9 @@ const Hero = () => {
                   const v = e.currentTarget;
                   if (v.duration) {
                     const timeRemaining = v.duration - v.currentTime;
+                    
+
+
                     // Fade out just before the hard cut
                     if (timeRemaining < 0.5 && timeRemaining > 0) {
                       if (v.style.opacity !== '0') gsap.to(v, { opacity: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
@@ -435,7 +443,7 @@ const Hero = () => {
               style={{ WebkitTextFillColor: 'black' }}
             >
               <ElitePulse className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ stroke: 'black' }} />
-              <span className="whitespace-nowrap">FALA CONNOSCO AGORA</span>
+              <span className="whitespace-nowrap">FALAR COM A EQUIPA</span>
             </MagneticButton>
 
             {/* Desktop: Original minimalist text+arrow style */}
@@ -443,7 +451,7 @@ const Hero = () => {
               onClick={scrollToServices}
               className="hidden md:flex group items-center justify-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
             >
-              <span>O QUE FAZEMOS</span>
+              <span>VER COMO FUNCIONA</span>
               <div className="w-10 h-px bg-white/15 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
               <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500 text-white/30 group-hover:text-primary" />
             </button>
@@ -475,6 +483,8 @@ const Hero = () => {
           </div>
         </button>
       </div>
+
+
     </section>
   );
 };

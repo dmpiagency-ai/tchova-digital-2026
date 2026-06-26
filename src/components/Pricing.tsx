@@ -25,7 +25,7 @@ const PLANS = [
     description: "Para negócios que precisam de começar a transmitir profissionalismo e credibilidade.",
     delivery: "3 a 5 dias úteis",
     ideal: "Estabelecer uma base sólida que transmita confiança aos clientes.",
-    buttonText: "Quero marcar presença",
+    buttonText: "Falar com a Equipa",
     features: [
       "Inspirar mais confiança",
       "Apresentar-se melhor",
@@ -47,7 +47,7 @@ const PLANS = [
     description: "Para negócios que já existem e precisam de gerar mais procura no mercado.",
     delivery: "7 a 10 dias úteis",
     ideal: "O negócio já existe, mas precisa de atrair interessados e expandir alcance.",
-    buttonText: "Quero captar mais clientes",
+    buttonText: "Falar com a Equipa",
     features: [
       "Ser encontrado facilmente",
       "Receber mais contactos",
@@ -69,7 +69,7 @@ const PLANS = [
     description: "Para negócios que precisam de mais organização, automação e capacidade operacional.",
     delivery: "Definido conforme o projecto",
     ideal: "A procura aumentou e é necessário criar processos e sistemas.",
-    buttonText: "Quero estruturar o negócio",
+    buttonText: "Falar com a Equipa",
     features: [
       "Centralizar processos",
       "Automatizar tarefas",

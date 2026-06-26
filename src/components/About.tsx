@@ -1,24 +1,29 @@
 import { useCallback, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from 'lucide-react';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
-// Import our premium custom vectors
-import { EliteMatrix, EliteNode } from '@/components/ui/EliteIcons';
 
 gsap.registerPlugin(ScrollTrigger);
 
+
+const ECOSYSTEM_ITEMS = [
+  { label: 'IDENTIDADE VISUAL', desc: 'Construção de marcas profissionais.' },
+  { label: 'WEBSITES', desc: 'Presença digital moderna e funcional.' },
+  { label: 'MARKETING', desc: 'Mais alcance e comunicação estratégica.' },
+  { label: 'AUDIOVISUAL', desc: 'Conteúdos que valorizam negócios.' },
+  { label: 'GSM RENTAL', desc: 'Ferramentas profissionais para técnicos.' },
+];
+
 const About = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
+  const ecosystemRef = useRef<HTMLDivElement>(null);
   const aboutVideoRef = useRef<HTMLVideoElement>(null);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-  // Pause video when not visible — saves CPU/battery on mobile
+  // Pause video when not visible
   useEffect(() => {
     const video = aboutVideoRef.current;
     if (!video) return;
@@ -38,32 +43,19 @@ const About = () => {
   }, []);
 
   useGSAP(() => {
-    if (isLowEnd) return; // Skip all animations on low-end
+    if (isLowEnd) return;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 768px)', () => {
-      // Reveal Header
-      gsap.from('.manifesto-title', {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80%',
-        }
-      });
-
-      // Impactful Stats reveal
-      if (statsRef.current) {
-        gsap.from(statsRef.current.children, {
+      // Ecosystem items reveal
+      if (ecosystemRef.current) {
+        gsap.from(ecosystemRef.current.children, {
           scale: 0.5,
           opacity: 0,
           duration: 1,
           stagger: 0.2,
           ease: 'elastic.out(1, 0.5)',
           scrollTrigger: {
-            trigger: statsRef.current,
+            trigger: ecosystemRef.current,
             start: 'top 85%',
           }
         });
@@ -82,9 +74,8 @@ const About = () => {
 
   return (
     <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
-      {/* Elite Background Architecture */}
+      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* 1. Cyber Grid Overlay (Softened) */}
         <div 
           className="absolute inset-0 opacity-[0.05]" 
           style={{ 
@@ -92,14 +83,10 @@ const About = () => {
             backgroundSize: '64px 64px' 
           }} 
         />
-        
-        {/* 2. Liquid Energy Blobs (Softened and Diffused) */}
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-[-15%] left-[-15%] w-[70%] h-[70%] bg-primary/[0.04] md:bg-primary/10 rounded-full blur-[180px]" />
           <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-brand-green/[0.03] md:bg-brand-green/8 rounded-full blur-[160px]" />
         </div>
-
-        {/* 3. Ambient Technical Lines (Subtle) */}
         <div className="absolute inset-0 overflow-hidden opacity-10">
           <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
           <div className="absolute top-0 left-[80%] w-px h-full bg-gradient-to-b from-transparent via-brand-green/20 to-transparent" />
@@ -107,12 +94,12 @@ const About = () => {
       </div>
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
-        {/* Two Separate Cards in a Grid: Video/Manifesto Card (Left) & Stats Card (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch mb-16 relative z-10">
+        {/* Grid: Video+Reality Cards (Left) | Ecosystem (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10">
           
-          {/* Card 1: Cinematic Video & Manifesto Card (Left - Width Reduced) */}
-          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[360px] flex flex-col justify-center p-6 md:p-8 lg:p-12 lg:pb-6">
-            {/* Immersive Background Video inside Card 1 */}
+          {/* Card 1: Market Reality Showcase + CTA */}
+          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[360px] flex flex-col justify-center p-6 md:p-8 lg:p-12">
+            {/* Video Background */}
             <div className="absolute inset-0 bg-black pointer-events-none">
               <video 
                 ref={aboutVideoRef}
@@ -125,87 +112,43 @@ const About = () => {
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.jpg"
                 className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
               />
-              {/* Soft dark overlays for immersive contrast and premium aesthetic */}
-              <div className="absolute inset-0 bg-black/20" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/15" />
-              <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
             </div>
 
-            {/* Content inside Card 1 */}
-            <div className="relative z-10 flex flex-col justify-center h-full">
-              <div className="manifesto-title inline-flex self-start items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
-                <EliteMatrix className="w-4 h-4 text-primary" />
-                <span className="text-xs tracking-widest font-bold text-primary uppercase">Sobre Nós</span>
-              </div>
-              {/* Mobile version */}
-              <h2 className="manifesto-title text-[24px] font-black mb-4 tracking-tight text-white uppercase leading-[1.1] md:hidden max-w-[95%]">
-                DO CONCEITO <br />À ESCALA <br /><span className="inline-block text-[20px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pb-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">OPERACIONAL.</span>
+            {/* Headline */}
+            <div className="relative z-10">
+              <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-black text-white uppercase tracking-tighter leading-[1.05] max-w-[600px]">
+                TUDO <br className="md:hidden" /> LIGADO. <br />
+                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 lg:pr-6">
+                  NUM SÓ <br className="md:hidden" /> LUGAR.
+                </span>
               </h2>
-              <p className="manifesto-title text-[14px] text-white/80 font-light leading-relaxed md:hidden max-w-[65%]">
-                Desenvolvemos a presença, a tecnologia e a tração que a tua marca precisa para crescer.
-              </p>
-              {/* Desktop version */}
-              <h2 className="manifesto-title hidden md:block text-[32px] lg:text-[36px] font-black mb-6 tracking-tight text-white uppercase leading-[1.1] max-w-[550px]">
-                DO CONCEITO <br /><span className="inline-block text-[26px] lg:text-[30px] text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-6 pb-2 drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">À ESCALA OPERACIONAL.</span>
-              </h2>
-              <p className="manifesto-title hidden md:block text-[16px] lg:text-[17px] text-white/80 font-light leading-relaxed max-w-[420px]">
-                Desenvolvemos a presença, a tecnologia e a tração que a tua marca precisa para crescer.
+              <p className="text-[14px] md:text-[16px] text-white/50 font-light mt-4 max-w-[450px] md:max-w-[560px] leading-relaxed">
+                Somos o ecossistema digital <br className="md:hidden" />
+                completo para posicionar <br className="hidden md:inline" />
+                a <br className="md:hidden" />
+                tua marca, atrair clientes <br className="md:hidden" />
+                qualificados <br className="hidden md:inline" />
+                e multiplicar <br className="md:hidden" />
+                os teus resultados.
               </p>
             </div>
           </div>
 
-          {/* Card 2: Ecosystem Specialties (Right - Frosted Glass Panel next to Video Card) */}
-          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-6 shadow-2xl flex flex-col justify-center">
+          {/* Card 2: Ecosystem Panel */}
+          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-8 shadow-2xl flex flex-col justify-center">
+            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70 mb-5">Ecossistema</div>
 
-            <div ref={statsRef} className="flex flex-col w-full">
-              
-              <div className="border-t border-white/5 py-4 first:border-0 first:pt-0">
-                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">IDENTIDADE VISUAL</div>
-                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Construção de marcas profissionais.</div>
-              </div>
-
-              <div className="border-t border-white/5 py-4">
-                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">WEBSITES</div>
-                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Presença digital moderna e funcional.</div>
-              </div>
-
-              <div className="border-t border-white/5 py-4">
-                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">MARKETING</div>
-                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Mais alcance e comunicação estratégica.</div>
-              </div>
-
-              <div className="border-t border-white/5 py-4">
-                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">AUDIOVISUAL</div>
-                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Conteúdos que valorizam negócios.</div>
-              </div>
-
-              <div className="border-t border-white/5 py-4 pb-0">
-                <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-1">GSM RENTAL</div>
-                <div className="text-[13px] md:text-sm text-primary/90 font-medium">Ferramentas profissionais para técnicos.</div>
-              </div>
-
+            <div ref={ecosystemRef} className="flex flex-col w-full">
+              {ECOSYSTEM_ITEMS.map((item, i) => (
+                <div key={i} className={`border-t border-white/5 py-3.5 ${i === 0 ? 'border-0 pt-0' : ''} ${i === ECOSYSTEM_ITEMS.length - 1 ? 'pb-0' : ''}`}>
+                  <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-0.5">{item.label}</div>
+                  <div className="text-[13px] md:text-sm text-primary/90 font-medium">{item.desc}</div>
+                </div>
+              ))}
             </div>
           </div>
 
         </div>
-
-        {/* Action Button Centered Under Grid */}
-        <div className="flex justify-center mt-8 mb-16 relative z-30">
-          <button 
-            onClick={handleCTA}
-            className="group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 text-base md:text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-2xl"
-          >
-            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
-              <EliteNode className="w-5 h-5" />
-              Conhecer a Tchova
-              <ArrowRight className="w-5 h-5 ml-1 -rotate-45 group-hover:rotate-0 transition-transform" />
-            </span>
-          </button>
-        </div>
-
-
-
 
       </div>
     </section>

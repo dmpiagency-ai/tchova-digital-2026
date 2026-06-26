@@ -152,7 +152,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Localização</p>
-                    <p className="text-muted-foreground leading-relaxed group-hover/item:text-white transition-colors">Global.<br />(Operação 100% Remota)</p>
+                    <p className="text-muted-foreground leading-relaxed group-hover/item:text-white transition-colors">Moçambique.<br />(Atendimento em todo o país)</p>
                   </div>
                 </div>
               </div>
@@ -173,7 +173,7 @@ const Contact = () => {
                 className="w-full sm:w-auto bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-14 px-8 text-base shadow-xl"
                 onClick={handleDirectWhatsApp}
               >
-                Conectar Agora
+                Falar com a Equipa
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>

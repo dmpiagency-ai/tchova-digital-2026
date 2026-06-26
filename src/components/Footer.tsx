@@ -79,10 +79,10 @@ const Footer = () => {
         
         {/* Call to Action Section */}
         <div className="text-center mb-8 md:mb-12 max-w-3xl">
-          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">O Futuro Chegou.</p>
+          <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para o próximo passo?</p>
           <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
-            Agora o teu negócio<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">precisa de movimento.</span>
+            Gera mais oportunidades<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para o teu negócio.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}
@@ -90,7 +90,7 @@ const Footer = () => {
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              Começar Agora <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
+              Falar com a Equipa <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
             </span>
           </button>
         </div>
@@ -116,9 +116,8 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start">
             <h4 className="text-white font-semibold mb-6 text-lg">Legal & Operações</h4>
             <div className="flex flex-col gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Termos de Serviço</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Política de Privacidade</a>
-              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Fale Connosco</button>
+              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Suporte no WhatsApp</button>
+              <button onClick={handleWhatsAppClick} className="text-muted-foreground hover:text-primary transition-colors text-left">Falar com Vendas</button>
             </div>
           </div>
 

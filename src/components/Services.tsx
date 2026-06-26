@@ -66,50 +66,50 @@ const Services = () => {
     {
       id: 1,
       number: '01',
-      title: 'Posiciona a tua marca com impacto e autoridade.',
+      title: 'Marca que impõe respeito.',
       category: 'Design & Identidade',
-      audience: 'Design de marca e posicionamento de mercado',
-      painPoint: 'Logótipos e identidades completas que geram valor, credibilidade e atraem clientes de alto valor.',
+      audience: 'Posicionamento visual de mercado',
+      painPoint: 'Identidade completa que gera credibilidade e atrai clientes de alto valor.',
       cta: 'Ver como funciona',
       icon: EliteMatrix
     },
     {
       id: 2,
       number: '02',
-      title: 'O teu website deve ser o teu melhor canal de vendas.',
+      title: 'Site que vende por ti.',
       category: 'Websites & Lojas',
-      audience: 'Websites institucionais e e-commerce',
-      painPoint: 'Plataformas rápidas, seguras e otimizadas para que a tua marca seja encontrada e contactada a qualquer momento.',
+      audience: 'Sites e lojas online',
+      painPoint: 'Rápido, seguro e optimizado para ser encontrado e converter visitas em contactos.',
       cta: 'Ver como funciona',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
-      title: 'Atrai o cliente ideal e escala as tuas vendas.',
+      title: 'Clientes no teu WhatsApp.',
       category: 'Campanhas & Redes',
-      audience: 'Tráfego pago e gestão de redes sociais',
-      painPoint: 'Campanhas estratégicas que geram mensagens de compra e transformam cliques em receita recorrente.',
+      audience: 'Tráfego pago e redes sociais',
+      painPoint: 'Campanhas que atraem clientes prontos a comprar.',
       cta: 'Ver como funciona',
       icon: ElitePulse
     },
     {
       id: 4,
       number: '04',
-      title: 'Vídeos que valorizam a percepção da tua marca.',
+      title: 'Vídeo com qualidade de cinema.',
       category: 'Vídeo & Fotografia',
-      audience: 'Produção audiovisual e storytelling',
-      painPoint: 'Captamos a essência do teu produto ou serviço com qualidade de cinema para reter a atenção do cliente.',
+      audience: 'Produção audiovisual',
+      painPoint: 'Conteúdo visual que retém atenção e valoriza a percepção da tua marca.',
       cta: 'Ver como funciona',
       icon: EliteRadar
     },
     {
       id: 5,
       number: '05',
-      title: 'Ferramentas profissionais para técnicos mobile.',
+      title: 'Ferramentas GSM sem falhas.',
       category: 'Ferramentas GSM',
-      audience: 'Acesso a ferramentas GSM sem interrupções',
-      painPoint: 'Acede às principais ferramentas e boxes do mercado com estabilidade absoluta para o teu laboratório.',
+      audience: 'Técnicos e laboratórios mobile',
+      painPoint: 'Acesso estável às principais boxes e ferramentas do mercado.',
       cta: 'Entrar no painel',
       icon: EliteNode
     },
@@ -162,11 +162,11 @@ const Services = () => {
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            Especialidades integradas <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para acelerar o teu crescimento.</span>
+            UM ECOSSISTEMA. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">ZERO PEÇAS SOLTAS.</span>
           </h2>
           <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
-            Soluções estratégicas desenhadas para ultrapassar os teus desafios operacionais e destacar a tua marca.
+            Design, site, marketing e vídeo — tudo conectado num único motor de crescimento.
           </p>
         </div>
 
