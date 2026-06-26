@@ -45,57 +45,24 @@ const Hero = () => {
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
 
-  // iOS Safari autoplay fix: explicitly load + play after mount
+  // Play/pause video based on visibility (same pattern as About section)
   useEffect(() => {
     const video = video1Ref.current;
     if (!video) return;
 
-    // Ensure attributes are set at DOM level (React sometimes misses these on iOS)
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.muted = true;
-
-    // Attempt to play the video (avoiding redundant load() resets to prevent freezing)
-    const attemptPlay = () => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay was blocked (iOS restriction) — wait for user interaction
-          const playOnTouch = () => {
-            video.play().catch(() => {});
-            document.removeEventListener('touchstart', playOnTouch);
-            document.removeEventListener('click', playOnTouch);
-          };
-          document.addEventListener('touchstart', playOnTouch, { once: true, passive: true });
-          document.addEventListener('click', playOnTouch, { once: true });
-        });
-      }
-    };
-
-    // Small delay to ensure the DOM is fully ready — longer on mobile to let entry animations paint first without blocking
-    const delay = isMobile ? 800 : 150;
-    const timer = setTimeout(attemptPlay, delay);
-    
-    // Dev Pro Performance: Pause video when completely off-screen (Massive CPU/GPU savings)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          video.pause();
-        } else {
-          // Only attempt to play if we're not waiting on the initial timer
+        if (entry.isIntersecting) {
           video.play().catch(() => {});
+        } else {
+          video.pause();
         }
       });
-    }, { threshold: 0 }); // Trigger as soon as 1px is visible/hidden
-    
-    observer.observe(video);
+    }, { threshold: 0.1 });
 
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-    };
-  }, [videoSrc, isMobile]);
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   // Rotating words cycle — only on capable devices
   useGSAP(() => {
@@ -275,7 +242,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute -top-[2px] left-0 w-full h-[calc(45%+4px)] xs:h-[calc(50%+4px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
+          className="absolute -top-[30px] left-0 w-full h-[calc(45%+32px)] xs:h-[calc(50%+32px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
         >
           {/* Background Media: support both video and image */}
           {/* LOW-END / SLOW NETWORK: Static poster image instead of video */}
@@ -283,7 +250,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_800/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
               style={{ opacity: 1, zIndex: 2, transform: 'translateZ(0)' }}
               alt="Tchova Digital"
               loading="eager"
@@ -301,7 +268,7 @@ const Hero = () => {
                 preload="auto"
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+                className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
                 style={{
                   opacity: 1,
                   zIndex: 2,
@@ -339,7 +306,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src={videoSrc}
-              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
               style={{
                 opacity: 1,
                 zIndex: 2,
