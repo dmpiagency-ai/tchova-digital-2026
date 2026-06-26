@@ -242,7 +242,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute -top-[30px] left-0 w-full h-[calc(45%+32px)] xs:h-[calc(50%+32px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
+          className="absolute -top-[2px] left-0 w-full h-[calc(45%+4px)] xs:h-[calc(50%+4px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
         >
           {/* Background Media: support both video and image */}
           {/* LOW-END / SLOW NETWORK: Static poster image instead of video */}
@@ -250,7 +250,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_800/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-              className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
               style={{ opacity: 1, zIndex: 2, transform: 'translateZ(0)' }}
               alt="Tchova Digital"
               loading="eager"
@@ -268,7 +268,7 @@ const Hero = () => {
                 preload="auto"
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+                className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
                 style={{
                   opacity: 1,
                   zIndex: 2,
@@ -306,7 +306,7 @@ const Hero = () => {
             <img
               ref={video1Ref as any}
               src={videoSrc}
-              className="absolute -top-[20px] -left-[1%] w-[102%] h-[calc(100%+30px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
               style={{
                 opacity: 1,
                 zIndex: 2,
@@ -320,15 +320,6 @@ const Hero = () => {
               alt="Tchova Digital Hero Background"
             />
           )}
-          
-          {/* Top Gradient Fade — blends the video top seamlessly into the header background and removes sharp top cuts */}
-          <div 
-            className="block md:hidden absolute top-0 left-0 w-full z-[5] pointer-events-none"
-            style={{
-              height: '110px',
-              background: 'linear-gradient(to bottom, #1a1d1b 0%, rgba(26,29,27,0.95) 25%, rgba(26,29,27,0.7) 50%, rgba(26,29,27,0.2) 80%, transparent 100%)',
-            }}
-          />
           
           {/* Bottom Gradient Fade — blends the video seamlessly into the theme background */}
           {/* Mobile: very tall ultra-smooth fade — eliminates any visible edge */}
