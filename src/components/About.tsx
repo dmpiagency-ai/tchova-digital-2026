@@ -103,13 +103,13 @@ const About = () => {
             <div className="absolute inset-0 bg-black pointer-events-none">
               <video 
                 ref={aboutVideoRef}
-                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto/v1779279363/robo_gunk64.mp4" 
+                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.mp4" 
                 autoPlay 
                 loop 
                 muted 
                 playsInline
                 preload="auto"
-                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto/v1779279363/robo_gunk64.jpg"
+                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.jpg"
                 className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
               />
             </div>
