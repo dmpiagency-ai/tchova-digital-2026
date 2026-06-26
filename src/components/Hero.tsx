@@ -321,6 +321,15 @@ const Hero = () => {
             />
           )}
           
+          {/* Top Gradient Fade — blends the video top seamlessly into the header background and removes sharp top cuts */}
+          <div 
+            className="block md:hidden absolute top-0 left-0 w-full z-[5] pointer-events-none"
+            style={{
+              height: '110px',
+              background: 'linear-gradient(to bottom, #1a1d1b 0%, rgba(26,29,27,0.95) 25%, rgba(26,29,27,0.7) 50%, rgba(26,29,27,0.2) 80%, transparent 100%)',
+            }}
+          />
+          
           {/* Bottom Gradient Fade — blends the video seamlessly into the theme background */}
           {/* Mobile: very tall ultra-smooth fade — eliminates any visible edge */}
           <div 
