@@ -111,15 +111,17 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       if (!cancelled) hideLoader();
     };
 
-    // Fire hideLoader once the minimum duration has elapsed AND video is ready
+    interface TimeoutWithGrace extends ReturnType<typeof setTimeout> {
+      __grace?: ReturnType<typeof setTimeout>;
+    }
+
     const minTimer = setTimeout(() => {
       if (videoReadyRef.current) {
         tryHide();
       } else {
         // Video not ready yet — check once more after a short grace period
         const grace = setTimeout(() => tryHide(), 800);
-        // Store for cleanup
-        (minTimer as any).__grace = grace;
+        (minTimer as TimeoutWithGrace).__grace = grace;
       }
     }, duration + 200);
 
@@ -130,18 +132,18 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       cancelled = true;
       clearTimeout(minTimer);
       clearTimeout(hardMax);
-      if ((minTimer as any).__grace) clearTimeout((minTimer as any).__grace);
+      if ((minTimer as TimeoutWithGrace).__grace) clearTimeout((minTimer as TimeoutWithGrace).__grace);
       hideLoader();
     };
 
-    window.addEventListener('content-ready', handleContentReady as EventListener);
+    window.addEventListener('content-ready', handleContentReady as EventListenerOrEventListenerObject);
 
     return () => {
       cancelled = true;
       clearTimeout(minTimer);
       clearTimeout(hardMax);
-      if ((minTimer as any).__grace) clearTimeout((minTimer as any).__grace);
-      window.removeEventListener('content-ready', handleContentReady as EventListener);
+      if ((minTimer as TimeoutWithGrace).__grace) clearTimeout((minTimer as TimeoutWithGrace).__grace);
+      window.removeEventListener('content-ready', handleContentReady as EventListenerOrEventListenerObject);
     };
   }, [duration, hideLoader]);
 

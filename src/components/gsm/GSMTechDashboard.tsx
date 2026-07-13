@@ -62,7 +62,7 @@ interface BoxTool {
   description: string;
   price: number;
   status: 'available' | 'in_use' | 'maintenance';
-  category: 'chimera' | 'server' | 'remote' | 'check';
+  category: 'chimera' | 'server' | 'remote' | 'check' | 'credit';
   features?: string[];
   models?: string;
   chips?: string;
@@ -108,7 +108,7 @@ const mockBoxTools: BoxTool[] = [
     nickname: 'Canivete Suíço',
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750319/unlock_tool_2_uyqzof.png',
     description: 'Versatilidade total e rapidez - FRP, Mi Cloud, Apple, Bootloader',
-    price: 50,
+    price: 100,
     status: 'available',
     category: 'chimera',
     features: ['FRP Bypass', 'Mi Cloud / Relock Fix', 'Apple Module', 'Bootloader Unlock'],
@@ -123,7 +123,7 @@ const mockBoxTools: BoxTool[] = [
     nickname: 'Especialista Samsung',
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750320/chimera_tool_img_ti5l2p.png',
     description: 'Reparação avançada e funções de rede - IMEI, Certificate, Firmware',
-    price: 100,
+    price: 220,
     status: 'available',
     category: 'chimera',
     features: ['Repair IMEI', 'Patch Certificate', 'Read Codes', 'Firmware Flash'],
@@ -138,7 +138,7 @@ const mockBoxTools: BoxTool[] = [
     nickname: 'Solução Low-End',
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750321/dft_pro_wxuuev.png',
     description: 'Excelente para modelos de entrada - Unisoc, Xiaomi Dual Sim',
-    price: 30,
+    price: 80,
     status: 'available',
     category: 'server',
     features: ['Unisoc/SPD Support', 'Xiaomi Dual Sim Repair', 'Auth Bypass'],
@@ -153,7 +153,7 @@ const mockBoxTools: BoxTool[] = [
     nickname: 'Rainha do Servidor',
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750323/tfm_swio6w.png',
     description: 'Estabilidade em processos com créditos - SLA/DA Auth',
-    price: 15,
+    price: 80,
     status: 'in_use',
     category: 'server',
     features: ['SLA/DA Auth', 'Server FRP', 'Factory Reset'],
@@ -168,7 +168,7 @@ const mockBoxTools: BoxTool[] = [
     nickname: 'Mestra das Customizações',
     image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750323/eft_pro_uegdv8.png',
     description: 'Focada em firmwares modificados e Root - Multi-Brand',
-    price: 45,
+    price: 80,
     status: 'available',
     category: 'remote',
     features: ['Root Multi-Brand', 'Make Kernel', 'FTP Support'],
@@ -176,6 +176,32 @@ const mockBoxTools: BoxTool[] = [
     chips: 'Qualcomm',
     rating: 4.6,
     rentals: 98
+  },
+  { 
+    id: '6', 
+    name: 'CRD Credits', 
+    nickname: 'Créditos GSM',
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750323/crd_credits_yj6g2k.png',
+    description: 'Créditos pré-pagos para unlock e reparação GSM',
+    price: 75,
+    status: 'available',
+    category: 'credit',
+    features: ['Crédito Pré-pago', 'Recarga Instantânea', 'Sem Expiração'],
+    rating: 4.5,
+    rentals: 520
+  },
+  { 
+    id: '7', 
+    name: 'TSM Server Credits', 
+    nickname: 'Créditos Servidor',
+    image: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/v1773750323/tsm_server_kj3h8l.png',
+    description: 'Créditos para servidores remotos TSM - Alta Performance',
+    price: 100,
+    status: 'available',
+    category: 'credit',
+    features: ['Servidor Dedicado', 'Baixa Latência', 'Uso Ilimitado'],
+    rating: 4.8,
+    rentals: 380
   },
 ];
 
@@ -190,7 +216,13 @@ const menuItems = [
 ];
 
 // Mobile Bottom Navigation (iOS 26 Style)
-const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
+interface BottomNavProps {
+  activeView: string;
+  setActiveView: (view: string) => void;
+  darkMode: boolean;
+}
+
+const BottomNav = ({ activeView, setActiveView, darkMode }: BottomNavProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
@@ -294,7 +326,15 @@ const BottomNav = ({ activeView, setActiveView, darkMode }: any) => {
 };
 
 // Desktop Sidebar
-const Sidebar = ({ activeView, setActiveView, isOpen, setIsOpen, darkMode }: any) => {
+interface SidebarProps {
+  activeView: string;
+  setActiveView: (view: string) => void;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  darkMode: boolean;
+}
+
+const Sidebar = ({ activeView, setActiveView, isOpen, setIsOpen, darkMode }: SidebarProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -432,7 +472,15 @@ const Toast = ({ message, type, onClose }: { message: string; type: 'success' | 
 };
 
 // Dashboard Module
-const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: any) => {
+interface DashboardViewProps {
+  tools: BoxTool[];
+  darkMode: boolean;
+  rentals: Rental[];
+  wallet: WalletData;
+  setActiveView: (view: string) => void;
+}
+
+const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: DashboardViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -446,8 +494,8 @@ const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: any)
   }, { scope: containerRef });
 
   const stats = [
-    { label: 'DISPONÍVEIS', value: tools.filter((t: any) => t.status === 'available').length, icon: Box, sub: 'Prontas p/ uso', pulse: true },
-    { label: 'EM OPERAÇÃO', value: tools.filter((t: any) => t.status === 'in_use').length, icon: Activity, sub: 'Uso atual' },
+    { label: 'DISPONÍVEIS', value: tools.filter((t: BoxTool) => t.status === 'available').length, icon: Box, sub: 'Prontas p/ uso', pulse: true },
+    { label: 'EM OPERAÇÃO', value: tools.filter((t: BoxTool) => t.status === 'in_use').length, icon: Activity, sub: 'Uso atual' },
     { label: 'TOTAL ALUGUÉIS', value: rentals.length, icon: History, sub: 'Histórico' },
   ];
 
@@ -498,13 +546,14 @@ const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: any)
           <button onClick={() => setActiveView('tools')} className="text-[10px] font-black uppercase tracking-widest text-primary hover:tracking-[0.2em] transition-all">Ver Todas</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {tools.slice(0, 3).map((tool: any, i: number) => (
+          {tools.slice(0, 3).map((tool: BoxTool, i: number) => (
             <div
               key={tool.id}
               className={`gs-module group rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl hover:shadow-2xl transition-all duration-500`}
             >
-              <div className="h-48 overflow-hidden relative">
-                <img src={tool.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div className="aspect-[4/3] overflow-hidden relative">
+                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110" style={{ backgroundImage: `url(${tool.image})`, backgroundColor: '#0a0a0a' }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <div className="absolute top-6 right-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest">
                   {tool.price} MT/H
                 </div>
@@ -522,12 +571,19 @@ const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView }: any)
 };
 
 // Tool Card
-const ToolCard = ({ tool, onRent, darkMode }: any) => {
+interface ToolCardProps {
+  tool: BoxTool;
+  onRent: (tool: BoxTool) => void;
+  darkMode: boolean;
+}
+
+const ToolCard = ({ tool, onRent, darkMode }: ToolCardProps) => {
   return (
-    <div className={`gs-tool-card group rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-8 ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl hover:shadow-3xl transition-all duration-500 opacity-0 transform translate-y-10`}>
+    <div className={`gs-tool-card group rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-8 ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl hover:shadow-3xl transition-all duration-500`}>
       <div className="flex flex-col lg:flex-row gap-5 sm:gap-10">
-        <div className="w-full lg:w-48 h-40 sm:h-48 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-2xl">
-          <img src={tool.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+        <div className="w-full lg:w-64 aspect-[4/3] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-2xl relative">
+          <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-110 z-[2]" style={{ backgroundImage: `url(${tool.image})`, backgroundColor: '#0a0a0a' }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         </div>
         <div className="flex-1 space-y-4 sm:space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-0">
@@ -582,26 +638,32 @@ const ToolCard = ({ tool, onRent, darkMode }: any) => {
 };
 
 // Tools List View
-const ToolsView = ({ tools, onRent, darkMode }: any) => {
+interface ToolsViewProps {
+  tools: BoxTool[];
+  onRent: (tool: BoxTool) => void;
+  darkMode: boolean;
+}
+
+const ToolsView = ({ tools, onRent, darkMode }: ToolsViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    const cards = containerRef.current?.querySelectorAll('.gs-tool-card');
-    if (cards) {
-      gsap.to(cards, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power4.out'
-      });
-    }
-  }, { scope: containerRef });
+useGSAP(() => {
+     const cards = containerRef.current?.querySelectorAll('.gs-tool-card');
+     if (cards) {
+       gsap.to(cards, {
+         opacity: 1,
+         y: 0,
+         stagger: 0.1,
+         duration: 0.8,
+         ease: 'power4.out'
+       });
+     }
+   }, { scope: containerRef, dependencies: [tools] });
 
-  return (
-    <div ref={containerRef} className="p-4 sm:p-8 lg:p-12 pb-32 sm:pb-32 lg:pb-12 space-y-6 sm:space-y-10">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-        <div>
+   return (
+     <div ref={containerRef} className="p-4 sm:p-8 lg:p-12 pb-32 sm:pb-32 lg:pb-12 space-y-6 sm:space-y-10">
+       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+         <div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tighter">CATÁLOGO <span className="text-primary tracking-normal">TOOLS</span></h2>
           <p className="text-[10px] sm:text-sm font-black uppercase tracking-widest text-zinc-400 mt-1 sm:mt-2">Tecnologias de desbloqueio em tempo real</p>
         </div>
@@ -614,7 +676,7 @@ const ToolsView = ({ tools, onRent, darkMode }: any) => {
       </div>
 
       <div className="grid gap-6">
-        {tools.map((tool: any) => (
+        {tools.map((tool: BoxTool) => (
           <ToolCard key={tool.id} tool={tool} onRent={onRent} darkMode={darkMode} />
         ))}
       </div>
@@ -623,7 +685,12 @@ const ToolsView = ({ tools, onRent, darkMode }: any) => {
 };
 
 // Rentals View
-const RentalsView = ({ rentals, darkMode }: any) => {
+interface RentalsViewProps {
+  rentals: Rental[];
+  darkMode: boolean;
+}
+
+const RentalsView = ({ rentals, darkMode }: RentalsViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -644,7 +711,7 @@ const RentalsView = ({ rentals, darkMode }: any) => {
       </div>
 
       <div className="grid gap-4">
-        {rentals.map((rental: any, i: number) => (
+        {rentals.map((rental: Rental, i: number) => (
           <div key={rental.id} className="gs-rental-item p-5 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-zinc-900 border border-slate-100 dark:border-white/5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 sm:gap-0">
             <div className="flex items-center gap-4 sm:gap-8 w-full sm:w-auto">
               <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 ${rental.status === 'active' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-zinc-100 text-zinc-400'}`}>
@@ -672,11 +739,24 @@ const RentalsView = ({ rentals, darkMode }: any) => {
 };
 
 // IMEI View
-const IMEICheckView = ({ darkMode }: any) => {
+interface IMEICheckViewProps {
+  darkMode: boolean;
+}
+
+interface IMEICheckResult {
+  imei: string;
+  brand: string;
+  model: string;
+  status: string;
+  carrier: string;
+  date: string;
+}
+
+const IMEICheckView = ({ darkMode }: IMEICheckViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [imei, setImei] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<IMEICheckResult | null>(null);
   const [error, setError] = useState('');
 
   useGSAP(() => {
@@ -762,7 +842,13 @@ const IMEICheckView = ({ darkMode }: any) => {
 };
 
 // Wallet View
-const WalletView = ({ wallet, darkMode, setShowToast }: any) => {
+interface WalletViewProps {
+  wallet: WalletData;
+  darkMode: boolean;
+  setShowToast: (toast: { show: boolean; message: string; type: 'success' | 'error' | 'info' }) => void;
+}
+
+const WalletView = ({ wallet, darkMode, setShowToast }: WalletViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -818,7 +904,11 @@ const WalletView = ({ wallet, darkMode, setShowToast }: any) => {
 };
 
 // Profile View
-const ProfileView = ({ darkMode }: any) => {
+interface ProfileViewProps {
+  darkMode: boolean;
+}
+
+const ProfileView = ({ darkMode }: ProfileViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -890,11 +980,11 @@ const GSMTechDashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tools, setTools] = useState<BoxTool[]>(mockBoxTools);
   const [rentals, setRentals] = useState<Rental[]>([
-    { id: '1', toolName: 'Chimera Tool', toolId: '2', startTime: new Date(Date.now() - 3600000), status: 'active', price: 100, duration: 1 },
-    { id: '2', toolName: 'UnlockTool', toolId: '1', startTime: new Date(Date.now() - 86400000), endTime: new Date(Date.now() - 82800000), status: 'completed', price: 50, duration: 2 },
+    { id: '1', toolName: 'Chimera Tool', toolId: '2', startTime: new Date(Date.now() - 3600000), status: 'active', price: 220, duration: 1 },
+    { id: '2', toolName: 'UnlockTool', toolId: '1', startTime: new Date(Date.now() - 86400000), endTime: new Date(Date.now() - 82800000), status: 'completed', price: 100, duration: 2 },
   ]);
   const [wallet, setWallet] = useState<WalletData>({
-    balance: 2500.00,
+    balance: 35000.00,
     totalSpent: 1500.00,
     rentals: 12,
     bonusPoints: 450
@@ -956,7 +1046,7 @@ const GSMTechDashboard: React.FC = () => {
 
       <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Header */}
-        <header className={`min-h-[80px] lg:min-h-[100px] flex items-center justify-between px-6 sm:px-8 lg:px-12 ${darkMode ? 'border-zinc-800 bg-zinc-950/95' : 'border-slate-200 bg-white/95'} border-b z-40 backdrop-blur-xl shadow-sm relative pt-[calc(env(safe-area-inset-top,0px)+1rem)] pb-4 lg:pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] lg:pb-6`}>
+        <header className={`min-h-[80px] lg:min-h-[100px] flex items-center justify-between px-6 sm:px-8 lg:px-12 ${darkMode ? 'border-zinc-800 bg-zinc-950' : 'border-slate-200 bg-white'} border-b z-40 shadow-sm relative pt-[max(0.5rem,env(safe-area-inset-top,0px))] pb-4 lg:pt-[max(1rem,env(safe-area-inset-top,0px))] lg:pb-6`}>
           <div className="flex items-center gap-6">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-4 bg-zinc-100 dark:bg-zinc-900 rounded-[1.5rem] transition-all transform active:scale-95 shadow-sm">
               <Menu className="w-6 h-6" />

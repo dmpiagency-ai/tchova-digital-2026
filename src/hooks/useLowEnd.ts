@@ -5,9 +5,28 @@
  * High-end devices recebem animações como bónus.
  */
 
-const getConnection = (): { effectiveType?: string; saveData?: boolean } | null => {
+interface ConnectionInfo {
+  effectiveType?: string;
+  saveData?: boolean;
+}
+
+const getConnection = (): ConnectionInfo | null => {
   if (typeof navigator === 'undefined') return null;
-  return (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection || null;
+  return (navigator as unknown as Navigator & {
+    connection?: ConnectionInfo;
+    mozConnection?: ConnectionInfo;
+    webkitConnection?: ConnectionInfo;
+  }).connection || 
+    (navigator as unknown as Navigator & {
+      connection?: ConnectionInfo;
+      mozConnection?: ConnectionInfo;
+      webkitConnection?: ConnectionInfo;
+    }).mozConnection || 
+    (navigator as unknown as Navigator & {
+      connection?: ConnectionInfo;
+      mozConnection?: ConnectionInfo;
+      webkitConnection?: ConnectionInfo;
+    }).webkitConnection || null;
 };
 
 // Compute once at module level — these values never change during a session
@@ -15,7 +34,7 @@ const _isLowEnd = (() => {
   if (typeof window === 'undefined') return false;
   
   const cores = navigator.hardwareConcurrency || 4;
-  const memory = (navigator as any).deviceMemory || 4; // GB
+  const memory = (navigator as unknown as Navigator & { deviceMemory?: number }).deviceMemory || 4; // GB
   const isMobile = window.innerWidth < 768;
   
   // Low-end: ≤2 cores OR ≤2GB RAM OR mobile with ≤4 cores

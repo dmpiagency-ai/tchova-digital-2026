@@ -28,8 +28,22 @@ const AudiovisualPortal = () => {
   const [step, setStep] = useState(1);
   const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
 
-  const handleNext = () => setStep(s => Math.min(s + 1, 3));
-  const handlePrev = () => setStep(s => Math.max(s - 1, 1));
+  const handleNext = () => {
+    setStep(s => Math.min(s + 1, 3));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const handlePrev = () => {
+    setStep(s => Math.max(s - 1, 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProblemSelect = (prob: string) => {
+    setSelectedProblem(prob);
+    // Auto-advance after a brief delay for a premium feel
+    setTimeout(() => {
+      handleNext();
+    }, 600);
+  };
 
   const getWhatsAppLink = () => {
     const text = selectedProblem 
@@ -71,12 +85,9 @@ const AudiovisualPortal = () => {
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen" />
         
         <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10 overflow-hidden">
-          <div 
-            className="flex items-start transition-transform duration-500 ease-out w-full"
-            style={{ transform: `translateX(-${(step - 1) * 100}%)` }}
-          >
+          <div className="relative w-full transition-all duration-500 ease-out">
             {/* STEP 1: Diagnóstico */}
-            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 1 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 1 ? 'opacity-100 relative' : 'opacity-0 absolute pointer-events-none'}`}>
               <div className="text-center mb-6 md:mb-12">
                 <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 1 de 3 • Diagnóstico</span>
                 <h1 className="text-xl sm:text-2xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
@@ -89,7 +100,7 @@ const AudiovisualPortal = () => {
                 {problems.map((prob, i) => (
                   <button
                     key={i}
-                    onClick={() => setSelectedProblem(prob)}
+                    onClick={() => handleProblemSelect(prob)}
                     className={`p-4 sm:p-8 rounded-[1.5rem] md:rounded-[2rem] border text-left transition-all duration-300 group
                       ${selectedProblem === prob 
                         ? 'bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border-primary shadow-[0_0_30px_rgba(34,197,94,0.15)] scale-[1.01]' 
@@ -108,19 +119,14 @@ const AudiovisualPortal = () => {
                 ))}
               </div>
 
-              <div className={`mt-6 md:mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                <button 
-                  onClick={handleNext}
-                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)]"
-                >
-                  Continuar
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+              {/* Continuar button is hidden since we auto-advance, but keeping it for accessibility/fallback if needed, though auto-advance is better */}
+              <div className={`mt-6 md:mt-10 flex justify-center transition-all duration-500 ${selectedProblem ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} md:hidden`}>
+                <span className="text-xs text-primary/70 font-medium animate-pulse">Avançando...</span>
               </div>
             </div>
 
             {/* STEP 2: Solução (Showcase Visual de Mini Case) */}
-            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 2 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 2 ? 'opacity-100 relative' : 'opacity-0 absolute pointer-events-none'}`}>
               <div className="text-center mb-10 md:mb-14">
                 <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-primary mb-2 md:mb-4 block">Passo 2 de 3 • Estúdio Visual & Cases</span>
                 <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight uppercase mb-2 md:mb-4">
@@ -192,7 +198,7 @@ const AudiovisualPortal = () => {
             </div>
 
             {/* STEP 3: Entrega e CTA */}
-            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 3 ? 'opacity-100' : 'opacity-20 pointer-events-none'}`}>
+            <div className={`w-full flex-shrink-0 px-1 transition-opacity duration-500 ${step === 3 ? 'opacity-100 relative' : 'opacity-0 absolute pointer-events-none'}`}>
               <div className="text-center mb-12">
                 <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 block">Passo 3 de 3 • O Teu Pacote</span>
                 <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-4">

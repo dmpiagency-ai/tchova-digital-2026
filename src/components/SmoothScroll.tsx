@@ -20,7 +20,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     // Detect low-end device: ≤2 CPU cores or ≤2GB RAM
     const isLowEnd =
       (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 2) ||
-      ((navigator as any).deviceMemory !== undefined && (navigator as any).deviceMemory <= 2);
+      ((navigator as Navigator & { deviceMemory?: number }).deviceMemory !== undefined && (navigator as Navigator & { deviceMemory?: number }).deviceMemory! <= 2);
 
     lenisRef.current = new Lenis({
       duration: isLowEnd ? 0.7 : 1.0,

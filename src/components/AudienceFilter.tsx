@@ -35,10 +35,10 @@ const AudienceFilter = () => {
       <div className="container mx-auto px-6 lg:px-12">
         <div className="filter-header text-center mb-16 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tighter text-white uppercase">
-            Para quem <span className="text-primary">fazemos a diferença?</span>
+            PARA QUEM É O <span className="text-primary">ECOSSISTEMA?</span>
           </h2>
           <p className="text-muted-foreground text-lg font-light">
-            Não somos uma agência tradicional. Somos o parceiro técnico para quem quer escalar. Vê se encaixamos no teu perfil:
+            Não servimos todos os negócios. Servimos os que estão prontos para dar o próximo passo.
           </p>
         </div>
 
@@ -58,22 +58,22 @@ const AudienceFilter = () => {
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white font-bold mb-1">Quer resultados, não apenas gostos</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Foco em captar contactos reais e fechar vendas.</p>
+                  <h4 className="text-white font-bold mb-1">Já facturas mas a marca não acompanha o crescimento</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Tens um produto ou serviço de excelência, mas a tua imagem atual afasta clientes de alto valor.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white font-bold mb-1">Valoriza a própria imagem</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Sabe que um design profissional transmite confiança imediata.</p>
+                  <h4 className="text-white font-bold mb-1">Tens clientes mas dependes 100% do boca-a-boca</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Precisas de canais de captação previsíveis para não dependeres apenas de indicações.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white font-bold mb-1">Está pronto para estruturar</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Sente que precisa de organizar processos para atender mais pessoas.</p>
+                  <h4 className="text-white font-bold mb-1">Estás a crescer e os processos já não aguentam</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Sentes que a operação está no limite e precisas de automação e sistemas integrados.</p>
                 </div>
               </li>
             </ul>
@@ -93,22 +93,22 @@ const AudienceFilter = () => {
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-bold mb-1">Procuras "apenas alguém para postar"</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Não somos meros publicadores de conteúdo sem estratégia.</p>
+                  <h4 className="text-white/80 font-bold mb-1">Ainda não tens um negócio definido</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Se ainda estás a estruturar a tua oferta inicial, o investimento num ecossistema 360° é prematuro.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-bold mb-1">Queres a solução mais barata possível</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Entregamos qualidade superior. O investimento reflete o retorno esperado.</p>
+                  <h4 className="text-white/80 font-bold mb-1">Procuras o preço mais baixo do mercado</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Priorizamos o retorno sobre o investimento e a entrega de alto padrão, não a redução de custos a qualquer custo.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-bold mb-1">Esperas magia do dia para a noite</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Construir autoridade online leva tempo, consistência e trabalho conjunto.</p>
+                  <h4 className="text-white/80 font-bold mb-1">Não tens budget para investir no crescimento</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Trabalhamos em parceria com empresas prontas para investir na sua própria infraestrutura de escala.</p>
                 </div>
               </li>
             </ul>

@@ -31,7 +31,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // 🔌 PLUG-IN: Analytics (only in production and when supported)
-export let analytics: Analytics | null = null;
+export const analytics: Analytics | null = null;
 
 // 🔌 PLUG-IN: Feature Flags
 export const firebaseFeatures = {

@@ -55,7 +55,7 @@ export default function Header() {
 
       {/* Mobile Header for Sub-pages (Service Details / Payment) */}
       {(isPaymentPage || isServiceDetailsPage) && (
-        <div className="md:hidden fixed top-0 left-0 right-0 z-[1100] p-4 flex items-center justify-between bg-black/40 backdrop-blur-xl border-b border-white/10">
+        <div className="md:hidden fixed top-0 left-0 right-0 z-[1100] p-4 flex items-center justify-between">
           <Button
             variant="ghost"
             size="icon"
@@ -73,21 +73,25 @@ export default function Header() {
         </div>
       )}
 
-      {/* Mobile Menu Trigger & System - Visible only on landing page mobile */}
+      {/* Mobile Menu Trigger & System - Floating fixed over hero for full immersion */}
       {!isPaymentPage && !isServiceDetailsPage && (
-        <div className="md:hidden">
-          <StaggeredMenu
-            position="right"
-            colors={['#000000', '#0a0a0a', '#111111']}
-            items={menuItems}
-            socialItems={socialItems}
-            displaySocials={true}
-            displayItemNumbering={true}
-            logoUrl={logo}
-            accentColor="#22C55E"
-            isFixed={true}
-            closeOnClickAway={true}
-          />
+        <div className="md:hidden fixed top-0 left-0 right-0 z-[1100] pointer-events-none">
+          {/* Smooth gradient fade — content scrolls immersively behind this */}
+          <div className="absolute inset-0 h-28 bg-gradient-to-b from-[#060A08] via-[#060A08]/85 to-transparent pointer-events-none" />
+          <div className="relative pointer-events-auto">
+            <StaggeredMenu
+              position="right"
+              colors={['#000000', '#0a0a0a', '#111111']}
+              items={menuItems}
+              socialItems={socialItems}
+              displaySocials={true}
+              displayItemNumbering={true}
+              logoUrl={logo}
+              accentColor="#22C55E"
+              isFixed={false}
+              closeOnClickAway={true}
+            />
+          </div>
         </div>
       )}
 

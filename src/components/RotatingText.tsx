@@ -1,16 +1,16 @@
 'use client';
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState, useRef } from 'react';
-import gsap from 'gsap';
+import gsap, { TweenVars, Stagger } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import './RotatingText.css';
 
 interface RotatingTextProps {
   texts: string[];
-  transition?: any;
-  initial?: any;
-  animate?: any;
-  exit?: any;
+  transition?: TweenVars;
+  initial?: TweenVars;
+  animate?: TweenVars;
+  exit?: TweenVars;
   rotationInterval?: number;
   staggerDuration?: number;
   staggerFrom?: 'first' | 'last' | 'center' | 'random' | number;
@@ -61,9 +61,9 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
 
   const splitIntoCharacters = (text: string): string[] => {
     if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-      const Segmenter = (Intl as unknown as any).Segmenter;
+      const Segmenter = (Intl as { Segmenter: new (locale: string, options: { granularity: string }) => { segment: (text: string) => Iterable<{ segment: string }> }).Segmenter;
       const segmenter = new Segmenter('en', { granularity: 'grapheme' });
-      return Array.from(segmenter.segment(text), (segment: any) => segment.segment);
+      return Array.from(segmenter.segment(text), (segment: { segment: string }) => segment.segment);
     }
     return Array.from(text);
   };
@@ -114,10 +114,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
       tl.to(elements, {
         y: -20,
         opacity: 0,
-        stagger: {
-          each: staggerDuration,
-          from: staggerFrom as any
-        },
+        stagger: staggerFrom as Stagger | string | number,
         duration: 0.4,
         ease: 'power2.in'
       });
@@ -134,10 +131,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
         { 
           y: 0, 
           opacity: 1, 
-          stagger: {
-            each: staggerDuration,
-            from: staggerFrom as any
-          },
+          stagger: staggerFrom as Stagger | string | number,
           duration: 0.6, 
           ease: 'elastic.out(1, 0.8)' 
         }

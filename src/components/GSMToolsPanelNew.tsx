@@ -76,6 +76,12 @@ interface GSMToolsPanelNewProps {
   initialCategory?: string;
 }
 
+interface PriceCalculation {
+  basePrice: number;
+  durationDiscount: number;
+  finalPrice: number;
+}
+
 const GSMToolsPanelNew: React.FC<GSMToolsPanelNewProps> = ({
   onRentalComplete,
   showCategories = true,
@@ -90,7 +96,7 @@ const GSMToolsPanelNew: React.FC<GSMToolsPanelNewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedTool, setSelectedTool] = useState<GSMTool | null>(null);
   const [selectedDuration, setSelectedDuration] = useState(1);
-  const [priceCalculation, setPriceCalculation] = useState<any>(null);
+  const [priceCalculation, setPriceCalculation] = useState<PriceCalculation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [currentDialog, setCurrentDialog] = useState<'none' | 'rent' | 'credentials' | 'history'>('none');

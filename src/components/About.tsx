@@ -9,11 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const ECOSYSTEM_ITEMS = [
-  { label: 'IDENTIDADE VISUAL', desc: 'Construção de marcas profissionais.' },
-  { label: 'WEBSITES', desc: 'Presença digital moderna e funcional.' },
-  { label: 'MARKETING', desc: 'Mais alcance e comunicação estratégica.' },
-  { label: 'AUDIOVISUAL', desc: 'Conteúdos que valorizam negócios.' },
-  { label: 'GSM RENTAL', desc: 'Ferramentas profissionais para técnicos.' },
+  { label: 'IDENTIDADE VISUAL', desc: 'Posicionamento visual que justifica preços premium.' },
+  { label: 'WEBSITES', desc: 'Canal de vendas que opera 24h sem depender de ti.' },
+  { label: 'MARKETING', desc: 'Motor de aquisição que enche o teu pipeline de clientes.' },
+  { label: 'AUDIOVISUAL', desc: 'Conteúdo que constrói autoridade e retém atenção.' },
+  { label: 'GSM RENTAL', desc: 'Infraestrutura técnica profissional sob demanda.' },
 ];
 
 const About = () => {
@@ -135,7 +135,7 @@ const About = () => {
           </div>
 
           {/* Card 2: Ecosystem Panel */}
-          <div className="lg:col-span-4 bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-8 shadow-2xl flex flex-col justify-center">
+          <div className="lg:col-span-4 bg-card border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-8 shadow-2xl flex flex-col justify-center">
             <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70 mb-5">Ecossistema</div>
 
             <div ref={ecosystemRef} className="flex flex-col w-full">

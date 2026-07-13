@@ -22,7 +22,6 @@ const ROTATING_WORDS = [
 ];
 
 
-
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const wordRef = useRef<HTMLDivElement>(null);
@@ -202,7 +201,6 @@ const Hero = () => {
     });
 
 
-
   }, { scope: heroRef });
 
   const openContactModal = useCallback(() => {
@@ -236,21 +234,17 @@ const Hero = () => {
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
-        {/* Mobile Background Effects - REMOVED FOR PERFORMANCE 
-            (Nebula and floating orbs were draining mobile GPU and causing freeze on scroll) */}
-        <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none opacity-0" />
-        
         <div 
           ref={videoContainerRef} 
-          className="absolute -top-[2px] left-0 w-full h-[calc(45%+4px)] xs:h-[calc(50%+4px)] md:top-0 md:h-full overflow-hidden will-change-transform origin-top bg-transparent"
+          className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden will-change-transform origin-top bg-background [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] md:[mask-image:none]"
         >
           {/* Background Media: support both video and image */}
           {/* LOW-END / SLOW NETWORK: Static poster image instead of video */}
           {isSlowNetwork || isLowEnd ? (
             <img
-              ref={video1Ref as any}
+              ref={video1Ref as React.RefObject<HTMLImageElement>}
               src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_800/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
               style={{ opacity: 1, zIndex: 2, transform: 'translateZ(0)' }}
               alt="Tchova Digital"
               loading="eager"
@@ -258,7 +252,7 @@ const Hero = () => {
           ) : (videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/')) ? (
             <>
               <video
-                ref={video1Ref as any}
+                ref={video1Ref as React.RefObject<HTMLVideoElement>}
                 src={videoSrc}
                 muted
                 playsInline
@@ -268,25 +262,20 @@ const Hero = () => {
                 preload="auto"
                 autoPlay={true}
                 poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
                 style={{
                   opacity: 1,
                   zIndex: 2,
                   transform: 'translateZ(0)',
                 }}
                 onTimeUpdate={(e) => {
-                  // Dev Pro: Seamless Fade Loop Masking
                   const v = e.currentTarget;
                   if (v.duration) {
                     const timeRemaining = v.duration - v.currentTime;
                     
-
-
-                    // Fade out just before the hard cut
                     if (timeRemaining < 0.5 && timeRemaining > 0) {
                       if (v.style.opacity !== '0') gsap.to(v, { opacity: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
                     } else if (v.currentTime > 0.1 && v.currentTime < 1.0) {
-                      // Fade back in smoothly after the jump
                       if (v.style.opacity !== '1') gsap.to(v, { opacity: 1, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
                     }
                   }
@@ -304,9 +293,9 @@ const Hero = () => {
             </>
           ) : (
             <img
-              ref={video1Ref as any}
+              ref={video1Ref as React.RefObject<HTMLImageElement>}
               src={videoSrc}
-              className="absolute -top-[2px] -left-[0.5%] w-[101%] h-[calc(100%+4px)] object-cover object-[50%_15%] md:top-0 md:left-0 md:w-full md:h-full md:object-[58%_50%] pointer-events-none"
+              className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
               style={{
                 opacity: 1,
                 zIndex: 2,
@@ -321,17 +310,8 @@ const Hero = () => {
             />
           )}
           
-          {/* Bottom Gradient Fade — blends the video seamlessly into the theme background */}
-          {/* Mobile: very tall ultra-smooth fade — eliminates any visible edge */}
-          <div 
-            className="block md:hidden absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
-            style={{
-              height: '60%',
-              background: 'linear-gradient(to top, #1a1d1b 0%, #1a1d1b 10%, rgba(26,29,27,0.95) 20%, rgba(26,29,27,0.7) 40%, rgba(26,29,27,0.3) 60%, rgba(26,29,27,0.08) 80%, transparent 100%)',
-            }}
-          />
-          {/* Desktop: original subtle fade */}
-          <div className="hidden md:block absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent z-[5] pointer-events-none" />
+          {/* Bottom Gradient Fade — subtle fade for all screens */}
+          <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent z-[5] pointer-events-none" />
         </div>
       </div>
 
@@ -348,7 +328,7 @@ const Hero = () => {
 
       <div
         ref={contentRef}
-        className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[10svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
+        className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[4svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
       >
         <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-4 xs:gap-5 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
 
@@ -400,15 +380,14 @@ const Hero = () => {
             ref={ctaRef}
             className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-4 xs:pt-5 md:pt-4 w-full relative"
           >
-            {/* Mobile subtle CTA glow — no blur, just a soft radial shadow */}
-            <div className="block md:hidden absolute top-1/2 left-0 -translate-y-1/2 w-[120%] h-[100%] z-[-1] pointer-events-none rounded-full" style={{ background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)' }} />
+            {/* Mobile subtle CTA glow removed to avoid harsh shadows/cuts */}
             <MagneticButton
               onClick={openContactModal}
               variant="primary"
               className="group w-full sm:w-max shrink-0 h-[56px] xs:h-[58px] md:h-16 px-8 xs:px-10 md:px-14 text-[12px] xs:text-[13px] md:text-sm font-black tracking-[0.15em] bg-gradient-to-r from-white to-white text-black hover:from-primary hover:to-primary hover:text-white transition-all duration-500 rounded-xl md:rounded-2xl uppercase border border-white/10"
               style={{ WebkitTextFillColor: 'black' }}
             >
-              <ElitePulse className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ stroke: 'black' }} />
+              <ElitePulse glow={false} className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ stroke: 'black' }} />
               <span className="whitespace-nowrap">FALAR COM A EQUIPA</span>
             </MagneticButton>
 

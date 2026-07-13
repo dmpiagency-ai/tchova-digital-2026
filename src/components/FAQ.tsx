@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 const faqs = [
   {
+    question: "Qual é a diferença entre a Tchova e uma agência tradicional?",
+    answer: "Uma agência comum entrega peças soltas: faz um logotipo hoje, um post amanhã, um site sem ligação. Na Tchova, nós criamos tudo de forma integrada: a tua imagem, o teu site e os teus anúncios trabalham juntos como uma única engrenagem para trazer resultados reais para a tua empresa."
+  },
+  {
     question: "Como funcionam os pagamentos?",
     answer: "Trabalhamos com os métodos mais convenientes do mercado nacional: M-Pesa, e-Mola e transferência bancária (MZN). Emitimos a respetiva fatura para tua contabilidade."
   },

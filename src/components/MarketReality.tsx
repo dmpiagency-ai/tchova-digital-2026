@@ -46,29 +46,29 @@ const MarketReality = () => {
           </div>
 
           <h2 className="reality-item text-3xl md:text-5xl font-black mb-8 tracking-tighter text-white uppercase leading-tight">
-            O boca-a-boca já <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">não é suficiente.</span>
+            O mercado mudou. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Os teus concorrentes já perceberam.</span>
           </h2>
 
           <div className="reality-item grid md:grid-cols-3 gap-8 mt-12 text-left">
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-              <h3 className="text-xl font-bold text-white mb-3">Atenção no Ecrã</h3>
+              <h3 className="text-xl font-bold text-white mb-3">O cliente pesquisa antes de comprar</h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                O consumidor moçambicano mudou. Antes de visitar uma loja ou pedir uma cotação, ele pesquisa online. Se não te encontram, confiam no teu concorrente.
+                O comportamento de compra em Moçambique evoluiu. Antes de qualquer decisão, o teu cliente pesquisa a tua presença online. Se ela falha em passar confiança, o teu concorrente ganha o contrato.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-              <h3 className="text-xl font-bold text-white mb-3">Likes não pagam contas</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Seguidores não são clientes</h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Ter seguidores é bom, mas ter clientes a entrar em contacto todos os dias é o que realmente importa. É preciso converter atenção em resultados reais.
+                Métricas de vaidade não geram faturação. Ter uma marca de autoridade significa desenhar canais que convertem atenção em propostas e novos contactos de forma previsível e diária.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
               <h3 className="text-xl font-bold text-white mb-3">Amadorismo custa caro</h3>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Logótipos mal feitos ou redes sociais abandonadas transmitem insegurança. A tua imagem dita o preço que podes cobrar.
+                Uma imagem desorganizada destrói a percepção de valor. O teu design dita o preço que podes cobrar no mercado, atraindo contratos de alto padrão ou curiosos de baixo orçamento.
               </p>
             </div>
           </div>

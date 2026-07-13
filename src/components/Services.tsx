@@ -66,50 +66,50 @@ const Services = () => {
     {
       id: 1,
       number: '01',
-      title: 'Marca que impõe respeito.',
+      title: 'Imagem que justifica preço premium.',
       category: 'Design & Identidade',
-      audience: 'Posicionamento visual de mercado',
-      painPoint: 'Identidade completa que gera credibilidade e atrai clientes de alto valor.',
+      audience: 'Posicionamento de Prestígio',
+      painPoint: 'Posicionamento visual que justifica preços premium.',
       cta: 'Ver como funciona',
       icon: EliteMatrix
     },
     {
       id: 2,
       number: '02',
-      title: 'Site que vende por ti.',
+      title: 'Websites e Lojas Online Premium.',
       category: 'Websites & Lojas',
-      audience: 'Sites e lojas online',
-      painPoint: 'Rápido, seguro e optimizado para ser encontrado e converter visitas em contactos.',
+      audience: 'Canais de Vendas Autónomos',
+      painPoint: 'Canal de vendas que opera 24h sem depender de ti.',
       cta: 'Ver como funciona',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
-      title: 'Clientes no teu WhatsApp.',
+      title: 'Campanhas que Atraem Clientes.',
       category: 'Campanhas & Redes',
-      audience: 'Tráfego pago e redes sociais',
-      painPoint: 'Campanhas que atraem clientes prontos a comprar.',
+      audience: 'Aquisição Previsível',
+      painPoint: 'Motor de aquisição que enche o teu pipeline de clientes.',
       cta: 'Ver como funciona',
       icon: ElitePulse
     },
     {
       id: 4,
       number: '04',
-      title: 'Vídeo com qualidade de cinema.',
+      title: 'Vídeo e Fotografia Profissional.',
       category: 'Vídeo & Fotografia',
-      audience: 'Produção audiovisual',
-      painPoint: 'Conteúdo visual que retém atenção e valoriza a percepção da tua marca.',
+      audience: 'Autoridade de Marca',
+      painPoint: 'Conteúdo que constrói autoridade e retém atenção.',
       cta: 'Ver como funciona',
       icon: EliteRadar
     },
     {
       id: 5,
       number: '05',
-      title: 'Ferramentas GSM sem falhas.',
+      title: 'Central de Ferramentas GSM.',
       category: 'Ferramentas GSM',
-      audience: 'Técnicos e laboratórios mobile',
-      painPoint: 'Acesso estável às principais boxes e ferramentas do mercado.',
+      audience: 'Infraestrutura Técnica',
+      painPoint: 'Infraestrutura técnica profissional sob demanda.',
       cta: 'Entrar no painel',
       icon: EliteNode
     },
@@ -159,15 +159,13 @@ const Services = () => {
         <div ref={headerRef} className="text-center mb-6 lg:mb-8 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-fluid-sm backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços Profissionais</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Áreas do Ecossistema Premium</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            UM ECOSSISTEMA. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">ZERO PEÇAS SOLTAS.</span>
+            DO IMPACTO VISUAL ÀS VENDAS. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">O SISTEMA UNIFICADO.</span>
           </h2>
-          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">
-            Design, site, marketing e vídeo — tudo conectado num único motor de crescimento.
-          </p>
+          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">Construímos uma infraestrutura de crescimento que combina design de elite, tecnologia avançada e campanhas de aquisição de alto valor para captar os clientes premium do teu mercado.</p>
         </div>
 
         {/* Liquid Glass Monolith Carousel */}

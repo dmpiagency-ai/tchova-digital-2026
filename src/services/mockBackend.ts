@@ -42,7 +42,7 @@ interface MockData {
   checktoolRequests: ChecktoolRequest[];
 }
 
-let mockData: MockData = {
+const mockData: MockData = {
   users: {},
   rentals: [],
   transactions: [],

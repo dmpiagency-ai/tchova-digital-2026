@@ -302,10 +302,9 @@
       background: rgba(20, 20, 20, 0.9) !important;
     }
 
-    /* Keep backdrop-filter working on fixed/overlay UI that doesn't affect scroll */
+    /* Keep backdrop-filter working on modals/overlay UI — NOT on fixed headers */
     [role="dialog"],
-    [data-radix-popper-content-wrapper],
-    .fixed {
+    [data-radix-popper-content-wrapper] {
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }

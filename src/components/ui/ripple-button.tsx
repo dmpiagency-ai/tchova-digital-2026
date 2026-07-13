@@ -135,28 +135,6 @@ function RippleButton({
   );
 }
 
-}
-
 export { RippleButton };
 
-
-// Demo Component
-export function Component() {
-  return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background">
-      <div className="flex flex-col gap-6 items-center">
-        <RippleButton onClick={() => alert('Button clicked!')} variant="primary" size="lg">
-          Click Me
-        </RippleButton>
-        <RippleButton onClick={() => alert('Secondary clicked!')} variant="secondary" size="md">
-          Secondary
-        </RippleButton>
-        <RippleButton onClick={() => alert('Outline clicked!')} variant="outline" size="sm">
-          Outline
-        </RippleButton>
-      </div>
-    </div>
-  );
-}
-
-export { RippleButton };
+// Demo Component is now in separate file - removed duplicate export

@@ -7,9 +7,10 @@
   --sm-text-muted: rgba(255, 255, 255, 0.6);
   position: relative;
   z-index: 1000;
-  background: transparent !important;
+  background: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
 }
 
 .staggered-menu-wrapper.fixed-wrapper {
@@ -18,9 +19,10 @@
   left: 0;
   right: 0;
   z-index: 1100;
-  background: transparent !important;
+  background: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
 }
 
 .staggered-menu-wrapper[data-position='left'] .sm-prelayers,
@@ -58,20 +60,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  padding-top: calc(1rem + env(safe-area-inset-top, 0px));
-  background: transparent !important;
+  padding: 0.75rem 1.25rem;
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  transition: background-color 0.3s ease, -webkit-backdrop-filter 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
-  border-bottom: 1px solid transparent;
+  transition: none;
+  border-bottom: none;
 }
 
 .staggered-menu-header.scrolled {
-  background: transparent !important;
+  background: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  border-bottom-color: transparent !important;
+  box-shadow: none !important;
 }
 
 .sm-logo {
@@ -83,13 +87,13 @@
   transition: all 0.3s ease;
 }
 
-/* Subtle border indicator on logo container when scrolled */
+/* Subtle border indicator on logo container when scrolled — removed to avoid shape overlay on mobile */
 .staggered-menu-header.scrolled .sm-logo {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 .staggered-menu-header.scrolled .sm-logo:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .sm-logo-img {
@@ -110,22 +114,22 @@
   color: #ffffff;
 }
 
-/* Toggle Button */
+/* Toggle Button — no backdrop-filter to avoid iOS Safari GPU layer bleed on fixed wrapper */
 .sm-toggle {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 9999px;
   padding: 0.625rem 1.25rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
   color: #fff;
   font-weight: 600;
   font-size: 0.875rem;
+  /* isolation prevents compositing bleed from parent stacking context */
+  isolation: isolate;
 }
 
 .sm-toggle:hover {
@@ -197,8 +201,18 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 6rem 2rem 2rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix flex centering bug where top is inaccessible when taller than screen */
+.sm-panel-inner > *:first-child {
+  margin-top: auto;
+}
+.sm-panel-inner > *:last-child {
+  margin-bottom: auto;
 }
 
 /* Panel List */

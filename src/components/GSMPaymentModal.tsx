@@ -60,10 +60,20 @@ interface PaymentMethod {
 }
 
 // Mock gateway for illustrative purposes
+interface PaymentRequest {
+  amount: number;
+  currency: string;
+  phoneNumber?: string;
+  method: string;
+  description: string;
+  reference: string;
+  userId: string;
+}
+
 const paymentGateway = {
-  processMPesaPayment: async (req: any) => ({ success: true, transactionId: 'MP'+Date.now(), confirmationCode: 'ABC-123', message: 'Success' }),
-  processEmolaPayment: async (req: any) => ({ success: true, transactionId: 'EM'+Date.now(), confirmationCode: 'XYZ-789', message: 'Success' }),
-  processCardPayment: async (req: any) => ({ success: true, transactionId: 'CC'+Date.now(), confirmationCode: 'CARD-XXX', message: 'Success' }),
+  processMPesaPayment: async (req: PaymentRequest) => ({ success: true, transactionId: 'MP'+Date.now(), confirmationCode: 'ABC-123', message: 'Success' }),
+  processEmolaPayment: async (req: PaymentRequest) => ({ success: true, transactionId: 'EM'+Date.now(), confirmationCode: 'XYZ-789', message: 'Success' }),
+  processCardPayment: async (req: PaymentRequest) => ({ success: true, transactionId: 'CC'+Date.now(), confirmationCode: 'CARD-XXX', message: 'Success' }),
   validatePhoneNumber: (num: string, type: string) => ({ valid: num.length >= 9 })
 };
 

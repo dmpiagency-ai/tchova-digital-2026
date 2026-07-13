@@ -80,7 +80,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(options:
               anim.to.split(';').forEach((prop) => {
                 const [key, value] = prop.split(':').map((s) => s?.trim());
                 if (key && value) {
-                  (el.style as any)[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
+                  (el.style as unknown as Record<string, string>)[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
                 }
               });
             });
