@@ -154,34 +154,21 @@ const AudiovisualPortal = () => {
                 </div>
 
                 {/* Case Info - Right Column */}
-                <div className="lg:col-span-6 flex flex-col gap-5 text-left">
+                <div className="lg:col-span-6 flex flex-col gap-6 text-left">
                   <div>
-                    <span className="text-[9px] font-black text-primary uppercase tracking-widest mb-1 block">Estúdio Audiovisual • Mini Case</span>
-                    <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-tight">Caso Zambi</h3>
-                    <p className="text-[10px] md:text-xs text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Produção de Vídeo & Sessão de Fotografia</p>
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2 block">A Nossa Abordagem</span>
+                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight leading-tight">Produção Visual que <br />Gera Desejo e Autoridade</h3>
                   </div>
 
-                  <div className="space-y-3.5">
-                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">O Desafio</h4>
-                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
-                        Fotografias amadoras tiradas por telemóvel no feed que não demonstravam a real sofisticação do ambiente e a qualidade gastronómica do restaurante.
-                      </p>
-                    </div>
+                  <p className="text-sm md:text-base text-zinc-300 leading-relaxed font-light">
+                    O teu produto ou serviço merece ser apresentado com qualidade máxima. Criamos vídeos promocionais e fotografias profissionais com iluminação e edição de alto padrão para captar a atenção no feed e valorizar a tua marca.
+                  </p>
 
-                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-                      <h4 className="text-[9px] font-black text-white/50 uppercase tracking-widest mb-1">A Solução</h4>
-                      <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
-                        Produção de um vídeo institucional com iluminação cinematográfica, juntamente com uma sessão fotográfica focada em destacar a ementa de assinatura.
-                      </p>
-                    </div>
-
-                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-                      <h4 className="text-[9px] font-black text-[#4ade80]/70 uppercase tracking-widest mb-1">O Impacto</h4>
-                      <p className="text-xs sm:text-sm text-[#4ade80] leading-relaxed font-bold">
-                        Mais de 50 mil visualizações orgânicas nas redes sociais na primeira semana e aumento notável no volume de reservas ao fim de semana.
-                      </p>
-                    </div>
+                  <div className="p-6 rounded-2xl bg-white/[0.02] border border-primary/20 shadow-[0_4px_20px_rgba(34,197,94,0.05)]">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1 block">O Teu Objetivo</span>
+                    <p className="text-sm text-white font-medium">
+                      Destacar a tua marca da concorrência e atrair clientes com conteúdos visuais impactantes.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -233,7 +220,7 @@ const AudiovisualPortal = () => {
                   className="relative z-10 inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-r from-primary to-brand-green text-white font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] font-sans"
                 >
                   <MessageCircle className="w-5 h-5 animate-pulse" />
-                  Falar com a Equipa
+                  Iniciar Produção Visual
                 </a>
               </div>
             </div>

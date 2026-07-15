@@ -90,7 +90,7 @@ const Footer = () => {
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-              Falar com a Equipa <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
+              Iniciar Projeto <ArrowUp className="w-5 h-5 rotate-45 group-hover:rotate-90 transition-transform" />
             </span>
           </button>
         </div>

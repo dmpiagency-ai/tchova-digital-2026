@@ -14,8 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 const PLANS = [
   {
     id: 'marcar-presenca',
-    name: "MARCAR PRESENÇA",
-    subtitle: "Para quem está a começar",
+    name: "TCHOVAR — PRIMEIRO PASSO",
+    subtitle: "Para começar com confiança",
     icon: EliteCore,
     price: "5.000",
     originalPrice: null,
@@ -24,7 +24,7 @@ const PLANS = [
     popular: false,
     description: "Ideal para quem está a começar e precisa de um logotipo marcante e um site profissional para passar confiança.",
     delivery: "3 a 5 dias úteis",
-    ideal: "Mostrar que o teu negócio é sério e profissional desde o primeiro dia.",
+    ideal: "Fazer o teu negócio ser levado a sério desde o primeiro dia.",
     buttonText: "Falar com Especialista",
     features: [
       "Logo & Identidade Visual profissional",
@@ -36,8 +36,8 @@ const PLANS = [
   },
   {
     id: 'captar-clientes',
-    name: "CAPTAR CLIENTES",
-    subtitle: "Para quem quer crescer",
+    name: "TCHOVAR — ESCALA",
+    subtitle: "Para atrair clientes todos os dias",
     icon: ElitePulse,
     price: "15.000",
     originalPrice: null,
@@ -46,7 +46,7 @@ const PLANS = [
     popular: true,
     description: "Para empresas que querem ter mais clientes a mandar mensagem todos os dias.",
     delivery: "7 a 10 dias úteis",
-    ideal: "Trazer pessoas interessadas diretamente para o teu WhatsApp através de anúncios.",
+    ideal: "Gerar fluxo constante de clientes qualificados diretamente para o teu WhatsApp.",
     buttonText: "Falar com Especialista",
     features: [
       "Website completo ou Loja Online otimizada",
@@ -58,8 +58,8 @@ const PLANS = [
   },
   {
     id: 'estruturar-negocio',
-    name: "ESTRUTURAR O NEGÓCIO",
-    subtitle: "Para mais organização",
+    name: "TCHOVAR — EVOLUÇÃO",
+    subtitle: "Para organizar e automatizar",
     icon: EliteRadar,
     price: "35.000",
     originalPrice: null,
@@ -68,7 +68,7 @@ const PLANS = [
     popular: false,
     description: "Para negócios em crescimento que precisam de organizar o atendimento e automatizar tarefas repetitivas.",
     delivery: "Definido conforme o projecto",
-    ideal: "Poupar tempo e organizar as vendas com sistemas feitos sob medida para a tua empresa.",
+    ideal: "Organizar as tuas vendas e poupar tempo no dia a dia.",
     buttonText: "Falar com Especialista",
     features: [
       "Auditoria de marca e processos 360°",
@@ -160,11 +160,11 @@ const Pricing = () => {
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Evolução do Negócio</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Cada negócio tem o seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">momento</span>
+            A VELOCIDADE QUE O TEU NEGÓCIO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">PRECISA</span>
           </h2>
           <p className="text-sm md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Nem todos precisam da mesma coisa. Existe um próximo passo adequado para a realidade atual do teu negócio.
-            <span className="block mt-2 text-white/60 text-sm font-bold">Começa onde estás hoje.</span>
+            Diferentes fases exigem movimentos diferentes. Escolhe a força que precisas para empurrar o teu negócio hoje.
+            <span className="block mt-2 text-white/60 text-sm font-bold">Dá o próximo passo.</span>
           </p>
         </div>
 

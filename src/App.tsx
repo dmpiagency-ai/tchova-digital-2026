@@ -15,6 +15,7 @@ import { Notification } from "@/components/Notification";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PageLoader } from "@/components/PageLoader";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 // Redirect component for /gsm/tools
 const ToolsRedirect = () => {
@@ -79,16 +80,16 @@ const App = () => (
                     <Suspense fallback={<PageLoader />}>
                     <Routes>
                       <Route path="/" element={<Index />} />
-                      <Route path="/admin/gsm" element={<Admin />} />
-                      <Route path="/admin" element={<AdminPanel />} />
+                      <Route path="/admin/gsm" element={<ProtectedRoute requiredRole="admin"><Admin /></ProtectedRoute>} />
+                      <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminPanel /></ProtectedRoute>} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/service-details" element={<ServiceDetails />} />
                       <Route path="/servicos/:id" element={<ServiceDetails />} />
-                      <Route path="/gsm" element={<GSMTechDashboard />} />
-                      <Route path="/gsm/tech" element={<GSMTechDashboard />} />
-                      <Route path="/gsm/rental" element={<GSMTechDashboard />} />
-                      <Route path="/gsm/dashboard" element={<GSMTechDashboard />} />
-                      <Route path="/gsm/tools" element={<ToolsRedirect />} />
+                      <Route path="/gsm" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
+                      <Route path="/gsm/tech" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
+                      <Route path="/gsm/rental" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
+                      <Route path="/gsm/dashboard" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
+                      <Route path="/gsm/tools" element={<ProtectedRoute><ToolsRedirect /></ProtectedRoute>} />
                       <Route path="/payment" element={<Payment />} />
                       <Route path="/checkout/seguro" element={<Checkout />} />
                       <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />

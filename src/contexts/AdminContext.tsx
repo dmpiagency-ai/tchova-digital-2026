@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { auth, firebaseFeatures } from '@/lib/firebase';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { firebaseFeatures } from '@/lib/firebase';
 
 export interface UserSession {
   id: string;
@@ -122,6 +121,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   
   const loginAsAdmin = async (email: string): Promise<boolean> => {
     // Agora usa Firebase Auth - verificação por email do usuário logado
+    const { auth } = await import('@/lib/firebase');
     const currentUser = auth.currentUser;
     
     if (currentUser && ADMIN_EMAILS.includes(currentUser.email || '')) {
@@ -136,18 +136,30 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   useEffect(() => {
     // Skip Firebase listener when Firebase auth is disabled
     if (!firebaseFeatures.auth) return;
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      if (user && ADMIN_EMAILS.includes(user.email || '')) {
-        setIsAdmin(true);
-        localStorage.setItem('admin-logged', 'true');
-      } else if (user === null) {
-        // Usuário fez logout
-        setIsAdmin(false);
-        localStorage.removeItem('admin-logged');
-      }
-    });
     
-    return () => unsubscribe();
+    let unsubscribe: () => void;
+    
+    const setupListener = async () => {
+      const { onAuthStateChanged } = await import('firebase/auth');
+      const { auth } = await import('@/lib/firebase');
+      
+      unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user && ADMIN_EMAILS.includes(user.email || '')) {
+          setIsAdmin(true);
+          localStorage.setItem('admin-logged', 'true');
+        } else if (user === null) {
+          // Usuário fez logout
+          setIsAdmin(false);
+          localStorage.removeItem('admin-logged');
+        }
+      });
+    };
+    
+    setupListener();
+    
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const logoutAdmin = () => {

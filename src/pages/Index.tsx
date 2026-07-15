@@ -9,6 +9,7 @@ const LoginModal = lazy(() => import('@/components/LoginModal'));
 
 const About = lazy(() => import('@/components/About'));
 const Services = lazy(() => import('@/components/Services'));
+const GSMPromotionalSection = lazy(() => import('@/components/GSMPromotionalSection'));
 const HowItWorks = lazy(() => import('@/components/HowItWorks'));
 const AudienceFilter = lazy(() => import('@/components/AudienceFilter'));
 const Pricing = lazy(() => import('@/components/Pricing'));
@@ -132,6 +133,7 @@ const Index = () => {
         <Suspense fallback={<div className="h-32 w-full animate-pulse bg-[#0A0A0A]" />}>
           <About />
           <Services />
+          <GSMPromotionalSection />
           <HowItWorks />
           <AudienceFilter />
           <Pricing />

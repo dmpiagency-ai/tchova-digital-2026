@@ -5,9 +5,8 @@ import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
-// Background URL (can be video or image)
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
 
@@ -32,7 +31,7 @@ const Hero = () => {
 
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
-  const video1Ref = useRef<HTMLVideoElement>(null);
+  const video1Ref = useRef<HTMLVideoElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const labelClipRef = useRef<HTMLDivElement>(null);
@@ -43,24 +42,43 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
+  // Callback ref to guarantee play and attach intersection observer on mount
+  const videoRef = useCallback((node: HTMLVideoElement | null) => {
+    if (node) {
+      video1Ref.current = node;
+      
+      const attemptPlay = () => {
+        node.play().catch(() => {
+          // Retry on user interaction if blocked by autoplay policy
+          const playOnInteraction = () => {
+            node.play().catch(() => {});
+            window.removeEventListener('click', playOnInteraction);
+            window.removeEventListener('touchstart', playOnInteraction);
+          };
+          window.addEventListener('click', playOnInteraction);
+          window.addEventListener('touchstart', playOnInteraction);
+        });
+      };
 
-  // Play/pause video based on visibility (same pattern as About section)
-  useEffect(() => {
-    const video = video1Ref.current;
-    if (!video) return;
+      attemptPlay();
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    }, { threshold: 0.1 });
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            node.play().catch(() => {});
+          } else {
+            node.pause();
+          }
+        });
+      }, { threshold: 0.1 });
 
-    observer.observe(video);
-    return () => observer.disconnect();
+      observer.observe(node);
+      
+      // Cleanup observer on unmount
+      return () => {
+        observer.disconnect();
+      };
+    }
   }, []);
 
   // Rotating words cycle — only on capable devices
@@ -239,48 +257,44 @@ const Hero = () => {
           className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden will-change-transform origin-top bg-background [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] md:[mask-image:none]"
         >
           {/* Background Media: support both video and image */}
-          {/* LOW-END / SLOW NETWORK: Static poster image instead of video */}
           {isSlowNetwork || isLowEnd ? (
             <img
               ref={video1Ref as React.RefObject<HTMLImageElement>}
-              src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_800/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+              src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
               className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
-              style={{ opacity: 1, zIndex: 2, transform: 'translateZ(0)' }}
+              style={{ opacity: 1, zIndex: 1, transform: 'translateZ(0)' }}
               alt="Tchova Digital"
               loading="eager"
             />
-          ) : (videoSrc.includes('.mp4') || videoSrc.includes('.webm') || videoSrc.includes('/video/')) ? (
+          ) : (
             <>
+              {/* Fallback Poster Image */}
+              <img
+                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[1]"
+                alt="Tchova Digital Hero Fallback"
+              />
+
+              {/* Native Hardware-Accelerated Video */}
               <video
-                ref={video1Ref as React.RefObject<HTMLVideoElement>}
+                ref={videoRef}
                 src={videoSrc}
                 muted
                 playsInline
-                loop={true}
+                loop
+                autoPlay
                 disablePictureInPicture
                 disableRemotePlayback
                 preload="auto"
-                autoPlay={true}
-                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
+                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
                 style={{
-                  opacity: 1,
-                  zIndex: 2,
+                  opacity: 0,
                   transform: 'translateZ(0)',
+                  transition: 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                 }}
-                onTimeUpdate={(e) => {
-                  const v = e.currentTarget;
-                  if (v.duration) {
-                    const timeRemaining = v.duration - v.currentTime;
-                    
-                    if (timeRemaining < 0.5 && timeRemaining > 0) {
-                      if (v.style.opacity !== '0') gsap.to(v, { opacity: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
-                    } else if (v.currentTime > 0.1 && v.currentTime < 1.0) {
-                      if (v.style.opacity !== '1') gsap.to(v, { opacity: 1, duration: 0.8, ease: 'power2.out', overwrite: 'auto' });
-                    }
-                  }
-                }}
-                onCanPlay={() => {
+                onCanPlay={(e) => {
+                  const video = e.currentTarget;
+                  video.style.opacity = '1';
                   if (videoContainerRef.current) {
                     gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
                   }
@@ -291,25 +305,8 @@ const Hero = () => {
                 <div className="absolute inset-0 z-[3] pointer-events-none mix-blend-overlay bg-white/5" />
               )}
             </>
-          ) : (
-            <img
-              ref={video1Ref as React.RefObject<HTMLImageElement>}
-              src={videoSrc}
-              className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
-              style={{
-                opacity: 1,
-                zIndex: 2,
-                transform: 'translateZ(0)'
-              }}
-              onLoad={() => {
-                if (videoContainerRef.current) {
-                  gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
-                }
-              }}
-              alt="Tchova Digital Hero Background"
-            />
           )}
-          
+
           {/* Bottom Gradient Fade — subtle fade for all screens */}
           <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent z-[5] pointer-events-none" />
         </div>
@@ -330,7 +327,7 @@ const Hero = () => {
         ref={contentRef}
         className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[4svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
       >
-        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-4 xs:gap-5 md:gap-8 md:max-w-[55%] lg:max-w-[45%] xl:max-w-[38%]">
+        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-4 xs:gap-5 md:gap-8 md:max-w-[75%] lg:max-w-[50%] xl:max-w-[38%]">
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
@@ -371,14 +368,14 @@ const Hero = () => {
             className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-3 xs:mt-4 md:mt-4 px-1 md:px-0"
           >
             <div className="text-[clamp(13px,3.8vw,18px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
-              Um ecossistema composto por <span className="text-[#eff3c5] font-semibold">diferentes áreas especializadas</span>, reunidas num só <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">lugar</span>.
+              Do design que justifica o teu preço à estratégia que atrai clientes todos os dias: <span className="text-[#eff3c5] font-semibold">integramos a engrenagem</span> completa para fazer o teu negócio <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">tchovar</span>.
             </div>
           </div>
 
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-4 xs:pt-5 md:pt-4 w-full relative"
+            className="flex flex-col sm:flex-row sm:flex-wrap items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-4 xs:pt-5 md:pt-4 w-full relative"
           >
             {/* Mobile subtle CTA glow removed to avoid harsh shadows/cuts */}
             <MagneticButton
@@ -388,13 +385,13 @@ const Hero = () => {
               style={{ WebkitTextFillColor: 'black' }}
             >
               <ElitePulse glow={false} className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ stroke: 'black' }} />
-              <span className="whitespace-nowrap">FALAR COM A EQUIPA</span>
+              <span className="whitespace-nowrap">INICIAR O MEU PROJETO</span>
             </MagneticButton>
 
             {/* Desktop: Original minimalist text+arrow style */}
             <button
               onClick={scrollToServices}
-              className="hidden md:flex group items-center justify-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase"
+              className="hidden md:flex group items-center justify-center gap-4 h-16 px-8 text-xs font-black tracking-[0.25em] text-white/40 hover:text-white transition-all duration-500 uppercase shrink-0"
             >
               <span>VER COMO FUNCIONA</span>
               <div className="w-10 h-px bg-white/15 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />

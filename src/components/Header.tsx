@@ -40,10 +40,10 @@ export default function Header() {
     { label: 'Início', link: '#home', onClick: () => handleNavigation('#home') },
     { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
     { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
-    { label: 'Como Funciona', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
+    { label: 'Rent GSM', link: '/gsm', onClick: () => navigate('/gsm') },
     { label: 'Manifesto', link: '#about', onClick: () => handleNavigation('#about') },
     { label: 'Contacto', link: '#contact', onClick: () => handleNavigation('#contact') },
-  ], [handleNavigation]);
+  ], [handleNavigation, navigate]);
 
   const socialItems = useMemo(() => [
     { label: 'WhatsApp', link: `https://wa.me/${env.WHATSAPP_NUMBER}` },
@@ -137,7 +137,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation Links - Modern Organic Pills */}
-            <div className="hidden md:flex flex-1 justify-center items-center gap-1 lg:gap-2 xl:gap-4 px-2 xl:absolute xl:left-[52%] xl:-translate-x-1/2 xl:flex-none">
+            <div className="hidden md:flex flex-1 justify-center items-center gap-2 lg:gap-3 xl:gap-4 px-2 xl:absolute xl:left-[52%] xl:-translate-x-1/2 xl:flex-none">
               {menuItems.slice(1, -1).map((item) => (
                 <button
                   key={item.label}
@@ -172,7 +172,7 @@ export default function Header() {
                 )}
                 
                 <MessageCircle className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-500 group-hover:scale-110" />
-                <span>{scrolled ? 'Falar com Equipa' : 'Iniciar Projeto'}</span>
+                <span>{scrolled ? 'Começar Agora' : 'Iniciar Projeto'}</span>
               </button>
             </div>
           </nav>

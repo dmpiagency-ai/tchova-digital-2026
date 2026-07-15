@@ -173,7 +173,7 @@ const Contact = () => {
                 className="w-full sm:w-auto bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-14 px-8 text-base shadow-xl"
                 onClick={handleDirectWhatsApp}
               >
-                Falar com a Equipa
+                Conversar no WhatsApp
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>

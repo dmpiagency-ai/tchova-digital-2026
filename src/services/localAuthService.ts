@@ -7,6 +7,18 @@
 // forçando o uso de Firebase Auth. Configure as variáveis do
 // Firebase corretamente para ativar a autenticação segura.
 
+import { RateLimiter } from '@/lib/sanitize';
+
+// Dev-only logger — completely silent in production
+const devLog = (...args: unknown[]) => {
+  if (import.meta.env.DEV) {
+    console.log(...args);
+  }
+};
+
+// Rate limiter: 5 attempts per 15 minutes per email
+const loginRateLimiter = new RateLimiter(5, 15 * 60 * 1000);
+
 const isProduction = (): boolean => {
   return import.meta.env.PROD === true || import.meta.env.MODE === 'production';
 };
@@ -44,11 +56,14 @@ const createDemoUsers = (): LocalUser[] => {
     return [];
   }
   
+  const demoPass = generateDemoPassword();
+  devLog('[LocalAuth] Demo password for this session:', demoPass);
+
   return [
     {
       id: 'admin-001',
       email: 'admin@tchova.digital',
-      password: 'admin123',
+      password: demoPass,
       name: 'Tchova Admin',
       role: 'admin',
       phone: '+258 87 909 7249',
@@ -57,7 +72,7 @@ const createDemoUsers = (): LocalUser[] => {
     {
       id: 'user-001',
       email: 'cliente@tchova.digital',
-      password: 'cliente123',
+      password: demoPass,
       name: 'Cliente Demo',
       role: 'user',
       phone: '+258 84 123 4567',
@@ -66,7 +81,7 @@ const createDemoUsers = (): LocalUser[] => {
     {
       id: 'user-002',
       email: 'teste@tchova.digital',
-      password: 'teste123',
+      password: demoPass,
       name: 'Usuário Teste',
       role: 'user',
       phone: '+258 82 987 6543',
@@ -86,10 +101,10 @@ const CURRENT_USER_KEY = 'tchova_current_user';
 export const initializeLocalUsers = (): void => {
   const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
   if (!storedUsers) {
-    console.log('[LocalAuth] Initializing demo users in localStorage');
+    devLog('[LocalAuth] Initializing demo users in localStorage');
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(DEMO_USERS));
   } else {
-    console.log('[LocalAuth] Users already exist in localStorage');
+    devLog('[LocalAuth] Users already exist in localStorage');
   }
 };
 
@@ -98,7 +113,7 @@ export const getLocalUsers = (): LocalUser[] => {
   initializeLocalUsers();
   const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
   const users = storedUsers ? JSON.parse(storedUsers) : DEMO_USERS;
-  console.log('[LocalAuth] Getting users, count:', users.length);
+  devLog('[LocalAuth] Getting users, count:', users.length);
   return users;
 };
 
@@ -106,27 +121,36 @@ export const getLocalUsers = (): LocalUser[] => {
 export const findUserByEmail = (email: string): LocalUser | null => {
   const users = getLocalUsers();
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
-  console.log('[LocalAuth] Finding user by email:', email, 'Found:', !!user);
+  devLog('[LocalAuth] Finding user by email:', email, 'Found:', !!user);
   return user;
 };
 
-// Validate login credentials
+// Validate login credentials (with rate limiting)
 export const validateLocalLogin = (email: string, password: string): { success: boolean; user?: LocalUser; error?: string } => {
-  console.log('[LocalAuth] Validating login for:', email);
+  devLog('[LocalAuth] Validating login for:', email);
+
+  // Rate limit check — blocks brute force
+  if (loginRateLimiter.isRateLimited(email.toLowerCase())) {
+    return { success: false, error: 'Demasiadas tentativas. Tente novamente em 15 minutos.' };
+  }
+  loginRateLimiter.recordAttempt(email.toLowerCase());
   
   const user = findUserByEmail(email);
   
   if (!user) {
-    console.log('[LocalAuth] User not found:', email);
-    return { success: false, error: 'Usuário não encontrado.' };
+    devLog('[LocalAuth] User not found');
+    return { success: false, error: 'Credenciais inválidas.' };
   }
   
   if (user.password !== password) {
-    console.log('[LocalAuth] Wrong password for:', email);
-    return { success: false, error: 'Senha incorreta.' };
+    devLog('[LocalAuth] Invalid credentials');
+    return { success: false, error: 'Credenciais inválidas.' };
   }
   
-  console.log('[LocalAuth] Login successful for:', email);
+  devLog('[LocalAuth] Login successful');
+  
+  // Reset rate limiter on success
+  loginRateLimiter.reset(email.toLowerCase());
   
   // Update last login
   const users = getLocalUsers();

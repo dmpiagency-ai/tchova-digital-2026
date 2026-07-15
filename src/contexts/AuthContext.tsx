@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { useAdmin } from './AdminContext';
-import { auth, db, firebaseFeatures } from '@/lib/firebase';
+import { firebaseFeatures } from '@/lib/firebase';
 import { env } from '@/config/env';
 import { logger } from '@/lib/logger';
 import { sanitizeLocalStorageData } from '@/lib/sanitize';
@@ -181,7 +179,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         // Only subscribe to Firebase auth if it's actually enabled
         if (firebaseFeatures.auth) {
-          unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+          const { onAuthStateChanged } = await import('firebase/auth');
+          const { auth } = await import('@/lib/firebase');
+          unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
               await handleFirebaseAuth(firebaseUser);
             } else {
@@ -226,8 +226,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Firebase Auth Handlers
   // ============================================
 
-  const handleFirebaseAuth = async (firebaseUser: FirebaseUser) => {
+  const handleFirebaseAuth = async (firebaseUser: any) => {
     try {
+      const { doc, getDoc, updateDoc, serverTimestamp } = await import('firebase/firestore');
+      const { db } = await import('@/lib/firebase');
+      
       // Get additional user data from Firestore
       const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       const userData = userDoc.exists() ? userDoc.data() : {};
@@ -302,6 +305,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Firebase login
     try {
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
+      const { auth } = await import('@/lib/firebase');
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       await handleFirebaseAuth(userCredential.user);
 
@@ -342,8 +347,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = async (reason?: string) => {
     try {
       // Firebase Sign Out (if using Firebase)
-      if (!isUsingLocalAuth() && auth.currentUser) {
-        await firebaseSignOut(auth);
+      if (!isUsingLocalAuth()) {
+        const { auth } = await import('@/lib/firebase');
+        if (auth.currentUser) {
+          const { signOut: firebaseSignOut } = await import('firebase/auth');
+          await firebaseSignOut(auth);
+        }
       }
 
       // Clear local auth
@@ -480,9 +489,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // ============================================
 
   const refreshSession = useCallback(async () => {
-    if (user?.authType === 'firebase' && auth.currentUser) {
-      // Refresh Firebase token
-      await auth.currentUser.getIdToken(true);
+    if (user?.authType === 'firebase') {
+      const { auth } = await import('@/lib/firebase');
+      if (auth.currentUser) {
+        // Refresh Firebase token
+        await auth.currentUser.getIdToken(true);
+      }
     } else if (clientSession) {
       // Re-validate client token
       await validateClientToken(clientSession.token);

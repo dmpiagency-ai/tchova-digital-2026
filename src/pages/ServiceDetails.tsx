@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import { GSMServicePage } from '@/components/gsm';
 import { DesignPortal, MarketingPortal, WebsitesPortal, AudiovisualPortal } from '@/components/service-portals';
 import { INDIVIDUAL_SERVICES } from '@/config/pricing';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 // ============================================
 // SERVICE DETAILS - PORTAL ROUTER
@@ -46,7 +47,7 @@ const ServiceDetails = () => {
   }
 
   // Route directly to the service-specific portal
-  if (isGSM) return <GSMServicePage />;
+  if (isGSM) return <ProtectedRoute><GSMServicePage /></ProtectedRoute>;
   if (isDesign) return <DesignPortal />;
   if (isMarketing) return <MarketingPortal />;
   if (isWebsites) return <WebsitesPortal />;

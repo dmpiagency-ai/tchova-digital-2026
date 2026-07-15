@@ -37,8 +37,8 @@ const _isLowEnd = (() => {
   const memory = (navigator as unknown as Navigator & { deviceMemory?: number }).deviceMemory || 4; // GB
   const isMobile = window.innerWidth < 768;
   
-  // Low-end: ≤2 cores OR ≤2GB RAM OR mobile with ≤4 cores
-  return cores <= 2 || memory <= 2 || (isMobile && cores <= 4 && memory <= 4);
+  // Low-end: ≤2 cores OR ≤2GB RAM
+  return cores <= 2 || memory <= 2;
 })();
 
 const _isSlowNetwork = (() => {
