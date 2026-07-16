@@ -34,11 +34,18 @@ export const GSMPromotionalSection = () => {
               <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:text-primary transition-colors duration-500" />
             </div>
 
-            {/* Bottom label on image */}
-            <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-30">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80 bg-black/40 backdrop-blur-xl border border-white/10 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full">
+            {/* Bottom label + CTA on image */}
+            <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 z-30 flex flex-col gap-3">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80 bg-black/40 backdrop-blur-xl border border-white/10 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full w-fit">
                 GSM TOOLS
               </span>
+              <button
+                onClick={() => navigate('/gsm')}
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-11 sm:h-12 px-5 sm:px-6 text-xs sm:text-sm shadow-xl transition-all hover:scale-[1.02] active:scale-95"
+              >
+                <span>Aceder ao Painel</span>
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
           </div>
 
@@ -88,14 +95,6 @@ export const GSMPromotionalSection = () => {
                 ))}
               </div>
 
-              {/* CTA Button */}
-              <button
-                onClick={() => navigate('/gsm')}
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/90 text-black hover:bg-white font-bold rounded-lg h-11 sm:h-12 px-5 sm:px-6 text-xs sm:text-sm shadow-md transition-all hover:scale-[1.01] active:scale-95"
-              >
-                <span>Aceder ao Painel</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
           </div>
 
