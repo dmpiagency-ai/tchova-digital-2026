@@ -211,8 +211,8 @@ export interface ApiLogEntry {
   level: 'info' | 'warn' | 'error';
   endpoint: string;
   method: string;
-  request?: any;
-  response?: any;
+  request?: unknown;
+  response?: unknown;
   duration?: number;
   error?: string;
 }

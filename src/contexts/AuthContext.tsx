@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { User } from 'firebase/auth';
 import { useAdmin } from './AdminContext';
 import { firebaseFeatures } from '@/lib/firebase';
 import { env } from '@/config/env';
@@ -226,7 +227,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Firebase Auth Handlers
   // ============================================
 
-  const handleFirebaseAuth = async (firebaseUser: any) => {
+  const handleFirebaseAuth = async (firebaseUser: User) => {
     try {
       const { doc, getDoc, updateDoc, serverTimestamp } = await import('firebase/firestore');
       const { db } = await import('@/lib/firebase');

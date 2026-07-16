@@ -19,10 +19,10 @@ export const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButton
     const { contextSafe } = useGSAP({ scope: buttonRef });
 
     // Quick setters for maximum performance on mouse move
-    const xTo = useRef<any>();
-    const yTo = useRef<any>();
-    const contentXTo = useRef<any>();
-    const contentYTo = useRef<any>();
+    const xTo = useRef<((value: number) => void) | null>(null);
+    const yTo = useRef<((value: number) => void) | null>(null);
+    const contentXTo = useRef<((value: number) => void) | null>(null);
+    const contentYTo = useRef<((value: number) => void) | null>(null);
 
     useEffect(() => {
       // Initialize quickTo setters
@@ -83,7 +83,7 @@ export const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButton
     return (
       <button
         ref={(node) => {
-          // @ts-ignore
+          // @ts-expect-error forwardRef + useRef assignment
           buttonRef.current = node;
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;

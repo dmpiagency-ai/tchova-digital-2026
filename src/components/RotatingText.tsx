@@ -61,7 +61,10 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
 
   const splitIntoCharacters = (text: string): string[] => {
     if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-      const Segmenter = (Intl as { Segmenter: new (locale: string, options: { granularity: string }) => { segment: (text: string) => Iterable<{ segment: string }> }).Segmenter;
+      type SegmenterConstructor = new (locale: string, options: { granularity: string }) => {
+        segment: (text: string) => Iterable<{ segment: string }>;
+      };
+      const Segmenter = (Intl as { Segmenter: SegmenterConstructor }).Segmenter;
       const segmenter = new Segmenter('en', { granularity: 'grapheme' });
       return Array.from(segmenter.segment(text), (segment: { segment: string }) => segment.segment);
     }

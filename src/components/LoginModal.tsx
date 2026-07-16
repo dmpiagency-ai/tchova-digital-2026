@@ -47,8 +47,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
       } else {
         setError(result.error || 'Email ou senha incorretos.');
       }
-    } catch (err: any) {
-      setError(err?.message || 'Ocorreu um erro ao tentar fazer login.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ocorreu um erro ao tentar fazer login.');
     } finally {
       setIsSubmitting(false);
     }

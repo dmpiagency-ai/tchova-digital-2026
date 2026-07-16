@@ -26,10 +26,10 @@ export const TiltCard = ({
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   // Refs for quick setters
-  const xRotateTo = useRef<any>();
-  const yRotateTo = useRef<any>();
-  const glareXTo = useRef<any>();
-  const glareYTo = useRef<any>();
+  const xRotateTo = useRef<((value: number) => void) | null>(null);
+  const yRotateTo = useRef<((value: number) => void) | null>(null);
+  const glareXTo = useRef<((value: number) => void) | null>(null);
+  const glareYTo = useRef<((value: number) => void) | null>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);

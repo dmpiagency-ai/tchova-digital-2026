@@ -40,8 +40,7 @@ export const GSMPromotionalSection = () => {
                 GSM TOOLS
               </span>
               <button
-                onClick={() => navigate('/gsm')}
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-11 sm:h-12 px-5 sm:px-6 text-xs sm:text-sm shadow-xl transition-all hover:scale-[1.02] active:scale-95"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-11 sm:h-12 px-5 sm:px-6 text-xs sm:text-sm shadow-xl transition-all hover:scale-[1.02] active:scale-95 pointer-events-none"
               >
                 <span>Aceder ao Painel</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />

@@ -267,7 +267,7 @@ export interface ChecktoolRequest {
   };
   result: {
     status: string;
-    details?: Record<string, any>;
+    details?: Record<string, unknown>;
   };
   cost: number;
   createdAt: Date;
@@ -287,7 +287,7 @@ export interface GSMNotification {
   message: string;
   read: boolean;
   createdAt: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // ============================================

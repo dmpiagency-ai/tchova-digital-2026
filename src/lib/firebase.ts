@@ -82,29 +82,29 @@ export const getDocument = async <T>(collPath: string, docId: string): Promise<A
       return { success: false, error: { code: 'NOT_FOUND', message: 'Document not found' }, timestamp: new Date().toISOString() };
     }
     return { success: true, data: { id: docSnap.id, ...docSnap.data() } as T, timestamp: new Date().toISOString() };
-  } catch (error: any) {
-    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error.message }, timestamp: new Date().toISOString() };
+  } catch (error) {
+    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error instanceof Error ? error.message : String(error) }, timestamp: new Date().toISOString() };
   }
 };
 
-export const getCollection = async <T>(collPath: string, constraints: any[] = []): Promise<APIResponse<T[]>> => {
+export const getCollection = async <T>(collPath: string, constraints: unknown[] = []): Promise<APIResponse<T[]>> => {
   try {
     const q = query(collection(db, collPath), ...constraints);
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as T[];
     return { success: true, data, timestamp: new Date().toISOString() };
-  } catch (error: any) {
-    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error.message }, timestamp: new Date().toISOString() };
+  } catch (error) {
+    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error instanceof Error ? error.message : String(error) }, timestamp: new Date().toISOString() };
   }
 };
 
-export const setDocument = async (collPath: string, docId: string, data: any, merge = true): Promise<APIResponse<{ id: string }>> => {
+export const setDocument = async (collPath: string, docId: string, data: unknown, merge = true): Promise<APIResponse<{ id: string }>> => {
   try {
     const docRef = doc(db, collPath, docId);
     await setDoc(docRef, { ...data, updatedAt: Timestamp.now() }, { merge });
     return { success: true, data: { id: docId }, timestamp: new Date().toISOString() };
-  } catch (error: any) {
-    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error.message }, timestamp: new Date().toISOString() };
+  } catch (error) {
+    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error instanceof Error ? error.message : String(error) }, timestamp: new Date().toISOString() };
   }
 };
 
@@ -113,8 +113,8 @@ export const deleteDocument = async (collPath: string, docId: string): Promise<A
     const docRef = doc(db, collPath, docId);
     await deleteDoc(docRef);
     return { success: true, timestamp: new Date().toISOString() };
-  } catch (error: any) {
-    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error.message }, timestamp: new Date().toISOString() };
+  } catch (error) {
+    return { success: false, error: { code: 'FIRESTORE_ERROR', message: error instanceof Error ? error.message : String(error) }, timestamp: new Date().toISOString() };
   }
 };
 

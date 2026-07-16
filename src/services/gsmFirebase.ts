@@ -8,7 +8,7 @@ import { User } from '@/types';
 // ============================================
 
 export interface GSMNotificationFirebaseData extends GSMNotification {
-  createdAt: any; // Firestore Timestamp
+  createdAt: unknown; // Firestore Timestamp
 }
 
 export const subscribeToNotifications = (userId: string, callback: (notifications: GSMNotification[]) => void) => {
@@ -59,7 +59,7 @@ export const notifyPaymentFailed = async (userId: string, amount: number, error:
 // ============================================
 
 export interface ChecktoolRequestFirestoreData extends ChecktoolRequest {
-  createdAt: any; // Firestore Timestamp
+  createdAt: unknown; // Firestore Timestamp
 }
 
 export const createChecktoolRequest = async (request: ChecktoolRequest): Promise<string | null> => {
@@ -121,7 +121,7 @@ export const getChecktoolRequestsByUserId = async (userId: string): Promise<Chec
 
 export const updateChecktoolResult = async (
   requestId: string,
-  result: { status: string; details?: Record<string, any> }
+  result: { status: string; details?: Record<string, unknown> }
 ): Promise<boolean> => {
   try {
     const docRef = doc(db, 'checktool_requests', requestId);

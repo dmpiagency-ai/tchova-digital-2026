@@ -182,7 +182,7 @@ export const useAutoplayProgress = <ProgressElement extends HTMLElement>(
 
     const onTimerSet = () => {
       // Safely access timeUntilNext if it exists
-      const timeUntilNext = (autoplay as any).timeUntilNext?.();
+      const timeUntilNext = (autoplay as { timeUntilNext?: () => number } | undefined)?.timeUntilNext?.();
       if (typeof timeUntilNext === 'number') {
         startProgress(timeUntilNext);
       }
