@@ -12,7 +12,7 @@ export const GSMPromotionalSection = () => {
           {/* Visual Card - Left: Image only, no text */}
           <div className="lg:col-span-5 relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer aspect-[3/4] max-h-[65vh] sm:max-h-[70vh] bg-black" onClick={() => navigate('/gsm')}>
             <div
-              className="absolute inset-0 bg-contain bg-no-repeat bg-center transition-transform duration-700 ease-out group-hover:scale-[1.12]"
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
               style={{
                 backgroundImage: `url('https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto,w_1200/v1772183388/renta-img-bg_guxaww.jpg')`,
               }}
