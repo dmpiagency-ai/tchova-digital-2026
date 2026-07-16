@@ -5,7 +5,7 @@ import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 // Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
@@ -42,24 +42,61 @@ const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
+  // Pause video only when user has scrolled well past the hero — delayed observer to avoid GSAP animation false triggers
+  const isVideoPlayingRef = useRef(false);
+  const observerReadyRef = useRef(false);
 
-  // Pause video when not visible — same logic as About
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    const section = heroRef.current;
+    if (!video || !section) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
+    // Play immediately on mount (fixes the "screenshot" bug where video never started)
+    const attemptPlay = () => {
+      video.play().catch(() => {
+        const playOnInteraction = () => {
           video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
+          window.removeEventListener('click', playOnInteraction);
+          window.removeEventListener('touchstart', playOnInteraction);
+        };
+        window.addEventListener('click', playOnInteraction);
+        window.addEventListener('touchstart', playOnInteraction);
       });
-    }, { threshold: 0.1 });
+    };
 
-    observer.observe(video);
-    return () => observer.disconnect();
+    attemptPlay();
+
+    // Delay observer activation to avoid false triggers during GSAP entrance animation
+    const observerTimer = setTimeout(() => {
+      observerReadyRef.current = true;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!observerReadyRef.current) return;
+          entries.forEach((entry) => {
+            const shouldPlay = entry.isIntersecting;
+            if (shouldPlay && !isVideoPlayingRef.current) {
+              isVideoPlayingRef.current = true;
+              video.play().catch(() => {});
+            } else if (!shouldPlay && isVideoPlayingRef.current) {
+              isVideoPlayingRef.current = false;
+              video.pause();
+            }
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: '0px 0px 80px 0px',
+        }
+      );
+
+      observer.observe(section);
+    }, 2000);
+
+    return () => {
+      clearTimeout(observerTimer);
+      observerReadyRef.current = false;
+    };
   }, []);
 
   // Rotating words cycle — only on capable devices
