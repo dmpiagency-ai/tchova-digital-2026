@@ -16,10 +16,10 @@ export const GSMPromotionalSection = () => {
             glowOpacity={0.3}
             glowColor="rgba(0, 225, 60, 0.3)"
           >
-            <div
-              onClick={() => navigate('/gsm')}
-              className="relative w-full max-h-[55vh] sm:max-h-[60vh]"
-            >
+              <div
+                onClick={() => navigate('/gsm')}
+                className="relative w-full aspect-[3/4] max-h-[55vh] sm:max-h-[60vh]"
+              >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 z-0"
                 style={{
