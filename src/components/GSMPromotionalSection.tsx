@@ -17,10 +17,10 @@ export const GSMPromotionalSection = () => {
             glowOpacity={0.3}
             glowColor="rgba(0, 225, 60, 0.3)"
           >
-            <div
-              onClick={() => navigate('/gsm')}
-              className="relative w-full min-h-[70vh] lg:min-h-[82vh]"
-            >
+              <div
+                onClick={() => navigate('/gsm')}
+                className="relative w-full aspect-[3/4]"
+              >
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 z-0"
@@ -48,7 +48,7 @@ export const GSMPromotionalSection = () => {
           </TiltCard>
 
           {/* Text Sidebar Card - Right/Bottom */}
-          <div className="lg:col-span-4 rounded-[2rem] bg-zinc-900/80 backdrop-blur-3xl border border-white/10 p-8 lg:p-10 flex flex-col justify-between min-h-[50vh] lg:min-h-[82vh]">
+          <div className="lg:col-span-4 rounded-[2rem] bg-zinc-900/80 backdrop-blur-3xl border border-white/10 p-8 lg:p-10 flex flex-col justify-between overflow-y-auto">
             <div className="space-y-6">
               {/* Category Label */}
               <div className="flex items-center gap-3">
