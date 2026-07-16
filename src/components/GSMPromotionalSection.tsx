@@ -18,7 +18,7 @@ export const GSMPromotionalSection = () => {
           >
               <div
                 onClick={() => navigate('/gsm')}
-                className="relative w-full aspect-[3/4] max-h-[55vh] sm:max-h-[60vh]"
+                className="relative w-full aspect-[3/4] max-h-[50vh] sm:max-h-[55vh] overflow-hidden rounded-[1.5rem]"
               >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 z-0"
