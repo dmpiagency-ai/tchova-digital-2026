@@ -31,6 +31,7 @@ const Hero = () => {
 
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const video1Ref = useRef<HTMLVideoElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
@@ -42,40 +43,23 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
-  // Callback ref to guarantee play and attach intersection observer on mount
-  const videoRef = useCallback((node: HTMLVideoElement | null) => {
-    if (!node) return;
-    video1Ref.current = node;
-
-    const attemptPlay = () => {
-      node.play().catch(() => {
-        const playOnInteraction = () => {
-          node.play().catch(() => {});
-          window.removeEventListener('click', playOnInteraction);
-          window.removeEventListener('touchstart', playOnInteraction);
-        };
-        window.addEventListener('click', playOnInteraction);
-        window.addEventListener('touchstart', playOnInteraction);
-      });
-    };
-
-    attemptPlay();
+  // Pause video when not visible — same logic as About
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          node.play().catch(() => {});
+          video.play().catch(() => {});
         } else {
-          node.pause();
+          video.pause();
         }
       });
     }, { threshold: 0.1 });
 
-    observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-    };
+    observer.observe(video);
+    return () => observer.disconnect();
   }, []);
 
   // Rotating words cycle — only on capable devices
