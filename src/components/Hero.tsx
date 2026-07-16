@@ -44,41 +44,38 @@ const Hero = () => {
 
   // Callback ref to guarantee play and attach intersection observer on mount
   const videoRef = useCallback((node: HTMLVideoElement | null) => {
-    if (node) {
-      video1Ref.current = node;
-      
-      const attemptPlay = () => {
-        node.play().catch(() => {
-          // Retry on user interaction if blocked by autoplay policy
-          const playOnInteraction = () => {
-            node.play().catch(() => {});
-            window.removeEventListener('click', playOnInteraction);
-            window.removeEventListener('touchstart', playOnInteraction);
-          };
-          window.addEventListener('click', playOnInteraction);
-          window.addEventListener('touchstart', playOnInteraction);
-        });
-      };
+    if (!node) return;
+    video1Ref.current = node;
 
-      attemptPlay();
+    const attemptPlay = () => {
+      node.play().catch(() => {
+        const playOnInteraction = () => {
+          node.play().catch(() => {});
+          window.removeEventListener('click', playOnInteraction);
+          window.removeEventListener('touchstart', playOnInteraction);
+        };
+        window.addEventListener('click', playOnInteraction);
+        window.addEventListener('touchstart', playOnInteraction);
+      });
+    };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            node.play().catch(() => {});
-          } else {
-            node.pause();
-          }
-        });
-      }, { threshold: 0.1 });
+    attemptPlay();
 
-      observer.observe(node);
-      
-      // Cleanup observer on unmount
-      return () => {
-        observer.disconnect();
-      };
-    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          node.play().catch(() => {});
+        } else {
+          node.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   // Rotating words cycle — only on capable devices
@@ -286,18 +283,10 @@ const Hero = () => {
                 disablePictureInPicture
                 disableRemotePlayback
                 preload="auto"
+                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
                 className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
                 style={{
-                  opacity: 0,
                   transform: 'translateZ(0)',
-                  transition: 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                }}
-                onCanPlay={(e) => {
-                  const video = e.currentTarget;
-                  video.style.opacity = '1';
-                  if (videoContainerRef.current) {
-                    gsap.to(videoContainerRef.current, { opacity: 1, duration: 0.5 });
-                  }
                 }}
               />
               {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}
