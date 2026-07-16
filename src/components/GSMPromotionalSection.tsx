@@ -10,9 +10,9 @@ export const GSMPromotionalSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 lg:gap-6">
 
           {/* Visual Card - Left: Image only, no text */}
-          <div className="lg:col-span-5 relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer min-h-[220px] sm:min-h-[280px] lg:min-h-0" onClick={() => navigate('/gsm')}>
+          <div className="lg:col-span-5 relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer min-h-[260px] sm:min-h-[320px] lg:min-h-0 bg-black" onClick={() => navigate('/gsm')}>
             <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+              className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-100"
               style={{
                 backgroundImage: `url('https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto,w_1200/v1772183388/renta-img-bg_guxaww.jpg')`,
               }}
@@ -91,10 +91,10 @@ export const GSMPromotionalSection = () => {
               {/* CTA Button */}
               <button
                 onClick={() => navigate('/gsm')}
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base shadow-xl transition-all hover:scale-[1.02] active:scale-95"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/90 text-black hover:bg-white font-bold rounded-lg h-11 sm:h-12 px-5 sm:px-6 text-xs sm:text-sm shadow-md transition-all hover:scale-[1.01] active:scale-95"
               >
                 <span>Aceder ao Painel</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
