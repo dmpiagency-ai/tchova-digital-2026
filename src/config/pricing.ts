@@ -215,7 +215,6 @@ export const SERVICE_PLANS: Plan[] = [
       'Visual Identity System Otimizado por IA',
       'Perfil de Autoridade em Canais Digitais',
       'Ecossistema Visual (FB, WA, IG)',
-      'Cartão de Visita Digital (Bio Link)',
       '2 Catálogos Digitais de Conversão',
       'Layouts Estratégicos para Stories',
       'Direitos de Uso Comercial Pleno'

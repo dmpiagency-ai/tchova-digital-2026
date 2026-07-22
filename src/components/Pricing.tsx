@@ -30,8 +30,6 @@ const PLANS = [
       "Logo & Identidade Visual profissional",
       "Landing Page profissional de conversão",
       "Kit de Redes Sociais premium",
-      "Configuração de Domínio e E-mail Profissional",
-      "Cartão de Visita Digital",
     ],
   },
   {
