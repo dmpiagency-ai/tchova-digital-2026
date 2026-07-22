@@ -51,10 +51,10 @@ const Services = () => {
     const optimize = (url: string) => url.replace('/upload/', '/upload/f_auto,q_auto,w_800/');
     
     const images: Record<number, string> = {
-      1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755337/Gemini_Generated_Image_qjaurwqjaurwqjau_k1fqgr.png'),
-      2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755411/Gemini_Generated_Image_3a9xn93a9xn93a9x_dhydbm.png'),
-      3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762747013/1762701812733_p93nsd.png'),
-      4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762755464/1762703721009_w7posw.png'),
+      1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784738945/desgn_kcbonn.jpg'),
+      2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784733155/web_img_nn9hmh.jpg'),
+      3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784749073/img_marking._v3jpg_xip9bl.jpg'),
+      4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784733156/bg_video_hcsvtk.jpg'),
       5: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg'),
       6: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png'),
     };
@@ -66,41 +66,41 @@ const Services = () => {
     {
       id: 1,
       number: '01',
-      title: 'Imagem que justifica preço premium.',
-      category: 'Design & Identidade',
-      audience: 'Posicionamento de Prestígio',
-      painPoint: 'Posicionamento visual que justifica preços premium.',
-      cta: 'Quero uma marca à altura',
+      title: 'BRANDING & IDENTIDADE',
+      category: 'Direcção Criativa',
+      audience: 'A imagem que justifica o teu preço',
+      painPoint: 'Marcas que vendem antes da primeira palavra.',
+      cta: 'Ver Branding',
       icon: EliteMatrix
     },
     {
       id: 2,
       number: '02',
-      title: 'Websites e Lojas Online Premium.',
-      category: 'Websites & Lojas',
-      audience: 'Canais de Vendas Autónomos',
-      painPoint: 'Canal de vendas que opera 24h sem depender de ti.',
-      cta: 'Quero um site que vende por mim',
+      title: 'WEB & E-COMMERCE',
+      category: 'Desenvolvimento',
+      audience: 'O teu canal de vendas 24h',
+      painPoint: 'Sites rápidos que convertem visitantes em clientes.',
+      cta: 'Ver Web',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
-      title: 'Campanhas que Atraem Clientes.',
-      category: 'Campanhas & Redes',
-      audience: 'Aquisição Previsível',
-      painPoint: 'Motor de aquisição que enche o teu pipeline de clientes.',
-      cta: 'Quero clientes todos os dias',
+      title: 'MARKETING & PERFORMANCE',
+      category: 'Aquisição & Growth',
+      audience: 'Clientes novos todos os dias',
+      painPoint: 'Tráfego pago, funis e automação que escalam receita.',
+      cta: 'Ver Marketing',
       icon: ElitePulse
     },
     {
       id: 4,
       number: '04',
-      title: 'Vídeo e Fotografia Profissional.',
-      category: 'Vídeo & Fotografia',
-      audience: 'Autoridade de Marca',
-      painPoint: 'Conteúdo que constrói autoridade e retém atenção.',
-      cta: 'Quero conteúdo que para o scroll',
+      title: 'VÍDEO & FOTOGRAFIA',
+      category: 'Produção Visual',
+      audience: 'Conteúdo que pára o scroll',
+      painPoint: 'Produção que constrói autoridade e gera partilhas.',
+      cta: 'Ver Produção',
       icon: EliteRadar
     },
   ], []);
@@ -149,13 +149,13 @@ const Services = () => {
         <div ref={headerRef} className="text-center mb-6 lg:mb-8 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-fluid-sm backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">O Ecossistema Tchova</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços</span>
           </div>
           <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            CINCO ÁREAS. UMA DIREÇÃO. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">TCHOVAR O TEU NEGÓCIO.</span>
+            O QUE <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
           </h2>
-          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">Cada área da Tchova foi construída para empurrar o teu negócio um passo à frente — do visual que impressiona ao cliente que volta, do clique ao contrato.</p>
+          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">Branding, web, marketing e produção visual — cada frente opera integrada para gerar resultado.</p>
         </div>
 
         {/* Liquid Glass Monolith Carousel */}
@@ -204,7 +204,7 @@ const Services = () => {
                   </div>
                   
                   {/* Advanced Gradient Overlay (Liquid Glass base) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent group-hover:from-black/95 group-hover:via-black/60 transition-all duration-500 z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent group-hover:from-black/85 group-hover:via-black/35 transition-all duration-500 z-10" />
                   
                   {/* Glowing Border on Hover */}
                   <div className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500 rounded-[2rem] pointer-events-none z-30" />

@@ -51,51 +51,49 @@ const Hero = () => {
     const section = heroRef.current;
     if (!video || !section) return;
 
-    // Play immediately on mount (fixes the "screenshot" bug where video never started)
-    const attemptPlay = () => {
-      video.play().catch(() => {
-        const playOnInteraction = () => {
-          video.play().catch(() => {});
-          window.removeEventListener('click', playOnInteraction);
-          window.removeEventListener('touchstart', playOnInteraction);
-        };
-        window.addEventListener('click', playOnInteraction);
-        window.addEventListener('touchstart', playOnInteraction);
-      });
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const playVideo = () => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          const playOnGesture = () => {
+            video.play().catch(() => {});
+            window.removeEventListener('click', playOnGesture);
+            window.removeEventListener('touchstart', playOnGesture);
+            window.removeEventListener('scroll', playOnGesture);
+          };
+          window.addEventListener('click', playOnGesture, { once: true });
+          window.addEventListener('touchstart', playOnGesture, { once: true });
+          window.addEventListener('scroll', playOnGesture, { once: true });
+        });
+      }
     };
 
-    attemptPlay();
+    playVideo();
+    video.addEventListener('loadeddata', playVideo);
+    video.addEventListener('canplay', playVideo);
 
-    // Delay observer activation to avoid false triggers during GSAP entrance animation
-    const observerTimer = setTimeout(() => {
-      observerReadyRef.current = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playVideo();
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (!observerReadyRef.current) return;
-          entries.forEach((entry) => {
-            const shouldPlay = entry.isIntersecting;
-            if (shouldPlay && !isVideoPlayingRef.current) {
-              isVideoPlayingRef.current = true;
-              video.play().catch(() => {});
-            } else if (!shouldPlay && isVideoPlayingRef.current) {
-              isVideoPlayingRef.current = false;
-              video.pause();
-            }
-          });
-        },
-        {
-          threshold: 0.2,
-          rootMargin: '0px 0px 80px 0px',
-        }
-      );
-
-      observer.observe(section);
-    }, 2000);
+    observer.observe(section);
 
     return () => {
-      clearTimeout(observerTimer);
-      observerReadyRef.current = false;
+      video.removeEventListener('loadeddata', playVideo);
+      video.removeEventListener('canplay', playVideo);
+      observer.disconnect();
     };
   }, []);
 
@@ -274,47 +272,33 @@ const Hero = () => {
           ref={videoContainerRef} 
           className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden will-change-transform origin-top bg-background [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] md:[mask-image:none]"
         >
-          {/* Background Media: support both video and image */}
-          {isSlowNetwork || isLowEnd ? (
-            <img
-              ref={video1Ref as React.RefObject<HTMLImageElement>}
-              src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-              className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none"
-              style={{ opacity: 1, zIndex: 1, transform: 'translateZ(0)' }}
-              alt="Tchova Digital"
-              loading="eager"
-            />
-          ) : (
-            <>
-              {/* Fallback Poster Image */}
-              <img
-                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[1]"
-                alt="Tchova Digital Hero Fallback"
-              />
+          {/* Fallback Poster Image */}
+          <img
+            src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[1]"
+            alt="Tchova Digital Hero Fallback"
+          />
 
-              {/* Native Hardware-Accelerated Video */}
-              <video
-                ref={videoRef}
-                src={videoSrc}
-                muted
-                playsInline
-                loop
-                autoPlay
-                disablePictureInPicture
-                disableRemotePlayback
-                preload="auto"
-                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-                className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
-                style={{
-                  transform: 'translateZ(0)',
-                }}
-              />
-              {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}
-              {!isMobile && (
-                <div className="absolute inset-0 z-[3] pointer-events-none mix-blend-overlay bg-white/5" />
-              )}
-            </>
+          {/* Native Hardware-Accelerated Video */}
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            muted
+            playsInline
+            loop
+            autoPlay
+            disablePictureInPicture
+            disableRemotePlayback
+            preload="auto"
+            poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
+            style={{
+              transform: 'translateZ(0)',
+            }}
+          />
+          {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}
+          {!isMobile && (
+            <div className="absolute inset-0 z-[3] pointer-events-none mix-blend-overlay bg-white/5" />
           )}
 
           {/* Bottom Gradient Fade — subtle fade for all screens */}
@@ -337,7 +321,7 @@ const Hero = () => {
         ref={contentRef}
         className="relative z-20 w-full max-w-7xl mx-auto px-[5vw] sm:px-[6vw] md:px-fluid-md flex flex-col items-start justify-end md:justify-start gap-fluid-md pt-[4svh] md:pt-[150px] lg:pt-[20vh] xl:pt-[24vh] pb-[max(60px,10svh)] md:pb-0 translate-y-0 md:-translate-y-6"
       >
-        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-4 xs:gap-5 md:gap-8 md:max-w-[75%] lg:max-w-[50%] xl:max-w-[38%]">
+        <div className="w-full flex flex-col items-center md:items-start text-center md:text-left gap-2.5 xs:gap-3.5 md:gap-4.5 md:max-w-[80%] lg:max-w-[62%] xl:max-w-[54%]">
 
           {/* Badge with rotating — Gravyx pattern */}
           <div ref={labelClipRef} className="w-full flex justify-center md:justify-start pl-0">
@@ -345,19 +329,19 @@ const Hero = () => {
               <span className="text-[#4ade80] font-black text-[clamp(9px,2.8vw,13px)] md:text-[11px] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.2em] uppercase leading-none md:leading-normal whitespace-nowrap">
                 TUDO O QUE PRECISAS PARA
               </span>
-              <span className="inline-flex h-[1.5em] md:h-[14px] overflow-hidden relative w-full md:w-[180px] tracking-normal text-[clamp(9px,2.8vw,13px)] md:text-[11px] justify-center md:justify-start mt-1 md:mt-0">
+              <span className="inline-flex h-[1.5em] overflow-hidden relative w-full md:w-[180px] tracking-normal text-[clamp(9px,2.8vw,13px)] md:text-[11px] justify-center md:justify-start mt-1 md:mt-0">
                 <span ref={wordRef} className="flex flex-col absolute top-0 left-0 w-full items-center md:items-start">
                   {ROTATING_WORDS.map((word, i) => (
-                    <span key={i} className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
+                    <span key={i} className="h-[1.5em] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{word}</span>
                   ))}
-                  <span className="h-[1.5em] md:h-[14px] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{ROTATING_WORDS[0]}</span>
+                  <span className="h-[1.5em] flex items-center justify-center md:justify-start text-[#eff3c5] font-black whitespace-nowrap text-center md:text-left leading-none w-full">{ROTATING_WORDS[0]}</span>
                 </span>
               </span>
             </div>
           </div>
 
           {/* Headline — Value Proposition */}
-          <div ref={headlineClipRef} className="py-1 md:py-4 -my-1 md:-my-4 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-center md:justify-start">
+          <div ref={headlineClipRef} className="py-0.5 md:py-1 -my-0.5 md:-my-1 md:pl-8 md:-ml-8 md:pr-4 md:-mr-4 w-full flex justify-center md:justify-start">
             <h1
               ref={headlineRef}
               className="tracking-tighter leading-[0.92] md:leading-[1.05] text-left w-auto flex flex-col items-start font-medium text-[clamp(1.8rem,14.5vw,7rem)] md:text-[clamp(3.5rem,5vw,4.5rem)] text-[#f8f9fa] uppercase whitespace-nowrap"
@@ -375,17 +359,22 @@ const Hero = () => {
           {/* Sub-headline — Explainer */}
           <div
             ref={subheadlineRef}
-            className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-3 xs:mt-4 md:mt-4 px-1 md:px-0"
+            className="flex flex-col gap-2 md:gap-3 w-full mt-1 xs:mt-2 md:mt-1 px-1 md:px-0 md:max-w-[500px]"
           >
-            <div className="text-[clamp(13px,3.8vw,18px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
-              Da presença visual à máquina de vendas: a engrenagem 360º feita para acelerar e <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">tchovar</span> o teu negócio.
+            <div className="text-[clamp(13px,3.6vw,16px)] md:text-[15px] lg:text-[16.5px] text-[#eff3c5]/80 font-medium leading-[1.6] w-full text-center md:text-left tracking-tight md:tracking-normal">
+              Branding, web e performance que traz <span className="font-bold">clientes</span> <span className="whitespace-nowrap">até você —</span>
+              <br className="hidden md:block" />{" "}
+              e <span className="font-bold">Rent GSM</span> para técnicos operarem <span className="font-bold">sem limites</span>
+              <br className="hidden md:block" />{" "}
+              a <span className="whitespace-nowrap">custo baixo.</span>{" "}
+              <span className="inline-block mt-1 md:mt-0 text-[#4ade80] font-semibold">Em um único ecossistema.</span>
             </div>
           </div>
 
           {/* CTAs */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row sm:flex-wrap items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-4 xs:pt-5 md:pt-4 w-full relative"
+            className="flex flex-col sm:flex-row sm:flex-wrap items-center md:items-start justify-center md:justify-start gap-3 md:gap-4 pt-1.5 xs:pt-2.5 md:pt-2 w-full relative"
           >
             {/* Mobile subtle CTA glow removed to avoid harsh shadows/cuts */}
             <MagneticButton
