@@ -378,7 +378,7 @@ const Hero = () => {
             className="flex flex-col gap-3 md:gap-5 max-w-2xl items-center md:items-start w-full mt-3 xs:mt-4 md:mt-4 px-1 md:px-0"
           >
             <div className="text-[clamp(13px,3.8vw,18px)] md:text-fluid-p text-[#eff3c5]/80 font-medium leading-[1.5] w-full max-w-3xl text-center md:text-left tracking-tight md:tracking-normal">
-              Do design que justifica o teu preço à estratégia que atrai clientes todos os dias: <span className="text-[#eff3c5] font-semibold">integramos a engrenagem</span> completa para fazer o teu negócio <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">tchovar</span>.
+              Da presença visual à máquina de vendas: a engrenagem 360º feita para acelerar e <span className="text-[#eff3c5] font-bold decoration-primary decoration-2 underline underline-offset-4">tchovar</span> o teu negócio.
             </div>
           </div>
 
