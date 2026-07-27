@@ -47,8 +47,10 @@ const Services = () => {
   }, { scope: sectionRef });
 
   const getServiceImage = useCallback((item: { id: number; }) => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const width = isMobile ? 'w_600' : 'w_800';
     // Adding f_auto,q_auto to Cloudinary URLs for 10x faster loading
-    const optimize = (url: string) => url.replace('/upload/', '/upload/f_auto,q_auto,w_800/');
+    const optimize = (url: string) => url.replace('/upload/', `/upload/f_auto,q_auto,${width}/`);
     
     const images: Record<number, string> = {
       1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149296/img_card_desgn_rdtifp.jpg'),
@@ -172,7 +174,7 @@ const Services = () => {
                   role="button"
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                  className="relative h-[380px] lg:h-[415px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
+                  className="relative h-[380px] lg:h-[415px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl active:scale-[0.98] transition-transform duration-200 gpu-accelerated"
                   onClick={() => handleServiceClick(item)}
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >

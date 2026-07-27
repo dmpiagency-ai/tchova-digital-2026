@@ -179,6 +179,19 @@
     scroll-behavior: smooth;
     overflow-x: hidden;
     width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Universal mobile touch UX optimization: instantaneous response & zero tap highlight box */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   /* Smooth theme transitions */

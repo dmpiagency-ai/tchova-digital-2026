@@ -98,9 +98,9 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10">
           
           {/* Card 1: Market Reality Showcase + CTA */}
-          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[380px] flex flex-col justify-center p-6 md:p-8 lg:p-12 bg-zinc-950">
+          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[380px] flex flex-col justify-center p-6 md:p-8 lg:p-12 bg-zinc-950 gpu-accelerated">
             {/* Video Background with Fallback Styling */}
-            <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden gpu-accelerated">
               <video 
                 ref={aboutVideoRef}
                 src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4" 
