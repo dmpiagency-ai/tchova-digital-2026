@@ -98,24 +98,25 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10">
           
           {/* Card 1: Market Reality Showcase + CTA */}
-          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[360px] flex flex-col justify-center p-6 md:p-8 lg:p-12">
-            {/* Video Background */}
-            <div className="absolute inset-0 bg-black pointer-events-none">
+          <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[380px] flex flex-col justify-center p-6 md:p-8 lg:p-12 bg-zinc-950">
+            {/* Video Background with Fallback Styling */}
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden">
               <video 
                 ref={aboutVideoRef}
-                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.mp4" 
+                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4" 
                 autoPlay 
                 loop 
                 muted 
                 playsInline
                 preload="auto"
-                poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1779279363/robo_gunk64.jpg"
-                className="w-full h-full object-cover object-[center_15%] transition-transform duration-[2s] group-hover:scale-103" 
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-100" 
               />
+              {/* Soft Gradient Overlay focused under text on the left */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent pointer-events-none" />
             </div>
 
             {/* Headline */}
-            <div className="relative z-10">
+            <div className="relative z-20">
               <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-black text-white uppercase tracking-tighter leading-[1.05] max-w-[600px]">
                 TUDO <br className="md:hidden" /> LIGADO. <br />
                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 lg:pr-6">

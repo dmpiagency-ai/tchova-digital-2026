@@ -17,7 +17,7 @@ const Carousel: React.FC<PropType> = (props) => {
   const progressNode = useRef<HTMLDivElement>(null);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ playOnInit: true, delay: 3000 }),
+    Autoplay({ playOnInit: true, delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false }),
   ]);
 
   const { autoplayIsPlaying, toggleAutoplay, onAutoplayButtonClick } =

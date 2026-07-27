@@ -51,10 +51,10 @@ const Services = () => {
     const optimize = (url: string) => url.replace('/upload/', '/upload/f_auto,q_auto,w_800/');
     
     const images: Record<number, string> = {
-      1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784738945/desgn_kcbonn.jpg'),
-      2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784733155/web_img_nn9hmh.jpg'),
-      3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784749073/img_marking._v3jpg_xip9bl.jpg'),
-      4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1784733156/bg_video_hcsvtk.jpg'),
+      1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149296/img_card_desgn_rdtifp.jpg'),
+      2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149294/img_card_site_hlm7hf.jpg'),
+      3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149298/img_making_card_ugn796.jpg'),
+      4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149290/img_card_audio_visual_bzdiq8.jpg'),
       5: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg'),
       6: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png'),
     };
@@ -125,7 +125,7 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-12 md:py-24 bg-background border-t border-white/[0.04]"
+      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-8 md:py-12 lg:pt-6 lg:pb-10 bg-background border-t border-white/[0.04]"
     >
       {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -146,20 +146,18 @@ const Services = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12 w-full">
         
         {/* Elite Header */}
-        <div ref={headerRef} className="text-center mb-6 lg:mb-8 relative flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-fluid-sm backdrop-blur-md">
+        <div ref={headerRef} className="text-center mb-1 lg:mb-2 relative flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços</span>
           </div>
-          <h2 className="text-fluid-h2 font-black mb-fluid-sm tracking-tighter text-white uppercase">
-            O QUE <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
+          <h2 className="text-fluid-h2 font-black mb-0 tracking-tighter text-white uppercase whitespace-nowrap">
+            O QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
           </h2>
-          <p className="text-fluid-p text-muted-foreground/70 font-light max-w-2xl">Branding, web, marketing e produção visual — cada frente opera integrada para gerar resultado.</p>
         </div>
 
         {/* Liquid Glass Monolith Carousel */}
-        <div ref={carouselRef} className="w-full px-1 md:px-2 max-w-7xl mx-auto">
+        <div ref={carouselRef} className="w-full px-1 md:px-4 max-w-7xl mx-auto mt-2 lg:mt-3">
           <Carousel
             slides={services.map((item) => (
               <TiltCard 
@@ -168,13 +166,13 @@ const Services = () => {
                 maxTilt={8} 
                 glowOpacity={0.4} 
                 glowColor="rgba(34, 197, 94, 0.4)"
-                style={{ maxWidth: '320px', margin: '0 auto', height: '100%' }}
+                style={{ maxWidth: '350px', margin: '0 auto', height: '100%' }}
               >
                 <div
                   role="button"
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                  className="relative h-[380px] lg:h-[420px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
+                  className="relative h-[380px] lg:h-[415px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl"
                   onClick={() => handleServiceClick(item)}
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
@@ -271,7 +269,7 @@ const Services = () => {
         </div>
 
         {/* Magnetic Fluid CTA */}
-        <div className="mt-10 lg:mt-12 text-center relative z-10 hidden md:block">
+        <div className="mt-7 lg:mt-8 text-center relative z-10 hidden md:block">
           <button
             onClick={handleWhatsAppClick}
             className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)]"
