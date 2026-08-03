@@ -45,7 +45,7 @@ export const InteractiveContactModal: React.FC<InteractiveContactModalProps> = (
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, shouldRender, handleClose]);
 
   useGSAP(() => {
     if (shouldRender && isOpen) {

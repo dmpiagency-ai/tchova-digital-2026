@@ -85,11 +85,11 @@ const App = () => (
                       <Route path="/login" element={<Login />} />
                       <Route path="/service-details" element={<ServiceDetails />} />
                       <Route path="/servicos/:id" element={<ServiceDetails />} />
-                      <Route path="/gsm" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
-                      <Route path="/gsm/tech" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
-                      <Route path="/gsm/rental" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
-                      <Route path="/gsm/dashboard" element={<ProtectedRoute><GSMTechDashboard /></ProtectedRoute>} />
-                      <Route path="/gsm/tools" element={<ProtectedRoute><ToolsRedirect /></ProtectedRoute>} />
+                      <Route path="/gsm" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/tech" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/rental" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/dashboard" element={<GSMTechDashboard />} />
+                      <Route path="/gsm/tools" element={<ToolsRedirect />} />
                       <Route path="/payment" element={<Payment />} />
                       <Route path="/checkout/seguro" element={<Checkout />} />
                       <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />

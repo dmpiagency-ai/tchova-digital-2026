@@ -25,8 +25,8 @@ export const COMPANY_INFO = {
     postalCode: '3600'
   },
   socialMedia: {
-    facebook: 'https://facebook.com/tchovadigital',
-    instagram: 'https://instagram.com/tchovadigital',
+    facebook: 'https://www.facebook.com/tchova.digitalmz/',
+    instagram: 'https://www.instagram.com/tchova.digitalmz/',
     linkedin: 'https://linkedin.com/company/tchovadigital',
     twitter: 'https://twitter.com/tchovadigital'
   },

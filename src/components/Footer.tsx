@@ -124,13 +124,13 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start">
             <h4 className="text-white font-semibold mb-6 text-lg">Social</h4>
             <div className="flex gap-4">
-              <a href="https://instagram.com/tchovadigital" target="_blank" rel="noreferrer" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors">
+              <a href="https://www.instagram.com/tchova.digitalmz/" target="_blank" rel="noreferrer" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://facebook.com/tchovadigital" target="_blank" rel="noreferrer" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors">
+              <a href="https://www.facebook.com/tchova.digitalmz/" target="_blank" rel="noreferrer" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="mailto:info@tchovadigital.co.mz" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors">
+              <a href="mailto:info@tchovadigital.co.mz" className="social-icon w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary transition-colors" aria-label="Email">
                 <Mail className="w-5 h-5" />
               </a>
             </div>

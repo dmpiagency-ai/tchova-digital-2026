@@ -32,29 +32,33 @@ export const WalletView = ({ wallet, darkMode, onRefill }: WalletViewProps) => {
       </div>
 
       <div className="grid gap-6 sm:gap-10">
-        <div className="gs-wallet-hero relative overflow-hidden rounded-[2rem] sm:rounded-[4rem] p-8 sm:p-16 bg-zinc-900 border border-white/10 text-white shadow-3xl text-center">
+        <div className="gs-wallet-hero relative overflow-hidden rounded-[2rem] sm:rounded-[4rem] p-8 sm:p-16 bg-zinc-900 border border-white/10 text-white shadow-3xl text-center group">
           <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
           <div className="relative z-10 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400 text-[10px] font-bold uppercase tracking-wider">
+              🔒 DEMO PREVIEW — SALDO SIMULADO
+            </div>
             <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/40">CRÉDITOS DISPONÍVEIS</p>
-            <h3 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter">{wallet.balance.toFixed(0)} <span className="text-xl sm:text-3xl opacity-30">MT</span></h3>
+            <h3 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter blur-[5px] select-none opacity-60 transition-all group-hover:blur-[2px]">{wallet.balance.toFixed(0)} <span className="text-xl sm:text-3xl opacity-30">MT</span></h3>
+            <p className="text-xs text-zinc-400 font-medium">Valores em modo de demonstração restrita</p>
             <button 
               onClick={onRefill}
               className="px-8 py-4 sm:px-12 sm:py-6 w-full sm:w-auto bg-primary text-white rounded-2xl sm:rounded-3xl font-black uppercase tracking-widest text-[10px] sm:text-xs hover:scale-[1.02] transition-all shadow-2xl shadow-primary/20"
             >
-              Recarregar Carteira
+              Recarregar Carteira (Demo)
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: ' GASTOS', value: wallet.totalSpent, color: 'text-rose-500' },
+            { label: 'GASTOS', value: wallet.totalSpent, color: 'text-rose-500' },
             { label: 'ALUGUÉIS', value: wallet.rentals, color: 'text-blue-500' },
             { label: 'BÓNUS', value: wallet.bonusPoints, color: 'text-amber-500' },
           ].map((s, i) => (
             <div key={i} className={`gs-wallet-card p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] flex sm:flex-col items-center justify-between sm:justify-center ${darkMode ? 'bg-zinc-900/50 border-white/5' : 'bg-white border-slate-100'} border shadow-xl text-center`}>
               <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-0 sm:mb-2">{s.label}</p>
-              <p className={`text-xl sm:text-2xl font-black tracking-tighter ${s.color}`}>{s.value.toFixed(0)}</p>
+              <p className={`text-xl sm:text-2xl font-black tracking-tighter blur-[3px] select-none opacity-70 ${s.color}`}>{s.value.toFixed(0)}</p>
             </div>
           ))}
         </div>

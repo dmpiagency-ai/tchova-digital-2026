@@ -42,8 +42,8 @@ export const RentalsView = ({ rentals, darkMode }: RentalsViewProps) => {
             </div>
             <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-10 w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-zinc-100 dark:border-zinc-800">
               <div className="text-left sm:text-right">
-                <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-zinc-400 mb-1">Custo Total</p>
-                <p className="text-xl sm:text-2xl font-black text-primary">{rental.price} MT</p>
+                <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-zinc-400 mb-1">Custo Total (Demo)</p>
+                <p className="text-xl sm:text-2xl font-black text-primary blur-[4px] select-none opacity-70 transition-all hover:blur-[1px]">{rental.price} MT</p>
               </div>
               <div className={`px-4 py-2 sm:px-6 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest ${rental.status === 'active' ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20' : 'bg-zinc-100 text-zinc-400'}`}>
                 {rental.status === 'active' ? '● Em Operação' : 'Concluído'}

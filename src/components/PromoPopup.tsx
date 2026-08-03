@@ -73,7 +73,7 @@ const PromoPopup: React.FC<PromoPopupProps> = ({ isOpen, onClose, onAction }) =>
       // External close trigger
       if (shouldRender) handleClose();
     }
-  }, [isOpen]);
+  }, [isOpen, shouldRender, handleClose]);
 
   useGSAP(() => {
     if (!shouldRender) return;

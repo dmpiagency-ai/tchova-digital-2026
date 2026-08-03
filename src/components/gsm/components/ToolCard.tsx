@@ -38,8 +38,11 @@ export const ToolCard = ({ tool, onRent, darkMode }: ToolCardProps) => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-4 sm:pt-6 border-t border-zinc-100 dark:border-zinc-800 gap-4 sm:gap-0">
             <div className="flex items-center justify-between sm:justify-start gap-6">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Custo/Hora</p>
-                <p className="text-xl sm:text-2xl font-black text-primary">{tool.price} <span className="text-xs sm:text-sm">MT</span></p>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Custo/Hora</p>
+                  <span className="text-[8px] font-bold text-amber-400 bg-amber-500/20 px-1.5 py-0.5 rounded-full border border-amber-500/30">🔒 DEMO</span>
+                </div>
+                <p className="text-xl sm:text-2xl font-black text-primary blur-[4px] select-none opacity-70 transition-all hover:blur-[1px]">{tool.price} <span className="text-xs sm:text-sm">MT</span></p>
               </div>
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Avaliação</p>

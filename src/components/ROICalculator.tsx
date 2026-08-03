@@ -81,7 +81,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
     );
   });
 
-  const calculateROI = () => {
+  const calculateROI = React.useCallback(() => {
     const invest = parseFloat(investment);
     const revenue = parseFloat(expectedRevenue);
 
@@ -100,7 +100,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
     
     // Trigger GSAP animation after state update (using a small delay to ensure DOM is ready)
     setTimeout(() => animateNumbers(roi, profit), 50);
-  };
+  }, [investment, expectedRevenue, animateNumbers]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -131,7 +131,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onClose }) => {
     } else {
       setResults(null);
     }
-  }, [investment, expectedRevenue]);
+  }, [investment, expectedRevenue, calculateROI]);
 
   // Handle external selection of pricing plans for simulation
   React.useEffect(() => {

@@ -90,22 +90,19 @@ const GSMTechDashboard: React.FC = () => {
   }, [darkMode]);
 
   const handleRent = (tool: BoxTool) => {
-    if (tool.status === 'available') {
-      if (wallet.balance < tool.price) {
-        setToast({ show: true, message: 'Saldo insuficiente. Recarregue a sua carteira.', type: 'error' });
-        return;
-      }
-      setTools(prev => prev.map(t => t.id === tool.id ? { ...t, status: 'in_use' as const } : t));
-      const newRental: Rental = { id: Date.now().toString(), toolName: tool.name, toolId: tool.id, startTime: new Date(), status: 'active', price: tool.price, duration: 1 };
-      setRentals(prev => [newRental, ...prev]);
-      setWallet(prev => ({ 
-        ...prev, 
-        balance: prev.balance - tool.price, 
-        totalSpent: prev.totalSpent + tool.price,
-        rentals: prev.rentals + 1 
-      }));
-      setToast({ show: true, message: `🚀 ALUGUEL INICIADO: ${tool.name}`, type: 'success' });
-    }
+    setToast({ 
+      show: true, 
+      message: `🔒 MODO DEMO PREVIEW: Aluguel da ferramenta ${tool.name} desativado. O serviço GSM está em desenvolvimento!`, 
+      type: 'info' 
+    });
+  };
+
+  const handleRefill = () => {
+    setToast({
+      show: true,
+      message: '🔒 MODO DEMO PREVIEW: Carregamentos de saldo reais desativados temporariamente. Serviço GSM em desenvolvimento!',
+      type: 'info'
+    });
   };
 
   const handlePaymentSuccess = (amount: number, method: string) => {
@@ -128,7 +125,7 @@ const GSMTechDashboard: React.FC = () => {
       case 'imei': 
         return <IMEICheckView darkMode={darkMode} />;
       case 'wallet': 
-        return <WalletView wallet={wallet} darkMode={darkMode} onRefill={() => setIsPaymentModalOpen(true)} />;
+        return <WalletView wallet={wallet} darkMode={darkMode} onRefill={handleRefill} />;
       case 'profile': 
         return <ProfileView darkMode={darkMode} />;
       default: 
@@ -137,32 +134,60 @@ const GSMTechDashboard: React.FC = () => {
   };
 
   return (
-    <div className={`flex h-screen overflow-hidden ${darkMode ? 'bg-zinc-950 text-white' : 'bg-slate-50 text-slate-900'}`} style={{ fontFamily: 'Inter, sans-serif' }}>
-      <Sidebar activeView={activeView} setActiveView={setActiveView} isOpen={sidebarOpen} setIsOpen={setSidebarOpen} darkMode={darkMode} />
-
-      <div className="flex-1 flex flex-col overflow-hidden relative">
-        {/* Header */}
-        <header className={`min-h-[80px] lg:min-h-[100px] flex items-center justify-between px-6 sm:px-8 lg:px-12 ${darkMode ? 'border-zinc-800 bg-zinc-950' : 'border-slate-200 bg-white'} border-b z-40 shadow-sm relative pt-[max(0.5rem,env(safe-area-inset-top,0px))] pb-4 lg:pt-[max(1rem,env(safe-area-inset-top,0px))] lg:pb-6`}>
-          <div className="flex items-center gap-6">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-4 bg-zinc-100 dark:bg-zinc-900 rounded-[1.5rem] transition-all transform active:scale-95 shadow-sm">
-              <Menu className="w-6 h-6" />
-            </button>
-            <div className="hidden lg:flex flex-col">
-              <h2 className="text-sm font-black uppercase tracking-[0.3em] text-primary">{activeView}</h2>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">TchovaDigital v2.5.0</p>
-            </div>
+    <div className={`flex flex-col h-screen overflow-hidden ${darkMode ? 'bg-zinc-950 text-white' : 'bg-slate-50 text-slate-900'}`} style={{ fontFamily: 'Inter, sans-serif' }}>
+      {/* Sticky Demo Banner - Premium & Lightweight */}
+      <div className="w-full bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border-b border-amber-500/20 px-3 sm:px-4 py-2 sm:py-2.5 relative z-50 shrink-0 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)]">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"></div>
+        <div className="flex items-center justify-center gap-2 sm:gap-3 max-w-7xl mx-auto">
+          <div className="flex items-center justify-center shrink-0 relative">
+            <span className="absolute w-2 h-2 rounded-full bg-amber-500 animate-ping opacity-60" />
+            <span className="relative w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
           </div>
           
-          <div className="flex items-center gap-3">
-            <button onClick={() => setDarkMode(!darkMode)} className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-[1.5rem] transition-all transform active:scale-95 shadow-sm group">
-              {darkMode ? <Sun className="w-5 h-5 text-amber-500 group-hover:rotate-45 transition-transform" /> : <Moon className="w-5 h-5 text-zinc-600 group-hover:-rotate-12 transition-transform" />}
-            </button>
-            <button onClick={() => navigate('/')} className="px-8 h-14 bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 text-white rounded-[1.5rem] text-[10px] font-black uppercase tracking-widest hover:scale-105 transform transition-all active:scale-95 flex items-center gap-3">
-              <ExternalLink className="w-4 h-4" />
-              Sair
-            </button>
+          <div className="flex flex-wrap items-center justify-center gap-x-1.5 sm:gap-x-2 gap-y-0.5 text-center leading-tight">
+            <span className="text-[10px] sm:text-xs font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500 tracking-widest uppercase drop-shadow-sm">
+              MODO DEMO
+            </span>
+            <span className="hidden sm:inline-block text-zinc-600 text-[10px] sm:text-xs">—</span>
+            <span className="text-[10px] sm:text-xs font-medium text-zinc-300">
+              Serviço em desenvolvimento.
+            </span>
+            <span className="text-[9px] sm:text-[11px] font-normal text-zinc-500">
+              Ações apenas p/ visualização.
+            </span>
           </div>
-        </header>
+        </div>
+      </div>
+
+      <div className="flex-1 flex overflow-hidden relative">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} isOpen={sidebarOpen} setIsOpen={setSidebarOpen} darkMode={darkMode} />
+
+        <div className="flex-1 flex flex-col overflow-hidden relative">
+          {/* Header */}
+          <header className={`min-h-[70px] lg:min-h-[80px] flex items-center justify-between px-6 sm:px-8 lg:px-12 ${darkMode ? 'border-zinc-800 bg-zinc-950' : 'border-slate-200 bg-white'} border-b z-40 shadow-sm relative pt-[max(0.5rem,env(safe-area-inset-top,0px))] pb-3 lg:pt-[max(0.75rem,env(safe-area-inset-top,0px))] lg:pb-4`}>
+            <div className="flex items-center gap-4 lg:gap-6">
+              <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-3 bg-zinc-100 dark:bg-zinc-900 rounded-[1.2rem] transition-all transform active:scale-95 shadow-sm">
+                <Menu className="w-5 h-5" />
+              </button>
+              <div className="hidden lg:flex flex-col">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-sm font-black uppercase tracking-[0.3em] text-primary">{activeView}</h2>
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[9px] font-bold tracking-wider uppercase">DEMO PREVIEW</span>
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">TchovaDigital v2.5.0 • Em Desenvolvimento</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <button onClick={() => setDarkMode(!darkMode)} className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-[1.2rem] transition-all transform active:scale-95 shadow-sm group">
+                {darkMode ? <Sun className="w-4 h-4 text-amber-500 group-hover:rotate-45 transition-transform" /> : <Moon className="w-4 h-4 text-zinc-600 group-hover:-rotate-12 transition-transform" />}
+              </button>
+              <button onClick={() => navigate('/')} className="px-6 h-11 bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 text-white rounded-[1.2rem] text-[10px] font-black uppercase tracking-widest hover:scale-105 transform transition-all active:scale-95 flex items-center gap-2">
+                <ExternalLink className="w-3.5 h-3.5" />
+                Voltar
+              </button>
+            </div>
+          </header>
 
         {/* Dynamic Viewport */}
         <main ref={contentRef} className="flex-1 overflow-auto no-scrollbar scroll-smooth">
@@ -170,6 +195,7 @@ const GSMTechDashboard: React.FC = () => {
         </main>
 
         <BottomNav activeView={activeView} setActiveView={setActiveView} darkMode={darkMode} />
+        </div>
       </div>
 
       {toast.show && <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />}

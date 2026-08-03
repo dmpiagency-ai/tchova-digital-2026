@@ -212,7 +212,7 @@ export const SERVICE_PLANS: Plan[] = [
     period: 'MZN',
     description: 'Transforme a sua ideia numa autoridade visual instantânea. Posicionamento premium para o mercado moçambicano.',
     features: [
-      'Visual Identity System Otimizado por IA',
+      'Visual Identity System Otimizado & Estratégico',
       'Perfil de Autoridade em Canais Digitais',
       'Ecossistema Visual (FB, WA, IG)',
       '2 Catálogos Digitais de Conversão',
@@ -266,7 +266,7 @@ export const SERVICE_PLANS: Plan[] = [
       'Tudo do Plano Máquina de Leads™',
       'Website/E-commerce Profissional Full',
       'Sistema de Pagamentos Integrado (M-Pesa/Bank)',
-      'Integração de IA para Atendimento',
+      'Integração de Automação Inteligente para Atendimento',
       'Gestão Ativa de Tráfego Pago (1º Mês)',
       'Suporte para Escala & Crescimento',
       'Consultoria de Expansão de Negócio'
@@ -305,9 +305,9 @@ export const WHATSAPP_MESSAGES = {
     'Ferramentas GSM': 'Olá! Interessado no painel de aluguer de ferramentas GSM.'
   },
   plan: {
-    'START ONLINE': 'Olá! Vi o plano START ONLINE (3.500 MZN) e quero colocar meu negócio online. Podem ajudar?',
-    'PRESENÇA DIGITAL': 'Olá! Vi o plano PRESENÇA DIGITAL (7.500 MZN) e quero gerar mais contactos. Podem ajudar?',
-    'NEGÓCIO DIGITAL': 'Olá! Vi o plano NEGÓCIO DIGITAL (15.000 MZN) e quero vender online. Podem ajudar?'
+    'ACCELERA™ BRANDING': 'Olá! Vi o plano ACCELERA™ BRANDING (3.500 MZN) e quero colocar meu negócio no topo. Podem ajudar?',
+    'MÁQUINA DE LEADS™': 'Olá! Vi o plano MÁQUINA DE LEADS™ (7.500 MZN) e quero gerar mais contactos e clientes. Podem ajudar?',
+    'IMPÉRIO DIGITAL 360™': 'Olá! Vi o plano IMPÉRIO DIGITAL 360™ (15.000 MZN) e quero a solução completa para o meu negócio. Podem ajudar?'
   }
 };
 

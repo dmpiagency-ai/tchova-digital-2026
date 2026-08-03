@@ -91,7 +91,7 @@ export const AnimatedLogo = ({ className, showText = false }: AnimatedLogoProps)
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className={cn("flex items-center gap-4 h-full", className)}>
+    <div ref={containerRef} className={cn("flex items-center gap-2 h-full", className)}>
       <div className="relative h-full aspect-square flex-shrink-0">
         <img ref={v1Ref} src={logoV1} alt="V1" className="absolute inset-0 w-full h-full object-contain pointer-events-none will-change-[opacity,transform]" />
         <img ref={v2Ref} src={logoV2} alt="V2" className="absolute inset-0 w-full h-full object-contain pointer-events-none will-change-[opacity,transform]" />

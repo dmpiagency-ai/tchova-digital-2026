@@ -22,6 +22,7 @@ export default {
         'poppins': ['Poppins', 'sans-serif'],
         'nunito': ['Nunito Sans', 'sans-serif'],
         'bebas': ['Bebas Neue', 'sans-serif'],
+        'agharti': ['Agharti', 'sans-serif'],
       },
       fontSize: {
         'fluid-h1': 'var(--text-fluid-h1)',

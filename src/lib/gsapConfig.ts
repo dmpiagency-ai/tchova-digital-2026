@@ -6,13 +6,14 @@ import { useGSAP } from "@gsap/react";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-  // Elite Mobile Performance Tuning
+  // Elite Mobile Performance & Animation Tuning
   ScrollTrigger.config({
-    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize", // Refresh on resize to fix disappearing elements
+    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize",
+    ignoreMobileResize: true, // Evita engasgos quando a barra do navegador recolhe no scroll no mobile
   });
 
-  // Lag smoothing adjusts the playhead dynamically if frame rate drops, ensuring smooth animations
-  gsap.ticker.lagSmoothing(1000, 16);
+  // Lag smoothing ajusta dinamicamente a taxa de quadros para manter 60fps/120fps fluídos
+  gsap.ticker.lagSmoothing(500, 16);
 }
 
 // Set global defaults for premium feel

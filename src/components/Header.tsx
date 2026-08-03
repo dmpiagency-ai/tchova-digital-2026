@@ -47,7 +47,8 @@ export default function Header() {
 
   const socialItems = useMemo(() => [
     { label: 'WhatsApp', link: `https://wa.me/${env.WHATSAPP_NUMBER}` },
-    { label: 'Instagram', link: 'https://instagram.com/tchovadigital' },
+    { label: 'Instagram', link: 'https://www.instagram.com/tchova.digitalmz/' },
+    { label: 'Facebook', link: 'https://www.facebook.com/tchova.digitalmz/' },
   ], []);
 
   return (
@@ -142,9 +143,9 @@ export default function Header() {
                 <button
                   key={item.label}
                   onClick={item.onClick}
-                  className="group relative px-4 py-2 lg:px-5 lg:py-2.5 rounded-full text-[9px] lg:text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/60 hover:text-white transition-all duration-300 hover:bg-white/5 active:scale-95"
+                  className="group relative px-4 py-2 lg:px-5 lg:py-2.5 rounded-full text-[9px] lg:text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/60 hover:text-white transition-all duration-300 hover:bg-white/5 active:scale-95 flex items-center gap-1.5"
                 >
-                  {item.label}
+                  <span>{item.label}</span>
                 </button>
               ))}
             </div>

@@ -153,7 +153,7 @@ const Services = () => {
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços</span>
           </div>
-          <h2 className="text-fluid-h2 font-black mb-0 tracking-tighter text-white uppercase whitespace-nowrap">
+          <h2 className="text-fluid-h2 font-bold mb-0 tracking-tight text-white uppercase whitespace-nowrap">
             O QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
           </h2>
         </div>

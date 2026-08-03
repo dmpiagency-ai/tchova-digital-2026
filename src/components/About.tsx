@@ -117,7 +117,7 @@ const About = () => {
 
             {/* Headline */}
             <div className="relative z-20">
-              <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-black text-white uppercase tracking-tighter leading-[1.05] max-w-[600px]">
+              <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-bold text-white uppercase tracking-tight leading-[1.05] max-w-[600px]">
                 TUDO <br className="md:hidden" /> LIGADO. <br />
                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green italic pr-4 lg:pr-6">
                   NUM SÓ <br className="md:hidden" /> LUGAR.

@@ -166,6 +166,11 @@
     width: 100%;
   }
 
+  /* Cinematic Typography System */
+  h1:not(#home h1), h2, h3, h4, h5, h6, .font-agharti {
+    font-family: 'Agharti', sans-serif;
+  }
+
   /* Prevent iOS Safari from showing the huge native play button on videos in Low Power Mode */
   video::-webkit-media-controls {
     display: none !important;

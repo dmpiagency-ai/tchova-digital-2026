@@ -41,9 +41,15 @@ export const DashboardView = ({ tools, darkMode, rentals, wallet, setActiveView 
             <p className="text-[10px] sm:text-sm font-black uppercase tracking-widest sm:tracking-[0.4em] text-white/60">Infraestrutura de alta performance</p>
           </div>
           <div className="flex gap-4 w-full sm:w-auto">
-            <div className="bg-white/10 backdrop-blur-3xl border border-white/10 p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] w-full sm:w-auto">
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-1 sm:mb-2">SALDO DISPONÍVEL</p>
-              <p className="text-3xl sm:text-4xl font-black tracking-tighter">{wallet.balance.toFixed(0)} <span className="text-base sm:text-lg opacity-40">MT</span></p>
+            <div className="bg-white/10 backdrop-blur-3xl border border-white/10 p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] w-full sm:w-auto relative group">
+              <div className="flex items-center justify-between gap-3 mb-1 sm:mb-2">
+                <p className="text-[10px] font-black uppercase tracking-widest text-white/50">SALDO DISPONÍVEL</p>
+                <span className="text-[9px] font-bold text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30">🔒 DEMO</span>
+              </div>
+              <p className="text-3xl sm:text-4xl font-black tracking-tighter blur-[4px] select-none opacity-70 transition-all group-hover:blur-[2px]">
+                {wallet.balance.toFixed(0)} <span className="text-base sm:text-lg opacity-40">MT</span>
+              </p>
+              <span className="text-[9px] text-white/40 block mt-1">Valores em modo de demonstração</span>
             </div>
           </div>
         </div>

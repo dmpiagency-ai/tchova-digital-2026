@@ -9,8 +9,9 @@ import {
   TrendingUp,
   Instagram,
   Palette,
-  Sparkles,
+  Activity as ActionIcon,
   Terminal,
+  Target,
   Monitor,
   Video,
   Play,
@@ -43,8 +44,8 @@ const MarketingMockup = () => {
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2 text-sm text-white/50 bg-white/5 px-3 py-1.5 rounded-full">
-            <Sparkles className="w-4 h-4 text-brand-yellow" />
-            <span>AI Agent Active</span>
+            <Activity className="w-4 h-4 text-brand-yellow" />
+            <span>Smart Agent Active</span>
           </div>
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-brand-green" />
         </div>
@@ -105,8 +106,8 @@ const MarketingMockup = () => {
             <div className="flex-1 bg-gradient-to-br from-brand-yellow/10 to-transparent border border-brand-yellow/20 rounded-2xl p-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-brand-yellow/20 blur-2xl rounded-full" />
               <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-5 h-5 text-brand-yellow" />
-                <h3 className="font-bold text-sm text-brand-yellow">IA Insights</h3>
+                <Target className="w-5 h-5 text-brand-yellow" />
+                <h3 className="font-bold text-sm text-brand-yellow">Smart Insights</h3>
               </div>
               <p className="text-xs text-white/70 leading-relaxed">
                 A campanha "Black Friday Antecipada" está com um ROAS 40% superior à média. Sugerimos escalar o orçamento no Meta Ads em 25%.
@@ -202,15 +203,15 @@ const DesignMockup = () => {
           ))}
         </div>
 
-        {/* AI Generator Prompt */}
+        {/* Smart Generator Prompt */}
         <div className="h-14 bg-white/5 border border-white/10 rounded-full flex items-center px-4 gap-3 relative overflow-hidden">
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-brand-yellow" />
-          <Sparkles className="w-4 h-4 text-white/50" />
+          <Terminal className="w-4 h-4 text-white/50" />
           <div className="text-sm text-white/50 flex-1 font-mono">
             /gerar post estilo "Dark Tech" para lançamento...
           </div>
           <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-            <Sparkles className="w-3 h-3 text-white" />
+            <Terminal className="w-3 h-3 text-white" />
           </div>
         </div>
       </div>

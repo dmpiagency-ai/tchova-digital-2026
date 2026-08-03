@@ -157,7 +157,7 @@ const Pricing = () => {
             <EliteRadar className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Evolução do Negócio</span>
           </div>
-          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
+          <h2 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight text-white uppercase">
             A VELOCIDADE QUE O TEU NEGÓCIO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">PRECISA</span>
           </h2>
           <p className="text-sm md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">

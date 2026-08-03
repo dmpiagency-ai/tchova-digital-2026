@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback, useRef, lazy, Suspense } from 'react'
 import { env } from '@/config/env';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 
 const LoginModal = lazy(() => import('@/components/LoginModal'));
@@ -130,12 +129,18 @@ const Index = () => {
 
       <main id="main-content" role="main" tabIndex={-1} className="relative z-[1]">
         <Hero />
-        <Suspense fallback={<div className="h-32 w-full animate-pulse bg-[#0A0A0A]" />}>
+        <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>
           <About />
           <Services />
+        </Suspense>
+
+        <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>
           <GSMPromotionalSection />
           <HowItWorks />
           <AudienceFilter />
+        </Suspense>
+
+        <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>
           <Pricing />
           <Testimonials />
           <FAQ />
@@ -146,7 +151,6 @@ const Index = () => {
       <Suspense fallback={<div className="h-32 w-full" />}>
         <Footer />
       </Suspense>
-      <FloatingWhatsApp />
 
       {/* Login Modal — lazy loaded (pulls Firebase only when needed) */}
       {showLoginModal && (
