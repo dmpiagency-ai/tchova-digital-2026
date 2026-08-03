@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -18,17 +18,15 @@ interface PageLoaderProps {
 }
 
 export const PageLoader: React.FC<PageLoaderProps> = ({
-  message = "A preparar tudo...",
+  message = "INICIALIZANDO ECOSSISTEMA",
   duration = 400
 }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [progressPercent, setProgressPercent] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const ring1Ref = useRef<HTMLDivElement>(null);
-  const ring2Ref = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLSpanElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   const videoReadyRef = useRef(false);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
@@ -40,20 +38,19 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
 
     tl.to(contentRef.current, { 
       opacity: 0, 
-      y: -40, 
-      scale: 0.9,
-      duration: 0.3, 
-      ease: 'expo.in' 
+      scale: 0.95,
+      y: -20,
+      duration: 0.35, 
+      ease: 'power3.in' 
     })
     .to(containerRef.current, { 
-      opacity: 0, 
-      clipPath: 'inset(0% 0% 100% 0%)',
-      duration: 0.5, 
+      yPercent: -100,
+      duration: 0.55, 
       ease: 'expo.inOut' 
     }, "-=0.15");
   });
 
-  // ── Preload the hero video during the loading animation ──
+  // Preload hero video chunk
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const videoUrl = getVideoUrl();
@@ -64,11 +61,6 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       if (resolved) return;
       resolved = true;
       videoReadyRef.current = true;
-
-      // Update status text
-      if (statusRef.current) {
-        statusRef.current.textContent = 'Pronto';
-      }
     };
 
     if (isMobile) {
@@ -76,34 +68,29 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       return;
     }
 
-    // Strategy 1: Fetch the first chunk via fetch() to prime the browser cache
     if ('fetch' in window) {
       const controller = new AbortController();
       fetch(videoUrl, {
         signal: controller.signal,
-        headers: { Range: 'bytes=0-512000' }, // First ~500KB — enough to start playback
+        headers: { Range: 'bytes=0-512000' },
       })
         .then(() => markReady())
-        .catch(() => {}); // Network error — will be caught by timeout
+        .catch(() => {});
 
-      // Cleanup
       timeoutId = setTimeout(() => {
         if (!resolved) {
           controller.abort();
-          markReady(); // Don't block the page on slow networks
+          markReady();
         }
-      }, 4000); // Max 4s wait
+      }, 4000);
     } else {
-      // Old browser fallback — just wait the duration
       timeoutId = setTimeout(markReady, duration);
     }
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    return () => clearTimeout(timeoutId);
   }, [duration]);
 
-  // ── Loader exit: waits for BOTH minimum duration AND video ready ──
+  // Loader exit listener
   useEffect(() => {
     let cancelled = false;
 
@@ -119,14 +106,12 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
       if (videoReadyRef.current) {
         tryHide();
       } else {
-        // Video not ready yet — check once more after a short grace period
-        const grace = setTimeout(() => tryHide(), 800);
+        const grace = setTimeout(() => tryHide(), 500);
         (minTimer as TimeoutWithGrace).__grace = grace;
       }
-    }, duration + 200);
+    }, duration + 150);
 
-    // Hard max: 5 seconds — never block the user
-    const hardMax = setTimeout(() => tryHide(), 5000);
+    const hardMax = setTimeout(() => tryHide(), 4500);
 
     const handleContentReady = () => {
       cancelled = true;
@@ -148,47 +133,41 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   }, [duration, hideLoader]);
 
   useGSAP(() => {
-    if (!isVisible) return;
-
     if (!isVisible || !contentRef.current) return;
 
-    // 1. Entrance animation
-    gsap.from(contentRef.current, {
-      opacity: 0,
-      y: 20,
-      duration: 0.8,
-      ease: 'power3.out'
-    });
+    // Entrance
+    gsap.fromTo(contentRef.current, 
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }
+    );
 
-    // 2. Continuous animations
-    gsap.to(ring1Ref.current, {
-      rotate: 360,
-      duration: 3,
-      repeat: -1,
-      ease: 'none'
-    });
-
-    gsap.to(ring2Ref.current, {
-      rotate: -360,
-      duration: 4,
-      repeat: -1,
-      ease: 'none'
-    });
-
+    // Pulse logo glow
     gsap.to(logoRef.current, {
-      scale: 1.05,
-      duration: 1.5,
+      scale: 1.04,
+      duration: 1.2,
       yoyo: true,
       repeat: -1,
       ease: 'sine.inOut'
     });
 
-    // 3. Progress bar animation — synced to ~4s max preload time
-    gsap.to(progressRef.current, {
-      width: '100%',
-      duration: Math.max(duration / 1000, 2.5),
-      ease: 'power1.inOut'
+    // Progress percentage counter + bar sync
+    const counterObj = { value: 0 };
+    gsap.to(counterObj, {
+      value: 100,
+      duration: Math.max(duration / 1000, 1.2),
+      ease: 'power2.out',
+      onUpdate: () => {
+        setProgressPercent(Math.round(counterObj.value));
+      }
     });
+
+    if (progressBarRef.current) {
+      gsap.to(progressBarRef.current, {
+        width: '100%',
+        duration: Math.max(duration / 1000, 1.2),
+        ease: 'power2.out'
+      });
+    }
   }, { scope: containerRef, dependencies: [isVisible] });
 
   if (!isVisible) return null;
@@ -196,34 +175,25 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/60 backdrop-blur-md md:backdrop-blur-xl overflow-hidden pointer-events-auto"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-zinc-950 text-white font-nunito overflow-hidden pointer-events-auto select-none"
     >
-      {/* Subtle Ambient Light Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
-      
-      <div ref={contentRef} className="flex flex-col items-center justify-center relative z-10">
-        {/* The Outer Spinning Ring */}
-        <div className="relative w-24 h-24 mb-8 flex items-center justify-center">
-          <div
-            ref={ring1Ref}
-            className="absolute inset-0 rounded-full border-t-2 border-r-2 border-primary/80"
-          />
-          <div
-            ref={ring2Ref}
-            className="absolute inset-[-10px] rounded-full border-b-2 border-l-2 border-brand-yellow/50"
-          />
-          
-          {/* Central Mark */}
-          <div
-            ref={logoRef}
-            className="relative z-10 w-20 h-20 flex items-center justify-center pt-2"
-          >
-            <div className="absolute inset-0 bg-primary/20 blur-md rounded-full" />
+      {/* Ambient background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[140px] pointer-events-none" />
+
+      <div ref={contentRef} className="flex flex-col items-center justify-center relative z-10 px-6 max-w-sm text-center">
+        {/* Brand Emblem with Emerald Ring */}
+        <div ref={logoRef} className="relative w-24 h-24 mb-6 flex items-center justify-center">
+          {/* Subtle Rotating Pulse Ring */}
+          <div className="absolute inset-0 rounded-full border border-primary/30 animate-[spin_8s_linear_infinite]" />
+          <div className="absolute inset-[-6px] rounded-full border border-primary/10 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
+
+          {/* Glowing Center */}
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-zinc-900 to-black border border-primary/40 flex items-center justify-center shadow-[0_0_30px_rgba(0,225,60,0.25)]">
             <svg 
               version="1.1" 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 640 439" 
-              className="w-16 h-16 text-primary drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]"
+              className="w-10 h-10 text-primary drop-shadow-[0_0_10px_rgba(0,225,60,0.8)]"
             >
               <path fill="currentColor" d="M55.6,138.8h207.9c39.1,0,71,31.8,71,70.6v11.1H178.1C101.4,220.5,55.6,210.6,55.6,138.8L55.6,138.8z"/>
               <path fill="currentColor" d="M509.7,203.1c3.5,15.3,5.3,31.7,5.3,49.1c0,35.5-8,67.2-24.2,94.8c-16,27.5-39.7,50.2-70.9,68c-0.6,0.4-1.4,0.8-2,1.2c11.4-1,22.7-2.5,34-4.6c20.9-4.6,40.1-11.9,57.9-22c31.1-17.9,54.9-40.5,70.9-68.1c16.2-27.5,24.2-59.1,24.2-94.7c0-0.5,0-1,0-1.4c-10.1-21.8-24.9-40.7-44-56.8c-25-21.1-55.9-35.5-92.8-43.6c-20.7-4.6-43.3-7.1-67.7-7.5c32.2,2.4,58,11.9,77.4,28.7c10.8,9.4,19,20.2,24.6,32.8C505.8,186.5,508.2,194.5,509.7,203.1L509.7,203.1z"/>
@@ -233,25 +203,27 @@ export const PageLoader: React.FC<PageLoaderProps> = ({
             </svg>
           </div>
         </div>
-        
-        {/* Loading text with progress bar */}
-        <div className="flex flex-col items-center gap-2">
-          <h2 className="text-xl font-black uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-brand-yellow">
-            TchovaDigital
-          </h2>
-          <div className="flex items-center gap-1">
-            <span ref={statusRef} className="text-[10px] font-black tracking-[0.3em] text-muted-foreground uppercase pb-1 opacity-70">
-              {message}
-            </span>
-          </div>
-          
-          {/* Progress Line */}
-          <div className="w-32 h-[1px] bg-white/5 overflow-hidden mt-3 relative">
-            <div 
-              ref={progressRef}
-              className="absolute inset-y-0 left-0 bg-primary blur-[0.5px] w-0"
-            />
-          </div>
+
+        {/* Brand Logotype & Status */}
+        <h2 className="text-xl font-bold tracking-tight uppercase text-white mb-1">
+          Tchova<span className="text-primary">Digital</span>
+        </h2>
+
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] font-bold tracking-[0.25em] text-white/50 uppercase">
+            {message}
+          </span>
+          <span className="text-[11px] font-mono font-bold text-primary tabular-nums">
+            {progressPercent}%
+          </span>
+        </div>
+
+        {/* Minimal Progress Bar with Glow */}
+        <div className="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+          <div 
+            ref={progressBarRef}
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-brand-green w-0 shadow-[0_0_12px_#00E13C]"
+          />
         </div>
       </div>
     </div>
