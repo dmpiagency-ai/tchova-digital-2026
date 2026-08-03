@@ -34,11 +34,11 @@ const AudienceFilter = () => {
     <section ref={containerRef} className="py-16 md:py-24 relative bg-background border-t border-white/[0.04]">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="filter-header text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tighter text-white uppercase">
-            FILTRO DE <span className="text-primary">ALINHAMENTO</span>
+          <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tighter text-white uppercase font-nunito">
+            PARA QUEM <span className="text-primary">TRABALHAMOS</span>
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed">
-            Não atendemos a todos os negócios. Selecionamos exclusivamente marcas preparadas para dominar o seu mercado.
+          <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed font-nunito">
+            Entregamos o melhor resultado quando o perfil do negócio está alinhado com o nosso ecossistema.
           </p>
         </div>
 

@@ -6,8 +6,8 @@ import { TiltCard } from '@/components/ui/TiltCard';
 import { env } from '@/config/env';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from 'lucide-react';
-import { EliteRadar, ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector } from '@/components/ui/EliteIcons';
+import { ArrowRight, Layers } from 'lucide-react';
+import { ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -150,10 +150,10 @@ const Services = () => {
         {/* Elite Header */}
         <div ref={headerRef} className="text-center mb-1 lg:mb-2 relative flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2 backdrop-blur-md">
-            <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest">Serviços</span>
+            <Layers className="w-4 h-4 text-primary" />
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Serviços</span>
           </div>
-          <h2 className="text-fluid-h2 font-bold mb-0 tracking-tight text-white uppercase whitespace-nowrap">
+          <h2 className="text-fluid-h2 font-bold mb-0 tracking-tight text-white uppercase whitespace-nowrap font-nunito">
             O QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
           </h2>
         </div>
