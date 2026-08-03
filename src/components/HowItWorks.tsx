@@ -137,7 +137,7 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="how-it-works" className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
+    <section ref={containerRef} id="how-it-works" className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04] font-nunito">
 
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -157,10 +157,10 @@ const HowItWorks = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-12 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Como Trabalhamos</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Como Trabalhamos</span>
           </div>
-          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            COMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FUNCIONA</span>
+          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase font-nunito">
+            COMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">FUNCIONA</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
             Encontrar a solução certa para o teu negócio deve ser <span className="text-white font-semibold">simples.</span>
@@ -225,7 +225,7 @@ const HowItWorks = () => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="relative z-10 text-xl font-black text-white uppercase tracking-tight mb-3 leading-tight">
+                    <h3 className="relative z-10 text-xl font-black text-white uppercase tracking-tight mb-3 leading-tight font-nunito">
                       {step.label}
                     </h3>
 
@@ -326,7 +326,7 @@ const HowItWorks = () => {
                       <div className="relative z-10 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-primary/20 transition-colors duration-500">
                         <step.icon className="w-8 h-8 text-primary" />
                       </div>
-                      <h3 className="relative z-10 text-2xl font-black text-white uppercase tracking-tight mb-4">{step.label}</h3>
+                      <h3 className="relative z-10 text-2xl font-black text-white uppercase tracking-tight mb-4 font-nunito">{step.label}</h3>
                       <p className="relative z-10 text-muted-foreground leading-relaxed text-lg font-light">{step.description}</p>
                     </div>
                   </div>
