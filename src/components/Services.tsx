@@ -7,7 +7,7 @@ import { env } from '@/config/env';
 import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Layers } from 'lucide-react';
-import { ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector } from '@/components/ui/EliteIcons';
+import { ElitePulse, EliteNode, EliteCore, EliteMatrix, EliteVector, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
