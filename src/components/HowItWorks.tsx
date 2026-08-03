@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Workflow, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EliteRadar, EliteNode, ElitePulse } from '@/components/ui/EliteIcons';
 import useEmblaCarousel from 'embla-carousel-react';
 import { isLowEnd } from '@/hooks/useLowEnd';
@@ -156,7 +156,7 @@ const HowItWorks = () => {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-10 md:mb-12 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-primary" />
+            <Workflow className="w-4 h-4 text-primary" />
             <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Como Trabalhamos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase font-nunito">
