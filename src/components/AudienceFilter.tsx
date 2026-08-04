@@ -38,7 +38,7 @@ const AudienceFilter = () => {
             PARA QUEM <span className="text-primary">TRABALHAMOS</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed font-nunito">
-            Entregamos o melhor resultado quando o perfil do negócio está alinhado com o nosso ecossistema.
+            Entregamos o melhor resultado quando o perfil do negócio está alinhado com a nossa operação.
           </p>
         </div>
 

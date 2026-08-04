@@ -98,10 +98,10 @@ const Contact = () => {
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Contacto</span>
           </div>
           <h2 className="contact-header-text text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Fala <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Connosco</span>
+            Vamos <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Falar?</span>
           </h2>
           <p className="contact-header-text text-muted-foreground/80 text-base md:text-xl max-w-2xl mx-auto font-light tracking-wide px-4 md:px-0">
-            Cada negócio tem necessidades diferentes. Conta-nos a tua e vamos indicar o melhor caminho.
+            Conta-nos o que precisas. Respondemos em menos de 24h.
           </p>
         </div>
 

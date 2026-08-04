@@ -154,7 +154,7 @@ const Services = () => {
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Serviços</span>
           </div>
           <h2 className="text-fluid-h2 font-bold mb-0 tracking-tight text-white uppercase whitespace-nowrap font-nunito">
-            O QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FAZEMOS.</span>
+            ONDE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">ATACAMOS.</span>
           </h2>
         </div>
 

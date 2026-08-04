@@ -81,8 +81,8 @@ const Footer = () => {
         <div className="text-center mb-8 md:mb-12 max-w-3xl">
           <p className="text-primary font-mono text-sm tracking-widest uppercase mb-4">Pronto para o próximo passo?</p>
           <h2 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight uppercase">
-            Gera mais oportunidades<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">para o teu negócio.</span>
+            O teu próximo cliente<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">está a um clique.</span>
           </h2>
           <button 
             onClick={handleWhatsAppClick}

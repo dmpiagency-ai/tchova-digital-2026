@@ -361,12 +361,11 @@ const Hero = () => {
             className="flex flex-col gap-2 md:gap-2.5 w-full mt-1 xs:mt-2 md:mt-0.5 px-1 md:px-0 md:max-w-[440px]"
           >
             <div className="text-[clamp(13px,3.6vw,16px)] md:text-[13.5px] lg:text-[14.5px] text-[#eff3c5]/80 font-medium leading-[1.55] w-full text-center md:text-left tracking-tight md:tracking-normal">
-              Branding, web e performance que traz <span className="font-bold">clientes</span> <span className="whitespace-nowrap">até você —</span>
+              Branding, sites e performance que trazem <span className="font-bold">clientes</span> <span className="whitespace-nowrap">até ti —</span>
               <br className="hidden md:block" />{" "}
-              e <span className="font-bold">Rent GSM</span> para técnicos operarem <span className="font-bold">sem limites</span>
+              e <span className="font-bold">Rent GSM</span> para técnicos operarem <span className="font-bold">sem limites.</span>
               <br className="hidden md:block" />{" "}
-              a <span className="whitespace-nowrap">custo baixo.</span>{" "}
-              <span className="inline-block mt-1 md:mt-0 text-[#4ade80] font-semibold">Em um único ecossistema.</span>
+              <span className="inline-block mt-1 md:mt-0 text-[#4ade80] font-semibold">Tudo num só lugar.</span>
             </div>
           </div>
 

@@ -124,20 +124,19 @@ const About = () => {
                 </span>
               </h2>
               <p className="text-[14px] md:text-[16px] text-white/50 font-light mt-4 max-w-[450px] md:max-w-[560px] leading-relaxed">
-                Somos o ecossistema digital <br className="md:hidden" />
-                completo para posicionar <br className="hidden md:inline" />
-                a <br className="md:hidden" />
-                tua marca, atrair clientes <br className="md:hidden" />
-                qualificados <br className="hidden md:inline" />
-                e multiplicar <br className="md:hidden" />
-                os teus resultados.
+                Posicionamos a tua marca, atraímos <br className="md:hidden" />
+                clientes qualificados <br className="hidden md:inline" />
+                e <br className="md:hidden" />
+                construímos o motor de crescimento <br className="md:hidden" />
+                do teu <br className="hidden md:inline" />
+                negócio.
               </p>
             </div>
           </div>
 
           {/* Card 2: Ecosystem Panel */}
           <div className="lg:col-span-4 bg-card border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-8 shadow-2xl flex flex-col justify-center">
-            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70 mb-5">Ecossistema</div>
+            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70 mb-5">Áreas de Actuação</div>
 
             <div ref={ecosystemRef} className="flex flex-col w-full">
               {ECOSYSTEM_ITEMS.map((item, i) => (

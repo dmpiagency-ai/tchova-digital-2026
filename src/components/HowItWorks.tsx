@@ -43,7 +43,7 @@ const HowItWorks = () => {
       id: 'execute',
       icon: EliteNode,
       label: 'ARQUITECTAR A ESTRATÉGIA',
-      description: 'Activamos as áreas certas do ecossistema — design, site, tráfego ou vídeo — numa estratégia integrada, não em peças soltas.',
+      description: 'Activamos as áreas certas — design, site, tráfego ou vídeo — numa estratégia integrada, não em peças soltas.',
       number: '02',
       phase: 'Fase 2',
       keyword: 'Arquitectar',
@@ -160,10 +160,10 @@ const HowItWorks = () => {
             <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Como Trabalhamos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase font-nunito">
-            COMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">FUNCIONA</span>
+            3 FASES. <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">ZERO ACHISMO.</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Encontrar a solução certa para o teu negócio deve ser <span className="text-white font-semibold">simples.</span>
+            Diagnosticamos, montamos e <span className="text-white font-semibold">escalamos.</span>
           </p>
         </div>
 
