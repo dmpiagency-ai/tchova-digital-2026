@@ -15,7 +15,7 @@ type Plan = {
   name: string;
   badge: string;
   subtitle: string;
-  icon: any;
+  icon: React.ElementType;
   price: string;
   period: string;
   popular: boolean;

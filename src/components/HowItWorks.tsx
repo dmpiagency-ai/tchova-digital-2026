@@ -50,7 +50,7 @@ const HowItWorks = () => {
     },
   ];
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const el = carouselRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
@@ -63,11 +63,11 @@ const HowItWorks = () => {
       Math.max(0, Math.round((scrollLeft + cardWidth * 0.3) / cardWidth))
     );
     setSelectedIndex(index);
-  };
+  }, [steps.length]);
 
   useEffect(() => {
     handleScroll();
-  }, []);
+  }, [handleScroll]);
 
   const scrollPrev = () => {
     if (!carouselRef.current) return;

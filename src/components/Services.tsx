@@ -106,7 +106,7 @@ const Services = () => {
     },
   ], []);
 
-  const handleMobileScroll = () => {
+  const handleMobileScroll = useCallback(() => {
     const el = mobileCarouselRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
@@ -119,11 +119,11 @@ const Services = () => {
       Math.max(0, Math.round((scrollLeft + cardWidth * 0.3) / cardWidth))
     );
     setMobileSelectedIndex(index);
-  };
+  }, [services.length]);
 
   useEffect(() => {
     handleMobileScroll();
-  }, []);
+  }, [handleMobileScroll]);
 
   const scrollPrevMobile = () => {
     if (!mobileCarouselRef.current) return;
