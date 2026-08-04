@@ -9,11 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const ECOSYSTEM_ITEMS = [
-  { label: 'IDENTIDADE VISUAL', desc: 'Posicionamento visual que justifica preços premium.' },
-  { label: 'WEBSITES', desc: 'Canal de vendas que opera 24h sem depender de ti.' },
-  { label: 'MARKETING', desc: 'Motor de aquisição que enche o teu pipeline de clientes.' },
-  { label: 'AUDIOVISUAL', desc: 'Conteúdo que constrói autoridade e retém atenção.' },
-  { label: 'GSM RENTAL', desc: 'Infraestrutura técnica profissional sob demanda.' },
+  { label: 'IDENTIDADE VISUAL', desc: 'A cara da tua marca. Logótipo, cores, tudo.' },
+  { label: 'WEBSITES', desc: 'O teu site a vender por ti, dia e noite.' },
+  { label: 'MARKETING', desc: 'Mais pessoas a conhecer e escolher o teu negócio.' },
+  { label: 'AUDIOVISUAL', desc: 'Vídeos e fotos que chamam atenção de verdade.' },
+  { label: 'GSM RENTAL', desc: 'Equipamento técnico profissional para alugar.' },
 ];
 
 const About = () => {
@@ -127,9 +127,9 @@ const About = () => {
                 Posicionamos a tua marca, atraímos <br className="md:hidden" />
                 clientes qualificados <br className="hidden md:inline" />
                 e <br className="md:hidden" />
-                construímos o motor de crescimento <br className="md:hidden" />
-                do teu <br className="hidden md:inline" />
-                negócio.
+                fazemos o teu negócio <br className="md:hidden" />
+                crescer <br className="hidden md:inline" />
+                de verdade.
               </p>
             </div>
           </div>

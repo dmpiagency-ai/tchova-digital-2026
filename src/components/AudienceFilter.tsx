@@ -51,29 +51,29 @@ const AudienceFilter = () => {
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                 <Check className="w-5 h-5 text-primary" />
               </div>
-              Perfil Ideal de Parceria
+              Trabalhamos bem contigo se...
             </h3>
             
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white font-semibold text-base mb-1">Empresas Consolidadas com Presença Desatualizada</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Operação fatura bem, mas a imagem digital não reflete a autoridade real, afastando clientes de ticket alto.</p>
+                  <h4 className="text-white font-semibold text-base mb-1">O teu negócio já funciona, mas a imagem não acompanha</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Faturas bem, mas quando alguém vê o teu site ou redes sociais, não percebe o valor do que fazes.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white font-semibold text-base mb-1">Dependência Exclusiva do Boca-a-Boca</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Necessidade urgente de um funil previsível, escalável e automatizado de aquisição de novos clientes.</p>
+                  <h4 className="text-white font-semibold text-base mb-1">Os clientes só chegam por indicação</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Precisas de um caminho para que pessoas novas te encontrem e escolham sem depender só do boca-a-boca.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white font-semibold text-base mb-1">Gargalos Operacionais que Impedem a Escala</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Processos no limite do trabalho manual que exigem sistemas integrados, automação e inteligência digital.</p>
+                  <h4 className="text-white font-semibold text-base mb-1">Fazes tudo à mão e já não dá</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Queres organizar o negócio com ferramentas e processos que te poupem tempo e energia.</p>
                 </div>
               </li>
             </ul>
@@ -86,29 +86,29 @@ const AudienceFilter = () => {
               <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
                 <X className="w-5 h-5 text-red-500" />
               </div>
-              Incompatibilidade Estratégica
+              Pode não ser o momento certo se...
             </h3>
             
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Fase de Ideia ou Conceito Sem Validação</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Oferta inicial ainda sem tração. Nosso ecossistema 360° é desenhado para acelerar negócios operacionais.</p>
+                  <h4 className="text-white/80 font-semibold text-base mb-1">Ainda estás na fase da ideia</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Se o negócio ainda não começou a vender, é cedo para o que fazemos. Trabalhamos com negócios que já estão a operar.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Procura por Soluções "Low-Cost"</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Priorizamos ROI e engenharia digital de elite. Não competimos por menor preço, entregamos ativos de alto valor.</p>
+                  <h4 className="text-white/80 font-semibold text-base mb-1">Procuras o mais barato</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Não somos a opção mais barata. Focamo-nos em fazer trabalho que realmente traz resultado.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
                 <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
                 <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Sem Visão de Investimento em Escala</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Parcerias exclusivas com empresas prontas para aportar recursos na sua própria infraestrutura de crescimento.</p>
+                  <h4 className="text-white/80 font-semibold text-base mb-1">Não estás pronto para investir no teu crescimento</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Trabalhamos com quem está disposto a investir na sua imagem e nas suas ferramentas de venda.</p>
                 </div>
               </li>
             </ul>

@@ -155,13 +155,13 @@ const Pricing = () => {
         <div ref={headerRef} className="text-center mb-10 md:mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Evolução do Negócio</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Planos</span>
           </div>
           <h2 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight text-white uppercase font-nunito">
-            A VELOCIDADE QUE O TEU NEGÓCIO <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">PRECISA</span>
+            ESCOLHE O QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">PRECISAS</span>
           </h2>
           <p className="text-sm md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0 font-nunito">
-            Diferentes fases exigem movimentos diferentes. Escolhe a força que precisas para empurrar o teu negócio hoje.
+            Cada negócio está numa fase diferente. Escolhe o plano que faz sentido para ti agora.
             <span className="block mt-2 text-white/60 text-sm font-bold">Sem compromisso. Fala connosco primeiro.</span>
           </p>
         </div>

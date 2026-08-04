@@ -33,29 +33,29 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'DIAGNOSTICAR O NEGÓCIO',
-      description: 'Analisamos em que fase está o teu negócio e identificamos onde estás a perder dinheiro: na imagem, na captação ou na operação.',
+      label: 'ENTENDER O TEU NEGÓCIO',
+      description: 'Conversamos contigo, olhamos para o que já tens e identificamos o que falta para crescer.',
       number: '01',
       phase: 'Fase 1',
-      keyword: 'Diagnosticar',
+      keyword: 'Entender',
     },
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'ARQUITECTAR A ESTRATÉGIA',
-      description: 'Activamos as áreas certas — design, site, tráfego ou vídeo — numa estratégia integrada, não em peças soltas.',
+      label: 'MONTAR O PLANO',
+      description: 'Escolhemos o que faz sentido para ti — site, marca, anúncios ou vídeo — tudo ligado, nada solto.',
       number: '02',
       phase: 'Fase 2',
-      keyword: 'Arquitectar',
+      keyword: 'Montar',
     },
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'ESCALAR A OPERAÇÃO',
-      description: 'Com a estrutura montada, o teu negócio começa a atrair clientes de forma previsível e a operar com menos esforço manual.',
+      label: 'PÔR A FUNCIONAR',
+      description: 'Lançamos tudo e o teu negócio começa a atrair clientes de verdade, com menos trabalho para ti.',
       number: '03',
       phase: 'Fase 3',
-      keyword: 'Escalar',
+      keyword: 'Lançar',
     },
   ];
 
@@ -163,7 +163,7 @@ const HowItWorks = () => {
             3 FASES. <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">ZERO ACHISMO.</span>
           </h2>
           <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Diagnosticamos, montamos e <span className="text-white font-semibold">escalamos.</span>
+            Entendemos, montamos e <span className="text-white font-semibold">lançamos.</span>
           </p>
         </div>
 
