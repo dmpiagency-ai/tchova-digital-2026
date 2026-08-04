@@ -4,7 +4,6 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Workflow, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EliteRadar, EliteNode, ElitePulse } from '@/components/ui/EliteIcons';
-import useEmblaCarousel from 'embla-carousel-react';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,20 +13,12 @@ const HowItWorks = () => {
   const stepsRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const pipelineRef = useRef<HTMLDivElement>(null);
-  const swipeHintRef = useRef<HTMLDivElement>(null);
 
-  // Full-width snapping carousel — one card at a time, no partial peek
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'center',
-    containScroll: 'trimSnaps',
-    loop: false,
-    skipSnaps: false,
-    breakpoints: { '(min-width: 1024px)': { active: false } }
-  });
-
+  // Native Mobile Carousel Refs & State
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(true);
+  const [showLeftFade, setShowLeftFade] = useState(false);
+  const [showRightFade, setShowRightFade] = useState(true);
 
   const steps = [
     {
@@ -59,42 +50,40 @@ const HowItWorks = () => {
     },
   ];
 
-  // Sync Embla state → React state
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
+  const handleScroll = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setShowLeftFade(scrollLeft > 8);
+    setShowRightFade(scrollLeft < scrollWidth - clientWidth - 8);
+
+    const cardWidth = clientWidth * 0.85;
+    const index = Math.min(
+      steps.length - 1,
+      Math.max(0, Math.round((scrollLeft + cardWidth * 0.3) / cardWidth))
+    );
+    setSelectedIndex(index);
+  };
 
   useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-    onSelect();
-  }, [emblaApi, onSelect]);
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
-
-  // One-time swipe hint GSAP animation on mobile
-  useEffect(() => {
-    if (!swipeHintRef.current || isLowEnd) return;
-    if (window.innerWidth >= 1024) return;
-
-    const tl = gsap.timeline({ delay: 1.5 });
-    tl.to(swipeHintRef.current, { opacity: 1, duration: 0.4 })
-      .to(swipeHintRef.current, { x: -20, duration: 0.5, ease: 'power2.out' })
-      .to(swipeHintRef.current, { x: 0, duration: 0.4, ease: 'power2.inOut' })
-      .to(swipeHintRef.current, { x: -14, duration: 0.35, ease: 'power2.out' })
-      .to(swipeHintRef.current, { x: 0, duration: 0.3, ease: 'power2.inOut' })
-      .to(swipeHintRef.current, { opacity: 0, duration: 0.5, delay: 0.4 });
-
-    return () => {
-      tl.kill();
-    };
+    handleScroll();
   }, []);
+
+  const scrollPrev = () => {
+    if (!carouselRef.current) return;
+    carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+
+  const scrollNext = () => {
+    if (!carouselRef.current) return;
+    carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
+  const scrollTo = (index: number) => {
+    if (!carouselRef.current) return;
+    const cardWidth = carouselRef.current.clientWidth * 0.85;
+    carouselRef.current.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+  };
 
   useGSAP(() => {
     if (isLowEnd) return;
@@ -167,7 +156,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* ─── MOBILE: Storytelling Carousel ─────────────────────────────────── */}
+        {/* ─── MOBILE: Native Full-Bleed Carousel ─────────────────────────────────── */}
         <div className="lg:hidden relative">
 
           {/* Phase label + counter */}
@@ -175,10 +164,10 @@ const HowItWorks = () => {
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
               <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase">
-                {steps[selectedIndex].phase}
+                {steps[selectedIndex]?.phase}
               </span>
               <span className="text-[10px] text-white/25 tracking-widest">
-                · {steps[selectedIndex].keyword}
+                · {steps[selectedIndex]?.keyword}
               </span>
             </div>
             <span className="text-[11px] font-bold text-white/35 tabular-nums font-mono">
@@ -186,7 +175,7 @@ const HowItWorks = () => {
             </span>
           </div>
 
-          {/* Progress bar — fills per step */}
+          {/* Progress bar */}
           <div className="h-[2px] bg-white/[0.06] rounded-full mb-5 overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-primary to-brand-green rounded-full transition-all duration-500 ease-out"
@@ -194,24 +183,53 @@ const HowItWorks = () => {
             />
           </div>
 
-          {/* Swipe hint — animates once then disappears */}
-          <div
-            ref={swipeHintRef}
-            className="absolute right-2 top-[45%] z-20 opacity-0 pointer-events-none flex items-center gap-1.5"
-          >
-            <span className="text-[9px] text-white/40 uppercase tracking-widest">deslize</span>
-            <ChevronLeft className="w-5 h-5 text-white/40" />
-          </div>
+          {/* Carousel container */}
+          <div className="relative -mx-6">
+            {/* Visual Fade Left */}
+            <div className={`absolute left-0 top-0 bottom-4 w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none transition-opacity duration-300 ${showLeftFade ? 'opacity-100' : 'opacity-0'}`} />
+            
+            {/* Left Navigation Icon */}
+            <button
+              onClick={scrollPrev}
+              disabled={!showLeftFade}
+              aria-label="Fase anterior"
+              className={`absolute left-4 top-1/2 -translate-y-1/2 -mt-2 z-20 flex items-center justify-center w-10 h-10 rounded-full border bg-background/90 backdrop-blur-md transition-all duration-200 no-min-size shadow-xl ${
+                showLeftFade ? 'border-primary/40 text-primary active:scale-95 opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <ChevronLeft className="w-6 h-6 ml-[-2px]" />
+            </button>
 
-          {/* Embla — 100% width, full card per view */}
-          <div ref={emblaRef} className="overflow-hidden">
-            <div className="flex">
+            {/* Visual Fade Right */}
+            <div className={`absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none transition-opacity duration-300 ${showRightFade ? 'opacity-100' : 'opacity-0'}`} />
+
+            {/* Right Navigation Icon */}
+            <button
+              onClick={scrollNext}
+              disabled={!showRightFade}
+              aria-label="Próxima fase"
+              className={`absolute right-4 top-1/2 -translate-y-1/2 -mt-2 z-20 flex items-center justify-center w-10 h-10 rounded-full border bg-background/90 backdrop-blur-md transition-all duration-200 no-min-size shadow-xl ${
+                showRightFade ? 'border-primary/40 text-primary active:scale-95 opacity-100 animate-pulse' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <ChevronRight className="w-6 h-6 ml-[2px]" />
+            </button>
+
+            {/* Native Scroll-Snap Container */}
+            <div
+              ref={carouselRef}
+              onScroll={handleScroll}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pb-4 pt-1 px-6 relative z-0"
+            >
               {steps.map((step, index) => (
-                <div key={step.id} className="flex-[0_0_100%] min-w-0">
-                  <div className={`relative w-full border rounded-2xl overflow-hidden p-6 md:p-8 transition-all duration-500 backdrop-blur-xl ${
+                <div
+                  key={step.id}
+                  className="flex-[0_0_85%] min-w-0 snap-center transition-all duration-300"
+                >
+                  <div className={`relative w-full border rounded-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 backdrop-blur-xl ${
                     index === selectedIndex
-                      ? 'bg-gradient-to-br from-white/[0.08] via-card/80 to-primary/[0.08] border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.35)]'
-                      : 'bg-card/50 border-white/[0.07] opacity-60'
+                      ? 'bg-gradient-to-br from-white/[0.08] via-card/80 to-primary/[0.08] border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.35)] opacity-100 scale-100'
+                      : 'bg-card/50 border-white/[0.07] opacity-70 scale-[0.98]'
                   }`}>
 
                     {/* Giant Watermark Number */}
@@ -255,23 +273,8 @@ const HowItWorks = () => {
             </div>
           </div>
 
-          {/* Navigation controls */}
-          <div className="flex items-center justify-between mt-5 px-0.5">
-            {/* Prev */}
-            <button
-              onClick={scrollPrev}
-              disabled={!canScrollPrev}
-              aria-label="Fase anterior"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
-                canScrollPrev
-                  ? 'border-primary/40 text-primary active:scale-95 active:bg-primary/20'
-                  : 'border-white/8 text-white/15 cursor-not-allowed'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Reactive dots */}
+          {/* Navigation controls (Indicators only) */}
+          <div className="flex items-center justify-center mt-4 px-0.5">
             <div className="flex items-center gap-2">
               {steps.map((_, i) => (
                 <button
@@ -286,20 +289,6 @@ const HowItWorks = () => {
                 />
               ))}
             </div>
-
-            {/* Next */}
-            <button
-              onClick={scrollNext}
-              disabled={!canScrollNext}
-              aria-label="Próxima fase"
-              className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 no-min-size ${
-                canScrollNext
-                  ? 'border-primary/40 text-primary active:scale-95 active:bg-primary/20'
-                  : 'border-white/8 text-white/15 cursor-not-allowed'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
           </div>
         </div>
 
