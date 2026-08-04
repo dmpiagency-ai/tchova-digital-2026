@@ -25,6 +25,8 @@ const Services = () => {
   const [mobileSelectedIndex, setMobileSelectedIndex] = useState(0);
   const [showLeftFade, setShowLeftFade] = useState(false);
   const [showRightFade, setShowRightFade] = useState(true);
+  const [isMobileInteracting, setIsMobileInteracting] = useState(false);
+  const interactTimeoutRef = useRef<NodeJS.Timeout>();
 
   useGSAP(() => {
     if (isLowEnd) return;
@@ -113,32 +115,76 @@ const Services = () => {
     setShowLeftFade(scrollLeft > 8);
     setShowRightFade(scrollLeft < scrollWidth - clientWidth - 8);
 
-    const cardWidth = clientWidth * 0.85;
-    const index = Math.min(
-      services.length - 1,
-      Math.max(0, Math.round((scrollLeft + cardWidth * 0.3) / cardWidth))
-    );
-    setMobileSelectedIndex(index);
-  }, [services.length]);
+    const children = Array.from(el.children) as HTMLElement[];
+    if (children.length === 0) return;
+
+    const containerCenter = scrollLeft + clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    children.forEach((child, idx) => {
+      const childCenter = child.offsetLeft + child.clientWidth / 2;
+      const dist = Math.abs(containerCenter - childCenter);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestIndex = idx;
+      }
+    });
+
+    setMobileSelectedIndex(closestIndex);
+  }, []);
 
   useEffect(() => {
     handleMobileScroll();
   }, [handleMobileScroll]);
 
+  const handleInteractionStart = useCallback(() => {
+    setIsMobileInteracting(true);
+    if (interactTimeoutRef.current) clearTimeout(interactTimeoutRef.current);
+  }, []);
+
+  const handleInteractionEnd = useCallback(() => {
+    interactTimeoutRef.current = setTimeout(() => {
+      setIsMobileInteracting(false);
+    }, 4000);
+  }, []);
+
+  const scrollToMobile = useCallback((index: number) => {
+    const el = mobileCarouselRef.current;
+    if (!el || !el.children[index]) return;
+    const target = el.children[index] as HTMLElement;
+    const targetLeft = target.offsetLeft - (el.clientWidth - target.clientWidth) / 2;
+    el.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    // Autoplay interval for mobile carousel
+    if (isMobileInteracting) return;
+    
+    const interval = setInterval(() => {
+      if (window.innerWidth >= 768) return;
+      const el = mobileCarouselRef.current;
+      if (!el || !el.children || el.children.length === 0) return;
+
+      const nextIndex = (mobileSelectedIndex + 1) % services.length;
+      scrollToMobile(nextIndex);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isMobileInteracting, mobileSelectedIndex, services.length, scrollToMobile]);
+
   const scrollPrevMobile = () => {
-    if (!mobileCarouselRef.current) return;
-    mobileCarouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    handleInteractionStart();
+    const nextIdx = Math.max(0, mobileSelectedIndex - 1);
+    scrollToMobile(nextIdx);
+    handleInteractionEnd();
   };
 
   const scrollNextMobile = () => {
-    if (!mobileCarouselRef.current) return;
-    mobileCarouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-  };
-
-  const scrollToMobile = (index: number) => {
-    if (!mobileCarouselRef.current) return;
-    const cardWidth = mobileCarouselRef.current.clientWidth * 0.85;
-    mobileCarouselRef.current.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+    handleInteractionStart();
+    const nextIdx = Math.min(services.length - 1, mobileSelectedIndex + 1);
+    scrollToMobile(nextIdx);
+    handleInteractionEnd();
   };
 
   const handleServiceClick = useCallback((service: { id: number; title: string; category: string; }) => {
@@ -248,6 +294,10 @@ const Services = () => {
             <div
               ref={mobileCarouselRef}
               onScroll={handleMobileScroll}
+              onTouchStart={handleInteractionStart}
+              onTouchEnd={handleInteractionEnd}
+              onMouseEnter={handleInteractionStart}
+              onMouseLeave={handleInteractionEnd}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pb-4 pt-1 px-6 relative z-0"
             >
               {services.map((item, index) => (
@@ -272,9 +322,9 @@ const Services = () => {
                       <img 
                         src={getServiceImage(item)} 
                         alt=""
-                        className="absolute inset-0 w-full h-full object-cover z-1 opacity-90 transition-transform duration-700 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-3/4 z-2 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
+                      <div className="absolute inset-x-0 bottom-0 h-3/4 z-10 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
                     </div>
                     
                     {/* Glowing Border Accent */}
@@ -354,15 +404,14 @@ const Services = () => {
                 >
                   {/* Clean Dark Glass Background */}
                   <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] sm:rounded-[2rem] bg-[#0c0c0e]">
-                    {/* Service Image - Eager load with z-index */}
                     <img 
                       src={getServiceImage(item)} 
                       alt=""
-                      className="absolute inset-0 w-full h-full object-cover z-1 opacity-90 transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 transition-transform duration-700 group-hover:scale-105"
                     />
                     
                     {/* Soft Gradient Overlay for text legibility at bottom */}
-                    <div className="absolute inset-x-0 bottom-0 h-3/4 z-2 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
+                    <div className="absolute inset-x-0 bottom-0 h-3/4 z-10 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
                   </div>
                   
                   {/* Glowing Border Accent on Hover */}

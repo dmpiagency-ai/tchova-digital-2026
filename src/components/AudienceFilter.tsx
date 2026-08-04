@@ -62,11 +62,11 @@ const AudienceFilter = () => {
               <video
                 ref={videoRef}
                 src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4"
-                autoPlay
                 loop
                 muted
+                autoPlay
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-80"
               />
               {/* Soft Gradient Overlay focused under text on the left */}
@@ -77,7 +77,7 @@ const AudienceFilter = () => {
               <div className="pt-6 md:pt-8 lg:pt-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-8 md:mb-12 lg:mb-14 backdrop-blur-md">
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Perfil Ideal</span>
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Cliente Ideal</span>
                 </div>
                 <h2 className="text-[21px] sm:text-2xl md:text-3xl lg:text-4xl font-black text-white uppercase tracking-tighter leading-tight font-nunito mb-3 max-w-[500px]">
                   PARA QUEM <br />
@@ -86,9 +86,9 @@ const AudienceFilter = () => {
                   </span>
                 </h2>
                 <p className="text-xs md:text-sm lg:text-base text-zinc-300 font-normal leading-relaxed font-nunito mt-3 max-w-[440px]">
-                  Entregamos o melhor resultado <br />
-                  quando o perfil do negócio <br />
-                  está alinhado com a nossa operação.
+                  Entregamos os melhores resultados <br />
+                  quando o teu negócio <br />
+                  está alinhado com o nosso método.
                 </p>
               </div>
             </div>

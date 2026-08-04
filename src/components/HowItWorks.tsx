@@ -19,6 +19,8 @@ const HowItWorks = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showLeftFade, setShowLeftFade] = useState(false);
   const [showRightFade, setShowRightFade] = useState(true);
+  const [isMobileInteracting, setIsMobileInteracting] = useState(false);
+  const interactTimeoutRef = useRef<NodeJS.Timeout>();
 
   const steps = [
     {
@@ -57,32 +59,76 @@ const HowItWorks = () => {
     setShowLeftFade(scrollLeft > 8);
     setShowRightFade(scrollLeft < scrollWidth - clientWidth - 8);
 
-    const cardWidth = clientWidth * 0.85;
-    const index = Math.min(
-      steps.length - 1,
-      Math.max(0, Math.round((scrollLeft + cardWidth * 0.3) / cardWidth))
-    );
-    setSelectedIndex(index);
-  }, [steps.length]);
+    const children = Array.from(el.children) as HTMLElement[];
+    if (children.length === 0) return;
+
+    const containerCenter = scrollLeft + clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    children.forEach((child, idx) => {
+      const childCenter = child.offsetLeft + child.clientWidth / 2;
+      const dist = Math.abs(containerCenter - childCenter);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestIndex = idx;
+      }
+    });
+
+    setSelectedIndex(closestIndex);
+  }, []);
 
   useEffect(() => {
     handleScroll();
   }, [handleScroll]);
 
+  const handleInteractionStart = useCallback(() => {
+    setIsMobileInteracting(true);
+    if (interactTimeoutRef.current) clearTimeout(interactTimeoutRef.current);
+  }, []);
+
+  const handleInteractionEnd = useCallback(() => {
+    interactTimeoutRef.current = setTimeout(() => {
+      setIsMobileInteracting(false);
+    }, 4000);
+  }, []);
+
+  const scrollTo = useCallback((index: number) => {
+    const el = carouselRef.current;
+    if (!el || !el.children[index]) return;
+    const target = el.children[index] as HTMLElement;
+    const targetLeft = target.offsetLeft - (el.clientWidth - target.clientWidth) / 2;
+    el.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    // Autoplay interval for mobile carousel
+    if (isMobileInteracting) return;
+    
+    const interval = setInterval(() => {
+      if (window.innerWidth >= 1024) return;
+      const el = carouselRef.current;
+      if (!el || !el.children || el.children.length === 0) return;
+
+      const nextIndex = (selectedIndex + 1) % steps.length;
+      scrollTo(nextIndex);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isMobileInteracting, selectedIndex, steps.length, scrollTo]);
+
   const scrollPrev = () => {
-    if (!carouselRef.current) return;
-    carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    handleInteractionStart();
+    const nextIdx = Math.max(0, selectedIndex - 1);
+    scrollTo(nextIdx);
+    handleInteractionEnd();
   };
 
   const scrollNext = () => {
-    if (!carouselRef.current) return;
-    carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-  };
-
-  const scrollTo = (index: number) => {
-    if (!carouselRef.current) return;
-    const cardWidth = carouselRef.current.clientWidth * 0.85;
-    carouselRef.current.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+    handleInteractionStart();
+    const nextIdx = Math.min(steps.length - 1, selectedIndex + 1);
+    scrollTo(nextIdx);
+    handleInteractionEnd();
   };
 
   useGSAP(() => {
@@ -219,6 +265,10 @@ const HowItWorks = () => {
             <div
               ref={carouselRef}
               onScroll={handleScroll}
+              onTouchStart={handleInteractionStart}
+              onTouchEnd={handleInteractionEnd}
+              onMouseEnter={handleInteractionStart}
+              onMouseLeave={handleInteractionEnd}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pb-4 pt-1 px-6 relative z-0"
             >
               {steps.map((step, index) => (

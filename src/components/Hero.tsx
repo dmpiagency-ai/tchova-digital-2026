@@ -5,10 +5,20 @@ import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
-// Detect mobile synchronously (safe for SSR: defaults to false, corrected in useEffect)
-const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 1024;
+const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:eco,w_640/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+const getHeroVideoUrl = () => {
+  if (typeof window === 'undefined') return DESKTOP_VIDEO;
+  const isMobile = window.innerWidth < 1024;
+  const v = document.createElement('video');
+  const supportsWebm = Boolean(
+    v.canPlayType && (
+      v.canPlayType('video/webm; codecs="vp8, vorbis"') ||
+      v.canPlayType('video/webm; codecs="vp9"')
+    )
+  );
+  return (!isMobile && supportsWebm) ? DESKTOP_VIDEO : MOBILE_VIDEO;
+};
 
 const ROTATING_WORDS = [
   'SER ENCONTRADO',
@@ -19,14 +29,12 @@ const ROTATING_WORDS = [
   'CONQUISTAR CLIENTES',
 ];
 
-
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const wordRef = useRef<HTMLDivElement>(null);
 
-  // Lazy initializer — runs synchronously on first render so the correct src is in the DOM immediately
-  const [isMobile] = useState(() => getIsMobile());
-  const videoSrc = isMobile ? MOBILE_VIDEO : DESKTOP_VIDEO;
+  const [videoSrc] = useState(() => getHeroVideoUrl());
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   const heroRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -43,8 +51,7 @@ const Hero = () => {
 
   useEffect(() => {
     const video = videoRef.current;
-    const section = heroRef.current;
-    if (!video || !section) return;
+    if (!video) return;
 
     video.muted = true;
     video.defaultMuted = true;
@@ -66,35 +73,16 @@ const Hero = () => {
       }
     };
 
+    try {
+      video.load();
+    } catch (_) {}
     playVideo();
     video.addEventListener('loadeddata', playVideo);
     video.addEventListener('canplay', playVideo);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            playVideo();
-          } else {
-            if (!video.paused) {
-              try {
-                video.pause();
-              } catch (_) {
-                // ignore pause errors
-              }
-            }
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(section);
-
     return () => {
       video.removeEventListener('loadeddata', playVideo);
       video.removeEventListener('canplay', playVideo);
-      observer.disconnect();
     };
   }, []);
 
@@ -273,14 +261,6 @@ const Hero = () => {
           ref={videoContainerRef} 
           className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden will-change-transform origin-top bg-background [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] md:[mask-image:none]"
         >
-          {/* Fallback Poster Image */}
-          <img
-            src="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
-            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[1]"
-            alt="Tchova Digital Hero Fallback"
-          />
-
-          {/* Native Hardware-Accelerated Video */}
           <video
             ref={videoRef}
             src={videoSrc}
@@ -291,7 +271,6 @@ const Hero = () => {
             disablePictureInPicture
             disableRemotePlayback
             preload="auto"
-            poster="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto,w_1000/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg"
             className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
             style={{
               transform: 'translateZ(0)',

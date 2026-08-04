@@ -38,7 +38,7 @@ export default function Header() {
 
   const menuItems = useMemo(() => [
     { label: 'Início', link: '#home', onClick: () => handleNavigation('#home') },
-    { label: 'Perfil', link: '#audience', onClick: () => handleNavigation('#audience') },
+    { label: 'Para Quem', link: '#audience', onClick: () => handleNavigation('#audience') },
     { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
     { label: 'Processo', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
     { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
