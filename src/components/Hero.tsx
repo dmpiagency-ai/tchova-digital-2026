@@ -6,7 +6,7 @@ import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
 import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
 
 const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,w_960/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
 const getHeroVideoUrl = () => {
   if (typeof window === 'undefined') return DESKTOP_VIDEO;
   const isMobile = window.innerWidth < 1024;
@@ -259,7 +259,7 @@ const Hero = () => {
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden will-change-transform origin-top bg-background [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] md:[mask-image:none]"
+          className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden origin-top bg-background"
         >
           <video
             ref={videoRef}
