@@ -238,7 +238,7 @@ const Services = () => {
               disabled={!showRightFade}
               aria-label="Próximo serviço"
               className={`absolute right-4 top-1/2 -translate-y-1/2 -mt-2 z-20 flex items-center justify-center w-10 h-10 rounded-full border bg-background/90 backdrop-blur-md transition-all duration-200 no-min-size shadow-xl ${
-                showRightFade ? 'border-primary/40 text-primary active:scale-95 opacity-100 animate-pulse' : 'opacity-0 pointer-events-none'
+                showRightFade ? 'border-primary/40 text-primary active:scale-95 opacity-100 animate-pulse [animation-duration:3.5s]' : 'opacity-0 pointer-events-none'
               }`}
             >
               <ChevronRight className="w-6 h-6 ml-[2px]" />
