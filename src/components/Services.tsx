@@ -47,32 +47,27 @@ const Services = () => {
   }, { scope: sectionRef });
 
   const getServiceImage = useCallback((item: { id: number; }) => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const width = isMobile ? 'w_600' : 'w_800';
-    // Adding f_auto,q_auto to Cloudinary URLs for 10x faster loading
-    const optimize = (url: string) => url.replace('/upload/', `/upload/f_auto,q_auto,${width}/`);
-    
     const images: Record<number, string> = {
-      1: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149296/img_card_desgn_rdtifp.jpg'),
-      2: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149294/img_card_site_hlm7hf.jpg'),
-      3: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149298/img_making_card_ugn796.jpg'),
-      4: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1785149290/img_card_audio_visual_bzdiq8.jpg'),
-      5: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1772183388/renta-img-bg_guxaww.jpg'),
-      6: optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png'),
+      1: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1785149296/img_card_desgn_rdtifp.jpg',
+      2: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1785149294/img_card_site_hlm7hf.jpg',
+      3: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1785149298/img_making_card_ugn796.jpg',
+      4: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1785149290/img_card_audio_visual_bzdiq8.jpg',
+      5: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1772183388/renta-img-bg_guxaww.jpg',
+      6: 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1762756410/Gemini_Generated_Image_ni5h1ani5h1ani5h_p8vvov.png',
     };
-    return images[item.id] || optimize('https://res.cloudinary.com/dwlfwnbt0/image/upload/v1762746750/1762703395544_lhphsq.png');
+    return images[item.id] || 'https://res.cloudinary.com/dwlfwnbt0/image/upload/f_auto,q_auto/v1762746750/1762703395544_lhphsq.png';
   }, []);
 
-  // Services with elite vectors — 5 distinct service areas
+  // Services with elite vectors — 4 distinct service areas
   const services = useMemo(() => [
     {
       id: 1,
       number: '01',
       title: 'BRANDING & IDENTIDADE',
-      category: 'Direcção Criativa',
-      audience: 'A imagem que faz o cliente confiar em ti',
-      painPoint: 'Logótipo, cores e materiais que mostram que és profissional.',
-      cta: 'Ver Branding',
+      category: 'Direção Criativa',
+      audience: 'Imagem de Prestígio',
+      painPoint: 'Identidade visual forte que transmite credibilidade e justifica preços mais altos.',
+      cta: 'Iniciar Diagnóstico',
       icon: EliteMatrix
     },
     {
@@ -80,19 +75,19 @@ const Services = () => {
       number: '02',
       title: 'WEB & E-COMMERCE',
       category: 'Desenvolvimento',
-      audience: 'Um site que trabalha por ti',
-      painPoint: 'Sites bonitos, rápidos e que trazem clientes.',
-      cta: 'Ver Web',
+      audience: 'Vendedor Digital 24/7',
+      painPoint: 'Plataformas rápidas e autónomas que convertem visitantes em clientes.',
+      cta: 'Iniciar Diagnóstico',
       icon: EliteVector
     },
     {
       id: 3,
       number: '03',
       title: 'MARKETING & PERFORMANCE',
-      category: 'Divulgação & Crescimento',
-      audience: 'Mais pessoas a ver o teu negócio',
-      painPoint: 'Anúncios, redes sociais e estratégias que trazem clientes novos.',
-      cta: 'Ver Marketing',
+      category: 'Aquisição de Clientes',
+      audience: 'Tráfego Qualificado',
+      painPoint: 'Anúncios diretos no Google e Meta para quem quer comprar de ti hoje.',
+      cta: 'Iniciar Diagnóstico',
       icon: ElitePulse
     },
     {
@@ -100,9 +95,9 @@ const Services = () => {
       number: '04',
       title: 'VÍDEO & FOTOGRAFIA',
       category: 'Produção Visual',
-      audience: 'Conteúdo que as pessoas param para ver',
-      painPoint: 'Vídeos e fotos profissionais que dão credibilidade à tua marca.',
-      cta: 'Ver Produção',
+      audience: 'Retenção de Atenção',
+      painPoint: 'Conteúdo visual de nível de cinema que para o scroll e gera desejo.',
+      cta: 'Iniciar Diagnóstico',
       icon: EliteRadar
     },
   ], []);
@@ -127,7 +122,7 @@ const Services = () => {
     <section 
       ref={sectionRef}
       id="services" 
-      className="min-h-[100dvh] lg:min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden py-8 md:py-12 lg:pt-6 lg:pb-10 bg-background border-t border-white/[0.04]"
+      className="w-full flex flex-col justify-center items-center relative overflow-hidden pt-10 sm:pt-12 lg:pt-14 pb-8 md:pb-12 lg:pb-16 bg-background border-t border-white/[0.04] scroll-mt-0"
     >
       {/* Elite Ecosystem Background (Softened) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -145,107 +140,90 @@ const Services = () => {
         <div className="absolute bottom-1/4 left-1/4 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-primary/[0.03] md:bg-primary/8 rounded-full blur-[120px] md:blur-[180px]" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-6 lg:px-12 w-full">
+      <div className="container relative z-10 mx-auto px-6 lg:px-12 w-full flex flex-col justify-center">
         
         {/* Elite Header */}
-        <div ref={headerRef} className="text-center mb-1 lg:mb-2 relative flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2 backdrop-blur-md">
+        <div ref={headerRef} className="text-center mt-8 lg:mt-13 mb-0 relative flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-1 lg:mb-1.5 backdrop-blur-md">
             <Layers className="w-4 h-4 text-primary" />
             <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Serviços</span>
           </div>
-          <h2 className="text-fluid-h2 font-bold mb-0 tracking-tight text-white uppercase whitespace-nowrap font-nunito">
+          <h2 className="text-fluid-h2 font-bold mb-0 mt-0.5 lg:mt-1 tracking-tight text-white uppercase whitespace-nowrap font-nunito">
             ONDE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">ATACAMOS.</span>
           </h2>
         </div>
 
         {/* Liquid Glass Monolith Carousel */}
-        <div ref={carouselRef} className="w-full px-1 md:px-4 max-w-7xl mx-auto mt-2 lg:mt-3">
+        <div ref={carouselRef} className="w-full px-1 md:px-4 max-w-7xl lg:max-w-[1350px] mx-auto -mt-1 lg:-mt-2">
           <Carousel
             slides={services.map((item) => (
               <TiltCard 
                 key={item.id} 
-                className="select-none p-0 overflow-visible rounded-[2rem]" 
-                maxTilt={8} 
-                glowOpacity={0.4} 
-                glowColor="rgba(34, 197, 94, 0.4)"
-                style={{ maxWidth: '350px', margin: '0 auto', height: '100%' }}
+                className="select-none p-0 overflow-visible rounded-[1.75rem] sm:rounded-[2rem] max-w-[350px] lg:max-w-[390px] xl:max-w-[440px] mx-auto" 
+                maxTilt={6} 
+                glowOpacity={0.35} 
+                glowColor="rgba(34, 197, 94, 0.35)"
+                style={{ width: '100%', margin: '0 auto', height: '100%' }}
               >
                 <div
                   role="button"
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                  className="relative h-[380px] lg:h-[415px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl active:scale-[0.98] transition-transform duration-200 gpu-accelerated"
+                  className="relative h-[340px] xs:h-[365px] sm:h-[385px] lg:h-[450px] xl:h-[490px] w-full cursor-pointer group focus:outline-none rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl active:scale-[0.98] transition-all duration-300 gpu-accelerated bg-[#0c0c0e]"
                   onClick={() => handleServiceClick(item)}
                   onKeyDown={(e) => handleCardKeyDown(e, item)}
                 >
-                  {/* Background Image Setup */}
-                  <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-card">
-                    {/* Base Color Fallback (Based on service ID for variety) */}
-                    <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${
-                      item.id % 3 === 0 ? 'from-primary/40 to-black' : 
-                      item.id % 2 === 0 ? 'from-brand-green/30 to-black' : 
-                      'from-emerald-900/40 to-black'
-                    }`} />
-                    
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 z-[2]"
-                      style={{ 
-                        backgroundImage: `url(${getServiceImage(item)})`,
-                        backgroundColor: '#0a0a0a' 
-                      }}
+                  {/* Clean Dark Glass Background */}
+                  <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] sm:rounded-[2rem] bg-[#0c0c0e]">
+                    {/* Service Image - Eager load with z-index */}
+                    <img 
+                      src={getServiceImage(item)} 
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover z-1 opacity-90 transition-transform duration-700 group-hover:scale-105"
                     />
+                    
+                    {/* Soft Gradient Overlay for text legibility at bottom */}
+                    <div className="absolute inset-x-0 bottom-0 h-3/4 z-2 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
+                  </div>
+                  
+                  {/* Glowing Border Accent on Hover */}
+                  <div className="absolute inset-0 border border-white/10 group-hover:border-primary/50 transition-colors duration-500 rounded-[1.75rem] sm:rounded-[2rem] pointer-events-none z-30" />
 
-                    {/* Vertical Watermark Title (Elite Aesthetic) */}
-                    <div className="absolute -right-20 top-1/2 -translate-y-1/2 rotate-90 origin-center z-[3] pointer-events-none opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-700">
-                      <span className="text-9xl font-black text-white tracking-tighter uppercase whitespace-nowrap">
-                        {item.title}
-                      </span>
+                  {/* Top Bar: Icon + CTA Button */}
+                  <div className="absolute top-4 left-4 right-4 sm:top-5 sm:left-5 sm:right-5 lg:top-5 lg:left-5 lg:right-5 z-30 flex items-center justify-between pointer-events-none">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-xl lg:rounded-2xl bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/40">
+                      <item.icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6 text-white group-hover:text-primary transition-colors" />
                     </div>
-                  </div>
-                  
-                  {/* Advanced Gradient Overlay (Liquid Glass base) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent group-hover:from-black/85 group-hover:via-black/35 transition-all duration-500 z-10" />
-                  
-                  {/* Glowing Border on Hover */}
-                  <div className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500 rounded-[2rem] pointer-events-none z-30" />
 
-                  {/* Elite Icon Top Left */}
-                  <div className="absolute top-6 left-6 z-30 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center transition-transform duration-500 group-hover:bg-primary/20">
-                    <item.icon className="w-5 h-5 text-white group-hover:text-primary transition-colors" />
-                  </div>
-
-                  {/* Top Right "Ver Detalhes" Pill */}
-                  <div className="absolute top-6 right-6 z-30 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-4 group-hover:translate-x-0">
-                    <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                       {item.cta}
-                     </div>
+                    <div className="pointer-events-auto opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 translate-x-0 md:translate-x-4 md:group-hover:translate-x-0">
+                      <div className="px-3 py-1.5 sm:px-4 sm:py-2 lg:px-4 lg:py-2 rounded-full bg-primary/20 md:bg-white/10 backdrop-blur-2xl border border-primary/40 md:border-white/20 text-white text-[9px] sm:text-[10px] lg:text-xs xl:text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                         {item.cta}
+                       </div>
+                    </div>
                   </div>
 
                   {/* Text Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 flex flex-col justify-end z-40">
-                    <div className="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                      {/* Category & Number Badge */}
-                      <div className="flex items-center justify-between mb-2.5 border-b border-white/5 pb-2">
-                        <span className="text-[9px] font-black uppercase tracking-wider text-primary">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 flex flex-col justify-end z-40">
+                    <div className="transform transition-all duration-500 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0">
+                      {/* Category Badge */}
+                      <div className="flex items-center justify-between mb-2 lg:mb-2 border-b border-white/10 pb-2">
+                        <span className="text-[10px] sm:text-xs lg:text-xs xl:text-sm font-bold uppercase tracking-widest text-primary">
                           {item.category}
-                        </span>
-                        <span className="text-[10px] font-bold font-mono text-white/30">
-                          {item.number}
                         </span>
                       </div>
                       
-                      <h3 className="text-sm md:text-base font-black text-white leading-snug mb-1.5 tracking-tight">
+                      <h3 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-white leading-snug mb-1.5 lg:mb-2 tracking-tight">
                         {item.title}
                       </h3>
                       
-                      {/* Hidden details that appear on hover */}
-                      <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out opacity-0 group-hover:opacity-100">
+                      {/* Details: Always visible on mobile, expandable on desktop hover */}
+                      <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <div className="overflow-hidden">
-                          <div className="pt-2">
-                            <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest mb-1">
+                          <div className="pt-1.5 lg:pt-2">
+                            <p className="text-[9px] sm:text-[10px] lg:text-xs xl:text-sm font-bold text-white/60 uppercase tracking-widest mb-1">
                               {item.audience}
                             </p>
-                            <p className="text-[11px] text-zinc-400 leading-relaxed font-medium">
+                            <p className="text-xs lg:text-sm xl:text-base text-zinc-300 md:text-zinc-400 leading-relaxed font-normal">
                               {item.painPoint}
                             </p>
                           </div>
@@ -271,7 +249,7 @@ const Services = () => {
         </div>
 
         {/* Magnetic Fluid CTA */}
-        <div className="mt-7 lg:mt-8 text-center relative z-10 hidden md:block">
+        <div className="mt-6 lg:mt-7 text-center relative z-10 hidden md:block">
           <button
             onClick={handleWhatsAppClick}
             className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)]"

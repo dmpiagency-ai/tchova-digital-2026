@@ -154,20 +154,49 @@ const AudiovisualPortal = () => {
                 </div>
 
                 {/* Case Info - Right Column */}
-                <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+                <div className="lg:col-span-6 flex flex-col gap-5 text-left">
                   <div>
-                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2 block">A Nossa Abordagem</span>
-                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight leading-tight">Produção Visual que <br />Gera Desejo e Autoridade</h3>
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1.5 block font-nunito">A Nossa Abordagem</span>
+                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight leading-tight font-nunito">Vídeos e Fotos <br />que Geram Desejo</h3>
                   </div>
 
-                  <p className="text-sm md:text-base text-zinc-300 leading-relaxed font-light">
-                    O teu produto ou serviço merece ser apresentado com qualidade máxima. Criamos vídeos promocionais e fotografias profissionais com iluminação e edição de alto padrão para captar a atenção no feed e valorizar a tua marca.
-                  </p>
+                  {/* Scannable Direct Points */}
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Retenção de Atenção</h4>
+                        <p className="text-xs text-zinc-400 font-normal">Conteúdo visual que para o scroll nos primeiros 3 segundos do feed.</p>
+                      </div>
+                    </div>
 
-                  <div className="p-6 rounded-2xl bg-white/[0.02] border border-primary/20 shadow-[0_4px_20px_rgba(34,197,94,0.05)]">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1 block">O Teu Objetivo</span>
-                    <p className="text-sm text-white font-medium">
-                      Destacar a tua marca da concorrência e atrair clientes com conteúdos visuais impactantes.
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Qualidade de Elite</h4>
+                        <p className="text-xs text-zinc-400 font-normal">Fotografia e vídeo com iluminação e edição de nível de cinema/TV.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Destaque da Concorrência</h4>
+                        <p className="text-xs text-zinc-400 font-normal">A tua marca a parecer indiscutivelmente superior e dominante no mercado.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-0.5 block font-nunito">O Teu Objetivo</span>
+                    <p className="text-xs md:text-sm text-white font-bold">
+                      Conquistar clientes exigentes através de conteúdos de alto impacto visual.
                     </p>
                   </div>
                 </div>

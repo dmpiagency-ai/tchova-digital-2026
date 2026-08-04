@@ -38,10 +38,11 @@ export default function Header() {
 
   const menuItems = useMemo(() => [
     { label: 'Início', link: '#home', onClick: () => handleNavigation('#home') },
+    { label: 'Perfil', link: '#audience', onClick: () => handleNavigation('#audience') },
     { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
+    { label: 'Processo', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
     { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
-    { label: 'Rent GSM', link: '/gsm', onClick: () => navigate('/gsm') },
-    { label: 'Manifesto', link: '#about', onClick: () => handleNavigation('#about') },
+    { label: 'GSM', link: '/gsm', onClick: () => navigate('/gsm') },
     { label: 'Contacto', link: '#contact', onClick: () => handleNavigation('#contact') },
   ], [handleNavigation, navigate]);
 
@@ -138,14 +139,14 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation Links - Modern Organic Pills */}
-            <div className="hidden md:flex flex-1 justify-center items-center gap-2 lg:gap-3 xl:gap-4 px-2 xl:absolute xl:left-[52%] xl:-translate-x-1/2 xl:flex-none">
+            <div className="hidden md:flex flex-1 justify-center items-center gap-1 lg:gap-2 xl:gap-3 px-2 xl:absolute xl:left-[50%] xl:-translate-x-1/2 xl:flex-none">
               {menuItems.slice(1, -1).map((item) => (
                 <button
                   key={item.label}
                   onClick={item.onClick}
-                  className="group relative px-4 py-2 lg:px-5 lg:py-2.5 rounded-full text-[9px] lg:text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/60 hover:text-white transition-all duration-300 hover:bg-white/5 active:scale-95 flex items-center gap-1.5"
+                  className="group relative px-3 py-2 lg:px-4 lg:py-2 rounded-full text-[9px] lg:text-[10px] xl:text-[11px] font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] text-white/60 hover:text-white transition-all duration-300 hover:bg-white/5 active:scale-95 flex items-center gap-1.5 whitespace-nowrap shrink-0"
                 >
-                  <span>{item.label}</span>
+                  <span className="whitespace-nowrap">{item.label}</span>
                 </button>
               ))}
             </div>
@@ -155,7 +156,7 @@ export default function Header() {
               <button
                 onClick={handleWhatsAppClick}
                 className={cn(
-                  "group relative flex items-center gap-2 lg:gap-3 px-5 lg:px-7 py-2.5 lg:py-3 rounded-full font-black text-[9px] lg:text-[10px] uppercase tracking-widest transition-all duration-500 overflow-hidden",
+                  "group relative flex items-center gap-2 lg:gap-3 px-4 lg:px-6 py-2.5 lg:py-3 rounded-full font-black text-[9px] lg:text-[10px] uppercase tracking-widest transition-all duration-500 overflow-hidden whitespace-nowrap shrink-0",
                   scrolled 
                     ? "bg-[#22C55E] text-black shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:scale-105 active:scale-95" 
                     : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_20px_rgba(255,255,255,0.02)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_0_30px_rgba(255,255,255,0.05)] hover:scale-105 active:scale-95"
@@ -166,14 +167,14 @@ export default function Header() {
                 
                 {/* Integrated Status indicator inside button when not scrolled */}
                 {!scrolled && (
-                  <div className="relative flex items-center justify-center w-2 h-2 mr-1">
+                  <div className="relative flex items-center justify-center w-2 h-2 mr-0.5 shrink-0">
                     <div className="absolute w-full h-full bg-primary rounded-full animate-ping opacity-75" />
                     <div className="relative w-1.5 h-1.5 bg-primary rounded-full" />
                   </div>
                 )}
                 
-                <MessageCircle className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-500 group-hover:scale-110" />
-                <span>{scrolled ? 'Começar Agora' : 'Iniciar Projeto'}</span>
+                <MessageCircle className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-500 group-hover:scale-110 shrink-0" />
+                <span className="whitespace-nowrap">{scrolled ? 'Começar Agora' : 'Iniciar Projeto'}</span>
               </button>
             </div>
           </nav>

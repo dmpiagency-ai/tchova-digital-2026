@@ -6,7 +6,6 @@ import { InteractiveContactModal } from '@/components/InteractiveContactModal';
 
 const LoginModal = lazy(() => import('@/components/LoginModal'));
 
-const About = lazy(() => import('@/components/About'));
 const Services = lazy(() => import('@/components/Services'));
 const GSMPromotionalSection = lazy(() => import('@/components/GSMPromotionalSection'));
 const HowItWorks = lazy(() => import('@/components/HowItWorks'));
@@ -129,15 +128,17 @@ const Index = () => {
 
       <main id="main-content" role="main" tabIndex={-1} className="relative z-[1]">
         <Hero />
+        
+
+
         <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>
-          <About />
+          <AudienceFilter />
           <Services />
         </Suspense>
 
         <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>
-          <GSMPromotionalSection />
           <HowItWorks />
-          <AudienceFilter />
+          <GSMPromotionalSection />
         </Suspense>
 
         <Suspense fallback={<div className="h-20 w-full bg-[#0A0A0A]" />}>

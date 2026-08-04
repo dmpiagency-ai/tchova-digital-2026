@@ -33,29 +33,29 @@ const HowItWorks = () => {
     {
       id: 'plan',
       icon: EliteRadar,
-      label: 'ENTENDER O TEU NEGÓCIO',
-      description: 'Conversamos contigo, olhamos para o que já tens e identificamos o que falta para crescer.',
+      label: 'DIAGNÓSTICO REAL',
+      description: 'Zero suposições. Analisamos o teu negócio, os teus números e identificamos exatamente onde estás a perder dinheiro e clientes.',
       number: '01',
       phase: 'Fase 1',
-      keyword: 'Entender',
+      keyword: 'Análise',
     },
     {
       id: 'execute',
       icon: EliteNode,
-      label: 'MONTAR O PLANO',
-      description: 'Escolhemos o que faz sentido para ti — site, marca, anúncios ou vídeo — tudo ligado, nada solto.',
+      label: 'SISTEMA DE VENDAS',
+      description: 'Não entregamos "arte". Montamos um ecossistema (Branding, Site, Tráfego, Vídeos) focado inteiramente na retenção e conversão.',
       number: '02',
       phase: 'Fase 2',
-      keyword: 'Montar',
+      keyword: 'Estratégia',
     },
     {
       id: 'launch',
       icon: ElitePulse,
-      label: 'PÔR A FUNCIONAR',
-      description: 'Lançamos tudo e o teu negócio começa a atrair clientes de verdade, com menos trabalho para ti.',
+      label: 'ESCALA E PREVISIBILIDADE',
+      description: 'Lançamos as campanhas e a infraestrutura. O teu negócio passa a atrair clientes qualificados de forma automática e previsível.',
       number: '03',
       phase: 'Fase 3',
-      keyword: 'Lançar',
+      keyword: 'Escala',
     },
   ];
 
@@ -137,7 +137,7 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="how-it-works" className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04] font-nunito">
+    <section ref={containerRef} id="how-it-works" className="py-12 md:py-16 lg:py-20 relative overflow-hidden bg-background border-t border-white/[0.04] font-nunito scroll-mt-6">
 
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -154,16 +154,16 @@ const HowItWorks = () => {
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
 
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-10 md:mb-12 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 md:mb-8 backdrop-blur-md">
+        <div ref={headerRef} className="text-center mb-8 md:mb-10 max-w-3xl mx-auto flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3 backdrop-blur-md">
             <Workflow className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Como Trabalhamos</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Como Trabalhamos</span>
           </div>
-          <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase font-nunito">
-            3 FASES. <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">ZERO ACHISMO.</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-3 tracking-tighter text-white uppercase font-nunito">
+            3 FASES. <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">SEM COMPLICAÇÃO.</span>
           </h2>
-          <p className="text-base md:text-2xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
-            Entendemos, montamos e <span className="text-white font-semibold">lançamos.</span>
+          <p className="text-zinc-400 text-sm md:text-base font-normal leading-relaxed font-nunito max-w-xl">
+            Entendemos o teu momento, montamos a estrutura e <span className="text-white font-semibold">lançamos a operação.</span>
           </p>
         </div>
 
@@ -208,19 +208,19 @@ const HowItWorks = () => {
             <div className="flex">
               {steps.map((step, index) => (
                 <div key={step.id} className="flex-[0_0_100%] min-w-0">
-                  <div className={`relative w-full border rounded-2xl overflow-hidden p-6 transition-all duration-400 ${
+                  <div className={`relative w-full border rounded-2xl overflow-hidden p-6 md:p-8 transition-all duration-500 backdrop-blur-xl ${
                     index === selectedIndex
-                      ? 'bg-primary/5 border-primary/35 shadow-[0_0_36px_-8px_rgba(34,197,94,0.4)]'
-                      : 'bg-card border-white/[0.07]'
+                      ? 'bg-gradient-to-br from-white/[0.08] via-card/80 to-primary/[0.08] border-primary/40 shadow-[0_0_40px_-10px_rgba(34,197,94,0.35)]'
+                      : 'bg-card/50 border-white/[0.07] opacity-60'
                   }`}>
 
-                    {/* Ghost number */}
-                    <div className="absolute -bottom-4 -right-3 text-[120px] font-black text-white/[0.04] tracking-tighter leading-none pointer-events-none select-none">
+                    {/* Giant Watermark Number */}
+                    <div className="absolute top-2 right-4 text-7xl font-black font-mono text-white/[0.04] pointer-events-none select-none">
                       {step.number}
                     </div>
 
-                    {/* Icon */}
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center mb-5">
+                    {/* Icon with glow */}
+                    <div className="relative z-10 w-12 h-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
                       <step.icon className="w-6 h-6 text-primary" />
                     </div>
 
@@ -229,24 +229,24 @@ const HowItWorks = () => {
                       {step.label}
                     </h3>
 
-                    {/* Description — full narrative text */}
-                    <p className="relative z-10 text-white/55 leading-relaxed text-sm font-light">
+                    {/* Description */}
+                    <p className="relative z-10 text-zinc-300 leading-relaxed text-xs sm:text-sm font-normal">
                       {step.description}
                     </p>
 
                     {/* Footer connector */}
-                    <div className="relative z-10 mt-6 flex items-center gap-2">
-                      <div className="flex-1 h-px bg-white/[0.06]" />
+                    <div className="relative z-10 mt-6 flex items-center gap-2 pt-2">
+                      <div className="flex-1 h-px bg-gradient-to-r from-white/[0.08] via-white/[0.04] to-transparent" />
                       {index < steps.length - 1 ? (
-                        <>
-                          <span className="text-[8px] uppercase tracking-[0.25em] text-white/30 font-semibold">a seguir</span>
-                          <ChevronRight className="w-3 h-3 text-primary/40" />
-                        </>
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-400 font-semibold">a seguir</span>
+                          <ChevronRight className="w-3 h-3 text-primary" />
+                        </div>
                       ) : (
-                        <>
-                          <span className="text-[8px] uppercase tracking-[0.25em] text-primary font-black">pronto para funcionar</span>
-                          <div className="w-2 h-2 rounded-full bg-primary" />
-                        </>
+                        <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/15 border border-primary/30">
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-primary font-black">pronto para funcionar</span>
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        </div>
                       )}
                     </div>
                   </div>
@@ -309,25 +309,22 @@ const HowItWorks = () => {
             <div ref={pipelineRef} className="w-full h-full bg-gradient-to-b from-transparent via-primary to-brand-green shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
           </div>
 
-          <div ref={stepsRef} className="flex flex-col gap-24">
+          <div ref={stepsRef} className="flex flex-col gap-16 lg:gap-20">
             {steps.map((step, index) => {
               const isEven = index % 2 === 0;
               return (
-                <div key={step.id} className={`relative flex flex-row items-center gap-16 ${isEven ? 'flex-row-reverse' : ''}`}>
+                <div key={step.id} className={`relative flex flex-row items-center gap-12 ${isEven ? 'flex-row-reverse' : ''}`}>
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black border-2 border-primary flex items-center justify-center z-10 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
                     <div className="w-3 h-3 rounded-full bg-primary animate-ping" />
                     <div className="absolute w-3 h-3 rounded-full bg-primary" />
                   </div>
                   <div className={`w-1/2 flex ${isEven ? 'justify-start' : 'justify-end'}`}>
-                    <div className="group relative w-full bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 p-10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
-                      <div className="absolute -bottom-10 -right-6 text-[180px] font-black text-white/5 tracking-tighter leading-none pointer-events-none transition-transform duration-700 group-hover:-translate-y-4">
-                        {step.number}
+                    <div className="group relative w-full bg-card md:bg-card/60 md:backdrop-blur-2xl border border-white/10 p-8 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
+                      <div className="relative z-10 w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-500">
+                        <step.icon className="w-7 h-7 text-primary" />
                       </div>
-                      <div className="relative z-10 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-primary/20 transition-colors duration-500">
-                        <step.icon className="w-8 h-8 text-primary" />
-                      </div>
-                      <h3 className="relative z-10 text-2xl font-black text-white uppercase tracking-tight mb-4 font-nunito">{step.label}</h3>
-                      <p className="relative z-10 text-muted-foreground leading-relaxed text-lg font-light">{step.description}</p>
+                      <h3 className="relative z-10 text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-3 font-nunito">{step.label}</h3>
+                      <p className="relative z-10 text-zinc-400 leading-relaxed text-sm md:text-base font-normal">{step.description}</p>
                     </div>
                   </div>
                   <div className="w-1/2" />
@@ -338,10 +335,10 @@ const HowItWorks = () => {
         </div>
 
         {/* CTA */}
-        <div className="mt-14 md:mt-32 text-center relative z-10">
+        <div className="mt-10 md:mt-16 text-center relative z-10">
           <button
             onClick={handleCTA}
-            className="group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 text-base md:text-lg font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)]"
+            className="group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-4.5 text-sm md:text-base font-bold text-black bg-white rounded-full overflow-hidden transition-transform hover:scale-105 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] uppercase tracking-wider"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">

@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleWhatsAppClick } from '@/lib/whatsapp';
@@ -9,68 +9,42 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Import our premium custom vectors
-import { EliteRadar, EliteNode, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
+import { EliteRadar, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
-  const { trackButtonClick, trackEvent } = useAnalytics();
-  const [message, setMessage] = useState('');
+  const { trackButtonClick } = useAnalytics();
   const containerRef = useRef<HTMLElement>(null);
-  const leftColumnRef = useRef<HTMLDivElement>(null);
-  const rightColumnRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     if (isLowEnd) return;
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 768px)', () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse"
+    ScrollTrigger.refresh();
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.contact-header-text',
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: containerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
-      // Staggered reveal of header
-      tl.from('.contact-header-text', {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power3.out'
-      });
+      if (ctaRef.current) {
+        gsap.fromTo(ctaRef.current,
+          { y: 30, opacity: 0, scale: 0.97 },
+          {
+            y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: ctaRef.current, start: 'top 85%' }
+          }
+        );
+      }
+    }, containerRef);
 
-      // Animate the left column (Info & Trust)
-      tl.from(leftColumnRef.current, {
-        x: -50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
-      }, "-=0.4");
-
-      // Animate the right column (Form)
-      tl.from(rightColumnRef.current, {
-        x: 50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
-      }, "-=0.8");
-    });
+    return () => ctx.revert();
   }, { scope: containerRef });
-
-  const handleQuickMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    trackEvent({
-      action: 'submit',
-      category: 'contact_form',
-      label: 'whatsapp_quick_form'
-    });
-    
-    const encodedMessage = encodeURIComponent(message || 'Olá, gostava de saber mais sobre os vossos serviços na Tchova Digital.');
-    window.open(`https://wa.me/${env.WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
-  };
 
   const handleDirectWhatsApp = useCallback(() => {
     trackButtonClick('contact', 'whatsapp_direct');
@@ -81,7 +55,7 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={containerRef}
-      className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]"
+      className="py-16 md:py-20 lg:py-28 relative overflow-hidden bg-background border-t border-white/[0.04] scroll-mt-6"
     >
       {/* Dynamic Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[800px] pointer-events-none opacity-20 md:opacity-40">
@@ -91,133 +65,71 @@ const Contact = () => {
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         
-        {/* Section Header */}
-        <div className="text-center mb-10 md:mb-12 flex flex-col items-center">
-          <div className="contact-header-text inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
+        {/* Centered CTA Block — No grid, no form, just impact */}
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
+
+          {/* Badge */}
+          <div className="contact-header-text inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
             <EliteRadar className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Contacto</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Próximo Passo</span>
           </div>
-          <h2 className="contact-header-text text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Vamos <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">Falar?</span>
+
+          {/* Big headline */}
+          <h2 className="contact-header-text text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase font-nunito leading-[1.1]">
+            PRONTO PARA <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">COMEÇAR?</span>
           </h2>
-          <p className="contact-header-text text-muted-foreground/80 text-base md:text-xl max-w-2xl mx-auto font-light tracking-wide px-4 md:px-0">
-            Conta-nos o que precisas. Respondemos em menos de 24h.
+
+          {/* One-liner */}
+          <p className="contact-header-text text-zinc-400 text-base md:text-lg font-normal leading-relaxed font-nunito max-w-xl mb-8 md:mb-10">
+            Conta-nos o que precisas. Respondemos em menos de 24h, sem compromisso.
           </p>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          
-          {/* Left Column: Info & Trust */}
-          <div ref={leftColumnRef} className="flex flex-col gap-6 md:gap-8">
+          {/* CTA Card — Single focused action block */}
+          <div ref={ctaRef} className="w-full max-w-xl">
             
-            {/* Main Info Card */}
-            <div className="bg-card border border-white/10 p-6 md:p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/30 transition-colors duration-500">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
-              <h3 className="text-2xl font-bold mb-10 flex items-center gap-4 text-white">
-                <EliteRadar className="text-primary w-8 h-8" />
-                Canais Directos
-              </h3>
-              
-              <div className="space-y-8">
-                {/* Contact Item */}
-                <div 
-                  className="flex items-center gap-5 cursor-pointer group/item" 
-                  onClick={handleDirectWhatsApp}
-                >
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-primary group-hover/item:border-primary/50 group-hover/item:scale-110 transition-all duration-300">
-                    <ElitePulse className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">WhatsApp</p>
-                    <p className="text-muted-foreground text-lg group-hover/item:text-white transition-colors">+{env.WHATSAPP_NUMBER}</p>
-                  </div>
-                </div>
+            {/* Primary CTA Button — Big, impossible to miss */}
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="w-full bg-white text-black hover:bg-gray-100 font-bold rounded-2xl h-16 md:h-[72px] px-10 text-base md:text-lg shadow-[0_0_60px_-15px_rgba(34,197,94,0.3)] transition-all duration-300 hover:shadow-[0_0_80px_-10px_rgba(34,197,94,0.4)] hover:scale-[1.02] group"
+              onClick={handleDirectWhatsApp}
+            >
+              <ElitePulse className="w-5 h-5 mr-3 text-primary group-hover:scale-110 transition-transform" />
+              Falar pelo WhatsApp
+              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+            </Button>
 
-                {/* Contact Item */}
-                <div className="flex items-center gap-5 group/item">
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-brand-green group-hover/item:border-brand-green/50 group-hover/item:scale-110 transition-all duration-300">
-                    <EliteCore className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Email</p>
-                    <p className="text-muted-foreground text-lg group-hover/item:text-white transition-colors">geral@tchovadigital.co.mz</p>
-                  </div>
-                </div>
-
-                {/* Contact Item */}
-                <div className="flex items-center gap-5 group/item">
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-brand-yellow group-hover/item:border-brand-yellow/50 group-hover/item:scale-110 transition-all duration-300">
-                    <EliteNode className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white/90 text-sm uppercase tracking-wider mb-1">Localização</p>
-                    <p className="text-muted-foreground leading-relaxed group-hover/item:text-white transition-colors">Moçambique.<br />(Atendimento em todo o país)</p>
-                  </div>
-                </div>
-              </div>
+            {/* Trust signal */}
+            <div className="flex items-center justify-center gap-2 text-xs text-zinc-500 mt-5 font-mono">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Ligação directa e segura · Sem burocracia
             </div>
 
-            {/* Quick Action Card */}
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 backdrop-blur-xl rounded-[2rem] p-6 md:p-10 relative overflow-hidden shadow-2xl shadow-primary/10">
-              <div className="absolute top-0 right-0 p-8 opacity-10">
-                <ElitePulse className="w-32 h-32 text-primary" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-white">Precisas de ajuda já?</h3>
-              <p className="text-white/70 mb-8 max-w-sm text-lg">
-                Inicia uma conversa diretamente pelo WhatsApp. Sem espera, sem burocracia.
-              </p>
-              <Button 
-                variant="default" 
-                size="lg" 
-                className="w-full sm:w-auto bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-14 px-8 text-base shadow-xl"
-                onClick={handleDirectWhatsApp}
+            {/* Alternative channels — subtle */}
+            <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-center gap-6">
+              <a 
+                href={`https://wa.me/${env.WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors group/link"
               >
-                Conversar no WhatsApp
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Column: Quick Message Form */}
-          <div ref={rightColumnRef} className="bg-card border border-white/10 rounded-[2rem] p-6 md:p-12 shadow-2xl relative">
-            <h3 className="text-2xl font-bold mb-4 text-white">Envie a sua mensagem</h3>
-            <p className="text-muted-foreground/80 mb-10 text-lg font-light">
-              Conta-nos o que precisas. Nós lemos tudo e respondemos pessoalmente.
-            </p>
-
-            <form onSubmit={handleQuickMessage} className="space-y-8">
-              <div className="space-y-3">
-                <label htmlFor="message" className="text-xs uppercase tracking-widest font-bold text-primary">A sua mensagem</label>
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-brand-green rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-                  <textarea 
-                    id="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Escreva aqui a sua mensagem..." 
-                    className="relative w-full min-h-[220px] p-6 rounded-xl bg-black/60 border border-white/10 focus:border-primary/50 text-white placeholder:text-white/20 outline-none transition-all resize-none font-mono text-lg shadow-inner"
-                    required
-                  />
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 group-hover/link:border-primary/40 transition-colors">
+                  <ElitePulse className="w-4 h-4 text-primary" />
                 </div>
-              </div>
+                <span className="text-sm">+{env.WHATSAPP_NUMBER}</span>
+              </a>
 
-              <button 
-                type="submit"
-                className="group relative w-full flex items-center justify-center gap-3 bg-white text-black font-bold h-16 rounded-xl text-lg overflow-hidden transition-transform hover:scale-[1.02]"
+              <a 
+                href="mailto:geral@tchovadigital.co.mz"
+                className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors group/link"
               >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
-                  <EliteRadar className="w-5 h-5" />
-                  Enviar via WhatsApp
-                </span>
-              </button>
-              
-              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground/50 mt-6 font-mono">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                Ligação segura e directa
-              </div>
-            </form>
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 group-hover/link:border-brand-green/40 transition-colors">
+                  <EliteCore className="w-4 h-4 text-brand-green" />
+                </div>
+                <span className="text-sm">geral@tchovadigital.co.mz</span>
+              </a>
+            </div>
           </div>
 
         </div>

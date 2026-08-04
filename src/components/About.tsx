@@ -19,28 +19,6 @@ const ECOSYSTEM_ITEMS = [
 const About = () => {
   const containerRef = useRef<HTMLElement>(null);
   const ecosystemRef = useRef<HTMLDivElement>(null);
-  const aboutVideoRef = useRef<HTMLVideoElement>(null);
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-  // Pause video when not visible
-  useEffect(() => {
-    const video = aboutVideoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    }, { threshold: 0.1 });
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
 
   useGSAP(() => {
     if (isLowEnd) return;
@@ -73,7 +51,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
+    <section id="about" ref={containerRef} className="py-12 md:py-16 lg:py-20 relative overflow-hidden bg-background border-t border-white/[0.04] scroll-mt-6">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
@@ -97,22 +75,12 @@ const About = () => {
         {/* Grid: Video+Reality Cards (Left) | Ecosystem (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10">
           
-          {/* Card 1: Market Reality Showcase + CTA */}
+          {/* Card 1: Alinhamento - Para Quem Trabalhamos */}
           <div className="lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl min-h-[350px] lg:min-h-[380px] flex flex-col justify-center p-6 md:p-8 lg:p-12 bg-zinc-950 gpu-accelerated">
-            {/* Video Background with Fallback Styling */}
+            {/* Ambient Dark Background Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden gpu-accelerated">
-              <video 
-                ref={aboutVideoRef}
-                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4" 
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                preload="auto"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-100" 
-              />
-              {/* Soft Gradient Overlay focused under text on the left */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent pointer-events-none" />
+              <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-brand-green/10 rounded-full blur-[100px] pointer-events-none" />
             </div>
 
             {/* Headline */}
@@ -123,26 +91,21 @@ const About = () => {
                   NUM SÓ <br className="md:hidden" /> LUGAR.
                 </span>
               </h2>
-              <p className="text-[14px] md:text-[16px] text-white/50 font-light mt-4 max-w-[450px] md:max-w-[560px] leading-relaxed">
-                Posicionamos a tua marca, atraímos <br className="md:hidden" />
-                clientes qualificados <br className="hidden md:inline" />
-                e <br className="md:hidden" />
-                fazemos o teu negócio <br className="md:hidden" />
-                crescer <br className="hidden md:inline" />
-                de verdade.
+              <p className="text-sm md:text-base lg:text-lg text-zinc-300 font-normal mt-4 max-w-[520px] leading-relaxed font-nunito">
+                Posicionamos a tua marca, atraímos clientes qualificados e fazemos o teu negócio crescer de verdade.
               </p>
             </div>
           </div>
 
           {/* Card 2: Ecosystem Panel */}
-          <div className="lg:col-span-4 bg-card border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-10 lg:py-8 shadow-2xl flex flex-col justify-center">
-            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70 mb-5">Áreas de Actuação</div>
+          <div className="lg:col-span-4 bg-card border border-white/10 rounded-[2rem] p-6 md:p-8 lg:px-8 lg:py-8 shadow-2xl flex flex-col justify-center">
+            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4">Áreas de Actuação</div>
 
             <div ref={ecosystemRef} className="flex flex-col w-full">
               {ECOSYSTEM_ITEMS.map((item, i) => (
-                <div key={i} className={`border-t border-white/5 py-3.5 ${i === 0 ? 'border-0 pt-0' : ''} ${i === ECOSYSTEM_ITEMS.length - 1 ? 'pb-0' : ''}`}>
-                  <div className="text-sm md:text-base uppercase tracking-widest text-white font-bold mb-0.5">{item.label}</div>
-                  <div className="text-[13px] md:text-sm text-primary/90 font-medium">{item.desc}</div>
+                <div key={i} className={`border-t border-white/5 py-3 ${i === 0 ? 'border-0 pt-0' : ''} ${i === ECOSYSTEM_ITEMS.length - 1 ? 'pb-0' : ''}`}>
+                  <div className="text-xs md:text-sm uppercase tracking-widest text-white font-bold mb-0.5">{item.label}</div>
+                  <div className="text-xs md:text-sm text-zinc-400 font-normal leading-relaxed">{item.desc}</div>
                 </div>
               ))}
             </div>

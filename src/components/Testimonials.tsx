@@ -49,12 +49,12 @@ export const Testimonials = () => {
   const containerRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
+  // Mobile carousel
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     containScroll: 'trimSnaps',
     loop: false,
     skipSnaps: false,
-    breakpoints: { '(min-width: 768px)': { active: false } }
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -79,27 +79,36 @@ export const Testimonials = () => {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
   const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
+  // GSAP entrance
   useGSAP(() => {
     if (isLowEnd) return;
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 768px)', () => {
-      gsap.from('.test-header', {
-        y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: containerRef.current, start: 'top 80%' }
-      });
+    ScrollTrigger.refresh();
 
-      if (cardsRef.current) {
-        gsap.from(cardsRef.current.children, {
-          y: 60, opacity: 0, rotationX: -10, scale: 0.95, duration: 0.8,
-          stagger: 0.2, ease: 'back.out(1.2)',
-          scrollTrigger: { trigger: cardsRef.current, start: 'top 75%' }
-        });
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.test-header', 
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: containerRef.current, start: 'top 85%' }
+        }
+      );
+
+      if (cardsRef.current?.children) {
+        gsap.fromTo(cardsRef.current.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+            scrollTrigger: { trigger: cardsRef.current, start: 'top 85%' }
+          }
+        );
       }
-    });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, { scope: containerRef });
 
   return (
-    <section id="testimonials" ref={containerRef} className="py-12 md:py-24 relative overflow-hidden bg-background border-t border-white/[0.04]">
+    <section id="testimonials" ref={containerRef} className="py-12 md:py-16 lg:py-20 relative overflow-hidden bg-background border-t border-white/[0.04] scroll-mt-6">
 
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -110,15 +119,15 @@ export const Testimonials = () => {
       <div className="container px-6 lg:px-12 mx-auto relative z-10">
 
         {/* Header */}
-        <div className="text-center mb-10 md:mb-20 max-w-3xl mx-auto">
-          <div className="test-header inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
+        <div className="text-center mb-8 md:mb-12 max-w-3xl mx-auto flex flex-col items-center">
+          <div className="test-header inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3 backdrop-blur-md">
             <EliteMatrix className="w-4 h-4 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Experiências Reais</span>
+            <span className="text-fluid-sm font-bold text-primary uppercase tracking-widest font-nunito">Experiências Reais</span>
           </div>
-          <h2 className="test-header text-3xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase">
-            Resultados que <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">falam por si</span>
+          <h2 className="test-header text-3xl md:text-4xl lg:text-5xl font-black mb-3 tracking-tighter text-white uppercase font-nunito">
+            RESULTADOS QUE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green">FALAM POR SI.</span>
           </h2>
-          <p className="test-header text-base md:text-xl text-muted-foreground/80 font-light leading-relaxed px-4 md:px-0">
+          <p className="test-header text-zinc-400 text-sm md:text-base font-normal leading-relaxed font-nunito max-w-2xl">
             Conhece a experiência de clientes que encontraram na Tchova a solução certa para o que precisavam.
           </p>
         </div>
@@ -145,7 +154,7 @@ export const Testimonials = () => {
           {/* Progress bar */}
           <div className="h-[2px] bg-white/[0.06] rounded-full mb-5 overflow-hidden">
             <div
-              className="h-full bg-white/50 rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-primary to-brand-green rounded-full transition-all duration-500 ease-out shadow-[0_0_10px_rgba(34,197,94,0.5)]"
               style={{ width: `${((selectedIndex + 1) / TESTIMONIALS.length) * 100}%` }}
             />
           </div>
@@ -156,22 +165,27 @@ export const Testimonials = () => {
               {TESTIMONIALS.map((testimonial, index) => (
                 <div key={testimonial.id} className="flex-[0_0_100%] min-w-0">
                   <div
-                    className={`relative border rounded-2xl overflow-hidden p-6 flex flex-col transition-all duration-400 ${
+                    className={`relative border rounded-2xl overflow-hidden p-6 flex flex-col transition-all duration-500 backdrop-blur-xl ${
                       index === selectedIndex
-                        ? 'bg-card border-white/20 shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]'
-                        : 'bg-card border-white/[0.07]'
+                        ? 'bg-gradient-to-br from-white/[0.08] via-card/80 to-primary/[0.06] border-primary/40 shadow-[0_0_35px_-10px_rgba(34,197,94,0.3)]'
+                        : 'bg-card/50 border-white/[0.07] opacity-60'
                     }`}
                     onMouseEnter={() => trackEvent({ action: 'hover', category: 'testimonials', label: testimonial.name })}
                   >
+                    {/* Watermark Quote Icon */}
+                    <div className="absolute top-2 right-4 text-6xl font-black font-serif text-white/[0.04] pointer-events-none select-none">
+                      "
+                    </div>
+
                     {/* Stars */}
-                    <div className="flex gap-1 mb-4">
+                    <div className="flex gap-1 mb-4 relative z-10">
                       {[...Array(testimonial.rating)].map((_, idx) => (
                         <Star key={idx} className="w-3.5 h-3.5 fill-brand-yellow text-brand-yellow drop-shadow-[0_0_6px_rgba(250,204,21,0.5)]" />
                       ))}
                     </div>
 
                     {/* Quote */}
-                    <p className="text-white/75 leading-relaxed italic text-sm flex-grow mb-6">
+                    <p className="text-zinc-200 leading-relaxed italic text-xs sm:text-sm flex-grow mb-6 relative z-10 font-nunito">
                       "{testimonial.content}"
                     </p>
 
@@ -239,38 +253,55 @@ export const Testimonials = () => {
           </div>
         </div>
 
-        {/* ─── DESKTOP: Grid ──────────────────────────────────────────────── */}
+        {/* ─── DESKTOP: Premium 3-Card Glassmorphic Grid ──────────────────── */}
         <div className="hidden md:block w-full max-w-6xl mx-auto">
-          <div ref={cardsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div ref={cardsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
             {TESTIMONIALS.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-card md:bg-card/40 md:backdrop-blur-2xl border border-white/10 p-10 rounded-3xl relative group hover:border-primary/40 transition-colors duration-500 shadow-2xl flex flex-col"
+                className="group relative bg-card/60 backdrop-blur-2xl border border-white/10 hover:border-primary/40 p-8 lg:p-10 rounded-[2rem] flex flex-col justify-between transition-all duration-500 hover:-translate-y-1 shadow-2xl hover:shadow-[0_0_40px_-15px_rgba(34,197,94,0.2)] overflow-hidden"
                 onMouseEnter={() => trackEvent({ action: 'hover', category: 'testimonials', label: testimonial.name })}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl pointer-events-none" />
-                <div className="flex gap-1.5 mb-8">
-                  {[...Array(testimonial.rating)].map((_, idx) => (
-                    <Star key={idx} className="w-5 h-5 fill-brand-yellow text-brand-yellow drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
-                  ))}
+                {/* Subtle top glow line on hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Watermark Quote Icon */}
+                <div className="absolute top-6 right-6 text-5xl font-black font-serif text-white/[0.04] group-hover:text-primary/[0.08] transition-colors duration-500 pointer-events-none select-none">
+                  "
                 </div>
-                <p className="text-white/80 leading-loose mb-10 italic text-lg flex-grow">
-                  "{testimonial.content}"
-                </p>
-                <div className="flex items-center gap-5 mt-auto pt-6 border-t border-white/10">
-                  <div className="relative">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-brand-green rounded-full blur opacity-0 group-hover:opacity-50 transition duration-500" />
+
+                <div>
+                  {/* Rating Stars */}
+                  <div className="flex gap-1.5 mb-6 relative z-10">
+                    {[...Array(testimonial.rating)].map((_, idx) => (
+                      <Star key={idx} className="w-4 h-4 fill-brand-yellow text-brand-yellow drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
+                    ))}
+                  </div>
+
+                  {/* Quote Content */}
+                  <p className="text-zinc-300 leading-relaxed italic text-base lg:text-lg mb-8 relative z-10 font-nunito font-normal">
+                    "{testimonial.content}"
+                  </p>
+                </div>
+
+                {/* Author Info — Clean avatar without face-blurring blobs */}
+                <div className="flex items-center gap-4 pt-6 border-t border-white/[0.08] relative z-10">
+                  <div className="relative shrink-0">
                     <img
                       src={testimonial.avatar}
                       alt={testimonial.name}
                       loading="lazy"
                       decoding="async"
-                      className="relative w-14 h-14 rounded-full border border-white/20 object-cover"
+                      className="w-13 h-13 rounded-full border-2 border-white/20 group-hover:border-primary/50 transition-colors duration-300 object-cover shadow-md"
                     />
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg tracking-tight">{testimonial.name}</h4>
-                    <p className="text-sm font-mono text-primary/80 uppercase tracking-wider">{testimonial.role}, {testimonial.company}</p>
+                  <div className="min-w-0">
+                    <h4 className="font-bold text-white text-base tracking-tight leading-tight font-nunito truncate">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-xs font-mono text-primary/80 uppercase tracking-wider truncate mt-0.5">
+                      {testimonial.role}, {testimonial.company}
+                    </p>
                   </div>
                 </div>
               </div>

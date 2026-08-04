@@ -154,20 +154,49 @@ const MarketingPortal = () => {
                 </div>
 
                 {/* Case Info - Right Column */}
-                <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+                <div className="lg:col-span-6 flex flex-col gap-5 text-left">
                   <div>
-                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2 block">A Nossa Abordagem</span>
-                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight leading-tight">Posicionamento e <br />Aquisição de Clientes</h3>
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1.5 block font-nunito">A Nossa Abordagem</span>
+                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white tracking-tight leading-tight font-nunito">Menos Curtidas, <br />Mais Vendas Reais</h3>
                   </div>
 
-                  <p className="text-sm md:text-base text-zinc-300 leading-relaxed font-light">
-                    Evitamos curtidas vazias e foca-mo-nos em mensagens de potenciais compradores. Desenhamos campanhas estratégicas de anúncios no Google e Meta direcionadas para quem tem maior probabilidade de comprar de ti hoje.
-                  </p>
+                  {/* Scannable Direct Points */}
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Tráfego de Alta Intenção</h4>
+                        <p className="text-xs text-zinc-400 font-normal">Anúncios no Google e Meta focados em quem quer comprar de ti hoje.</p>
+                      </div>
+                    </div>
 
-                  <div className="p-6 rounded-2xl bg-white/[0.02] border border-primary/20 shadow-[0_4px_20px_rgba(34,197,94,0.05)]">
-                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1 block">O Teu Objetivo</span>
-                    <p className="text-sm text-white font-medium">
-                      Atrair contactos de valor interessados nos teus serviços diretamente para o teu WhatsApp.
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Mensagens no WhatsApp</h4>
+                        <p className="text-xs text-zinc-400 font-normal">Clientes prontos para fechar negócio a entrar em contacto todos os dias.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-primary font-bold text-xs">✓</span>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xs md:text-sm">Foco Total no ROI</h4>
+                        <p className="text-xs text-zinc-400 font-normal">Zero orçamento desperdiçado em métricas de vaidade ou seguidores falsos.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-0.5 block font-nunito">O Teu Objetivo</span>
+                    <p className="text-xs md:text-sm text-white font-bold">
+                      Manter o teu pipeline de vendas cheio com clientes de qualidade.
                     </p>
                   </div>
                 </div>

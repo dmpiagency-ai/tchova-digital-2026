@@ -5,7 +5,7 @@ export const GSMPromotionalSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 relative z-10 overflow-hidden">
+    <section id="gsm-promo" className="py-12 md:py-16 lg:py-20 relative z-10 overflow-hidden scroll-mt-6">
       {/* Background ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
 
@@ -45,7 +45,7 @@ export const GSMPromotionalSection = () => {
             {/* Watermark Icon */}
             <Cpu className="absolute -bottom-10 -right-10 w-48 h-48 text-white/[0.02] group-hover:text-primary/[0.05] transition-colors duration-700 pointer-events-none" />
 
-            <div className="hidden sm:inline-flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 w-fit">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 w-fit">
               <div className="p-1 sm:p-1.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-400">
                 <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>

@@ -10,17 +10,31 @@ gsap.registerPlugin(ScrollTrigger);
 const AudienceFilter = () => {
   const containerRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     if (isLowEnd) return;
     const mm = gsap.matchMedia();
 
     mm.add('(min-width: 768px)', () => {
-      gsap.from('.filter-header', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: containerRef.current, start: 'top 80%' }
-      });
-
       if (gridRef.current) {
         gsap.from(gridRef.current.children, {
           y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out',
@@ -31,87 +45,143 @@ const AudienceFilter = () => {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="py-16 md:py-24 relative bg-background border-t border-white/[0.04]">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="filter-header text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tighter text-white uppercase font-nunito">
-            PARA QUEM <span className="text-primary">TRABALHAMOS</span>
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed font-nunito">
-            Entregamos o melhor resultado quando o perfil do negócio está alinhado com a nossa operação.
-          </p>
-        </div>
+    <section 
+      ref={containerRef} 
+      id="audience"
+      className="py-12 md:py-16 lg:py-20 relative bg-background border-t border-white/[0.04] scroll-mt-6 overflow-hidden"
+    >
+      <div className="container mx-auto px-4 md:px-6 lg:px-12 relative z-10">
 
-        <div ref={gridRef} className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {/* 3-Card Bento Grid Container - Video Card Left (6 cols), Cards 2 & 3 Right (3 cols each) */}
+        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 max-w-7xl mx-auto items-stretch">
           
-          {/* O Perfil Ideal */}
-          <div className="bg-card/60 backdrop-blur-xl border border-primary/20 rounded-[2rem] p-8 md:p-12 shadow-[0_0_40px_-15px_rgba(34,197,94,0.15)] relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-primary" />
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                <Check className="w-5 h-5 text-primary" />
+          {/* Bento Card 1: Video & Headline Card (Wide Landscape Bento - Left Side) */}
+          <div className="lg:col-span-6 relative rounded-[2rem] overflow-hidden border border-white/10 group shadow-2xl flex flex-col justify-between p-6 md:p-8 lg:p-10 bg-zinc-950 min-h-[360px] lg:min-h-[420px]">
+            {/* Video Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden">
+              <video
+                ref={videoRef}
+                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-80"
+              />
+              {/* Soft Gradient Overlay focused under text on the left */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent pointer-events-none" />
+            </div>
+
+            <div className="relative z-20 flex flex-col items-start h-full">
+              <div className="pt-6 md:pt-8 lg:pt-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-8 md:mb-12 lg:mb-14 backdrop-blur-md">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest font-nunito">Perfil Ideal</span>
+                </div>
+                <h2 className="text-[21px] sm:text-2xl md:text-3xl lg:text-4xl font-black text-white uppercase tracking-tighter leading-tight font-nunito mb-3 max-w-[500px]">
+                  PARA QUEM <br />
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-green font-nunito">
+                    TRABALHAMOS.
+                  </span>
+                </h2>
+                <p className="text-xs md:text-sm lg:text-base text-zinc-300 font-normal leading-relaxed font-nunito mt-3 max-w-[440px]">
+                  Entregamos o melhor resultado <br />
+                  quando o perfil do negócio <br />
+                  está alinhado com a nossa operação.
+                </p>
               </div>
-              Trabalhamos bem contigo se...
-            </h3>
-            
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white font-semibold text-base mb-1">O teu negócio já funciona, mas a imagem não acompanha</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Faturas bem, mas quando alguém vê o teu site ou redes sociais, não percebe o valor do que fazes.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white font-semibold text-base mb-1">Os clientes só chegam por indicação</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Precisas de um caminho para que pessoas novas te encontrem e escolham sem depender só do boca-a-boca.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <Check className="w-5 h-5 text-primary mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white font-semibold text-base mb-1">Fazes tudo à mão e já não dá</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Queres organizar o negócio com ferramentas e processos que te poupem tempo e energia.</p>
-                </div>
-              </li>
-            </ul>
+            </div>
           </div>
 
-          {/* O Perfil Errado */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] p-8 md:p-12 relative overflow-hidden opacity-80">
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-red-500/50" />
-            <h3 className="text-2xl font-bold text-white/70 mb-8 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                <X className="w-5 h-5 text-red-500" />
+          {/* Bento Card 2: O Perfil Ideal (3 Cols) */}
+          <div className="lg:col-span-3 bg-card/60 backdrop-blur-xl border border-primary/20 rounded-[2rem] p-5 md:p-6 lg:p-6 shadow-[0_0_40px_-15px_rgba(34,197,94,0.15)] relative overflow-hidden flex flex-col justify-between min-h-[360px] lg:min-h-[420px]">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-primary" />
+            <div className="pt-2 md:pt-3 lg:pt-4">
+              <h3 className="text-sm md:text-base font-bold text-white mb-5 flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                  <Check className="w-3.5 h-3.5 text-primary" />
+                </div>
+                <span>Trabalhamos bem contigo se...</span>
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-xs mb-0.5">Já faturas, mas a imagem não acompanha</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">O negócio vende bem, mas o visual não reflete o teu valor real.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-xs mb-0.5">Dependes só do boca-a-boca</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">Precisas de um caminho previsível para atrair novos clientes.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-xs mb-0.5">Fazes tudo à mão e queres escala</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">Queres automações e sistemas para poupar tempo e energia.</p>
+                  </div>
+                </div>
               </div>
-              Pode não ser o momento certo se...
-            </h3>
-            
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Ainda estás na fase da ideia</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Se o negócio ainda não começou a vender, é cedo para o que fazemos. Trabalhamos com negócios que já estão a operar.</p>
+            </div>
+          </div>
+
+          {/* Bento Card 3: O Perfil Errado (3 Cols) */}
+          <div className="lg:col-span-3 bg-white/[0.03] border border-white/10 rounded-[2rem] p-5 md:p-6 lg:p-6 relative overflow-hidden flex flex-col justify-between min-h-[360px] lg:min-h-[420px]">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-red-500/60" />
+            <div className="pt-2 md:pt-3 lg:pt-4">
+              <h3 className="text-sm md:text-base font-bold text-white mb-5 flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-red-500/15 flex items-center justify-center shrink-0">
+                  <X className="w-3.5 h-3.5 text-red-500" />
                 </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Procuras o mais barato</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Não somos a opção mais barata. Focamo-nos em fazer trabalho que realmente traz resultado.</p>
+                <span>Pode não ser a altura se...</span>
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <X className="w-3 h-3 text-red-500" />
+                  </div>
+                  <div>
+                    <h4 className="text-white/90 font-bold text-xs mb-0.5">Ainda estás na fase da ideia</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">Se ainda não começaste a vender, é cedo para a nossa operação.</p>
+                  </div>
                 </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <X className="w-5 h-5 text-red-500/70 mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-white/80 font-semibold text-base mb-1">Não estás pronto para investir no teu crescimento</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Trabalhamos com quem está disposto a investir na sua imagem e nas suas ferramentas de venda.</p>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <X className="w-3 h-3 text-red-500" />
+                  </div>
+                  <div>
+                    <h4 className="text-white/90 font-bold text-xs mb-0.5">Procuras a opção mais barata</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">Não competimos por preço baixo, mas sim por entregas com ROI.</p>
+                  </div>
                 </div>
-              </li>
-            </ul>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500/15 transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <X className="w-3 h-3 text-red-500" />
+                  </div>
+                  <div>
+                    <h4 className="text-white/90 font-bold text-xs mb-0.5">Sem visão de investimento</h4>
+                    <p className="text-[11px] text-zinc-400 leading-snug font-normal">Não estás pronto para investir na tua imagem e infraestrutura.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>

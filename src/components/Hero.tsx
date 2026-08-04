@@ -79,7 +79,9 @@ const Hero = () => {
             if (!video.paused) {
               try {
                 video.pause();
-              } catch (_) {}
+              } catch (_) {
+                // ignore pause errors
+              }
             }
           }
         });
@@ -360,10 +362,14 @@ const Hero = () => {
             ref={subheadlineRef}
             className="flex flex-col gap-2 md:gap-2.5 w-full mt-1 xs:mt-2 md:mt-0.5 px-1 md:px-0 md:max-w-[440px]"
           >
-            <div className="text-[clamp(13px,3.6vw,16px)] md:text-[13.5px] lg:text-[14.5px] text-[#eff3c5]/80 font-medium leading-[1.55] w-full text-center md:text-left tracking-tight md:tracking-normal">
-              Design, websites e presença digital para destacar a tua marca —
+            <div className="text-[clamp(13px,3.6vw,16px)] md:text-[13.5px] lg:text-[14.5px] text-[#eff3c5]/80 font-medium leading-[1.7] w-full text-center md:text-left tracking-tight md:tracking-normal">
+              <span className="text-[#4ade80] font-bold">Tudo num só lugar.</span>
+              <br />
+              <span className="text-white/90 font-bold">Branding</span> · <span className="text-white/90 font-bold">Sites</span> · <span className="text-white/90 font-bold">Marketing</span> · <span className="text-white/90 font-bold">Vídeos Criativos</span>
+              <br />
+              <span className="text-[#eff3c5]/60">que te trazem clientes rápido —</span>
               <br className="hidden md:block" />{" "}
-              e ferramentas GSM profissionais para o teu negócio crescer.
+              <span className="text-[#eff3c5]/60">e</span> <span className="text-white/90 font-bold">Rent GSM</span> <span className="text-[#eff3c5]/60">para técnicos operarem sem limites.</span>
             </div>
           </div>
 
