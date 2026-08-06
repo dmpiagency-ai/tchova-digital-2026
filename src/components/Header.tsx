@@ -42,7 +42,7 @@ export default function Header() {
     { label: 'Serviços', link: '#services', onClick: () => handleNavigation('#services') },
     { label: 'Processo', link: '#how-it-works', onClick: () => handleNavigation('#how-it-works') },
     { label: 'Planos', link: '#planos', onClick: () => handleNavigation('#planos') },
-    { label: 'GSM', link: '/gsm', onClick: () => navigate('/gsm') },
+    { label: 'GSM Rent', link: '/gsm', onClick: () => navigate('/gsm') },
     { label: 'Contacto', link: '#contact', onClick: () => handleNavigation('#contact') },
   ], [handleNavigation, navigate]);
 

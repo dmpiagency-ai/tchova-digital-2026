@@ -62,12 +62,12 @@ export const TiltCard = ({
     const yPct = (mouseY / height - 0.5) * 2; // -1 to 1
     
     // Apply 3D rotation
-    xRotateTo.current(-yPct * maxTilt);
-    yRotateTo.current(xPct * maxTilt);
+    xRotateTo.current?.(-yPct * maxTilt);
+    yRotateTo.current?.(xPct * maxTilt);
     
     // Apply glare movement
-    glareXTo.current(xPct * 50);
-    glareYTo.current(yPct * 50);
+    glareXTo.current?.(xPct * 50);
+    glareYTo.current?.(yPct * 50);
   });
 
   const onMouseEnter = contextSafe(() => {
@@ -79,10 +79,10 @@ export const TiltCard = ({
   const onMouseLeave = contextSafe(() => {
     if (isMobile) return;
     // Reset positions with elastic snap
-    xRotateTo.current(0);
-    yRotateTo.current(0);
-    glareXTo.current(0);
-    glareYTo.current(0);
+    xRotateTo.current?.(0);
+    yRotateTo.current?.(0);
+    glareXTo.current?.(0);
+    glareYTo.current?.(0);
     
     gsap.to(glareRef.current, { opacity: 0, duration: 0.5 });
     gsap.to(cardRef.current, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)' });

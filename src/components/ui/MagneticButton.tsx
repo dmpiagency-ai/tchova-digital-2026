@@ -44,12 +44,12 @@ export const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButton
       const y = (clientY - (top + height / 2)) * magneticForce;
       
       // Apply movement
-      xTo.current(x);
-      yTo.current(y);
+      xTo.current?.(x);
+      yTo.current?.(y);
       
       // Inner content moves slightly less for depth
-      contentXTo.current(x * 0.4);
-      contentYTo.current(y * 0.4);
+      contentXTo.current?.(x * 0.4);
+      contentYTo.current?.(y * 0.4);
     });
 
     const handleMouseEnter = contextSafe(() => {
@@ -61,10 +61,10 @@ export const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButton
 
     const handleMouseLeave = contextSafe(() => {
       // Reset positions with elastic snap back
-      xTo.current(0);
-      yTo.current(0);
-      contentXTo.current(0);
-      contentYTo.current(0);
+      xTo.current?.(0);
+      yTo.current?.(0);
+      contentXTo.current?.(0);
+      contentYTo.current?.(0);
       
       gsap.to(buttonRef.current, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
       if (glowRef.current) {

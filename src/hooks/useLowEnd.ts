@@ -29,13 +29,24 @@ const getConnection = (): ConnectionInfo | null => {
     }).webkitConnection || null;
 };
 
+const getCores = (): number => {
+  if (typeof navigator === 'undefined') return 4;
+  const c = navigator.hardwareConcurrency;
+  return typeof c === 'number' && !isNaN(c) ? c : 4;
+};
+
+const getMemory = (): number => {
+  if (typeof navigator === 'undefined') return 4;
+  const m = (navigator as unknown as { deviceMemory?: unknown }).deviceMemory;
+  return typeof m === 'number' && !isNaN(m) ? m : 4;
+};
+
 // Compute once at module level — these values never change during a session
 const _isLowEnd = (() => {
   if (typeof window === 'undefined') return false;
   
-  const cores = navigator.hardwareConcurrency || 4;
-  const memory = (navigator as unknown as Navigator & { deviceMemory?: number }).deviceMemory || 4; // GB
-  const isMobile = window.innerWidth < 768;
+  const cores = getCores();
+  const memory = getMemory();
   
   // Low-end: ≤2 cores OR ≤2GB RAM
   return cores <= 2 || memory <= 2;

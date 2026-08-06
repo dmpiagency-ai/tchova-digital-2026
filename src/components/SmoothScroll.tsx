@@ -18,9 +18,9 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     if (isMobile || prefersReducedMotion || !document.body) return;
 
     // Detect low-end device: ≤2 CPU cores or ≤2GB RAM
-    const isLowEnd =
-      (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 2) ||
-      ((navigator as Navigator & { deviceMemory?: number }).deviceMemory !== undefined && (navigator as Navigator & { deviceMemory?: number }).deviceMemory! <= 2);
+    const cores = typeof navigator.hardwareConcurrency === 'number' && !isNaN(navigator.hardwareConcurrency) ? navigator.hardwareConcurrency : 4;
+    const memory = typeof (navigator as unknown as { deviceMemory?: unknown }).deviceMemory === 'number' ? (navigator as unknown as { deviceMemory?: number }).deviceMemory : 4;
+    const isLowEnd = cores <= 2 || (memory !== undefined && memory <= 2);
 
     lenisRef.current = new Lenis({
       duration: isLowEnd ? 0.7 : 1.0,

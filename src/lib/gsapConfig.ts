@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 
 // Register once globally
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
+  gsap.registerPlugin(ScrollTrigger);
 
   // Elite Mobile Performance & Animation Tuning
   ScrollTrigger.config({

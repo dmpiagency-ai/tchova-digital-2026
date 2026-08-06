@@ -75,7 +75,9 @@ const Hero = () => {
 
     try {
       video.load();
-    } catch (_) {}
+    } catch (_) {
+      // Ignore video load error
+    }
     playVideo();
     video.addEventListener('loadeddata', playVideo);
     video.addEventListener('canplay', playVideo);

@@ -71,8 +71,7 @@ const Services = () => {
       number: '01',
       title: 'BRANDING & IDENTIDADE',
       category: 'Direção Criativa',
-      audience: 'Imagem de Prestígio',
-      painPoint: 'Identidade visual forte que transmite credibilidade e justifica preços mais altos.',
+      painPoint: 'Identidade visual marcante que transmite autoridade e destaca a tua marca.',
       cta: 'Iniciar Diagnóstico',
       icon: EliteMatrix
     },
@@ -81,8 +80,7 @@ const Services = () => {
       number: '02',
       title: 'WEB & E-COMMERCE',
       category: 'Desenvolvimento',
-      audience: 'Vendedor Digital 24/7',
-      painPoint: 'Plataformas rápidas e autónomas que convertem visitantes em clientes.',
+      painPoint: 'Plataformas rápidas e autónomas focadas em converter visitantes em clientes.',
       cta: 'Iniciar Diagnóstico',
       icon: EliteVector
     },
@@ -91,8 +89,7 @@ const Services = () => {
       number: '03',
       title: 'MARKETING & PERFORMANCE',
       category: 'Aquisição de Clientes',
-      audience: 'Tráfego Qualificado',
-      painPoint: 'Anúncios diretos no Google e Meta para quem quer comprar de ti hoje.',
+      painPoint: 'Campanhas estratégicas para captar e converter clientes de alto valor.',
       cta: 'Iniciar Diagnóstico',
       icon: ElitePulse
     },
@@ -101,8 +98,7 @@ const Services = () => {
       number: '04',
       title: 'VÍDEO & FOTOGRAFIA',
       category: 'Produção Visual',
-      audience: 'Retenção de Atenção',
-      painPoint: 'Conteúdo visual de nível de cinema que para o scroll e gera desejo.',
+      painPoint: 'Conteúdo visual de alta qualidade que prende a atenção e valoriza a tua oferta.',
       cta: 'Iniciar Diagnóstico',
       icon: EliteRadar
     },
@@ -303,57 +299,54 @@ const Services = () => {
               {services.map((item, index) => (
                 <div
                   key={item.id}
-                  className="flex-[0_0_85%] min-w-0 snap-center transition-all duration-300"
+                  className="flex-[0_0_88%] sm:flex-[0_0_82%] min-w-0 snap-center transition-all duration-300"
                 >
                   <div
                     role="button"
                     tabIndex={0}
                     aria-label={`Ver detalhes de ${item.title} — ${item.category}`}
-                    className={`relative h-[340px] xs:h-[365px] w-full cursor-pointer group focus:outline-none rounded-[1.75rem] overflow-hidden border shadow-2xl active:scale-[0.98] transition-all duration-300 bg-[#0c0c0e] ${
+                    className={`relative h-[400px] xs:h-[430px] sm:h-[450px] w-full cursor-pointer group focus:outline-none rounded-[2rem] overflow-hidden border shadow-2xl active:scale-[0.98] transition-all duration-300 bg-[#0c0c0e] ${
                       index === mobileSelectedIndex
-                        ? 'border-primary/40 opacity-100 scale-100 shadow-[0_0_30px_-10px_rgba(34,197,94,0.3)]'
+                        ? 'border-primary/40 opacity-100 scale-100 shadow-[0_0_35px_-8px_rgba(34,197,94,0.35)]'
                         : 'border-white/10 opacity-70 scale-[0.98]'
                     }`}
                     onClick={() => handleServiceClick(item)}
                     onKeyDown={(e) => handleCardKeyDown(e, item)}
                   >
                     {/* Clean Dark Glass Background */}
-                    <div className="absolute inset-0 overflow-hidden rounded-[1.75rem] bg-[#0c0c0e]">
+                    <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-[#0c0c0e]">
                       <img 
                         src={getServiceImage(item)} 
                         alt=""
                         className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-3/4 z-10 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-transparent pointer-events-none" />
+                      <div className="absolute inset-x-0 bottom-0 h-3/4 z-10 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent pointer-events-none" />
                     </div>
                     
                     {/* Glowing Border Accent */}
-                    <div className="absolute inset-0 border border-white/10 rounded-[1.75rem] pointer-events-none z-30" />
+                    <div className="absolute inset-0 border border-white/10 rounded-[2rem] pointer-events-none z-30" />
 
                     {/* Top Bar: Icon + CTA Button */}
-                    <div className="absolute top-4 left-4 right-4 z-30 flex items-center justify-between pointer-events-none">
-                      <div className="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center">
-                        <item.icon className="w-4 h-4 text-white" />
+                    <div className="absolute top-5 left-5 right-5 z-30 flex items-center justify-between pointer-events-none">
+                      <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center">
+                        <item.icon className="w-5 h-5 text-white" />
                       </div>
-                      <div className="px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-2xl border border-primary/40 text-white text-[9px] font-bold uppercase tracking-widest">
+                      <div className="px-3.5 py-1.5 rounded-full bg-primary/20 backdrop-blur-2xl border border-primary/40 text-white text-[10px] font-bold uppercase tracking-widest">
                         {item.cta}
                       </div>
                     </div>
 
                     {/* Text Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col justify-end z-40">
-                      <div className="border-b border-white/10 pb-2 mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                    <div className="absolute bottom-0 left-0 right-0 p-5 xs:p-6 flex flex-col justify-end z-40">
+                      <div className="border-b border-white/10 pb-2.5 mb-2.5">
+                        <span className="text-xs font-bold uppercase tracking-widest text-primary">
                           {item.category}
                         </span>
                       </div>
-                      <h3 className="text-base font-bold text-white leading-snug mb-1.5 tracking-tight">
+                      <h3 className="text-lg xs:text-xl font-bold text-white leading-snug mb-2 tracking-tight">
                         {item.title}
                       </h3>
-                      <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mb-1">
-                        {item.audience}
-                      </p>
-                      <p className="text-xs text-zinc-300 leading-relaxed font-normal line-clamp-2">
+                      <p className="text-xs xs:text-sm text-zinc-300 leading-relaxed font-normal line-clamp-3">
                         {item.painPoint}
                       </p>
                     </div>
@@ -448,9 +441,6 @@ const Services = () => {
                       <div className="grid grid-rows-[1fr] md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <div className="overflow-hidden">
                           <div className="pt-1.5 lg:pt-2">
-                            <p className="text-[9px] sm:text-[10px] lg:text-xs xl:text-sm font-bold text-white/60 uppercase tracking-widest mb-1">
-                              {item.audience}
-                            </p>
                             <p className="text-xs lg:text-sm xl:text-base text-zinc-300 md:text-zinc-400 leading-relaxed font-normal">
                               {item.painPoint}
                             </p>

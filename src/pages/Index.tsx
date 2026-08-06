@@ -55,7 +55,7 @@ const Index = () => {
     };
 
     const handleOpenContactModal = (event: CustomEvent) => {
-      const { serviceType, serviceData } = event.detail;
+      const { serviceType, serviceData } = event.detail || {};
       handleServiceAccess(serviceType, serviceData);
     };
 
