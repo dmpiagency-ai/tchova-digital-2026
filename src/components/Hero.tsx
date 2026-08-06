@@ -255,13 +255,17 @@ const Hero = () => {
       className="relative min-h-[100svh] md:min-h-screen md:h-screen w-full flex items-end md:items-center justify-center overflow-hidden bg-[#1a1d1b]"
     >
       {/* Layer 0 — Video Background Full Screen */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1d1b]">
         {/* Background Atmosphere — mimics the video colors to avoid black bars */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(74,222,128,0.05)_0%,transparent_50%)]" />
         
         <div 
           ref={videoContainerRef} 
-          className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden origin-top bg-background"
+          className="absolute top-0 left-0 w-full h-[clamp(300px,52svh,500px)] [@media(max-height:720px)]:h-[clamp(260px,44svh,320px)] md:h-full overflow-hidden origin-top bg-[#1a1d1b]"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+          }}
         >
           <video
             ref={videoRef}
@@ -283,14 +287,14 @@ const Hero = () => {
             <div className="absolute inset-0 z-[3] pointer-events-none mix-blend-overlay bg-white/5" />
           )}
 
-          {/* Bottom Gradient Fade — subtle fade for all screens */}
-          <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent z-[5] pointer-events-none" />
+          {/* Subtle Bottom Feather Fade */}
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1a1d1b] via-[#1a1d1b]/40 to-transparent z-[5] pointer-events-none" />
         </div>
       </div>
 
       {/* Localized Readability Gradient — Shaped overlay behind text content only */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {/* Desktop Layer: Smooth dark gradient reading zone on the left (No CSS Blur since video is naturally blurred) */}
+        {/* Desktop Layer: Smooth dark gradient reading zone on the left */}
         <div 
           className="hidden md:block absolute inset-0 pointer-events-none"
           style={{
