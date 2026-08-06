@@ -86,9 +86,10 @@ const AudienceFilter = () => {
                   </span>
                 </h2>
                 <p className="text-xs md:text-sm lg:text-base text-zinc-300 font-normal leading-relaxed font-nunito mt-3 max-w-[440px]">
-                  Entregamos os melhores resultados <br />
-                  quando o teu negócio <br />
-                  está alinhado com o nosso método.
+                  Entregamos os melhores <br className="sm:hidden" />
+                  resultados <span className="hidden sm:inline"><br /></span>quando o teu <br className="sm:hidden" />
+                  negócio <span className="hidden sm:inline">está alinhado </span><br className="sm:hidden" />
+                  <span className="inline sm:hidden">está alinhado </span>com o nosso método.
                 </p>
               </div>
             </div>
