@@ -47,6 +47,19 @@ const Hero = () => {
   const [videoSrc] = useState(() => getHeroVideoUrl());
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
+  const heroRef = useRef<HTMLElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const labelClipRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const headlineClipRef = useRef<HTMLDivElement>(null);
+  const subheadlineRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const scrollLineRef = useRef<HTMLDivElement>(null);
+
   // ─── Continuous Native Video Autoplay ───────────
   useEffect(() => {
     const video = videoRef.current;
