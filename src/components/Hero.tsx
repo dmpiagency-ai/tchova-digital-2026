@@ -44,6 +44,8 @@ const ROTATING_WORDS = [
 const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const wordRef = useRef<HTMLDivElement>(null);
+  const [videoSrc] = useState(() => getHeroVideoUrl());
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   // ─── Continuous Native Video Autoplay ───────────
   useEffect(() => {
