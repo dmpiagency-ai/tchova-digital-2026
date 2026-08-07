@@ -5,6 +5,7 @@ import { handleWhatsAppClick } from '@/lib/whatsapp';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { env } from '@/config/env';
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
+import { EliteRadar, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
 
 const Contact = () => {
