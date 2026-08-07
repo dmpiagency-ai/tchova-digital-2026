@@ -45,24 +45,7 @@ const Hero = () => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const wordRef = useRef<HTMLDivElement>(null);
 
-  const [videoSrc] = useState(() => getHeroVideoUrl());
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-
-  const heroRef = useRef<HTMLElement>(null);
-  const videoContainerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const labelClipRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const headlineClipRef = useRef<HTMLDivElement>(null);
-  const subheadlineRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const scrollLineRef = useRef<HTMLDivElement>(null);
-
-  // ─── Robust Native Video Autoplay & Smooth Fade ───────────
+  // ─── Continuous Native Video Autoplay ───────────
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -73,33 +56,23 @@ const Hero = () => {
     const playVideo = () => {
       const promise = video.play();
       if (promise !== undefined) {
-        promise.then(() => {
-          setVideoLoaded(true);
-        }).catch(() => {
-          // Autoplay restricted (e.g. low power mode) — play on first gesture
+        promise.catch(() => {
+          // Fallback if autoplay is restricted by browser settings/low power mode
           const playOnGesture = () => {
-            video.play().then(() => setVideoLoaded(true)).catch(() => {});
+            if (video) video.play().catch(() => {});
           };
           window.addEventListener('click', playOnGesture, { once: true });
           window.addEventListener('touchstart', playOnGesture, { once: true });
           window.addEventListener('scroll', playOnGesture, { once: true });
         });
-      } else {
-        setVideoLoaded(true);
       }
     };
 
-    if (video.readyState >= 2) {
-      playVideo();
-    } else {
-      video.addEventListener('canplay', playVideo, { once: true });
-      video.addEventListener('loadeddata', playVideo, { once: true });
-      playVideo();
-    }
+    playVideo();
+    video.addEventListener('canplay', playVideo);
 
     return () => {
       video.removeEventListener('canplay', playVideo);
-      video.removeEventListener('loadeddata', playVideo);
     };
   }, [videoSrc]);
 
@@ -293,18 +266,9 @@ const Hero = () => {
             disablePictureInPicture
             disableRemotePlayback
             preload="auto"
-            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2] transition-opacity duration-700"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
             style={{
               transform: 'translateZ(0)',
-              opacity: videoLoaded ? 1 : 0,
-            }}
-          />
-          {/* Poster fallback — visible until video loads, smooth crossfade */}
-          <div
-            className="absolute top-0 left-0 w-full h-full z-[1] bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
-            style={{
-              backgroundImage: `url(${HERO_POSTER})`,
-              opacity: videoLoaded ? 0 : 1,
             }}
           />
           {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}
