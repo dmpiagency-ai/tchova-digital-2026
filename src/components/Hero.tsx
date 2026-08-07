@@ -62,43 +62,45 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
-  // ─── Lazy Video Loading: Poster first, video when idle ───────────
+  // ─── Robust Native Video Autoplay & Smooth Fade ───────────
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // If device should NOT load video (low-end, saveData), keep poster only
-    if (!shouldLoadVideo) return;
-
     video.muted = true;
     video.defaultMuted = true;
 
-    const startVideo = () => {
-      if (!video.src) {
-        video.src = videoSrc;
-      }
-      video.load();
-
-      const playWhenReady = () => {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            const playOnGesture = () => {
-              video.play().catch(() => {});
-              window.removeEventListener('click', playOnGesture);
-              window.removeEventListener('touchstart', playOnGesture);
-            };
-            window.addEventListener('click', playOnGesture, { once: true });
-            window.addEventListener('touchstart', playOnGesture, { once: true });
-          });
-        }
+    const playVideo = () => {
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.then(() => {
+          setVideoLoaded(true);
+        }).catch(() => {
+          // Autoplay restricted (e.g. low power mode) — play on first gesture
+          const playOnGesture = () => {
+            video.play().then(() => setVideoLoaded(true)).catch(() => {});
+          };
+          window.addEventListener('click', playOnGesture, { once: true });
+          window.addEventListener('touchstart', playOnGesture, { once: true });
+          window.addEventListener('scroll', playOnGesture, { once: true });
+        });
+      } else {
         setVideoLoaded(true);
-      };
-
-      video.addEventListener('canplay', playWhenReady, { once: true });
+      }
     };
 
-    startVideo();
+    if (video.readyState >= 2) {
+      playVideo();
+    } else {
+      video.addEventListener('canplay', playVideo, { once: true });
+      video.addEventListener('loadeddata', playVideo, { once: true });
+      playVideo();
+    }
+
+    return () => {
+      video.removeEventListener('canplay', playVideo);
+      video.removeEventListener('loadeddata', playVideo);
+    };
   }, [videoSrc]);
 
   // Rotating words cycle — only on capable devices
@@ -282,14 +284,16 @@ const Hero = () => {
         >
           <video
             ref={videoRef}
+            src={videoSrc}
             poster={HERO_POSTER}
+            autoPlay
             muted
             playsInline
             loop
             disablePictureInPicture
             disableRemotePlayback
-            preload="none"
-            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2] transition-opacity duration-1000"
+            preload="auto"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2] transition-opacity duration-700"
             style={{
               transform: 'translateZ(0)',
               opacity: videoLoaded ? 1 : 0,

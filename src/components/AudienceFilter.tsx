@@ -13,27 +13,36 @@ const AudienceFilter = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoActive, setVideoActive] = useState(false);
 
-  // True lazy-load: only assign src when card enters viewport
+  // Smooth Intersection Observer for play/pause without bottlenecks
   React.useEffect(() => {
     const video = videoRef.current;
-    if (!video || !shouldLoadVideo) return;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // First time visible — assign src and start loading
-          if (!video.src) {
-            video.src = use75Quality ? AUDIENCE_VIDEO_75 : AUDIENCE_VIDEO_100;
-            video.load();
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise.then(() => setVideoActive(true)).catch(() => {
+              // Gesture fallback if autoplay restricted
+              const playOnGesture = () => {
+                video.play().then(() => setVideoActive(true)).catch(() => {});
+              };
+              window.addEventListener('touchstart', playOnGesture, { once: true });
+              window.addEventListener('click', playOnGesture, { once: true });
+            });
+          } else {
+            setVideoActive(true);
           }
-          video.play().catch(() => {});
-          setVideoActive(true);
         } else {
           video.pause();
           setVideoActive(false);
         }
       });
-    }, { threshold: 0.1, rootMargin: '200px 0px' }); // 200px preload margin
+    }, { threshold: 0.1 });
 
     observer.observe(video);
     return () => observer.disconnect();
@@ -70,11 +79,13 @@ const AudienceFilter = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden">
               <video
                 ref={videoRef}
+                src={use75Quality ? AUDIENCE_VIDEO_75 : AUDIENCE_VIDEO_100}
                 poster={AUDIENCE_POSTER}
+                autoPlay
                 loop
                 muted
                 playsInline
-                preload="none"
+                preload="metadata"
                 className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105"
                 style={{ opacity: videoActive ? 0.8 : 0.6 }}
               />
