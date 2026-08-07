@@ -1,11 +1,6 @@
 import { useCallback, useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { isLowEnd } from '@/hooks/useLowEnd';
-
-
-gsap.registerPlugin(ScrollTrigger);
 
 
 const ECOSYSTEM_ITEMS = [

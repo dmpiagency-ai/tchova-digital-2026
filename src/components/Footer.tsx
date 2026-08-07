@@ -1,12 +1,8 @@
 import React, { useRef } from 'react';
 import { ArrowUp, Instagram, Facebook, Linkedin, Mail } from 'lucide-react';
 import { env } from '@/config/env';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { isLowEnd } from '@/hooks/useLowEnd';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
   const containerRef = useRef<HTMLDivElement>(null);

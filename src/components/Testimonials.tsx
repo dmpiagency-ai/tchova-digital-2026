@@ -1,9 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAnalytics } from '@/hooks/useAnalytics';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { EliteMatrix } from '@/components/ui/EliteIcons';
 import useEmblaCarousel from 'embla-carousel-react';
 import { isLowEnd } from '@/hooks/useLowEnd';

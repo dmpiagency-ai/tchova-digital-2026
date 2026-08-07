@@ -1,30 +1,39 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Check, X } from 'lucide-react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { isLowEnd } from '@/hooks/useLowEnd';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
+import { isLowEnd, use75Quality, shouldLoadVideo } from '@/hooks/useLowEnd';
 
-gsap.registerPlugin(ScrollTrigger);
+const AUDIENCE_VIDEO_100 = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_100/v1785153343/vd_about_vawl46.mp4';
+const AUDIENCE_VIDEO_75  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_75/v1785153343/vd_about_vawl46.mp4';
+const AUDIENCE_POSTER    = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/so_0,f_auto,q_100/v1785153343/vd_about_vawl46.jpg';
 
 const AudienceFilter = () => {
   const containerRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoActive, setVideoActive] = useState(false);
 
+  // True lazy-load: only assign src when card enters viewport
   React.useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !shouldLoadVideo) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          // First time visible — assign src and start loading
+          if (!video.src) {
+            video.src = use75Quality ? AUDIENCE_VIDEO_75 : AUDIENCE_VIDEO_100;
+            video.load();
+          }
           video.play().catch(() => {});
+          setVideoActive(true);
         } else {
           video.pause();
+          setVideoActive(false);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '200px 0px' }); // 200px preload margin
 
     observer.observe(video);
     return () => observer.disconnect();
@@ -61,13 +70,13 @@ const AudienceFilter = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 pointer-events-none overflow-hidden">
               <video
                 ref={videoRef}
-                src="https://res.cloudinary.com/dwlfwnbt0/video/upload/v1785153343/vd_about_vawl46.mp4"
+                poster={AUDIENCE_POSTER}
                 loop
                 muted
-                autoPlay
                 playsInline
-                preload="metadata"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-80"
+                preload="none"
+                className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105"
+                style={{ opacity: videoActive ? 0.8 : 0.6 }}
               />
               {/* Soft Gradient Overlay focused under text on the left */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent pointer-events-none" />

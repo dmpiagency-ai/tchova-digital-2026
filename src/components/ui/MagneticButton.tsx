@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { gsap, useGSAP } from "@/lib/gsapConfig";
 import { cn } from '@/lib/utils';
 
 interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

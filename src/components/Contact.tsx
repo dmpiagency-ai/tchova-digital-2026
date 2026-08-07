@@ -4,15 +4,8 @@ import { Button } from '@/components/ui/button';
 import { handleWhatsAppClick } from '@/lib/whatsapp';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { env } from '@/config/env';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Import our premium custom vectors
-import { EliteRadar, EliteCore, ElitePulse } from '@/components/ui/EliteIcons';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { isLowEnd } from '@/hooks/useLowEnd';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const { trackButtonClick } = useAnalytics();

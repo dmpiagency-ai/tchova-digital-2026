@@ -17,7 +17,8 @@
     <!-- Cloudinary & Media Preconnect for Instant Video Loading -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
-    <link rel="preload" href="https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,w_960/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4" as="fetch" crossorigin="anonymous">
+    <!-- Preload hero poster image (tiny ~20KB) for instant render instead of full video -->
+    <link rel="preload" href="https://res.cloudinary.com/dwlfwnbt0/video/upload/so_0,f_auto,q_auto:good,w_960,c_fill/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg" as="image" fetchpriority="high">
 
     <!-- Google Fonts & Fontshare -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

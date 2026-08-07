@@ -1,12 +1,8 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { Workflow, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EliteRadar, EliteNode, ElitePulse } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HowItWorks = () => {
   const containerRef = useRef<HTMLDivElement>(null);

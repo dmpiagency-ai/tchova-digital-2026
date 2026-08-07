@@ -3,21 +3,33 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ElitePulse, EliteRadar } from '@/components/ui/EliteIcons';
-import { isLowEnd, isSlowNetwork } from '@/hooks/useLowEnd';
+import { isLowEnd, isSlowNetwork, use75Quality, shouldLoadVideo } from '@/hooks/useLowEnd';
 
-const DESKTOP_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_82/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
-const MOBILE_VIDEO = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_auto:good,w_960/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+// ─── Video URLs — 100% Crisp Quality vs 75% Adaptive for Slow Networks ───────────
+const DESKTOP_VIDEO_100 = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_100/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+const DESKTOP_VIDEO_75  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_75/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.webm';
+
+const MOBILE_VIDEO_100  = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_100/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+const MOBILE_VIDEO_75   = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/f_auto,q_75,w_960/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.mp4';
+
+const HERO_POSTER       = 'https://res.cloudinary.com/dwlfwnbt0/video/upload/so_0,f_auto,q_100/v1779730814/hero_4_texture-lab-desfoque_nas_ll_kd9shf.jpg';
+
 const getHeroVideoUrl = () => {
-  if (typeof window === 'undefined') return DESKTOP_VIDEO;
+  if (typeof window === 'undefined') return DESKTOP_VIDEO_100;
   const isMobile = window.innerWidth < 1024;
+  
+  // 75% quality for slow network / low-end, 100% full quality for fast network
+  if (use75Quality) {
+    return isMobile ? MOBILE_VIDEO_75 : DESKTOP_VIDEO_75;
+  }
+  
+  if (isMobile) return MOBILE_VIDEO_100;
   const v = document.createElement('video');
   const supportsWebm = Boolean(
-    v.canPlayType && (
-      v.canPlayType('video/webm; codecs="vp8, vorbis"') ||
-      v.canPlayType('video/webm; codecs="vp9"')
-    )
+    v.canPlayType &&
+    (v.canPlayType('video/webm; codecs="vp9"') || v.canPlayType('video/webm; codecs="vp8, vorbis"'))
   );
-  return (!isMobile && supportsWebm) ? DESKTOP_VIDEO : MOBILE_VIDEO;
+  return supportsWebm ? DESKTOP_VIDEO_100 : MOBILE_VIDEO_100;
 };
 
 const ROTATING_WORDS = [
@@ -34,6 +46,7 @@ const Hero = () => {
   const wordRef = useRef<HTMLDivElement>(null);
 
   const [videoSrc] = useState(() => getHeroVideoUrl());
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   const heroRef = useRef<HTMLElement>(null);
@@ -49,44 +62,44 @@ const Hero = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const scrollLineRef = useRef<HTMLDivElement>(null);
 
+  // ─── Lazy Video Loading: Poster first, video when idle ───────────
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    // If device should NOT load video (low-end, saveData), keep poster only
+    if (!shouldLoadVideo) return;
+
     video.muted = true;
     video.defaultMuted = true;
 
-    const playVideo = () => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          const playOnGesture = () => {
-            video.play().catch(() => {});
-            window.removeEventListener('click', playOnGesture);
-            window.removeEventListener('touchstart', playOnGesture);
-            window.removeEventListener('scroll', playOnGesture);
-          };
-          window.addEventListener('click', playOnGesture, { once: true });
-          window.addEventListener('touchstart', playOnGesture, { once: true });
-          window.addEventListener('scroll', playOnGesture, { once: true });
-        });
+    const startVideo = () => {
+      if (!video.src) {
+        video.src = videoSrc;
       }
-    };
-
-    try {
       video.load();
-    } catch (_) {
-      // Ignore video load error
-    }
-    playVideo();
-    video.addEventListener('loadeddata', playVideo);
-    video.addEventListener('canplay', playVideo);
 
-    return () => {
-      video.removeEventListener('loadeddata', playVideo);
-      video.removeEventListener('canplay', playVideo);
+      const playWhenReady = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            const playOnGesture = () => {
+              video.play().catch(() => {});
+              window.removeEventListener('click', playOnGesture);
+              window.removeEventListener('touchstart', playOnGesture);
+            };
+            window.addEventListener('click', playOnGesture, { once: true });
+            window.addEventListener('touchstart', playOnGesture, { once: true });
+          });
+        }
+        setVideoLoaded(true);
+      };
+
+      video.addEventListener('canplay', playWhenReady, { once: true });
     };
-  }, []);
+
+    startVideo();
+  }, [videoSrc]);
 
   // Rotating words cycle — only on capable devices
   useGSAP(() => {
@@ -269,17 +282,25 @@ const Hero = () => {
         >
           <video
             ref={videoRef}
-            src={videoSrc}
+            poster={HERO_POSTER}
             muted
             playsInline
             loop
-            autoPlay
             disablePictureInPicture
             disableRemotePlayback
-            preload="auto"
-            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2]"
+            preload="none"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center md:object-[58%_50%] pointer-events-none z-[2] transition-opacity duration-1000"
             style={{
               transform: 'translateZ(0)',
+              opacity: videoLoaded ? 1 : 0,
+            }}
+          />
+          {/* Poster fallback — visible until video loads, smooth crossfade */}
+          <div
+            className="absolute top-0 left-0 w-full h-full z-[1] bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+            style={{
+              backgroundImage: `url(${HERO_POSTER})`,
+              opacity: videoLoaded ? 0 : 1,
             }}
           />
           {/* Pro Dev: Hardware-accelerated contrast overlay instead of expensive CSS filters on video */}

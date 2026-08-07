@@ -1,14 +1,10 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TiltCard } from '@/components/ui/TiltCard';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsapConfig";
 import { ArrowRight, ChevronLeft, ChevronRight, Check, X } from 'lucide-react';
 import { EliteRadar, ElitePulse, EliteCore } from '@/components/ui/EliteIcons';
 import { isLowEnd } from '@/hooks/useLowEnd';
-
-gsap.registerPlugin(ScrollTrigger);
 
 type Plan = {
   id: string;
